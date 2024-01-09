@@ -3,7 +3,7 @@
 version: 2.1
 
 orbs:
-  win: circleci/windows@5.0
+  win: circleci/windows@5.0.0
 
 
 # Define a job to be invoked later in a workflow.
@@ -27,10 +27,7 @@ jobs:
           command: ./gradlew test
 
   test-win:
-    executor: win/default
-
-    working_directory: ~/repo
-    
+    executor: win/defaul
     steps:
       - checkout
       - run:
