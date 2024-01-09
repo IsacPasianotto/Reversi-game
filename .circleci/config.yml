@@ -3,7 +3,7 @@
 version: 2.1
 
 orbs:
-  win: circleci/windows@5.0
+  win: circleci/windows@5.0.0
 
 
 # Define a job to be invoked later in a workflow.
