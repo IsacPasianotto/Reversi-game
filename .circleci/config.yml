@@ -35,10 +35,10 @@ jobs:
       # the workaround (proposed also in the circleCI discuss forum) seems to be adding by hand a ssh keys which
       # is not automatically added even if it should be supposed to be, see also: 
       #   https://circleci.com/docs/add-ssh-key/
-      - add_ssh_keys:
-            fingerprints:
-              - "10:84:29:02:f1:90:0b:2a:b0:09:2f:55:bf:3c:80:df"
-              - "ed:47:21:a0:f3:08:aa:06:c5:e2:62:d8:e4:d4:79:71"
+      # - add_ssh_keys:
+      #       fingerprints:
+      #         - "10:84:29:02:f1:90:0b:2a:b0:09:2f:55:bf:3c:80:df"
+      #         - "ed:47:21:a0:f3:08:aa:06:c5:e2:62:d8:e4:d4:79:71"
       - checkout
       - run:
           name: test
