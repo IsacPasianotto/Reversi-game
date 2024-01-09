@@ -30,6 +30,14 @@ jobs:
     executor: win/default
     working_directory: ~/repo
     steps:
+      # It doesn't work out of the box on windows machine, like in: 
+      #   https://discuss.circleci.com/t/empty-checkout-key-on-windows-pipeline-only/47116
+      # the workaround (proposed also in the circleCI discuss forum) seems to be adding by hand a ssh keys which
+      # is not automatically added even if it should be supposed to be, see also: 
+      #   https://circleci.com/docs/add-ssh-key/
+      - add_ssh_keys:
+            fingerprints:
+              - "10:84:29:02:f1:90:0b:2a:b0:09:2f:55:bf:3c:80:df"
       - checkout
       - run:
           name: test
