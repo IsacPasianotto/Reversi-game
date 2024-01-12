@@ -13,12 +13,17 @@ public class Board {
     }
 
     public void printBoard() {
+
+        System.out.println("\t  A\t  B\t  C\t  D\t  E\t  F\t  G\t  H");
+        System.out.println("\t---------------------------------");
         for (int i = 0; i < BOARD_SIZE; i++){
+            System.out.print((i+1) + "\t");
             for (int j = 0; j < BOARD_SIZE; j++) {
                 System.out.print("| " + board[i][j] +  " ");
             }
             System.out.println("|");
         }
+        System.out.println("\t---------------------------------");
     }
 
     public Pawn getSquareValue(int x, int y) {
