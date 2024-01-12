@@ -14,4 +14,3 @@ The project consists in implementing a game, practicing Continuous integration a
   - [ ] Check the end of the game
 - [ ] (Optional) Implement the game in a GUI
 
-
