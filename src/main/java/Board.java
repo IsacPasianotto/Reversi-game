@@ -24,7 +24,7 @@ public class Board {
     }
 
     final int BOARD_SIZE = 8;
-    private final char BLACK_SYMBOL = 'B';
-    private final char WHITE_SYMBOL = 'W';
+    final char BLACK_SYMBOL = 'B';
+    final char WHITE_SYMBOL = 'W';
     char[][] board;
 }
