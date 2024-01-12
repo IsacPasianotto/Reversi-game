@@ -1,3 +1,5 @@
+package player;
+
 import org.junit.jupiter.api.Test;
 import player.Coords;
 
