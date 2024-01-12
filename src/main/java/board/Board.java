@@ -1,13 +1,15 @@
+package board;
+
 public class Board {
 
     public Board() {
-        this.board = new char[BOARD_SIZE][BOARD_SIZE];
+        board = new Pawn[BOARD_SIZE][BOARD_SIZE];
         // initialize the board with starting position
         for (int i = 0; i < BOARD_SIZE; i++)
             for (int j = 0; j < BOARD_SIZE; j++)
-                board[i][j] = ' ';
-        board[3][3] = board[4][4] = WHITE_SYMBOL;
-        board[3][4] = board[4][3] = BLACK_SYMBOL;
+                board[i][j] = Pawn.EMPTY;
+        board[3][3] = board[4][4] = Pawn.WHITE;
+        board[3][4] = board[4][3] = Pawn.BLACK;
     }
 
     public void printBoard() {
@@ -19,12 +21,10 @@ public class Board {
         }
     }
 
-    public char getSquareValue(int x, int y) {
+    public Pawn getSquareValue(int x, int y) {
         return board[x][y];
     }
 
     final int BOARD_SIZE = 8;
-    final char BLACK_SYMBOL = 'B';
-    final char WHITE_SYMBOL = 'W';
-    char[][] board;
+    Pawn[][] board;
 }
