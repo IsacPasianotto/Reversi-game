@@ -1,5 +1,10 @@
 package board;
 
+
+import player.Coords;
+
+import java.util.ArrayList;
+
 public class Board {
 
     public Board() {
@@ -26,10 +31,22 @@ public class Board {
         System.out.println("\t---------------------------------");
     }
 
-    public Pawn getSquareValue(int x, int y) {
+
+
+
+
+
+    public Pawn getPositionValue(Coords position) {
+        return board[position.getX()][position.getY()];
+    }
+
+    public Pawn getPositionValue(int x, int y) {
         return board[x][y];
     }
 
+    boolean blackToMove = true;
     final int BOARD_SIZE = 8;
     Pawn[][] board;
 }
+
+

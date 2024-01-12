@@ -26,6 +26,11 @@ public class Coords {
 
     }
 
+    public Coords (int x, int y){
+        this.x = x;
+        this.y = y;
+    }
+
     public int getX() {
         return x;
     }
@@ -33,6 +38,6 @@ public class Coords {
         return y;
     }
 
-    private int x;
-    private int y;
+    private final int x;
+    private final int y;
 }
