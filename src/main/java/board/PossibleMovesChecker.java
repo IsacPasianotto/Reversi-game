@@ -7,11 +7,11 @@ import java.util.ArrayList;
 public class PossibleMovesChecker {
 
     private final Board BOARD;
-    private final boolean BLACKTOMOVE;
+    private final boolean BLACK_TO_MOVE;
 
     public PossibleMovesChecker(Board board, boolean blackToMove) {
         this.BOARD = board;
-        this.BLACKTOMOVE = blackToMove;
+        this.BLACK_TO_MOVE = blackToMove;
     }
 
     public ArrayList<Coords> getValidMoves() {
@@ -42,9 +42,9 @@ public class PossibleMovesChecker {
                     Coords toCheck = new Coords(center.getX() + i, center.getY() + j);
                     if (BOARD.board[toCheck.getX()][toCheck.getY()] == Pawn.EMPTY)
                         continue;
-                    if (BOARD.board[toCheck.getX()][toCheck.getY()] == Pawn.BLACK && BLACKTOMOVE)
+                    if (BOARD.board[toCheck.getX()][toCheck.getY()] == Pawn.BLACK && BLACK_TO_MOVE)
                         continue;
-                    if (BOARD.board[toCheck.getX()][toCheck.getY()] == Pawn.WHITE && !BLACKTOMOVE)
+                    if (BOARD.board[toCheck.getX()][toCheck.getY()] == Pawn.WHITE && !BLACK_TO_MOVE)
                         continue;
                     Coords position = new Coords(i, j);
                     RelativeNeighbour valid = new RelativeNeighbour(BOARD, position, toCheck);
@@ -59,10 +59,10 @@ public class PossibleMovesChecker {
 
     private void testAllDirections(ArrayList<RelativeNeighbour> possibleMoves, ArrayList<Coords> validMoves, Coords center) {
         for (RelativeNeighbour neighbour : possibleMoves) {
-            int xDirection = neighbour.position.getX();
-            int yDirection = neighbour.position.getY();
-            int xStart = neighbour.startingPoint.getX() + xDirection;
-            int yStart = neighbour.startingPoint.getY() + yDirection;
+            int xStart = neighbour.position.getX() - neighbour.startingPoint.getX();
+            int yStart = neighbour.position.getY() - neighbour.startingPoint.getY();
+            int xDirection = neighbour.startingPoint.getX();
+            int yDirection = neighbour.startingPoint.getY();
             followDirection(validMoves, center, xStart, yStart, xDirection, yDirection);
         }
     }
@@ -74,11 +74,11 @@ public class PossibleMovesChecker {
             try {
                 if (BOARD.board[xStart][yStart] == Pawn.EMPTY)
                     break;
-                if (BOARD.board[xStart][yStart] == Pawn.BLACK && !BLACKTOMOVE){
+                if (BOARD.board[xStart][yStart] == Pawn.BLACK && BLACK_TO_MOVE){
                     validMoves.add(center);
                     break;
                 }
-                if (BOARD.board[xStart][yStart] == Pawn.WHITE && BLACKTOMOVE) {
+                if (BOARD.board[xStart][yStart] == Pawn.WHITE && !BLACK_TO_MOVE) {
                     validMoves.add(center);
                     break;
                 }

@@ -38,9 +38,12 @@ public class PossibleMovesCheckerTest {
     void getValidMovesOnStart() {
         PossibleMovesChecker possibleMovesChecker = new PossibleMovesChecker(new Board(), true);
         ArrayList<Coords> validMoves = possibleMovesChecker.getValidMoves();
-        // Coords[] expected = {new Coords(2,3), new Coords(3,2), new Coords(4,5), new Coords(5,4)};
+        Coords[] expected = {new Coords(2,3), new Coords(3,2), new Coords(4,5), new Coords(5,4)};
         assertEquals(4, validMoves.size());
-
+        for (int i = 0; i < 4; i++) {
+            assertEquals(expected[i].getX(), validMoves.get(i).getX());
+            assertEquals(expected[i].getY(), validMoves.get(i).getY());
+        }
     }
 
 }
