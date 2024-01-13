@@ -1,8 +1,8 @@
-package player;
+package board.coords;
 
-public class Coords implements Couple {
+public class BoardTile implements Couple {
 
-    public Coords(String inputCoords) throws IllegalArgumentException {
+    public BoardTile(String inputCoords) throws IllegalArgumentException {
         try {
             if (inputCoords.length() != 2) {
                 throw new IllegalArgumentException("Input coordinates should be a 2 characters string, eg. \"a1\"");
@@ -26,7 +26,7 @@ public class Coords implements Couple {
 
     }
 
-    public Coords (int x, int y){
+    public BoardTile(int x, int y){
         this.x = x;
         this.y = y;
     }
@@ -40,8 +40,8 @@ public class Coords implements Couple {
         return y;
     }
 
-    public Coords add(Direction other) {
-        return new Coords(this.x + other.getX(), this.y + other.getY());
+    public BoardTile add(Direction other) {
+        return new BoardTile(this.x + other.getX(), this.y + other.getY());
     }
 
     private final int x;

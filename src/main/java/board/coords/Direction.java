@@ -1,6 +1,6 @@
-package player;
+package board.coords;
 
-public class Direction implements Couple{
+public class Direction implements Couple {
     public Direction(int x, int y){
         this.x = x;
         this.y = y;

@@ -1,12 +1,6 @@
 package board;
 
-import board.Board;
-import board.Pawn;
-import board.PossibleMovesChecker;
 import org.junit.jupiter.api.Test;
-import player.Coords;
-
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

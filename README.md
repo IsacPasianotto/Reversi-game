@@ -5,12 +5,13 @@ The project consists in implementing a game, practicing Continuous integration a
 
 
 ## TODO List 
-- [ ] Define the tests for TTD 
+- [ ] **_DO A BETTER JOB TO THE TESTS_**
+- [x] Define the tests for TTD 
 - [ ] Implement the base game in terminal
   - [ ] Define the rules
-  - [ ] Define the board
+  - [x] Define the board
   - [ ] Define the player and the computer mechanics
-  - [ ] Check the validity of the moves
+  - [x] Check the validity of the moves
   - [ ] Check the end of the game
 - [ ] (Optional) Implement the game in a GUI
 

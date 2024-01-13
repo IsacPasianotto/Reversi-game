@@ -1,9 +1,7 @@
 package board;
 
 
-import player.Coords;
-
-import java.util.ArrayList;
+import board.coords.BoardTile;
 
 public class Board {
 
@@ -33,11 +31,7 @@ public class Board {
     }
 
 
-
-
-
-
-    public Pawn getPositionValue(Coords position) {
+    public Pawn getPositionValue(BoardTile position) {
         return board[position.getX()][position.getY()];
     }
 
