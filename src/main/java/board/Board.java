@@ -2,6 +2,7 @@ package board;
 
 
 import board.coords.BoardTile;
+import board.coords.Direction;
 
 public class Board {
 
@@ -11,9 +12,11 @@ public class Board {
         for (int i = 0; i < BOARD_SIZE; i++)
             for (int j = 0; j < BOARD_SIZE; j++)
                 board[i][j] = Pawn.EMPTY;
-        board[3][3] = board[4][4] = Pawn.WHITE;
-        board[3][4] = board[4][3] = Pawn.BLACK;
-        boolean blackToMove = true;
+        setPositionValue(new BoardTile("d4"), Pawn.WHITE);
+        setPositionValue(new BoardTile("e5"), Pawn.WHITE);
+        setPositionValue(new BoardTile("e4"), Pawn.BLACK);
+        setPositionValue(new BoardTile("d5"), Pawn.BLACK);
+        this.blackToMove = true;
     }
 
     public void printBoard() {
@@ -39,9 +42,30 @@ public class Board {
         return board[x][y];
     }
 
-    boolean blackToMove;
+    public void setPositionValue(BoardTile position, Pawn value) {
+        board[position.getX()][position.getY()] = value;
+    }
+
+    public void flipLineOfPawns(BoardTile position, Direction direction) {
+        BoardTile currentPosition = position;
+        Pawn currentPawn  = blackToMove ? Pawn.BLACK : Pawn.WHITE;
+        while (this.getPositionValue(currentPosition) != currentPawn){
+            this.setPositionValue(currentPosition, currentPawn);
+            currentPosition = currentPosition.add(direction);
+        }
+    }
+
+    public boolean isBlackToMove() {
+        return this.blackToMove;
+    }
+
+    public void changeTurn(){
+        blackToMove = !blackToMove;
+    }
+
+    private boolean blackToMove;
     final int BOARD_SIZE = 8;
-    Pawn[][] board;
+    private Pawn[][] board;
 }
 
 

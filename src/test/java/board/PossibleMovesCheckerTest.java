@@ -61,7 +61,7 @@ public class PossibleMovesCheckerTest {
         Board board = new Board();
         PossibleMovesChecker possibleMovesChecker = new PossibleMovesChecker(board, true);
         ArrayList<ValidMove> validMoves = possibleMovesChecker.getValidMoves();
-        assertEquals(TruePosition, validMoves.get(i).position);
+        assertEquals(TruePosition, validMoves.get(i).getPosition());
     }
     private static Stream<Object[]> provideCoordinatesForValidMovesOnStart() {
         return Stream.of(

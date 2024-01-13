@@ -25,7 +25,10 @@ public class ValidMove {
         return validDirections;
     }
 
-    BoardTile position;
+    public BoardTile getPosition() {
+        return position;
+    }
+    private BoardTile position;
     private ArrayList<Direction> validDirections;
 
 }
