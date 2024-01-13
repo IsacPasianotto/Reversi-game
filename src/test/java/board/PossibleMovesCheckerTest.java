@@ -1,38 +1,52 @@
 package board;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import player.Coords;
 
 import java.util.ArrayList;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PossibleMovesCheckerTest {
 
-    @Test
-    void directionToCheckTwoTwoGoesThreeThree() {
-        PossibleMovesChecker possibleMovesChecker = new PossibleMovesChecker(new Board(), true);
-        ArrayList<RelativeNeighbour> intrestingDirections = possibleMovesChecker.directionsToCheck(new Coords(2,2));
-        assertEquals(1, intrestingDirections.size());
-        assertEquals(3, intrestingDirections.get(0).position.getX());
-        assertEquals(3, intrestingDirections.get(0).position.getY());
+    @ParameterizedTest
+    @MethodSource("provideCoordinatesAndExpectedResults")
+    void findDirectionsWithOppositeColor(String inputCoords, int expectedX, int expectedY) {
+        Board board = new Board();
+        PossibleMovesChecker possibleMovesChecker = new PossibleMovesChecker(board, true);
+        ArrayList<RelativeNeighbour> possiblyValidDirections = possibleMovesChecker.findDirectionsWithOppositeColor(new Coords(inputCoords));
+        assertEquals(1, possiblyValidDirections.size());
+        assertEquals(expectedX, possiblyValidDirections.get(0).direction.getX());
+        assertEquals(expectedY, possiblyValidDirections.get(0).direction.getY());
+    }
+    private static Stream<Object[]> provideCoordinatesAndExpectedResults() {
+        return Stream.of(
+                new Object[]{"c3", 1, 1},
+                new Object[]{"e6", -1, 0},
+                new Object[]{"f5", 0, -1}
+        );
     }
 
-    @Test
-    void directionToCheckFourFiveGoesFourFour() {
-        PossibleMovesChecker possibleMovesChecker = new PossibleMovesChecker(new Board(), true);
-        ArrayList<RelativeNeighbour> intrestingDirections = possibleMovesChecker.directionsToCheck(new Coords(4,5));
-        assertEquals(1, intrestingDirections.size());
-        assertEquals(4, intrestingDirections.get(0).position.getX());
-        assertEquals(4, intrestingDirections.get(0).position.getY());
+    @ParameterizedTest
+    @MethodSource("provideEmptyArrayLists")
+    void findDirectionsWithOppositeColorImpossible(String inputCoords) {
+        Board board = new Board();
+        PossibleMovesChecker possibleMovesChecker = new PossibleMovesChecker(board, true);
+        ArrayList<RelativeNeighbour> possiblyValidDirections = possibleMovesChecker.findDirectionsWithOppositeColor(new Coords(inputCoords));
+        assertEquals(0, possiblyValidDirections.size());
+    }
+    private static Stream<Object[]> provideEmptyArrayLists() {
+        return Stream.of(
+                new Object[]{"a1"},
+                new Object[]{"h8"},
+                new Object[]{"c6"}
+        );
     }
 
-    @Test
-    void directionToCheckZeroZeroGoesEmpty() {
-        PossibleMovesChecker possibleMovesChecker = new PossibleMovesChecker(new Board(), true);
-        ArrayList<RelativeNeighbour> intrestingDirections = possibleMovesChecker.directionsToCheck(new Coords(0,0));
-        assertEquals(0, intrestingDirections.size());
-    }
+
 
     @Test
     void getValidMovesOnStart() {

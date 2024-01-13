@@ -3,14 +3,15 @@ package board;
 import player.Coords;
 
 public class RelativeNeighbour {
-    public RelativeNeighbour(Board board, Coords startingPoint, Coords position){
+    public RelativeNeighbour(Board board, Coords startingPoint, Coords direction){
         this.startingPoint = startingPoint;
-        this.position = position;
-        this.neighbourPawn = board.getPositionValue(position);
+        this.direction = direction;
+        this.neighbourPawn = board.getPositionValue(startingPoint.add(direction));
     }
 
     Coords startingPoint;
-    Coords position;
+    Coords direction;
     Pawn neighbourPawn;
+
 
 }

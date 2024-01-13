@@ -38,6 +38,10 @@ public class Coords {
         return y;
     }
 
+    public Coords add(Coords other) {
+        return new Coords(this.x + other.x, this.y + other.y);
+    }
+
     private final int x;
     private final int y;
 }

@@ -18,12 +18,12 @@ public class PossibleMovesChecker {
         ArrayList<Coords> validMoves = new ArrayList<>();
         for (int i = 0; i < BOARD.BOARD_SIZE; i++){
             for (int j = 0; j < BOARD.BOARD_SIZE; j++) {
-                Coords center = new Coords(i, j);
+                Coords currentTarget = new Coords(i, j);
                 if (BOARD.board[i][j] == Pawn.EMPTY) {
-                    ArrayList<RelativeNeighbour> dirToCheck = directionsToCheck(center);
+                    ArrayList<RelativeNeighbour> dirToCheck = findDirectionsWithOppositeColor(currentTarget);
                     if (!dirToCheck.isEmpty()) {
                         // check if at least in one direction there is pawn of the player's color after a pawn of the opposite color
-                        testAllDirections(dirToCheck, validMoves, center);
+                        testAllDirections(dirToCheck, validMoves, currentTarget);
                     }
                 }
             }
@@ -32,25 +32,25 @@ public class PossibleMovesChecker {
     }
 
     // given an input point, returns all the neighbours of that point which have a different color wrt the current player's color
-    public ArrayList<RelativeNeighbour> directionsToCheck(Coords center) {
+    public ArrayList<RelativeNeighbour> findDirectionsWithOppositeColor(Coords currentTarget) {
         ArrayList<RelativeNeighbour> possibleMoves = new ArrayList<>();
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
                 try {
-                    if (i == 0 && j == 0)
-                        continue;
-                    Coords toCheck = new Coords(center.getX() + i, center.getY() + j);
-                    if (BOARD.board[toCheck.getX()][toCheck.getY()] == Pawn.EMPTY)
-                        continue;
-                    if (BOARD.board[toCheck.getX()][toCheck.getY()] == Pawn.BLACK && BLACK_TO_MOVE)
-                        continue;
-                    if (BOARD.board[toCheck.getX()][toCheck.getY()] == Pawn.WHITE && !BLACK_TO_MOVE)
-                        continue;
-                    Coords position = new Coords(i, j);
-                    RelativeNeighbour valid = new RelativeNeighbour(BOARD, position, toCheck);
-                    possibleMoves.add(valid);
-                } catch (Exception e) {
-                    // Do nothing, just skip the exception
+                    Coords neighbourToCheck = new Coords(currentTarget.getX() + i, currentTarget.getY() + j);
+                    Pawn neighbourPawn = BOARD.getPositionValue(neighbourToCheck);
+                    if ( (neighbourPawn == Pawn.BLACK && !BLACK_TO_MOVE) ||
+                            (neighbourPawn == Pawn.WHITE && BLACK_TO_MOVE)
+                    ) {
+                        Coords validDirection = new Coords(i, j);
+                        RelativeNeighbour valid = new RelativeNeighbour(BOARD, currentTarget, validDirection);
+                        System.out.println("Created a RelativeNeighbour object:");
+                        System.out.println("startingPoint: " + valid.startingPoint.getX() + " " + valid.startingPoint.getY());
+                        System.out.println("direction: " + valid.direction.getX() + " " + valid.direction.getY());
+                        possibleMoves.add(valid);
+                    }
+                } catch (ArrayIndexOutOfBoundsException e) {
+                    // Do nothing
                 }
             }
         }
@@ -59,10 +59,14 @@ public class PossibleMovesChecker {
 
     private void testAllDirections(ArrayList<RelativeNeighbour> possibleMoves, ArrayList<Coords> validMoves, Coords center) {
         for (RelativeNeighbour neighbour : possibleMoves) {
-            int xStart = neighbour.position.getX() - neighbour.startingPoint.getX();
-            int yStart = neighbour.position.getY() - neighbour.startingPoint.getY();
+            int xStart = neighbour.direction.getX() - neighbour.startingPoint.getX();
+            int yStart = neighbour.direction.getY() - neighbour.startingPoint.getY();
             int xDirection = neighbour.startingPoint.getX();
             int yDirection = neighbour.startingPoint.getY();
+            System.out.println("-----------------------------------------");
+            System.out.println("xStart: " + xStart + " yStart: " + yStart);
+            System.out.println("xDirection: " + xDirection + " yDirection: " + yDirection);
+
             followDirection(validMoves, center, xStart, yStart, xDirection, yDirection);
         }
     }
