@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import player.Coords;
+import player.Direction;
 
 import java.util.ArrayList;
 import java.util.stream.Stream;
@@ -17,10 +18,11 @@ public class PossibleMovesCheckerTest {
     void findDirectionsWithOppositeColor(String inputCoords, int expectedX, int expectedY) {
         Board board = new Board();
         PossibleMovesChecker possibleMovesChecker = new PossibleMovesChecker(board, true);
-        ArrayList<RelativeNeighbour> possiblyValidDirections = possibleMovesChecker.findDirectionsWithOppositeColor(new Coords(inputCoords));
+        //ArrayList<RelativeNeighbour> possiblyValidDirections = possibleMovesChecker.findDirectionsWithOppositeColor(new Coords(inputCoords));
+        ArrayList<Direction> possiblyValidDirections = possibleMovesChecker.findDirectionsWithOppositeColor(new Coords(inputCoords));
         assertEquals(1, possiblyValidDirections.size());
-        assertEquals(expectedX, possiblyValidDirections.get(0).direction.getX());
-        assertEquals(expectedY, possiblyValidDirections.get(0).direction.getY());
+        assertEquals(expectedX, possiblyValidDirections.get(0).getX());
+        assertEquals(expectedY, possiblyValidDirections.get(0).getY());
     }
     private static Stream<Object[]> provideCoordinatesAndExpectedResults() {
         return Stream.of(
@@ -35,7 +37,8 @@ public class PossibleMovesCheckerTest {
     void findDirectionsWithOppositeColorImpossible(String inputCoords) {
         Board board = new Board();
         PossibleMovesChecker possibleMovesChecker = new PossibleMovesChecker(board, true);
-        ArrayList<RelativeNeighbour> possiblyValidDirections = possibleMovesChecker.findDirectionsWithOppositeColor(new Coords(inputCoords));
+       // ArrayList<RelativeNeighbour> possiblyValidDirections = possibleMovesChecker.findDirectionsWithOppositeColor(new Coords(inputCoords));
+        ArrayList<Direction> possiblyValidDirections = possibleMovesChecker.findDirectionsWithOppositeColor(new Coords(inputCoords));
         assertEquals(0, possiblyValidDirections.size());
     }
     private static Stream<Object[]> provideEmptyArrayLists() {

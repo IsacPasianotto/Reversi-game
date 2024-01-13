@@ -1,6 +1,6 @@
 package player;
 
-public class Coords {
+public class Coords implements Couple {
 
     public Coords(String inputCoords) throws IllegalArgumentException {
         try {
@@ -31,15 +31,17 @@ public class Coords {
         this.y = y;
     }
 
+    @Override
     public int getX() {
         return x;
     }
+    @Override
     public int getY() {
         return y;
     }
 
-    public Coords add(Coords other) {
-        return new Coords(this.x + other.x, this.y + other.y);
+    public Coords add(Direction other) {
+        return new Coords(this.x + other.getX(), this.y + other.getY());
     }
 
     private final int x;
