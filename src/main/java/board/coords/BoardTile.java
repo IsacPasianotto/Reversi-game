@@ -40,6 +40,15 @@ public class BoardTile implements Couple {
         return y;
     }
 
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (other == null || getClass() != other.getClass()) return false;
+        BoardTile otherBoardTile = (BoardTile) other;
+        return this.getX() == otherBoardTile.getX() && this.getY() == otherBoardTile.getY();
+
+    }
+
     public BoardTile add(Direction other) {
         return new BoardTile(this.x + other.getX(), this.y + other.getY());
     }

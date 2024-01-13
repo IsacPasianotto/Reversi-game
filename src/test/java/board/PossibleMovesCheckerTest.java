@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class PossibleMovesCheckerTest {
 
@@ -62,7 +61,7 @@ public class PossibleMovesCheckerTest {
         Board board = new Board();
         PossibleMovesChecker possibleMovesChecker = new PossibleMovesChecker(board, true);
         ArrayList<ValidMove> validMoves = possibleMovesChecker.getValidMoves();
-        assertTrue(TruePosition.equals(validMoves.get(i).position));
+        assertEquals(TruePosition, validMoves.get(i).position);
     }
     private static Stream<Object[]> provideCoordinatesForValidMovesOnStart() {
         return Stream.of(
@@ -80,9 +79,10 @@ public class PossibleMovesCheckerTest {
         PossibleMovesChecker possibleMovesChecker = new PossibleMovesChecker(board, true);
         ArrayList<ValidMove> validMoves = possibleMovesChecker.getValidMoves();
         assertEquals(1, validMoves.get(i).getValidDirections().size());
-        assertTrue(TrueDirections.get(0).equals(validMoves.get(i).getValidDirections().get(0)));
+        assertEquals(TrueDirections, validMoves.get(i).getValidDirections());
 
     }
+
     private static Stream<Object[]> provideDirectionsForValidMovesOnStart() {
         return Stream.of(
                 new Object[]{new ArrayList<Direction>(){{add(new Direction(1, 0));}} , 0},
