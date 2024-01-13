@@ -1,8 +1,8 @@
-package player;
+package board.coords;
 
-public class Coords {
+public class BoardTile implements Couple {
 
-    public Coords(String inputCoords) throws IllegalArgumentException {
+    public BoardTile(String inputCoords) throws IllegalArgumentException {
         try {
             if (inputCoords.length() != 2) {
                 throw new IllegalArgumentException("Input coordinates should be a 2 characters string, eg. \"a1\"");
@@ -26,13 +26,33 @@ public class Coords {
 
     }
 
+    public BoardTile(int x, int y){
+        this.x = x;
+        this.y = y;
+    }
+
+    @Override
     public int getX() {
         return x;
     }
+    @Override
     public int getY() {
         return y;
     }
 
-    private int x;
-    private int y;
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (other == null || getClass() != other.getClass()) return false;
+        BoardTile otherBoardTile = (BoardTile) other;
+        return this.getX() == otherBoardTile.getX() && this.getY() == otherBoardTile.getY();
+
+    }
+
+    public BoardTile add(Direction other) {
+        return new BoardTile(this.x + other.getX(), this.y + other.getY());
+    }
+
+    private final int x;
+    private final int y;
 }

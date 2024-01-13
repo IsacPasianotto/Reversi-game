@@ -11,4 +11,6 @@ public class Game {
         System.out.println("------------------------------------------\n\n");
         board.printBoard();
     }
+
+    //boolean blackHasToPlay = true;
 }

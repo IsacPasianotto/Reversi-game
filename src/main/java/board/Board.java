@@ -1,5 +1,8 @@
 package board;
 
+
+import board.coords.BoardTile;
+
 public class Board {
 
     public Board() {
@@ -10,6 +13,7 @@ public class Board {
                 board[i][j] = Pawn.EMPTY;
         board[3][3] = board[4][4] = Pawn.WHITE;
         board[3][4] = board[4][3] = Pawn.BLACK;
+        boolean blackToMove = true;
     }
 
     public void printBoard() {
@@ -26,10 +30,18 @@ public class Board {
         System.out.println("\t---------------------------------");
     }
 
-    public Pawn getSquareValue(int x, int y) {
+
+    public Pawn getPositionValue(BoardTile position) {
+        return board[position.getX()][position.getY()];
+    }
+
+    public Pawn getPositionValue(int x, int y) {
         return board[x][y];
     }
 
+    boolean blackToMove;
     final int BOARD_SIZE = 8;
     Pawn[][] board;
 }
+
+
