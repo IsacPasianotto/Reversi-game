@@ -18,7 +18,4 @@ public class Player {
         board.changeTurn();
     }
 
-
-
-
 }

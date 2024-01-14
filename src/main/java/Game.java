@@ -20,26 +20,31 @@ public class Game {
                 board.changeTurn();
                 continue;
             }
-            System.out.println("Enter your move: ");
-            String move;
-            BoardTile chosen = null;
-            Optional<ValidMove> validMove = Optional.empty();
-            while (chosen == null || validMove.isEmpty()){
-                try {
-                    move = reader.readInput();
-                    chosen = new BoardTile(move);
-                    validMove = movesChecker.IsValid(chosen);
-                    if (validMove.isEmpty()) {
-                        movesChecker.printErrorMessage();
-                    } else {
-                        bot.makeMove(board, validMove.get());
-                    }
-                } catch (IllegalArgumentException e) {
-                    System.out.println("Not acceptable move entered.");
-                }
-            }
-            System.out.println("New turn");
+            ValidMove validMove = askForAMove(board, bot, reader, movesChecker);
+            bot.makeMove(board, validMove);
         }
+    }
+
+    ValidMove askForAMove(Board board, Player bot, InputReader reader, ValidMovesChecker movesChecker) {
+        System.out.print("Enter your move: ");
+        String move;
+        BoardTile chosen = null;
+        Optional<ValidMove> validMove = Optional.empty();
+        while (chosen == null || validMove.isEmpty()){
+            try {
+                move = reader.readInput();
+                chosen = new BoardTile(move);
+                validMove = movesChecker.IsValid(chosen);
+                if (validMove.isEmpty()) {
+                    movesChecker.printErrorMessage();
+                } else {
+                    return new ValidMove(chosen, validMove.get().getValidDirections());
+                }
+            } catch (IllegalArgumentException e) {
+                System.out.println("Not acceptable move entered.");
+            }
+        }
+        return null; // this line is never reached
     }
 
     public static void main(String[] args) {

@@ -34,9 +34,12 @@ jobs:
       - run:
           name: "Test: board.BoardTest"
           command: ./gradlew test --tests board.BoardTest
-      # - run:
-      #     name: "Teas: board.AnotherTestNotImplementedYed"
-      #     command: ./gradlew test --tests board.AnotherTestNotImplementedYed
+      - run:
+          name: "Teas: board.coords.BoardTileTest"
+          command: ./gradlew test --tests board.coords.BoardTileTest
+      - run:
+          name: "Teas: board.coords.DirectionTest"
+          command: ./gradlew test --tests board.coords.DirectionTest
 
   test-mechanics:
     docker:
@@ -45,21 +48,35 @@ jobs:
     steps:
       - checkout
       - run:
-          name: "Test: mechanics.PossibleMovesCheckerTest"
-          command: ./gradlew test --tests mechanics.PossibleMovesCheckerTest
-      - run:
-          name: "Un nuovo test diverso che per ora non esiste"
-          command: ./gradlew test --tests mechanics.PossibleMovesCheckerTest
+          name: "Test: mechanics.ValidMovesCheckerTest"
+          command: ./gradlew test --tests mechanics.ValidMovesCheckerTest
 
-  test-player:
-    docker:
-      - image: cimg/openjdk:21.0.0
-    working_directory: ~/repo
-    steps:
-      - checkout
-      - run:
-          name: "Test: player.PlayerTest"
-          command: ./gradlew test --tests player.PlayerTest
+  # test-player:
+  #   docker:
+  #     - image: cimg/openjdk:21.0.0
+  #   working_directory: ~/repo
+  #   steps:
+  #     - checkout
+  #     - run:
+  #         name: "Test: player.PlayerTest"
+  #         command: ./gradlew test --tests player.PlayerTest
+  #     - run:
+  #         name: "Test: player.human.HumanTest"
+  #         command: ./gradlew test --tests player.human.HumanTest
+  #     - run:
+  #         name: "Test: player.human.InputReaderTest"
+  #         command: ./gradlew test --tests player.human.InputReaderTest
+
+ # test-game:
+ #    docker:
+ #      - image: cimg/openjdk:21.0.0
+ #    working_directory: ~/repo
+ #    steps:
+ #      - checkout
+ #      - run:
+ #          name: "Test: GameTest"
+ #          command: ./gradlew test --tests GameTest
+
 
   test-win:
     executor: win/default
@@ -79,17 +96,37 @@ jobs:
           shell: bash.exe
           command: ./gradlew.bat test
       - run:
-          name: test-board
+          name: test-board.BoardTest
           shell: bash.exe
           command: ./gradlew test --tests board.BoardTest
       - run:
+          name: test-board.coords.BoardTileTest
+          shell: bash.exe
+          command: ./gradlew test --tests board.coords.BoardTileTest
+      - run:
+          name: test-board.coords.DirectionTest
+          shell: bash.exe
+          command: ./gradlew test --tests board.coords.DirectionTest
+      - run:
           name: test-mechanics
           shell: bash.exe
-          command: ./gradlew test --tests mechanics.PossibleMovesCheckerTest
-      - run:
-          name: test-player
-          shell: bash.exe
-          command: ./gradlew test --tests player.PlayerTest
+          command: ./gradlew test --tests mechanics.ValidMovesCheckerTest
+      # - run:
+      #     name: test-player.PlayerTest
+      #     shell: bash.exe
+      #     command: ./gradlew test --tests player.PlayerTest
+      # - run:
+      #     name: test-player.human.HumanTest
+      #     shell: bash.exe
+      #     command: ./gradlew test --tests player.human.HumanTest
+      # - run:
+      #     name: test-player.human.InputReaderTest
+      #     shell: bash.exe
+      #     command: ./gradlew test --tests player.human.InputReaderTest
+      # - run:
+      #     name: test-game
+      #     shell: bash.exe
+      #     command: ./gradlew test --tests GameTest
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
@@ -99,6 +136,7 @@ workflows:
       - test-linux
       - test-board
       - test-mechanics
-      - test-player
+        # - test-player
+        # - test-game
       - test-win
 
