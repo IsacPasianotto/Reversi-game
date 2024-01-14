@@ -1,6 +1,13 @@
 package board.coords;
 
 public class BoardTile implements Couple {
+    private final int x;
+    private final int y;
+
+    public BoardTile(int x, int y){
+        this.x = x;
+        this.y = y;
+    }
 
     public BoardTile(String inputCoords) throws IllegalArgumentException {
         try {
@@ -19,16 +26,13 @@ public class BoardTile implements Couple {
 
             x = Integer.parseInt(String.valueOf(second)) - 1;
             y = first - 'a';
-
         } catch (IllegalArgumentException e) {
             throw e;
         }
-
     }
 
-    public BoardTile(int x, int y){
-        this.x = x;
-        this.y = y;
+    public BoardTile add(Direction other) {
+        return new BoardTile(this.x + other.getX(), this.y + other.getY());
     }
 
     @Override
@@ -46,13 +50,12 @@ public class BoardTile implements Couple {
         if (other == null || getClass() != other.getClass()) return false;
         BoardTile otherBoardTile = (BoardTile) other;
         return this.getX() == otherBoardTile.getX() && this.getY() == otherBoardTile.getY();
-
     }
 
-    public BoardTile add(Direction other) {
-        return new BoardTile(this.x + other.getX(), this.y + other.getY());
+    @Override
+    public String toString() {
+        String row = "ABCDEFGH";
+        String col = "12345678";
+        return "" + row.charAt(y) + col.charAt(x);
     }
-
-    private final int x;
-    private final int y;
 }

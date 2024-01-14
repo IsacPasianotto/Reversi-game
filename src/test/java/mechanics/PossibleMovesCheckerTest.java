@@ -1,5 +1,7 @@
-package board;
+package mechanics;
 
+import board.Board;
+import board.ValidMove;
 import board.coords.BoardTile;
 import board.coords.Direction;
 import org.junit.jupiter.api.Test;
@@ -17,8 +19,8 @@ public class PossibleMovesCheckerTest {
     @MethodSource("provideCoordinatesAndExpectedResults")
     void findDirectionsWithOppositeColor(String inputCoords, int expectedX, int expectedY) {
         Board board = new Board();
-        PossibleMovesChecker possibleMovesChecker = new PossibleMovesChecker(board, true);
-        ArrayList<Direction> possiblyValidDirections = possibleMovesChecker.findDirectionsWithOppositeColor(new BoardTile(inputCoords));
+        ValidMovesChecker validMovesChecker = new ValidMovesChecker(board);
+        ArrayList<Direction> possiblyValidDirections = validMovesChecker.findDirectionsWithOppositeColor(new BoardTile(inputCoords));
         assertEquals(1, possiblyValidDirections.size());
         assertEquals(expectedX, possiblyValidDirections.get(0).getX());
         assertEquals(expectedY, possiblyValidDirections.get(0).getY());
@@ -35,8 +37,8 @@ public class PossibleMovesCheckerTest {
     @MethodSource("provideEmptyArrayLists")
     void findDirectionsWithOppositeColorImpossible(String inputCoords) {
         Board board = new Board();
-        PossibleMovesChecker possibleMovesChecker = new PossibleMovesChecker(board, true);
-        ArrayList<Direction> possiblyValidDirections = possibleMovesChecker.findDirectionsWithOppositeColor(new BoardTile(inputCoords));
+        ValidMovesChecker validMovesChecker = new ValidMovesChecker(board);
+        ArrayList<Direction> possiblyValidDirections = validMovesChecker.findDirectionsWithOppositeColor(new BoardTile(inputCoords));
         assertEquals(0, possiblyValidDirections.size());
     }
     private static Stream<Object[]> provideEmptyArrayLists() {
@@ -50,18 +52,20 @@ public class PossibleMovesCheckerTest {
     @Test
     void onStartThereAreFourValidMoves() {
         Board board = new Board();
-        PossibleMovesChecker possibleMovesChecker = new PossibleMovesChecker(board, true);
-        ArrayList<ValidMove> validMoves = possibleMovesChecker.getValidMoves();
-        assertEquals(4, validMoves.size());
+        ValidMovesChecker validMovesChecker = new ValidMovesChecker(board);
+        validMovesChecker.computeValidMoves();
+        int nMovesFound = validMovesChecker.getValidMoves().size();
+        assertEquals(4, nMovesFound);
     }
 
     @ParameterizedTest
     @MethodSource("provideCoordinatesForValidMovesOnStart")
     void onStartValidMovesAreCorrect(BoardTile TruePosition, int i) {
         Board board = new Board();
-        PossibleMovesChecker possibleMovesChecker = new PossibleMovesChecker(board, true);
-        ArrayList<ValidMove> validMoves = possibleMovesChecker.getValidMoves();
-        assertEquals(TruePosition, validMoves.get(i).position);
+        ValidMovesChecker validMovesChecker = new ValidMovesChecker(board);
+        validMovesChecker.computeValidMoves();
+        ValidMove ithValidMove = validMovesChecker.getValidMoves().get(i);
+        assertEquals(TruePosition, ithValidMove.getPosition());
     }
     private static Stream<Object[]> provideCoordinatesForValidMovesOnStart() {
         return Stream.of(
@@ -76,11 +80,12 @@ public class PossibleMovesCheckerTest {
     @MethodSource("provideDirectionsForValidMovesOnStart")
     void onStartValidDirectionForValidMovesAreCorrect(ArrayList<Direction> TrueDirections, int i) {
         Board board = new Board();
-        PossibleMovesChecker possibleMovesChecker = new PossibleMovesChecker(board, true);
-        ArrayList<ValidMove> validMoves = possibleMovesChecker.getValidMoves();
-        assertEquals(1, validMoves.get(i).getValidDirections().size());
-        assertEquals(TrueDirections, validMoves.get(i).getValidDirections());
-
+        ValidMovesChecker validMovesChecker = new ValidMovesChecker(board);
+        validMovesChecker.computeValidMoves();
+        ValidMove ithValidMove = validMovesChecker.getValidMoves().get(i);
+        ArrayList<Direction> validDirections = ithValidMove.getValidDirections();
+        assertEquals(1, validDirections.size());
+        assertEquals(TrueDirections, validDirections);
     }
 
     private static Stream<Object[]> provideDirectionsForValidMovesOnStart() {
@@ -91,7 +96,4 @@ public class PossibleMovesCheckerTest {
                 new Object[]{new ArrayList<Direction>(){{add(new Direction(-1, 0));}} , 3}
         );
     }
-
-
-
 }

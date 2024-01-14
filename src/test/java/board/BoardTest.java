@@ -1,8 +1,10 @@
 package board;
 
+import mechanics.ValidMovesChecker;
 import org.junit.jupiter.api.Test;
+import player.Player;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class BoardTest {
 
@@ -21,4 +23,16 @@ public class BoardTest {
         assertEquals(Pawn.BLACK, board.getPositionValue(3, 4));
         assertEquals(Pawn.BLACK, board.getPositionValue(4, 3));
     }
+
+    @Test
+    void turnChangesAfterMove(){
+        Board board = new Board();
+        assertTrue(board.isBlackToMove());
+        ValidMovesChecker movesChecker = new ValidMovesChecker(board);
+        movesChecker.computeValidMoves();
+        Player bot = new Player();
+        bot.makeMove(board, movesChecker.getValidMoves().get(0));
+        assertFalse(board.isBlackToMove());
+    }
+
 }

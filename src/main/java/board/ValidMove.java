@@ -6,7 +6,8 @@ import board.coords.Direction;
 import java.util.ArrayList;
 
 public class ValidMove {
-
+    private BoardTile position;
+    private ArrayList<Direction> validDirections;
 
     public ValidMove(BoardTile position, ArrayList<Direction> validDirections) {
         this.position = position;
@@ -17,15 +18,14 @@ public class ValidMove {
         validDirections = new ArrayList<>();
     }
 
-    public void addDirection(Direction direction) {
-        validDirections.add(direction);
-    }
-
     public ArrayList<Direction> getValidDirections() {
         return validDirections;
     }
+    public BoardTile getPosition() {
+        return position;
+    }
 
-    BoardTile position;
-    private ArrayList<Direction> validDirections;
-
-}
+    public void addDirection(Direction direction) {
+        validDirections.add(direction);
+    }
+    }

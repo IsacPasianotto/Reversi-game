@@ -1,32 +1,36 @@
-package board;
+package mechanics;
 
+import board.Board;
+import board.Pawn;
+import board.ValidMove;
 import board.coords.BoardTile;
 import board.coords.Direction;
 
 import java.util.ArrayList;
 
-public class PossibleMovesChecker {
+public class ValidMovesChecker {
+    private Board board;
+    private ArrayList<ValidMove> validMoves;
 
-    private final Board BOARD;
-    private final boolean BLACK_TO_MOVE;
-    public PossibleMovesChecker(Board board, boolean blackToMove) {
-        this.BOARD = board;
-        this.BLACK_TO_MOVE = blackToMove;
+    public ValidMovesChecker(Board board) {
+        this.board = board;
+        this.validMoves = new ArrayList<>();
     }
 
     public ArrayList<ValidMove> getValidMoves() {
-        ArrayList<ValidMove> validMoves = new ArrayList<>();
-        for (int i = 0; i < BOARD.BOARD_SIZE; i++){
-            for (int j = 0; j < BOARD.BOARD_SIZE; j++) {
-                BoardTile currentBoardTile = new BoardTile(i, j);
-                checkBoardTile(i, j, currentBoardTile, validMoves);
-            }
-        }
         return validMoves;
     }
 
-    private void checkBoardTile(int i, int j, BoardTile currentBoardTile, ArrayList<ValidMove> validMoves) {
-        if (BOARD.getPositionValue(i, j) == Pawn.EMPTY) {
+    public void computeValidMoves() {
+        this.validMoves.clear();
+        for (int i = 0; i < Board.BOARD_SIZE; i++){
+            for (int j = 0; j < Board.BOARD_SIZE; j++)
+                checkBoardTile(new BoardTile(i, j));
+        }
+    }
+
+    private void checkBoardTile(BoardTile currentBoardTile) {
+        if (board.getPositionValue(currentBoardTile) == Pawn.EMPTY) {
             ArrayList<Direction> possiblyValidDirections = findDirectionsWithOppositeColor(currentBoardTile);
             if (!possiblyValidDirections.isEmpty()) {
                 ArrayList<Direction> validDirections = computeValidDirections(possiblyValidDirections, currentBoardTile);
@@ -40,11 +44,12 @@ public class PossibleMovesChecker {
         ArrayList<Direction> possiblyValidDirections = new ArrayList<>();
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
+                Direction currentDirection = new Direction(i, j);
                 try {
-                    BoardTile neighbourToCheck = new BoardTile(currentBoardTile.getX() + i, currentBoardTile.getY() + j);
-                    Pawn neighbourPawn = BOARD.getPositionValue(neighbourToCheck);
-                    if ( (neighbourPawn == Pawn.BLACK && !BLACK_TO_MOVE) || (neighbourPawn == Pawn.WHITE && BLACK_TO_MOVE))
-                        possiblyValidDirections.add(new Direction(i, j));
+                    BoardTile neighbourToCheck = currentBoardTile.add(currentDirection);
+                    Pawn neighbourPawn = board.getPositionValue(neighbourToCheck);
+                    if ( (neighbourPawn == Pawn.BLACK && !board.isBlackToMove()) || (neighbourPawn == Pawn.WHITE && board.isBlackToMove()))
+                        possiblyValidDirections.add(currentDirection);
                 } catch (ArrayIndexOutOfBoundsException e) {
                     // Do nothing
                 }
@@ -64,11 +69,11 @@ public class PossibleMovesChecker {
 
     private boolean isValidDirection(BoardTile currentBoardTile, Direction currentDirection) {
         BoardTile pointCurrentlyOnCheck= currentBoardTile.add(currentDirection).add(currentDirection);
-        while (pointCurrentlyOnCheck.getX() >= 0 && pointCurrentlyOnCheck.getX() < BOARD.BOARD_SIZE && pointCurrentlyOnCheck.getY() >= 0 && pointCurrentlyOnCheck.getY() < BOARD.BOARD_SIZE) {
-            Pawn pawnCurrentlyOnCheck = BOARD.getPositionValue(pointCurrentlyOnCheck);
-            if ( (pawnCurrentlyOnCheck == Pawn.BLACK && BLACK_TO_MOVE) || (pawnCurrentlyOnCheck == Pawn.WHITE && !BLACK_TO_MOVE) )
+        while (pointCurrentlyOnCheck.getX() >= 0 && pointCurrentlyOnCheck.getX() < Board.BOARD_SIZE && pointCurrentlyOnCheck.getY() >= 0 && pointCurrentlyOnCheck.getY() < Board.BOARD_SIZE) {
+            Pawn pawnCurrentlyOnCheck = board.getPositionValue(pointCurrentlyOnCheck);
+            if ( (pawnCurrentlyOnCheck == Pawn.BLACK && board.isBlackToMove()) || (pawnCurrentlyOnCheck == Pawn.WHITE && !board.isBlackToMove())  )
                 return true;
-            pointCurrentlyOnCheck=pointCurrentlyOnCheck.add(currentDirection);
+            pointCurrentlyOnCheck = pointCurrentlyOnCheck.add(currentDirection);
         }
         return false;
     }
