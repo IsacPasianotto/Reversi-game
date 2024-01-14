@@ -12,9 +12,7 @@ public class Game {
     public void play(Board board, Player bot) {
         ValidMovesChecker movesChecker = new ValidMovesChecker(board);
         InputReader reader = new InputReader();
-        System.out.println("Welcome to the game of Reversi!");
         while (!board.isGameOver()) {
-            System.out.println("Turn; "+board.isBlackToMove());
             System.out.println(board);
             movesChecker.computeValidMoves();
             if (movesChecker.getValidMoves().isEmpty()) {
@@ -25,20 +23,22 @@ public class Game {
             System.out.println("Enter your move: ");
             String move;
             BoardTile chosen = null;
-            while (chosen == null) {
+            Optional<ValidMove> validMove = Optional.empty();
+            while (chosen == null || validMove.isEmpty()){
                 try {
                     move = reader.readInput();
                     chosen = new BoardTile(move);
+                    validMove = movesChecker.IsValid(chosen);
+                    if (validMove.isEmpty()) {
+                        movesChecker.printErrorMessage();
+                    } else {
+                        bot.makeMove(board, validMove.get());
+                    }
                 } catch (IllegalArgumentException e) {
                     System.out.println("Not acceptable move entered.");
                 }
             }
-            Optional<ValidMove> validMove = movesChecker.IsValid(chosen);
-            if (validMove.isEmpty()) {
-                movesChecker.printErrorMessage();
-            } else {
-                bot.makeMove(board, validMove.get());
-            }
+
             System.out.println("New turn");
         }
     }

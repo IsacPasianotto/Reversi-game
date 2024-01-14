@@ -23,8 +23,12 @@ public class ValidMovesChecker {
     }
 
     public Optional<ValidMove> IsValid(BoardTile move) {
-        return validMoves.stream().findAny().filter(validMove -> validMove.getPosition().equals(move));
-        //return validMoves.stream().anyMatch(validMove -> validMove.getPosition().equals(move));
+        //return validMoves.stream().findAny().filter(validMove -> validMove.getPosition().equals(move));
+        for (ValidMove validMove : validMoves) {
+            if (validMove.getPosition().equals(move))
+                return Optional.of(validMove);
+        }
+        return Optional.empty();
     }
 
     public void computeValidMoves() {
