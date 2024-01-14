@@ -3,8 +3,7 @@
 version: 2.1
 
 orbs:
-  win: circleci/windows@5.0.0
-
+  win: circleci/windows@5.0
 
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/configuration-reference/#jobs
@@ -23,8 +22,44 @@ jobs:
     steps:
       - checkout
       - run:
-          name: test
+          name: "Test: all"
           command: ./gradlew test
+
+  test-board:
+    docker:
+      - image: cimg/openjdk:21.0.0
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run:
+          name: "Test: board.BoardTest"
+          command: ./gradlew test --tests board.BoardTest
+      # - run:
+      #     name: "Teas: board.AnotherTestNotImplementedYed"
+      #     command: ./gradlew test --tests board.AnotherTestNotImplementedYed
+
+  test-mechanics:
+    docker:
+      - image: cimg/openjdk:21.0.0
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run:
+          name: "Test: mechanics.PossibleMovesCheckerTest"
+          command: ./gradlew test --tests mechanics.PossibleMovesCheckerTest
+      - run:
+          name: "Un nuovo test diverso che per ora non esiste"
+          command: ./gradlew test --tests mechanics.PossibleMovesCheckerTest
+
+  test-player:
+    docker:
+      - image: cimg/openjdk:21.0.0
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run:
+          name: "Test: player.PlayerTest"
+          command: ./gradlew test --tests player.PlayerTest
 
   test-win:
     executor: win/default
@@ -40,9 +75,21 @@ jobs:
               - "a6:75:a4:04:58:c5:7a:40:00:f7:6b:19:a6:0a:16:2b"
       - checkout
       - run:
-          name: test
+          name: test-all
           shell: bash.exe
           command: ./gradlew.bat test
+      - run:
+          name: test-board
+          shell: bash.exe
+          command: ./gradlew test --tests board.BoardTest
+      - run:
+          name: test-mechanics
+          shell: bash.exe
+          command: ./gradlew test --tests mechanics.PossibleMovesCheckerTest
+      - run:
+          name: test-player
+          shell: bash.exe
+          command: ./gradlew test --tests player.PlayerTest
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
@@ -50,4 +97,8 @@ workflows:
    test:
     jobs:
       - test-linux
+      - test-board
+      - test-mechanics
+      - test-player
       - test-win
+
