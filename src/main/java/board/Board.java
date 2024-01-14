@@ -39,9 +39,12 @@ public class Board {
 
 
     public void flipLineOfPawns(BoardTile position, Direction direction) {
-        BoardTile currentPosition = position;
+        BoardTile currentPosition = position.add(direction);
         Pawn currentPawn  = blackToMove ? Pawn.BLACK : Pawn.WHITE;
+        System.out.println("Flipping line of pawns of direction " + direction+" for pawn "+currentPawn);
+
         while (this.getPositionValue(currentPosition) != currentPawn){
+            System.out.println("Flipping pawn at " + currentPosition);
             this.setPositionValue(currentPosition, currentPawn);
             currentPosition = currentPosition.add(direction);
         }

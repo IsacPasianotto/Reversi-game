@@ -38,7 +38,6 @@ public class Game {
                     System.out.println("Not acceptable move entered.");
                 }
             }
-
             System.out.println("New turn");
         }
     }
