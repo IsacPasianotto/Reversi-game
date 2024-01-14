@@ -3,8 +3,6 @@ import board.PossibleMovesChecker;
 import board.ValidMove;
 import player.Player;
 
-import java.util.ArrayList;
-
 public class Game {
 
 
@@ -16,16 +14,35 @@ public class Game {
         System.out.println("------------------------------------------\n\n");
         board.printBoard();
         System.out.println("\n\n\n----------------------------------------");
-        PossibleMovesChecker movesChecker = new PossibleMovesChecker(board, board.isBlackToMove());
-        ArrayList<ValidMove> validMoves = movesChecker.getValidMoves();
+        PossibleMovesChecker movesChecker = new PossibleMovesChecker(board);
+        movesChecker.computeValidMoves();
 
-        Player umano = new Player();
-        umano.makeMove(board, validMoves.get(0));
-        movesChecker = new PossibleMovesChecker(board, board.isBlackToMove());
-        validMoves = movesChecker.getValidMoves();
-        umano.makeMove(board, validMoves.get(0));
+        Player bot = new Player();
+        ValidMove chosen = movesChecker.getValidMoves().get(0);
+
+        bot.makeMove(board, chosen);
 
         board.printBoard();
+
+        movesChecker.computeValidMoves();
+
+        chosen = movesChecker.getValidMoves().get(0);
+
+        bot.makeMove(board, chosen);
+
+        board.printBoard();
+
+
+
+        //ArrayList<ValidMove> validMoves = movesChecker.computeValidMoves();
+
+//        Player umano = new Player();
+//        umano.makeMove(board, validMoves.get(0));
+//        movesChecker = new PossibleMovesChecker(board);
+//        validMoves = movesChecker.computeValidMoves();
+//        umano.makeMove(board, validMoves.get(0));
+//
+//        board.printBoard();
 
 
 
