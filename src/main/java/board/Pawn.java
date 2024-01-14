@@ -1,8 +1,8 @@
 package board;
 
 public enum Pawn {
-    WHITE('W'),
-    BLACK('B'),
+    WHITE('◯'),
+    BLACK('●'),
     EMPTY(' ');
 
     private final char symbol;

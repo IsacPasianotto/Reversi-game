@@ -52,14 +52,26 @@ public class Board {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-        result.append("  A B C D E F G H\n");
+
+        result.append("      A     B     C     D     E     F     G     H  \n   ┏─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┓\n");
         for (int i = 0; i < BOARD_SIZE; i++){
-            result.append(i+1).append("|");
+            result.append(" ").append(i+1).append(" ┃");
             for (int j = 0; j < BOARD_SIZE; j++) {
-                result.append(board[i][j]).append("|");
+                result.append("  ").append(board[i][j]);
+                if (j != BOARD_SIZE - 1)
+                    result.append("  ╎");
+                else
+                    result.append("  ┃");
             }
+            if (i != BOARD_SIZE - 1)
+                result.append("\n   ┃-----+-----+-----+-----+-----+-----+-----+-----┃");
             result.append("\n");
         }
+        result.append("   ┗─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┛\n");
+        if (blackToMove)
+            result.append("\nPlayer ").append(Pawn.BLACK).append(" to move");
+        else
+            result.append("\nPlayer ").append(Pawn.WHITE).append(" to move");
         return result.toString();
     }
 }
