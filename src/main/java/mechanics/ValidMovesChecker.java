@@ -7,6 +7,7 @@ import board.coords.BoardTile;
 import board.coords.Direction;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class ValidMovesChecker {
     private Board board;
@@ -19,6 +20,11 @@ public class ValidMovesChecker {
 
     public ArrayList<ValidMove> getValidMoves() {
         return validMoves;
+    }
+
+    public Optional<ValidMove> IsValid(BoardTile move) {
+        return validMoves.stream().findAny().filter(validMove -> validMove.getPosition().equals(move));
+        //return validMoves.stream().anyMatch(validMove -> validMove.getPosition().equals(move));
     }
 
     public void computeValidMoves() {
@@ -76,5 +82,13 @@ public class ValidMovesChecker {
             pointCurrentlyOnCheck = pointCurrentlyOnCheck.add(currentDirection);
         }
         return false;
+    }
+
+    public void printErrorMessage() {
+        StringBuilder validMoves = new StringBuilder("Invalid move entered.\nValid moves are: ");
+        for (ValidMove validMove : getValidMoves()) {
+            validMoves.append(validMove.getPosition()).append(" ");
+        }
+        System.out.println(validMoves);
     }
 }
