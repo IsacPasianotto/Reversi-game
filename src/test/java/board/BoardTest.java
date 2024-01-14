@@ -1,6 +1,6 @@
 package board;
 
-import mechanics.PossibleMovesChecker;
+import mechanics.ValidMovesChecker;
 import org.junit.jupiter.api.Test;
 import player.Player;
 
@@ -28,7 +28,7 @@ public class BoardTest {
     void turnChangesAfterMove(){
         Board board = new Board();
         assertTrue(board.isBlackToMove());
-        PossibleMovesChecker movesChecker = new PossibleMovesChecker(board);
+        ValidMovesChecker movesChecker = new ValidMovesChecker(board);
         movesChecker.computeValidMoves();
         Player bot = new Player();
         bot.makeMove(board, movesChecker.getValidMoves().get(0));

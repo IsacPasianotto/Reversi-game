@@ -1,6 +1,8 @@
 package board.coords;
 
 public class Direction implements Couple {
+    private final int x;
+    private final int y;
     public Direction(int x, int y){
         this.x = x;
         this.y = y;
@@ -10,12 +12,10 @@ public class Direction implements Couple {
     public int getX() {
         return x;
     }
-
     @Override
     public int getY() {
         return y;
     }
-
 
     @Override
     public boolean equals(Object other) {
@@ -23,7 +23,6 @@ public class Direction implements Couple {
         if (other == null || getClass() != other.getClass()) return false;
         Direction otherDirection = (Direction) other;
         return this.getX() == otherDirection.getX() && this.getY() == otherDirection.getY();
-
     }
 
     // used only for debugging purposes
@@ -31,7 +30,4 @@ public class Direction implements Couple {
     public String toString() {
         return "(" + x + ", " + y + ")";
     }
-
-    private final int x;
-    private final int y;
 }

@@ -4,7 +4,6 @@ import board.Board;
 import board.ValidMove;
 import board.coords.BoardTile;
 import board.coords.Direction;
-import mechanics.PossibleMovesChecker;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -20,8 +19,8 @@ public class PossibleMovesCheckerTest {
     @MethodSource("provideCoordinatesAndExpectedResults")
     void findDirectionsWithOppositeColor(String inputCoords, int expectedX, int expectedY) {
         Board board = new Board();
-        PossibleMovesChecker possibleMovesChecker = new PossibleMovesChecker(board);
-        ArrayList<Direction> possiblyValidDirections = possibleMovesChecker.findDirectionsWithOppositeColor(new BoardTile(inputCoords));
+        ValidMovesChecker validMovesChecker = new ValidMovesChecker(board);
+        ArrayList<Direction> possiblyValidDirections = validMovesChecker.findDirectionsWithOppositeColor(new BoardTile(inputCoords));
         assertEquals(1, possiblyValidDirections.size());
         assertEquals(expectedX, possiblyValidDirections.get(0).getX());
         assertEquals(expectedY, possiblyValidDirections.get(0).getY());
@@ -38,8 +37,8 @@ public class PossibleMovesCheckerTest {
     @MethodSource("provideEmptyArrayLists")
     void findDirectionsWithOppositeColorImpossible(String inputCoords) {
         Board board = new Board();
-        PossibleMovesChecker possibleMovesChecker = new PossibleMovesChecker(board);
-        ArrayList<Direction> possiblyValidDirections = possibleMovesChecker.findDirectionsWithOppositeColor(new BoardTile(inputCoords));
+        ValidMovesChecker validMovesChecker = new ValidMovesChecker(board);
+        ArrayList<Direction> possiblyValidDirections = validMovesChecker.findDirectionsWithOppositeColor(new BoardTile(inputCoords));
         assertEquals(0, possiblyValidDirections.size());
     }
     private static Stream<Object[]> provideEmptyArrayLists() {
@@ -53,9 +52,9 @@ public class PossibleMovesCheckerTest {
     @Test
     void onStartThereAreFourValidMoves() {
         Board board = new Board();
-        PossibleMovesChecker possibleMovesChecker = new PossibleMovesChecker(board);
-        possibleMovesChecker.computeValidMoves();
-        int nMovesFound = possibleMovesChecker.getValidMoves().size();
+        ValidMovesChecker validMovesChecker = new ValidMovesChecker(board);
+        validMovesChecker.computeValidMoves();
+        int nMovesFound = validMovesChecker.getValidMoves().size();
         assertEquals(4, nMovesFound);
     }
 
@@ -63,9 +62,9 @@ public class PossibleMovesCheckerTest {
     @MethodSource("provideCoordinatesForValidMovesOnStart")
     void onStartValidMovesAreCorrect(BoardTile TruePosition, int i) {
         Board board = new Board();
-        PossibleMovesChecker possibleMovesChecker = new PossibleMovesChecker(board);
-        possibleMovesChecker.computeValidMoves();
-        ValidMove ithValidMove = possibleMovesChecker.getValidMoves().get(i);
+        ValidMovesChecker validMovesChecker = new ValidMovesChecker(board);
+        validMovesChecker.computeValidMoves();
+        ValidMove ithValidMove = validMovesChecker.getValidMoves().get(i);
         assertEquals(TruePosition, ithValidMove.getPosition());
     }
     private static Stream<Object[]> provideCoordinatesForValidMovesOnStart() {
@@ -81,9 +80,9 @@ public class PossibleMovesCheckerTest {
     @MethodSource("provideDirectionsForValidMovesOnStart")
     void onStartValidDirectionForValidMovesAreCorrect(ArrayList<Direction> TrueDirections, int i) {
         Board board = new Board();
-        PossibleMovesChecker possibleMovesChecker = new PossibleMovesChecker(board);
-        possibleMovesChecker.computeValidMoves();
-        ValidMove ithValidMove = possibleMovesChecker.getValidMoves().get(i);
+        ValidMovesChecker validMovesChecker = new ValidMovesChecker(board);
+        validMovesChecker.computeValidMoves();
+        ValidMove ithValidMove = validMovesChecker.getValidMoves().get(i);
         ArrayList<Direction> validDirections = ithValidMove.getValidDirections();
         assertEquals(1, validDirections.size());
         assertEquals(TrueDirections, validDirections);

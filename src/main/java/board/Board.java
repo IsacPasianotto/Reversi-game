@@ -5,6 +5,9 @@ import board.coords.BoardTile;
 import board.coords.Direction;
 
 public class Board {
+    public static final int BOARD_SIZE = 8;
+    private boolean blackToMove;
+    private Pawn[][] board;
 
     public Board() {
         board = new Pawn[BOARD_SIZE][BOARD_SIZE];
@@ -19,32 +22,19 @@ public class Board {
         this.blackToMove = true;
     }
 
-    public void printBoard() {
-
-        System.out.println("\t  A\t  B\t  C\t  D\t  E\t  F\t  G\t  H");
-        System.out.println("\t---------------------------------");
-        for (int i = 0; i < BOARD_SIZE; i++){
-            System.out.print((i+1) + "\t");
-            for (int j = 0; j < BOARD_SIZE; j++) {
-                System.out.print("| " + board[i][j] +  " ");
-            }
-            System.out.println("|");
-        }
-        System.out.println("\t---------------------------------");
+    public boolean isBlackToMove() {
+        return this.blackToMove;
     }
-
-
     public Pawn getPositionValue(BoardTile position) {
         return board[position.getX()][position.getY()];
     }
-
     public Pawn getPositionValue(int x, int y) {
         return board[x][y];
     }
-
     public void setPositionValue(BoardTile position, Pawn value) {
         board[position.getX()][position.getY()] = value;
     }
+
 
     public void flipLineOfPawns(BoardTile position, Direction direction) {
         BoardTile currentPosition = position;
@@ -55,17 +45,23 @@ public class Board {
         }
     }
 
-    public boolean isBlackToMove() {
-        return this.blackToMove;
-    }
-
     public void changeTurn(){
         blackToMove = !blackToMove;
     }
 
-    private boolean blackToMove;
-    public final int BOARD_SIZE = 8;
-    private Pawn[][] board;
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        result.append("  A B C D E F G H\n");
+        for (int i = 0; i < BOARD_SIZE; i++){
+            result.append(i+1).append("|");
+            for (int j = 0; j < BOARD_SIZE; j++) {
+                result.append(board[i][j]).append("|");
+            }
+            result.append("\n");
+        }
+        return result.toString();
+    }
 }
 
 

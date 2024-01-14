@@ -6,6 +6,7 @@ import board.coords.BoardTile;
 import java.util.ArrayList;
 
 public class InputMoveValidator {
+    private boolean isValid;
 
     public InputMoveValidator() {
         isValid = false;
@@ -19,9 +20,9 @@ public class InputMoveValidator {
             }
         }
         System.out.println("Invalid move entered.");
-        String validMoves = "Valid moves are: ";
+        StringBuilder validMoves = new StringBuilder("Valid moves are: ");
         for (ValidMove validMove : acceptable) {
-            validMoves += validMove.getPosition().toString() + " ";
+            validMoves.append(validMove.getPosition()).append(" ");
         }
         System.out.println(validMoves);
     }
@@ -30,6 +31,6 @@ public class InputMoveValidator {
         return isValid;
     }
 
-   private boolean isValid;
+
 
 }
