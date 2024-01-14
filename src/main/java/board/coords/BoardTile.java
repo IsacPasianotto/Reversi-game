@@ -49,6 +49,14 @@ public class BoardTile implements Couple {
 
     }
 
+    @Override
+    public String toString() {
+        String row = "ABCDEFGH";
+        String col = "12345678";
+        return "" + row.charAt(y) + col.charAt(x);
+    }
+
+
     public BoardTile add(Direction other) {
         return new BoardTile(this.x + other.getX(), this.y + other.getY());
     }

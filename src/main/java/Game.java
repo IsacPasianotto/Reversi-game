@@ -1,6 +1,7 @@
 import board.Board;
-import board.PossibleMovesChecker;
-import board.ValidMove;
+import board.coords.BoardTile;
+import mechanics.InputMoveValidator;
+import mechanics.PossibleMovesChecker;
 import player.Player;
 
 public class Game {
@@ -18,32 +19,25 @@ public class Game {
         movesChecker.computeValidMoves();
 
         Player bot = new Player();
-        ValidMove chosen = movesChecker.getValidMoves().get(0);
+        // ValidMove chosen = movesChecker.getValidMoves().get(0);
 
-        bot.makeMove(board, chosen);
-
-        board.printBoard();
-
-        movesChecker.computeValidMoves();
-
-        chosen = movesChecker.getValidMoves().get(0);
-
-        bot.makeMove(board, chosen);
-
-        board.printBoard();
+        BoardTile chosen = new BoardTile("a1");
+        InputMoveValidator validator = new InputMoveValidator();
+        validator.IsValid(movesChecker.getValidMoves(), chosen);
 
 
-
-        //ArrayList<ValidMove> validMoves = movesChecker.computeValidMoves();
-
-//        Player umano = new Player();
-//        umano.makeMove(board, validMoves.get(0));
-//        movesChecker = new PossibleMovesChecker(board);
-//        validMoves = movesChecker.computeValidMoves();
-//        umano.makeMove(board, validMoves.get(0));
+//        bot.makeMove(board, chosen);
 //
 //        board.printBoard();
-
+//
+//        movesChecker.computeValidMoves();
+//
+//        chosen = movesChecker.getValidMoves().get(0);
+//
+//        bot.makeMove(board, chosen);
+//
+//        board.printBoard();
+//
 
 
 

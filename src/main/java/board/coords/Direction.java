@@ -26,6 +26,12 @@ public class Direction implements Couple {
 
     }
 
+    // used only for debugging purposes
+    @Override
+    public String toString() {
+        return "(" + x + ", " + y + ")";
+    }
+
     private final int x;
     private final int y;
 }

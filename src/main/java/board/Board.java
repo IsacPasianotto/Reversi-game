@@ -64,7 +64,7 @@ public class Board {
     }
 
     private boolean blackToMove;
-    final int BOARD_SIZE = 8;
+    public final int BOARD_SIZE = 8;
     private Pawn[][] board;
 }
 

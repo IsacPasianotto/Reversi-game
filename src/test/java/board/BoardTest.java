@@ -1,5 +1,6 @@
 package board;
 
+import mechanics.PossibleMovesChecker;
 import org.junit.jupiter.api.Test;
 import player.Player;
 

@@ -1,5 +1,8 @@
-package board;
+package mechanics;
 
+import board.Board;
+import board.Pawn;
+import board.ValidMove;
 import board.coords.BoardTile;
 import board.coords.Direction;
 

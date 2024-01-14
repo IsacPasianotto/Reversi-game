@@ -1,7 +1,10 @@
-package board;
+package mechanics;
 
+import board.Board;
+import board.ValidMove;
 import board.coords.BoardTile;
 import board.coords.Direction;
+import mechanics.PossibleMovesChecker;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
