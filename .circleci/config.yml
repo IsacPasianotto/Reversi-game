@@ -67,7 +67,7 @@ jobs:
   #         name: "Test: player.human.InputReaderTest"
   #         command: ./gradlew test --tests player.human.InputReaderTest
 
- test-game:
+  test-game:
     docker:
       - image: cimg/openjdk:21.0.0
     working_directory: ~/repo
