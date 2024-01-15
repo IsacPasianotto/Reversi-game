@@ -67,15 +67,15 @@ jobs:
   #         name: "Test: player.human.InputReaderTest"
   #         command: ./gradlew test --tests player.human.InputReaderTest
 
- # test-game:
- #    docker:
- #      - image: cimg/openjdk:21.0.0
- #    working_directory: ~/repo
- #    steps:
- #      - checkout
- #      - run:
- #          name: "Test: GameTest"
- #          command: ./gradlew test --tests GameTest
+ test-game:
+    docker:
+      - image: cimg/openjdk:21.0.0
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run:
+          name: "Test: GameTest"
+          command: ./gradlew test --tests GameTest
 
 
   test-win:
@@ -123,10 +123,10 @@ jobs:
       #     name: test-player.human.InputReaderTest
       #     shell: bash.exe
       #     command: ./gradlew test --tests player.human.InputReaderTest
-      # - run:
-      #     name: test-game
-      #     shell: bash.exe
-      #     command: ./gradlew test --tests GameTest
+      - run:
+          name: test-game
+          shell: bash.exe
+          command: ./gradlew test --tests GameTest
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
@@ -137,6 +137,6 @@ workflows:
       - test-board
       - test-mechanics
         # - test-player
-        # - test-game
+      - test-game
       - test-win
 

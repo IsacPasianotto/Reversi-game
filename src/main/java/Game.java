@@ -30,21 +30,27 @@ public class Game {
         String move;
         BoardTile chosen = null;
         Optional<ValidMove> validMove = Optional.empty();
-        while (chosen == null || validMove.isEmpty()){
+//        while (chosen == null || validMove.isEmpty()) {
+        while (true) {
             try {
-                move = reader.readInput();
-                chosen = new BoardTile(move);
-                validMove = movesChecker.IsValid(chosen);
-                if (validMove.isEmpty()) {
-                    movesChecker.printErrorMessage();
-                } else {
-                    return new ValidMove(chosen, validMove.get().getValidDirections());
-                }
+                return getMove(board, bot, reader, movesChecker);
             } catch (IllegalArgumentException e) {
                 System.out.println("Not acceptable move entered.");
             }
         }
-        return null; // this line is never reached
+//        return null; // this line is never reached
+    }
+
+    ValidMove getMove(Board board, Player bot, InputReader reader, ValidMovesChecker movesChecker) throws IllegalArgumentException {
+        String move = reader.readInput();
+        BoardTile chosen = new BoardTile(move);
+        Optional<ValidMove> validMove = movesChecker.IsValid(chosen);
+        if (validMove.isEmpty()) {
+            movesChecker.printErrorMessage();
+            throw new IllegalArgumentException("Not acceptable move entered.");
+        } else {
+            return new ValidMove(chosen, validMove.get().getValidDirections());
+        }
     }
 
     public static void main(String[] args) {
