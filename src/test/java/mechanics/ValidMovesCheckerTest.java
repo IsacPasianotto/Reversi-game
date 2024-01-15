@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class PossibleMovesCheckerTest {
+public class ValidMovesCheckerTest {
 
     @ParameterizedTest
     @MethodSource("provideCoordinatesAndExpectedResults")

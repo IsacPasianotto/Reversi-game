@@ -4,6 +4,8 @@ package board;
 import board.coords.BoardTile;
 import board.coords.Direction;
 
+import java.util.Arrays;
+
 public class Board {
     public static final int BOARD_SIZE = 8;
     private boolean blackToMove;
@@ -37,16 +39,24 @@ public class Board {
 
 
     public void flipLineOfPawns(BoardTile position, Direction direction) {
-        BoardTile currentPosition = position;
+        BoardTile currentPosition = position.add(direction);
         Pawn currentPawn  = blackToMove ? Pawn.BLACK : Pawn.WHITE;
+        System.out.println("Flipping line of pawns of direction " + direction+" for pawn "+currentPawn);
+
         while (this.getPositionValue(currentPosition) != currentPawn){
+            System.out.println("Flipping pawn at " + currentPosition);
             this.setPositionValue(currentPosition, currentPawn);
             currentPosition = currentPosition.add(direction);
         }
     }
 
     public void changeTurn(){
-        blackToMove = !blackToMove;
+        System.out.println("Changing turn");
+        this.blackToMove = !this.blackToMove;
+    }
+
+    public boolean isGameOver() {
+        return Arrays.stream(this.board).allMatch(row -> Arrays.stream(row).noneMatch(pawn -> pawn == Pawn.EMPTY));
     }
 
     @Override
@@ -57,21 +67,12 @@ public class Board {
         for (int i = 0; i < BOARD_SIZE; i++){
             result.append(" ").append(i+1).append(" ┃");
             for (int j = 0; j < BOARD_SIZE; j++) {
-                result.append("  ").append(board[i][j]);
-                if (j != BOARD_SIZE - 1)
-                    result.append("  ╎");
-                else
-                    result.append("  ┃");
+                result.append("  ").append(board[i][j]).append((j == BOARD_SIZE - 1) ? "  ┃" : "  ╎");
             }
-            if (i != BOARD_SIZE - 1)
-                result.append("\n   ┃-----+-----+-----+-----+-----+-----+-----+-----┃");
-            result.append("\n");
+            result.append((i == BOARD_SIZE - 1) ? "\n" : "\n   ┣-----+-----+-----+-----+-----+-----+-----+-----┫\n");
         }
         result.append("   ┗─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┛\n");
-        if (blackToMove)
-            result.append("\nPlayer ").append(Pawn.BLACK).append(" to move");
-        else
-            result.append("\nPlayer ").append(Pawn.WHITE).append(" to move");
+        result.append("\nPlayer ").append(blackToMove ? Pawn.BLACK : Pawn.WHITE).append(" to move");
         return result.toString();
     }
 }
