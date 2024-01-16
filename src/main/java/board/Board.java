@@ -10,6 +10,7 @@ public class Board {
     public static final int BOARD_SIZE = 8;
     private boolean blackToMove;
     private Pawn[][] board;
+    private boolean gameOver;
 
     public Board() {
         board = new Pawn[BOARD_SIZE][BOARD_SIZE];
@@ -59,24 +60,40 @@ public class Board {
         this.blackToMove = !this.blackToMove;
     }
 
-    public boolean isGameOver() {
+    public boolean isFull() {
         return Arrays.stream(this.board).allMatch(row -> Arrays.stream(row).noneMatch(pawn -> pawn == Pawn.EMPTY));
     }
-
+    public boolean isGameOver() {
+        return gameOver;
+    }
+    public void GameOver() {
+        this.gameOver = true;
+    }
+    public void copy(Board another){
+        for (int i = 0; i < BOARD_SIZE; i++)
+            System.arraycopy(another.board[i], 0, this.board[i], 0, BOARD_SIZE);
+        this.blackToMove = another.blackToMove;
+        this.gameOver = another.gameOver;
+    }
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
+        int whiteScore = 0;
+        int blackScore = 0;
 
         result.append("      A     B     C     D     E     F     G     H  \n   ┏─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┓\n");
         for (int i = 0; i < BOARD_SIZE; i++){
             result.append(" ").append(i+1).append(" ┃");
             for (int j = 0; j < BOARD_SIZE; j++) {
-                result.append("  ").append(board[i][j]).append((j == BOARD_SIZE - 1) ? "  ┃" : "  ╎");
+                result.append("  ").append(getPositionValue(i,j)).append((j == BOARD_SIZE - 1) ? "  ┃" : "  ╎");
+                   if (getPositionValue(i, j) == Pawn.WHITE) whiteScore++;
+                   if (getPositionValue(i, j) == Pawn.BLACK) blackScore++;
             }
             result.append((i == BOARD_SIZE - 1) ? "\n" : "\n   ┣-----+-----+-----+-----+-----+-----+-----+-----┫\n");
         }
         result.append("   ┗─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┛\n");
-        result.append("\nPlayer ").append(blackToMove ? Pawn.BLACK : Pawn.WHITE).append(" to move");
+        result.append("\nPlayer ").append(blackToMove ? Pawn.BLACK : Pawn.WHITE).append(" to move\n");
+        result.append("White: ").append(whiteScore).append(" Black: ").append(blackScore);
         return result.toString();
     }
 }

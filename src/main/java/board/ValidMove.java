@@ -28,4 +28,4 @@ public class ValidMove {
     public void addDirection(Direction direction) {
         validDirections.add(direction);
     }
-    }
+}
