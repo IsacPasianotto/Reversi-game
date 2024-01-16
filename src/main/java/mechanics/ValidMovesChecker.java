@@ -79,7 +79,10 @@ public class ValidMovesChecker {
 
     private boolean isValidDirection(BoardTile currentBoardTile, Direction currentDirection) {
         BoardTile pointCurrentlyOnCheck= currentBoardTile.add(currentDirection).add(currentDirection);
+
         while (pointCurrentlyOnCheck.isPointInsideTheBoard()) {
+            if (board.getPositionValue(pointCurrentlyOnCheck) == Pawn.EMPTY)
+                return false;
             if (board.getPositionValue(pointCurrentlyOnCheck) == board.getCurrentPlayer())
                 return true;
             pointCurrentlyOnCheck = pointCurrentlyOnCheck.add(currentDirection);

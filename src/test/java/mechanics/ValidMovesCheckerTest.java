@@ -7,11 +7,13 @@ import board.coords.Direction;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import positions.GamePositions;
 
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ValidMovesCheckerTest {
 
@@ -96,4 +98,15 @@ public class ValidMovesCheckerTest {
                 new Object[]{new ArrayList<Direction>(){{add(new Direction(-1, 0));}} , 3}
         );
     }
+
+    @Test
+    void ifEmptyTileInsideTheDirectionMoveIsNotValid() {
+        Board board = GamePositions.emptyTileBetweenTwoPawns();
+        ValidMovesChecker validMovesChecker = new ValidMovesChecker(board);
+        validMovesChecker.computeValidMoves();
+        ArrayList<ValidMove> validMoves = validMovesChecker.getValidMoves();
+        // if the code works, d1 should not be a valid move
+        assertTrue(validMoves.stream().noneMatch(validMove -> validMove.getPosition().equals(new BoardTile("d1"))));
+    }
+
 }
