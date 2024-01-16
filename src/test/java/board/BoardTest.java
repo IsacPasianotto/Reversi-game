@@ -31,7 +31,7 @@ public class BoardTest {
         ValidMovesChecker movesChecker = new ValidMovesChecker(board);
         movesChecker.computeValidMoves();
         Player bot = new Player();
-        bot.makeMove(board, movesChecker.getValidMoves().get(0));
+        board.makeMove(movesChecker.getValidMoves().get(0));
         assertFalse(board.isBlackToMove());
     }
 

@@ -27,6 +27,9 @@ public class Board {
     public boolean isBlackToMove() {
         return this.blackToMove;
     }
+    public Pawn getCurrentPlayer() {
+        return blackToMove ? Pawn.BLACK : Pawn.WHITE;
+    }
     public Pawn getPositionValue(BoardTile position) {
         return board[position.getX()][position.getY()];
     }
@@ -37,21 +40,22 @@ public class Board {
         board[position.getX()][position.getY()] = value;
     }
 
-
-    public void flipLineOfPawns(BoardTile position, Direction direction) {
+    public void makeMove(ValidMove move) {
+        for (Direction direction : move.getValidDirections()) {
+            flipLineOfPawns(move.getPosition(), direction);
+        }
+        setPositionValue(move.getPosition(),getCurrentPlayer());
+        changeTurn();
+    }
+    private void flipLineOfPawns(BoardTile position, Direction direction) {
         BoardTile currentPosition = position.add(direction);
-        Pawn currentPawn  = blackToMove ? Pawn.BLACK : Pawn.WHITE;
-        System.out.println("Flipping line of pawns of direction " + direction+" for pawn "+currentPawn);
-
-        while (this.getPositionValue(currentPosition) != currentPawn){
-            System.out.println("Flipping pawn at " + currentPosition);
-            this.setPositionValue(currentPosition, currentPawn);
+        while (getPositionValue(currentPosition) != getCurrentPlayer()){
+            setPositionValue(currentPosition, getCurrentPlayer());
             currentPosition = currentPosition.add(direction);
         }
     }
 
     public void changeTurn(){
-        System.out.println("Changing turn");
         this.blackToMove = !this.blackToMove;
     }
 

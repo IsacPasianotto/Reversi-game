@@ -79,9 +79,8 @@ public class ValidMovesChecker {
 
     private boolean isValidDirection(BoardTile currentBoardTile, Direction currentDirection) {
         BoardTile pointCurrentlyOnCheck= currentBoardTile.add(currentDirection).add(currentDirection);
-        while (pointCurrentlyOnCheck.getX() >= 0 && pointCurrentlyOnCheck.getX() < Board.BOARD_SIZE && pointCurrentlyOnCheck.getY() >= 0 && pointCurrentlyOnCheck.getY() < Board.BOARD_SIZE) {
-            Pawn pawnCurrentlyOnCheck = board.getPositionValue(pointCurrentlyOnCheck);
-            if ( (pawnCurrentlyOnCheck == Pawn.BLACK && board.isBlackToMove()) || (pawnCurrentlyOnCheck == Pawn.WHITE && !board.isBlackToMove())  )
+        while (pointCurrentlyOnCheck.isPointInsideTheBoard()) {
+            if (board.getPositionValue(pointCurrentlyOnCheck) == board.getCurrentPlayer())
                 return true;
             pointCurrentlyOnCheck = pointCurrentlyOnCheck.add(currentDirection);
         }
