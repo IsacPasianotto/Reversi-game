@@ -1,4 +1,5 @@
 import board.Board;
+import board.Pawn;
 import board.ValidMove;
 import board.coords.BoardTile;
 import player.human.UndoException;
@@ -14,11 +15,10 @@ public class Game {
         ValidMovesChecker movesChecker = new ValidMovesChecker(board);
         int skippedTurns = 0;
         ArrayList<Board> boards = new ArrayList<>();
-
+        Board tmp = new Board();
+        tmp.copy(board);
+        boards.add(tmp);
         while (!board.isFull()) {
-            Board tmp = new Board();
-            tmp.copy(board);
-            boards.add(tmp);
             System.out.println(board);
             movesChecker.computeValidMoves();
             if (movesChecker.getValidMoves().isEmpty()) {
@@ -46,8 +46,21 @@ public class Game {
                 continue;
             }
             board.makeMove(validMove);
+            tmp = new Board();
+            tmp.copy(board);
+            boards.add(tmp);
         }
         board.GameOver();
+        int whiteScore = 0;
+        int blackScore = 0;
+        for (int i = 0; i < Board.BOARD_SIZE; i++){
+            for (int j = 0; j < Board.BOARD_SIZE; j++){
+                if (board.getPositionValue(i, j) == Pawn.WHITE) whiteScore++;
+                if (board.getPositionValue(i, j) == Pawn.BLACK) blackScore++;
+            }
+        }
+        System.out.println("FINAL SCORE: "+Pawn.WHITE+": "+whiteScore+", "+Pawn.BLACK+": "+blackScore);
+        System.out.println((whiteScore > blackScore) ? "White wins!" : (whiteScore < blackScore) ? "Black wins!" : "Draw!");
     }
 
     ValidMove askForAMove(UserInputReader reader, ValidMovesChecker movesChecker) throws UndoException{
