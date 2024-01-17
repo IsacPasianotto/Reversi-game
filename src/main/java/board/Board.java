@@ -31,6 +31,9 @@ public class Board {
     public Pawn getCurrentPlayer() {
         return blackToMove ? Pawn.BLACK : Pawn.WHITE;
     }
+
+    public Pawn getCurrentOpponent() { return blackToMove ? Pawn.WHITE : Pawn.BLACK; }
+
     public Pawn getPositionValue(BoardTile position) {
         return board[position.getX()][position.getY()];
     }
@@ -78,10 +81,10 @@ public class Board {
 
     public int computeScoreForPlayer(Pawn player) {
         int score = 0;
-        for (int i = 0; i < BOARD_SIZE; i++)
-            for (int j = 0; j < BOARD_SIZE; j++){
-                if (board[i][j] == player) score++;
-            }
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            for (int j = 0; j < BOARD_SIZE; j++)
+                if (this.getPositionValue(i, j) == player) score++;
+        }
         return score;
     }
 

@@ -6,28 +6,30 @@ import mechanics.ValidMovesChecker;
 import player.Player;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class SmartPlayer implements Player {
 
-
     ArrayList<Integer> futureScores;
 
+    public SmartPlayer() {
+        futureScores = new ArrayList<>();
+    }
+
     @Override
-    public ValidMove askForAMove(ValidMovesChecker validMovesChecker) throws Exception {
-        for (int i = 0; i == validMovesChecker.getValidMoves().size(); i++) {
+    public ValidMove askForAMove(ValidMovesChecker validMovesChecker)  {
+        futureScores.clear();
+        for (int i = 0; i < validMovesChecker.getValidMoves().size(); i++) {
             Board board = new Board();
             board.copy(validMovesChecker.getBoard());
             board.makeMove(validMovesChecker.getValidMoves().get(i));
-            futureScores.add(board.computeScoreForPlayer(validMovesChecker.getBoard().getCurrentPlayer()));
+            // int playerPawnCount = board.computeScoreForPlayer(board.getCurrentPlayer());
+            // int opponentPawnCount = board.computeScoreForPlayer(board.getCurrentOpponent());
+            // futureScores.add(playerPawnCount - opponentPawnCount);
+            futureScores.add(board.computeScoreForPlayer(board.getCurrentOpponent()));
         }
-        //find the max future score
-        int max =  futureScores.get(0);
-        for (int i = 1; i < futureScores.size(); i++) {
-            if (futureScores.get(i) > max) {
-                max = futureScores.get(i);
-            }
-        }
-        return validMovesChecker.getValidMoves().get(futureScores.indexOf(max));
+        int maxScore = Collections.max(futureScores);
+        return validMovesChecker.getValidMoves().get(futureScores.indexOf(maxScore));
     }
 
 

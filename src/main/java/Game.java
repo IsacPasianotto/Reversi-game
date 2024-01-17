@@ -4,6 +4,7 @@ import board.ValidMove;
 import mechanics.ValidMovesChecker;
 import player.Player;
 import player.computer.RandomPlayer;
+import player.computer.SmartPlayer;
 import player.human.Human;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class Game {
     Player whitePlayer;
     Player blackPlayer;
 
-    public Game(Board board, Player whitePlayer, Player blackPlayer) {
+    public Game(Board board, Player blackPlayer, Player whitePlayer) {
         this.board = board;
         this.boards = new ArrayList<>();
         this.movesChecker = new ValidMovesChecker(board);
@@ -32,8 +33,14 @@ public class Game {
             System.out.println(board);
             movesChecker.computeValidMoves();
             if (movesChecker.getValidMoves().isEmpty()) {
-                noMovesAllowedHandler();
-                continue;
+//                noMovesAllowedHandler();
+//                continue;
+                try {
+                    noMovesAllowedHandler();
+                    continue;
+                } catch (RuntimeException e) {
+                    break;
+                }
             }
             ValidMove chosen = validMoveHandler();
             System.out.println("Player " + board.getCurrentPlayer() + " chose " + chosen.getPosition());
@@ -82,7 +89,8 @@ public class Game {
             board.GameOver();
             System.out.println("No valid moves for both players. Game over.");
             printFinalScores(board);
-            System.exit(0);
+            throw new RuntimeException("No valid moves for both players. Game over.");
+            // System.exit(0);
         }
         System.out.println("No valid moves for the current player. Changing turn.");
         board.changeTurn();
@@ -122,11 +130,23 @@ public class Game {
     public static void main(String[] args) {
         System.out.println("There will be the start of the game");
 
-        Player bot = new RandomPlayer();
         Player human = new Human();
+        Player bot = new SmartPlayer();
+        Player bot2 = new RandomPlayer();
+        Game game = new Game(new Board(), bot, bot2);
+        // game.play();
 
-        Game game = new Game(new Board(), bot, human);
+        int smartWon = 0;
+        for(int i = 0; i < 150; i++) {
+            game = new Game(new Board(), bot2, bot);
+            game.play();
+            int nBlack = game.board.computeScoreForPlayer(Pawn.BLACK);
+            int nWhite = game.board.computeScoreForPlayer(Pawn.WHITE);
+            if (nBlack > nWhite)
+                smartWon++;
+        }
+        System.out.println("------------------------------------------------");
+        System.out.println("Smart won " + smartWon + " times out of 150 games.");
 
-        game.play();
     }
 }
