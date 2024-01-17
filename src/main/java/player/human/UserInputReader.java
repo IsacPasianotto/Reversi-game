@@ -15,16 +15,13 @@ public class UserInputReader implements AutoCloseable {
         reader = new BufferedReader(new InputStreamReader(System.in));
     }
 
-    public String readInput() {
+    public String readInput() throws QuitGameException, UndoException{
         String input;
         try {
             input = reader.readLine();
             if (input.equalsIgnoreCase("quit")) throw new QuitGameException();
+            if (input.equalsIgnoreCase("undo")) throw new UndoException();
         } catch (IOException e) {
-            input = "";
-        } catch (QuitGameException e) {
-            System.out.println(e.getMessage());
-            System.exit(0);
             input = "";
         }
         return input;
@@ -40,23 +37,12 @@ public class UserInputReader implements AutoCloseable {
         }
     }
 
-
-    public ValidMove askForAMove(ValidMovesChecker movesChecker) throws UndoException{
-        System.out.print("Enter your move: ");
-        while (true) {
-            try {
-                return getMove(movesChecker);
-            } catch (IllegalArgumentException e) {
-                movesChecker.printErrorMessage();
-            }
-        }
-    }
-
-    public ValidMove getMove(ValidMovesChecker movesChecker) throws IllegalArgumentException, UndoException {
+    public ValidMove getMove(ValidMovesChecker movesChecker) throws IllegalArgumentException,
+                                                                    UndoException,
+                                                                    QuitGameException
+    {
         String readInput = readInput();
-        if (readInput.equalsIgnoreCase("undo")){
-            throw new UndoException();
-        }
+
         BoardTile chosen = new BoardTile(readInput);
         Optional<ValidMove> validMove = movesChecker.IsValid(chosen);
         if (validMove.isEmpty()) {

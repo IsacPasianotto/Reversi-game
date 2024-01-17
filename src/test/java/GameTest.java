@@ -1,6 +1,9 @@
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
 public class GameTest {
-//    private final PrintStream standardOut = System.out;
-//    private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
+    private final PrintStream standardOut = System.out;
+    private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
 //
 //    @BeforeEach
 //    public void setUp() {
@@ -25,7 +28,7 @@ public class GameTest {
 //    @Test
 //    void bothPlayersCanNotMove() {
 //
-//        Board board = GamePositions.impossibleToMovePosition();
+//        Board board = impossibleToMovePosition();
 //        UserInputReader mockedInputReader = mock(UserInputReader.class);
 //        String simulatedInput = "This does not matter, the game should end before asking for input";
 //        when(mockedInputReader.readInput()).thenReturn(simulatedInput);

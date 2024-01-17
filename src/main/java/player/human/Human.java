@@ -15,7 +15,9 @@ public class Human implements Player {
         reader = new UserInputReader();
     }
 
-    public ValidMove askForAMove(ValidMovesChecker validMovesChecker) throws UndoException {
+    public ValidMove askForAMove(ValidMovesChecker validMovesChecker) throws UndoException,
+                                                                            QuitGameException
+    {
         System.out.print("Enter your move: ");
         while (true) {
             try {
