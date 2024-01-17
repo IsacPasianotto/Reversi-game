@@ -75,6 +75,16 @@ public class Board {
         this.blackToMove = another.blackToMove;
         this.gameOver = another.gameOver;
     }
+
+    public int computeScoreForPlayer(Pawn player) {
+        int score = 0;
+        for (int i = 0; i < BOARD_SIZE; i++)
+            for (int j = 0; j < BOARD_SIZE; j++){
+                if (board[i][j] == player) score++;
+            }
+        return score;
+    }
+
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();

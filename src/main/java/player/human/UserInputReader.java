@@ -31,8 +31,13 @@ public class UserInputReader implements AutoCloseable {
     }
 
     @Override
-    public void close() throws IOException {
-        reader.close();
+    public void close() {
+        try {
+            reader.close();
+        }
+        catch (IOException e) {
+            System.out.println("Error while closing the reader.");
+        }
     }
 
 

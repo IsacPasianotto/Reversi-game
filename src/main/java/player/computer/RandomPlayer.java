@@ -2,16 +2,17 @@ package player.computer;
 
 import board.ValidMove;
 import mechanics.ValidMovesChecker;
+import player.Player;
 
 import java.util.Optional;
 import java.util.Random;
 
-public class RandomPlayer {
+public class RandomPlayer implements Player {
 
     public RandomPlayer () {
     }
 
-    public ValidMove chooseMove (ValidMovesChecker checker) throws Exception {
+    public ValidMove askForAMove(ValidMovesChecker checker) throws Exception {
         int size = checker.getValidMoves().size();
         Random rnd = new Random();
         int extracted = rnd.nextInt(0, size);
@@ -23,5 +24,7 @@ public class RandomPlayer {
         else
             return randomMove.get();
     }
+
+    public void close() { }
 
 }

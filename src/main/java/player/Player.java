@@ -1,12 +1,12 @@
 package player;
 
-import board.Board;
-import board.Pawn;
 import board.ValidMove;
-import board.coords.Direction;
+import mechanics.ValidMovesChecker;
 
-public class Player {
-    public Player() {}
+public interface Player {
+    ValidMove askForAMove(ValidMovesChecker validMovesChecker) throws Exception;
+
+    void close();
 
 
 }

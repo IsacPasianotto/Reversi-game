@@ -97,4 +97,8 @@ public class ValidMovesChecker {
         }
         System.out.println(validMoves);
     }
+
+    public Board getBoard() {
+        return board;
+    }
 }

@@ -2,9 +2,9 @@ import board.Board;
 import board.Pawn;
 import board.ValidMove;
 import mechanics.ValidMovesChecker;
+import player.Player;
 import player.computer.RandomPlayer;
-import player.human.UndoException;
-import player.human.UserInputReader;
+import player.human.Human;
 
 import java.util.ArrayList;
 
@@ -12,127 +12,84 @@ public class Game {
 
     Board board;
     ValidMovesChecker movesChecker;
-    UserInputReader reader;
     int skippedTurns;
     ArrayList<Board> boards;
 
-    RandomPlayer bot;
+    Player whitePlayer;
+    Player blackPlayer;
 
-    public Game(Board board, UserInputReader reader) {
+    public Game(Board board, Player whitePlayer, Player blackPlayer) {
         this.board = board;
-        movesChecker = new ValidMovesChecker(board);
-        this.reader = reader;
+        this.boards = new ArrayList<>();
+        this.movesChecker = new ValidMovesChecker(board);
+        this.whitePlayer = whitePlayer;
+        this.blackPlayer = blackPlayer;
         skippedTurns = 0;
-        boards = new ArrayList<>();
+    }
+
+    public void play () {
+        while (!board.isFull()) {
+            System.out.println(board);
+            movesChecker.computeValidMoves();
+            if (movesChecker.getValidMoves().isEmpty()) {
+                noMovesAllowedHandler();
+                continue;
+            }
+            ValidMove chosen = validMoveHandler();
+            System.out.println("Player " + board.getCurrentPlayer() + " chose " + chosen.getPosition());
+            board.makeMove(chosen);
+            backUpBoard();
+        }
+        board.GameOver();
+        printFinalScores(board);
+    }
+
+    private void backUpBoard() {
         Board currentSituation = new Board();
         currentSituation.copy(board);
         boards.add(currentSituation);
     }
 
-    public Game(Board board, UserInputReader human, RandomPlayer bot) {
-        this.board = board;
-        movesChecker = new ValidMovesChecker(board);
-        this.reader = human;
+    private ValidMove validMoveHandler() {
         skippedTurns = 0;
-        boards = new ArrayList<>();
-        Board currentSituation = new Board();
-        currentSituation.copy(board);
-        boards.add(currentSituation);
-        this.bot = bot;
-    }
-
-
-
-    public void playBot() {
-        while (!board.isFull()) {
-            // HUMAN --> black
-            // BOT --> white
-            System.out.println(board);
-            movesChecker.computeValidMoves();
-            if (movesChecker.getValidMoves().isEmpty()) {
-                try{
-                    noMovesAllowedHandler();
-                }catch (RuntimeException e) {
-                    System.out.println(e.getMessage());
-
-                    break;
-                }
-                continue;
-            }
-            skippedTurns = 0;
-            ValidMove validMove;
-
-            if (board.isBlackToMove()) {
-
-                try {
-                    validMove = reader.askForAMove(movesChecker);
-                } catch (UndoException e) {
-                    if (boards.size() > 1) {
-                        undo(board, boards);
-                    } else {
-                        System.out.println("Cannot undo anymore.");
-                    }
-                    continue;
-                }
-                board.makeMove(validMove);
-            } else {
-                try {
-                    ValidMove chosen = bot.chooseMove(movesChecker);
-                    board.makeMove(chosen);
-
-                } catch (Exception e) {}
-
-            }
-            Board currentSituation = new Board();
-            currentSituation.copy(board);
-            boards.add(currentSituation);
+        ValidMove validMove;
+        Player currentPlayer = board.isBlackToMove() ? blackPlayer : whitePlayer;
+        try {
+            validMove = currentPlayer.askForAMove(movesChecker);
+            return validMove;
         }
-
-        board.GameOver();
-        printFinalScores(board);
-    }
-
-
-
-
-
-    public void play() {
-        while (!board.isFull()) {
-            System.out.println(board);
-            movesChecker.computeValidMoves();
-            if (movesChecker.getValidMoves().isEmpty()) {
-                try{
-                    noMovesAllowedHandler();
-                }catch (RuntimeException e) {
-                    System.out.println(e.getMessage());
-
-                    break;
-                }
-                continue;
-            }
-            skippedTurns = 0;
-            ValidMove validMove;
-            try {
-                validMove = reader.askForAMove(movesChecker);
-            }catch (UndoException e){
-                if (boards.size() > 1) {
-                    undo(board, boards);
-                } else {
-                    System.out.println("Cannot undo anymore.");
-                }
-                continue;
-            }
-            board.makeMove(validMove);
-
-            Board currentSituation = new Board();
-            currentSituation.copy(board);
-            boards.add(currentSituation);
+        catch (Exception e) {
+            System.out.println("Game unexpectedly closed");
+            blackPlayer.close();
+            whitePlayer.close();
+            System.exit(0);
         }
-        board.GameOver();
-        printFinalScores(board);
+        return null; // this will never happen
     }
+
+    private void undo() {
+        if (boards.size() > 1) {
+            undo(board, boards);
+        } else {
+            System.out.println("Cannot undo anymore.");
+        }
+    }
+
 
     private void noMovesAllowedHandler() {
+        skippedTurns++;
+        if (skippedTurns == 2) {
+            board.GameOver();
+            System.out.println("No valid moves for both players. Game over.");
+            printFinalScores(board);
+            System.exit(0);
+        }
+        System.out.println("No valid moves for the current player. Changing turn.");
+        board.changeTurn();
+
+    }
+
+    private void temp() {
         skippedTurns++;
         if (skippedTurns == 2) {
             // board.GameOver();
@@ -164,22 +121,12 @@ public class Game {
 
     public static void main(String[] args) {
         System.out.println("There will be the start of the game");
-       //Player bot = new Player();
 
+        Player bot = new RandomPlayer();
+        Player human = new Human();
 
-//       // human -vs human:
-//        Game game = new Game(new Board(), new UserInputReader());
+        Game game = new Game(new Board(), bot, human);
 
-        RandomPlayer bot = new RandomPlayer();
-        UserInputReader human = new UserInputReader();
-
-        Game game = new Game(new Board(), human, bot);
-
-        try (UserInputReader reader = new UserInputReader()) {
-            //game.play();
-            game.playBot();
-        } catch (Exception e) {
-            System.out.println("Game unexpectedly closed");
-        }
+        game.play();
     }
 }
