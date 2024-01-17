@@ -7,9 +7,6 @@ import player.Player;
 public class Human implements Player {
 
     private UserInputReader reader;
-    public void makeMove() {
-
-    }
 
     public Human() {
         reader = new UserInputReader();

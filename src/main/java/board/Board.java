@@ -14,7 +14,6 @@ public class Board {
 
     public Board() {
         board = new Pawn[BOARD_SIZE][BOARD_SIZE];
-        // initialize the board with starting position
         for (int i = 0; i < BOARD_SIZE; i++)
             for (int j = 0; j < BOARD_SIZE; j++)
                 board[i][j] = Pawn.EMPTY;
@@ -31,7 +30,6 @@ public class Board {
     public Pawn getCurrentPlayer() {
         return blackToMove ? Pawn.BLACK : Pawn.WHITE;
     }
-
     public Pawn getCurrentOpponent() { return blackToMove ? Pawn.WHITE : Pawn.BLACK; }
 
     public Pawn getPositionValue(BoardTile position) {
@@ -44,12 +42,12 @@ public class Board {
         board[position.getX()][position.getY()] = value;
     }
 
-    public void makeMove(ValidMove move) {
+    public void applyMoveToBoard(ValidMove move) {
         for (Direction direction : move.getValidDirections()) {
             flipLineOfPawns(move.getPosition(), direction);
         }
         setPositionValue(move.getPosition(),getCurrentPlayer());
-        changeTurn();
+        swapTurn();
     }
     private void flipLineOfPawns(BoardTile position, Direction direction) {
         BoardTile currentPosition = position.add(direction);
@@ -59,24 +57,28 @@ public class Board {
         }
     }
 
-    public void changeTurn(){
+    public void swapTurn(){
         this.blackToMove = !this.blackToMove;
     }
 
     public boolean isFull() {
         return Arrays.stream(this.board).allMatch(row -> Arrays.stream(row).noneMatch(pawn -> pawn == Pawn.EMPTY));
     }
-    public boolean isGameOver() {
-        return gameOver;
-    }
+
     public void GameOver() {
         this.gameOver = true;
     }
-    public void copy(Board another){
+    public void importBoardFrom(Board another){
         for (int i = 0; i < BOARD_SIZE; i++)
             System.arraycopy(another.board[i], 0, this.board[i], 0, BOARD_SIZE);
         this.blackToMove = another.blackToMove;
         this.gameOver = another.gameOver;
+    }
+
+    public Board copy(){
+        Board newBoard = new Board();
+        newBoard.importBoardFrom(this);
+        return newBoard;
     }
 
     public int computeScoreForPlayer(Pawn player) {
@@ -91,22 +93,17 @@ public class Board {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-        int whiteScore = 0;
-        int blackScore = 0;
-
         result.append("      A     B     C     D     E     F     G     H  \n   ┏─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┓\n");
         for (int i = 0; i < BOARD_SIZE; i++){
             result.append(" ").append(i+1).append(" ┃");
             for (int j = 0; j < BOARD_SIZE; j++) {
                 result.append("  ").append(getPositionValue(i,j)).append((j == BOARD_SIZE - 1) ? "  ┃" : "  ╎");
-                   if (getPositionValue(i, j) == Pawn.WHITE) whiteScore++;
-                   if (getPositionValue(i, j) == Pawn.BLACK) blackScore++;
             }
             result.append((i == BOARD_SIZE - 1) ? "\n" : "\n   ┣-----+-----+-----+-----+-----+-----+-----+-----┫\n");
         }
         result.append("   ┗─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┛\n");
-        result.append("\nPlayer ").append(blackToMove ? Pawn.BLACK : Pawn.WHITE).append(" to move\n");
-        result.append("White: ").append(whiteScore).append(" Black: ").append(blackScore);
+        result.append("\nPlayer ").append(getCurrentPlayer()).append(" to move\n");
+        result.append("White: ").append(computeScoreForPlayer(Pawn.WHITE)).append(" Black: ").append(computeScoreForPlayer(Pawn.BLACK));
         return result.toString();
     }
 }

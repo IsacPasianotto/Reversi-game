@@ -33,7 +33,7 @@ public class BoardTile implements Couple {
         }
     }
 
-    public boolean isPointInsideTheBoard() {
+    public boolean isInsideTheBoard() {
         return x >= 0 && x < Board.BOARD_SIZE && y >= 0 && y < Board.BOARD_SIZE;
     }
 

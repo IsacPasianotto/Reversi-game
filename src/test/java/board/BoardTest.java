@@ -29,7 +29,7 @@ public class BoardTest {
         assertTrue(board.isBlackToMove());
         ValidMovesChecker movesChecker = new ValidMovesChecker(board);
         movesChecker.computeValidMoves();
-        board.makeMove(movesChecker.getValidMoves().get(0));
+        board.applyMoveToBoard(movesChecker.getValidMoves().get(0));
         assertFalse(board.isBlackToMove());
     }
 
