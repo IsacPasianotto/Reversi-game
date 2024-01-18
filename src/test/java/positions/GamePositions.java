@@ -4,6 +4,8 @@ import board.Board;
 import board.Pawn;
 import board.coords.BoardTile;
 
+import java.util.stream.Stream;
+
 public class GamePositions {
 
     public static Board impossibleToMovePosition() {
@@ -41,4 +43,47 @@ public class GamePositions {
         return board;
     }
 
+    public static Board twoLinesFlippableOneMove (){
+      // equivalent to play: C4-C3-D3
+        Board board = new Board();
+        board.setPositionValue(new BoardTile("c3"), Pawn.WHITE);
+        board.setPositionValue(new BoardTile("e5"), Pawn.WHITE);
+        board.setPositionValue(new BoardTile("d3"), Pawn.BLACK);
+        board.setPositionValue(new BoardTile("c4"), Pawn.BLACK);
+        board.setPositionValue(new BoardTile("d4"), Pawn.BLACK);
+        board.setPositionValue(new BoardTile("e4"), Pawn.BLACK);
+        board.setPositionValue(new BoardTile("d5"), Pawn.BLACK);
+        return board;
+    }
+
+    public static Board twoLinesFlippedOneMove () {
+        // equivalent to play: C4-C3-D3-C5
+        Board board = new Board();
+        board.setPositionValue(new BoardTile("c3"), Pawn.WHITE);
+        board.setPositionValue(new BoardTile("c4"), Pawn.WHITE);
+        board.setPositionValue(new BoardTile("c5"), Pawn.WHITE);
+        board.setPositionValue(new BoardTile("d5"), Pawn.WHITE);
+        board.setPositionValue(new BoardTile("e5"), Pawn.WHITE);
+        board.setPositionValue(new BoardTile("d3"), Pawn.BLACK);
+        board.setPositionValue(new BoardTile("d4"), Pawn.BLACK);
+        board.setPositionValue(new BoardTile("e4"), Pawn.BLACK);
+        return board;
+    }
+
+    public static Board d3IsPlayed () {
+        Board board = new Board();
+        board.setPositionValue(new BoardTile("d3"), Pawn.BLACK);
+        board.setPositionValue(new BoardTile("d4"), Pawn.BLACK);
+        return board;
+    }
+
+    public static Stream<Object> someScores() {
+        return Stream.of(
+                new Object[]{new Board(), 2, 2},
+                new Object[]{impossibleToMovePosition(), 3, 17},
+                new Object[]{twoLinesFlippableOneMove(), 5, 2},
+                new Object[]{twoLinesFlippedOneMove(), 3, 5},
+                new Object[]{d3IsPlayed(), 4, 1}
+        );
+    }
 }

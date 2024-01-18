@@ -1,4 +1,5 @@
 import board.Board;
+import mechanics.Game;
 import player.Player;
 import player.computer.RandomPlayer;
 import player.computer.SmartPlayer;
@@ -11,7 +12,7 @@ import java.io.InputStreamReader;
 
 public class Main {
     public static void main(String[] args) {
-        String begin = "Game started!\n" +
+        String begin = "mechanics.Game started!\n" +
                        "######################################################################################\n" +
                        "Welcome to Reversi!\n" +
                        "This is the list of possible commands:\n\n" +
@@ -25,6 +26,7 @@ public class Main {
         int start = 0;
         int difficulty = 0;
         int chosenMode = chooseGameMode(reader);
+        // ? why did you put the difficultyChoice also for computer vs computer?
         if (chosenMode == 2 || chosenMode == 3) {
             difficulty = chooseDifficulty(reader);
             if (chosenMode == 2)
@@ -40,7 +42,7 @@ public class Main {
 
 //        int smartWon = 0;
 //        for(int i = 0; i < 150; i++) {
-//            game = new Game(new Board(), bot, bot2);
+//            game = new mechanics.Game(new Board(), bot, bot2);
 //            game.play();
 //            int nBlack = game.board.computeScoreForPlayer(Pawn.BLACK);
 //            int nWhite = game.board.computeScoreForPlayer(Pawn.WHITE);

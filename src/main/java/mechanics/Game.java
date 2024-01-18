@@ -1,7 +1,8 @@
+package mechanics;
+
 import board.Board;
 import board.Pawn;
 import board.ValidMove;
-import mechanics.ValidMovesChecker;
 import player.Player;
 import player.human.Human;
 import player.human.QuitGameException;
@@ -44,6 +45,7 @@ public class Game {
             previousSteps.add(board.copy());
         }
         board.GameOver();
+        System.out.println(board);
         printFinalScores(board);
     }
 
@@ -79,7 +81,7 @@ public class Game {
     private void thereAreNoAllowedMoves() {
         if (skippedTurns == 2) {
             board.GameOver();
-            System.out.println("No valid moves for both players. Game over.");
+            System.out.println("No valid moves for both players. mechanics.Game over.");
             printFinalScores(board);
             // System.exit(0);   // Does not allow benchmarking
             return;

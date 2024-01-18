@@ -81,6 +81,10 @@ public class Board {
         return newBoard;
     }
 
+    public boolean hasTheSamePositionOf(Board board1){
+        return Arrays.deepEquals(this.board, board1.board);
+    }
+
     public int computeScoreForPlayer(Pawn player) {
         int score = 0;
         for (int i = 0; i < BOARD_SIZE; i++) {
