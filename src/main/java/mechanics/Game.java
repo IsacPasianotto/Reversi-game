@@ -66,7 +66,7 @@ public class Game {
         return null;
     }
 
-    private void undoLastMove() {
+    public void undoLastMove() {
         int numberOfHumanPlayers = ((whitePlayer.getClass().equals(Human.class)) ? 1 : 0) + ((blackPlayer.getClass().equals(Human.class)) ? 1 : 0);
         int numberOfStepsBack = (numberOfHumanPlayers == 1) ? 2 : 1;
         if (previousSteps.size() > numberOfStepsBack) {
@@ -81,7 +81,7 @@ public class Game {
     private void thereAreNoAllowedMoves() {
         if (skippedTurns == 2) {
             board.GameOver();
-            System.out.println("No valid moves for both players. mechanics.Game over.");
+            System.out.println("No valid moves for both players. Game over.");
             printFinalScores(board);
             // System.exit(0);   // Does not allow benchmarking
             return;

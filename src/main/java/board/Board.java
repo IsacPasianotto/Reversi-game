@@ -65,6 +65,8 @@ public class Board {
         return Arrays.stream(this.board).allMatch(row -> Arrays.stream(row).noneMatch(pawn -> pawn == Pawn.EMPTY));
     }
 
+    public boolean isGameOver() { return this.gameOver; }
+
     public void GameOver() {
         this.gameOver = true;
     }

@@ -40,18 +40,6 @@ public class Main {
         Game game = new Game(new Board(), firstPlayer, secondPlayer);
         game.play();
 
-//        int smartWon = 0;
-//        for(int i = 0; i < 150; i++) {
-//            game = new mechanics.Game(new Board(), bot, bot2);
-//            game.play();
-//            int nBlack = game.board.computeScoreForPlayer(Pawn.BLACK);
-//            int nWhite = game.board.computeScoreForPlayer(Pawn.WHITE);
-//            if (nBlack > nWhite)
-//                smartWon++;
-//        }
-//        System.out.println("------------------------------------------------");
-//        System.out.println("Smart won " + smartWon + " times out of 150 games.");
-
     }
 
     private static int choosePlayerStarting(BufferedReader reader) {
