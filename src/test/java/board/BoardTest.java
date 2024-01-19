@@ -18,17 +18,17 @@ public class BoardTest {
     void emptyBoardTilesOnStart(String tileName) {
         Board board = new Board();
         BoardTile tile = new BoardTile(tileName);
-        Pawn pawnTile = board.getPositionValue(tile.getX(), tile.getY());
-        assertEquals(Pawn.EMPTY, pawnTile);
+        ColoredPawn coloredPawnTile = board.getPositionColor(tile.getX(), tile.getY());
+        assertEquals(ColoredPawn.EMPTY, coloredPawnTile);
     }
 
     @Test
     void checkStartingPosition(){
         Board board = new Board();
-        assertEquals(Pawn.WHITE, board.getPositionValue(3, 3));
-        assertEquals(Pawn.WHITE, board.getPositionValue(4, 4));
-        assertEquals(Pawn.BLACK, board.getPositionValue(3, 4));
-        assertEquals(Pawn.BLACK, board.getPositionValue(4, 3));
+        assertEquals(ColoredPawn.WHITE, board.getPositionColor(3, 3));
+        assertEquals(ColoredPawn.WHITE, board.getPositionColor(4, 4));
+        assertEquals(ColoredPawn.BLACK, board.getPositionColor(3, 4));
+        assertEquals(ColoredPawn.BLACK, board.getPositionColor(4, 3));
     }
 
     @Test
@@ -50,14 +50,14 @@ public class BoardTest {
     @Test
     void playersAreUpdated(){
         Board board = new Board();
-        assertEquals(Pawn.BLACK, board.getCurrentPlayer());
-        assertEquals(Pawn.WHITE, board.getCurrentOpponent());
+        assertEquals(ColoredPawn.BLACK, board.getCurrentPlayerColor());
+        assertEquals(ColoredPawn.WHITE, board.getCurrentOpponentColor());
         ValidMove c4 = new ValidMove(new BoardTile("c4"), new ArrayList<>() {{
             add(new Direction(0, 1));
         }});
         board.applyMoveToBoard(c4);
-        assertEquals(Pawn.WHITE, board.getCurrentPlayer());
-        assertEquals(Pawn.BLACK, board.getCurrentOpponent());
+        assertEquals(ColoredPawn.WHITE, board.getCurrentPlayerColor());
+        assertEquals(ColoredPawn.BLACK, board.getCurrentOpponentColor());
     }
 
     @Test
@@ -77,8 +77,8 @@ public class BoardTest {
     @ParameterizedTest
     @MethodSource("positions.GamePositions#someScores")
     void scoreIsCorrect(Board board, int blackScore, int whiteScore) {
-        assertEquals(blackScore, board.computeScoreForPlayer(Pawn.BLACK));
-        assertEquals(whiteScore, board.computeScoreForPlayer(Pawn.WHITE));
+        assertEquals(blackScore, board.computeScoreForPlayer(ColoredPawn.BLACK));
+        assertEquals(whiteScore, board.computeScoreForPlayer(ColoredPawn.WHITE));
     }
 
     @Test

@@ -1,13 +1,13 @@
 package board;
 
-public enum Pawn {
+public enum ColoredPawn {
     WHITE('◯'),
     BLACK('●'),
     EMPTY(' ');
 
     private final char symbol;
 
-    Pawn(char symbol) {
+    ColoredPawn(char symbol) {
         this.symbol = symbol;
     }
     @Override

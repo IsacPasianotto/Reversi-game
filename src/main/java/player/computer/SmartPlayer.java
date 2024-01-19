@@ -7,7 +7,6 @@ import player.Player;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Optional;
 
 public class SmartPlayer implements Player {
 
@@ -18,7 +17,7 @@ public class SmartPlayer implements Player {
         for (ValidMove validMove : validMoves) {
             Board board = validMovesChecker.getBoard().copy();
             board.applyMoveToBoard(validMove);
-            futureScores.add(board.computeScoreForPlayer(board.getCurrentOpponent()));
+            futureScores.add(board.computeScoreForPlayer(board.getCurrentOpponentColor()));
         }
         int maxScore = Collections.max(futureScores);
         return validMoves.get(futureScores.indexOf(maxScore));

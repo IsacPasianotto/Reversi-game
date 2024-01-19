@@ -26,7 +26,6 @@ public class Main {
         int start = 0;
         int difficulty = 0;
         int chosenMode = chooseGameMode(reader);
-        // ? why did you put the difficultyChoice also for computer vs computer?
         if (chosenMode == 2 || chosenMode == 3) {
             difficulty = chooseDifficulty(reader);
             if (chosenMode == 2)
@@ -35,8 +34,9 @@ public class Main {
         Player human = new Human();
         Player smartBot = new SmartPlayer();
         Player randomBot = new RandomPlayer();
-        Player firstPlayer = (chosenMode == 1 || start == 1 ? human : (difficulty == 1 ? randomBot : smartBot));
-        Player secondPlayer = (chosenMode == 1 || start == 2 ? human : (difficulty == 1 ? randomBot : smartBot));
+        Player chosenBot = difficulty == 1 ? randomBot : smartBot;
+        Player firstPlayer = ((chosenMode == 1) || (start == 1)) ? human : chosenBot;
+        Player secondPlayer = chosenMode == 1 || start == 2 ? human : chosenBot;
         Game game = new Game(new Board(), firstPlayer, secondPlayer);
         game.play();
 
@@ -44,7 +44,7 @@ public class Main {
 
     private static int choosePlayerStarting(BufferedReader reader) {
         int start = 0;
-        System.out.print("Select which player starts playing:\n1: you\n2: bot\nYour choice: ");
+        System.out.print("Select which player starts playing:\n1: you\n2: bot\nYour choice (q to quit): ");
         while (start != 1 && start != 2) {
             start = findUserInput(reader);
             if (start != 1 && start != 2)
@@ -55,7 +55,7 @@ public class Main {
 
     private static int chooseDifficulty(BufferedReader reader) {
         int difficulty = 0;
-        System.out.print("Select bot difficulty:\n1: random bot\n2: smart bot\nYour choice: ");
+        System.out.print("Select bot difficulty:\n1: random bot\n2: smart bot\nYour choice (q to quit): ");
         while (difficulty != 1 && difficulty != 2) {
             difficulty = findUserInput(reader);
             if (difficulty != 1 && difficulty != 2)
@@ -66,7 +66,7 @@ public class Main {
     }
 
     private static int chooseGameMode(BufferedReader reader) {
-        System.out.print("Select the game mode:\n1: human vs human\n2: human vs computer\n3: computer vs computer\nYour choice: ");
+        System.out.print("Select the game mode:\n1: human vs human\n2: human vs computer\n3: computer vs computer\nYour choice (q to quit): ");
         int chosenMode = 0;
         while (chosenMode != 1 && chosenMode != 2 && chosenMode != 3) {
             chosenMode = findUserInput(reader);
@@ -77,15 +77,16 @@ public class Main {
     }
 
     static int findUserInput(BufferedReader reader) {
-        String input;
+        String input = null;
         int intInput = 0;
         try {
             input = reader.readLine();
             intInput = Integer.parseInt(input);
-        } catch (NumberFormatException n) {
-            return 0;
-        } catch (IOException e) {
-            System.out.println("Unknown error, exit.");
+        } catch (NumberFormatException | IOException n) {
+            // Do nothing, skip the attempt and try again
+        }
+        if((input == null) || input.equals("q")) {
+            System.out.println("Quitting the game...Bye!");
             System.exit(0);
         }
         return intInput;

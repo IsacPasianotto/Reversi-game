@@ -9,44 +9,44 @@ import java.util.Arrays;
 public class Board {
     public static final int BOARD_SIZE = 8;
     private boolean blackToMove;
-    private final Pawn[][] board;
+    private final ColoredPawn[][] board;
     private boolean gameOver;
 
     public Board() {
-        board = new Pawn[BOARD_SIZE][BOARD_SIZE];
-        Arrays.stream(board).forEach(row -> Arrays.fill(row, Pawn.EMPTY));
-        Arrays.asList("d4", "e5").forEach(s -> setPositionValue(new BoardTile(s), Pawn.WHITE));
-        Arrays.asList("e4", "d5").forEach(s -> setPositionValue(new BoardTile(s), Pawn.BLACK));
+        board = new ColoredPawn[BOARD_SIZE][BOARD_SIZE];
+        Arrays.stream(board).forEach(row -> Arrays.fill(row, ColoredPawn.EMPTY));
+        Arrays.asList("d4", "e5").forEach(s -> setPositionColor(new BoardTile(s), ColoredPawn.WHITE));
+        Arrays.asList("e4", "d5").forEach(s -> setPositionColor(new BoardTile(s), ColoredPawn.BLACK));
         this.blackToMove = true;
     }
 
     public boolean isBlackToMove() {
         return this.blackToMove;
     }
-    public Pawn getCurrentPlayer() {
-        return blackToMove ? Pawn.BLACK : Pawn.WHITE;
+    public ColoredPawn getCurrentPlayerColor() {
+        return blackToMove ? ColoredPawn.BLACK : ColoredPawn.WHITE;
     }
-    public Pawn getCurrentOpponent() { return blackToMove ? Pawn.WHITE : Pawn.BLACK; }
+    public ColoredPawn getCurrentOpponentColor() { return blackToMove ? ColoredPawn.WHITE : ColoredPawn.BLACK; }
 
-    public Pawn getPositionValue(BoardTile position) {
+    public ColoredPawn getPositionColor(BoardTile position) {
         return board[position.getX()][position.getY()];
     }
-    public Pawn getPositionValue(int x, int y) {
+    public ColoredPawn getPositionColor(int x, int y) {
         return board[x][y];
     }
-    public void setPositionValue(BoardTile position, Pawn value) {
-        board[position.getX()][position.getY()] = value;
+    public void setPositionColor(BoardTile position, ColoredPawn color) {
+        board[position.getX()][position.getY()] = color;
     }
 
     public void applyMoveToBoard(ValidMove move) {
         move.getValidDirections().forEach(direction -> flipLineOfPawns(move.getPosition(), direction));
-        setPositionValue(move.getPosition(),getCurrentPlayer());
+        setPositionColor(move.getPosition(), getCurrentPlayerColor());
         swapTurn();
     }
     private void flipLineOfPawns(BoardTile position, Direction direction) {
         BoardTile currentPosition = position.add(direction);
-        while (getPositionValue(currentPosition) != getCurrentPlayer()){
-            setPositionValue(currentPosition, getCurrentPlayer());
+        while (getPositionColor(currentPosition) != getCurrentPlayerColor()){
+            setPositionColor(currentPosition, getCurrentPlayerColor());
             currentPosition = currentPosition.add(direction);
         }
     }
@@ -56,7 +56,7 @@ public class Board {
     }
 
     public boolean isFull() {
-        return Arrays.stream(this.board).allMatch(row -> Arrays.stream(row).noneMatch(pawn -> pawn == Pawn.EMPTY));
+        return Arrays.stream(this.board).allMatch(row -> Arrays.stream(row).noneMatch(pawn -> pawn == ColoredPawn.EMPTY));
     }
 
     public boolean isGameOver() { return this.gameOver; }
@@ -85,7 +85,7 @@ public class Board {
         return Arrays.deepEquals(this.board, otherBoard.board) && this.blackToMove == otherBoard.blackToMove;
     }
 
-    public int computeScoreForPlayer(Pawn player) {
+    public int computeScoreForPlayer(ColoredPawn player) {
         return Arrays.stream(board).mapToInt(row -> (int) Arrays.stream(row).filter(pawn -> pawn == player).count()).sum();
     }
 
@@ -96,12 +96,12 @@ public class Board {
         for (int i = 0; i < BOARD_SIZE; i++){
             result.append(" ").append(i+1).append(" ┃");
             for (int j = 0; j < BOARD_SIZE; j++)
-                result.append("  ").append(getPositionValue(i, j)).append((j == BOARD_SIZE - 1) ? "  ┃" : "  ╎");
+                result.append("  ").append(getPositionColor(i, j)).append((j == BOARD_SIZE - 1) ? "  ┃" : "  ╎");
             result.append((i == BOARD_SIZE - 1) ? "\n" : "\n   ┣-----+-----+-----+-----+-----+-----+-----+-----┫\n");
         }
         result.append("   ┗─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┛\n");
-        result.append("\nPlayer ").append(getCurrentPlayer()).append(" to move\n");
-        result.append("White: ").append(computeScoreForPlayer(Pawn.WHITE)).append(" Black: ").append(computeScoreForPlayer(Pawn.BLACK));
+        result.append("\nPlayer ").append(getCurrentPlayerColor()).append(" to move\n");
+        result.append("White: ").append(computeScoreForPlayer(ColoredPawn.WHITE)).append(" Black: ").append(computeScoreForPlayer(ColoredPawn.BLACK));
         return result.toString();
     }
 }

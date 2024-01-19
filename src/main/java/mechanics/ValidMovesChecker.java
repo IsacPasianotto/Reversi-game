@@ -1,7 +1,7 @@
 package mechanics;
 
 import board.Board;
-import board.Pawn;
+import board.ColoredPawn;
 import board.ValidMove;
 import board.coords.BoardTile;
 import board.coords.Direction;
@@ -35,66 +35,66 @@ public class ValidMovesChecker {
         this.validMoves.clear();
         for (int i = 0; i < Board.BOARD_SIZE; i++){
             for (int j = 0; j < Board.BOARD_SIZE; j++) {
-                BoardTile currentBoardTile = new BoardTile(i, j);
-                if (board.getPositionValue(i,j) == Pawn.EMPTY)
-                    checkBoardTile(currentBoardTile);
+                BoardTile currentPosition = new BoardTile(i, j);
+                if (board.getPositionColor(currentPosition) == ColoredPawn.EMPTY)
+                    checkPosition(currentPosition);
             }
         }
     }
 
-    private void checkBoardTile(BoardTile currentBoardTile) {
-        ArrayList<Direction> possiblyValidDirections = findDirectionsWithOppositeColor(currentBoardTile);
-        if (possiblyValidDirections.isEmpty()) return;
-        ArrayList<Direction> validDirections = computeValidDirections(possiblyValidDirections, currentBoardTile);
+    private void checkPosition(BoardTile currentPosition) {
+        ArrayList<Direction> directionsWithOppositeColor = findDirectionsWithOppositeColor(currentPosition);
+        if (directionsWithOppositeColor.isEmpty()) return;
+        ArrayList<Direction> validDirections = computeValidDirections(currentPosition, directionsWithOppositeColor);
         if (validDirections.isEmpty()) return;
-        validMoves.add(new ValidMove(currentBoardTile, validDirections));
+        validMoves.add(new ValidMove(currentPosition, validDirections));
     }
 
-    public ArrayList<Direction> findDirectionsWithOppositeColor(BoardTile currentBoardTile) {
-        ArrayList<Direction> possiblyValidDirections = new ArrayList<>();
+    public ArrayList<Direction> findDirectionsWithOppositeColor(BoardTile currentPosition) {
+        ArrayList<Direction> directionsWithOppositeColor = new ArrayList<>();
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
                 Direction currentDirection = new Direction(i, j);
                 try {
-                    BoardTile neighbourToCheck = currentBoardTile.add(currentDirection);
-                    Pawn neighbourPawn = board.getPositionValue(neighbourToCheck);
-                    if (neighbourPawn == board.getCurrentOpponent())
-                        possiblyValidDirections.add(currentDirection);
+                    BoardTile neighbourToCheck = currentPosition.add(currentDirection);
+                    ColoredPawn neighbourColor = board.getPositionColor(neighbourToCheck);
+                    if (neighbourColor == board.getCurrentOpponentColor())
+                        directionsWithOppositeColor.add(currentDirection);
                 } catch (ArrayIndexOutOfBoundsException e) {
-                    // Do nothing
+                    // Edge of the board, skip the direction
                 }
             }
         }
-        return possiblyValidDirections;
+        return directionsWithOppositeColor;
     }
 
-    private ArrayList<Direction> computeValidDirections(ArrayList<Direction> possiblyValidDirections, BoardTile currentBoardTile) {
+    private ArrayList<Direction> computeValidDirections(BoardTile currentPosition, ArrayList<Direction> directionsWithOppositeColor) {
         ArrayList<Direction> validDirections = new ArrayList<>();
-        for (Direction currentDirection : possiblyValidDirections) {
-            if (isValidDirection(currentBoardTile, currentDirection))
+        for (Direction currentDirection : directionsWithOppositeColor) {
+            if (isValidDirection(currentPosition, currentDirection))
                 validDirections.add(currentDirection);
         }
         return validDirections;
     }
 
-    private boolean isValidDirection(BoardTile currentBoardTile, Direction currentDirection) {
-        BoardTile pointCurrentlyOnCheck= currentBoardTile.add(currentDirection).add(currentDirection);
+    private boolean isValidDirection(BoardTile currentPosition, Direction currentDirection) {
+        BoardTile pointCurrentlyOnCheck = currentPosition.add(currentDirection).add(currentDirection);
         while (pointCurrentlyOnCheck.isInsideTheBoard()) {
-            if (board.getPositionValue(pointCurrentlyOnCheck) == Pawn.EMPTY)
+            if (board.getPositionColor(pointCurrentlyOnCheck) == ColoredPawn.EMPTY)
                 return false;
-            if (board.getPositionValue(pointCurrentlyOnCheck) == board.getCurrentPlayer())
+            if (board.getPositionColor(pointCurrentlyOnCheck) == board.getCurrentPlayerColor())
                 return true;
             pointCurrentlyOnCheck = pointCurrentlyOnCheck.add(currentDirection);
         }
         return false;
     }
 
-    public void printErrorMessage() {
-        StringBuilder validMoves = new StringBuilder("Invalid move entered.\nValid moves are: ");
+    public String printValidMoves() {
+        StringBuilder validMoves = new StringBuilder();
         for (ValidMove validMove : getValidMoves()) {
             validMoves.append(validMove.getPosition()).append(" ");
         }
-        System.out.println(validMoves);
+        return validMoves.toString();
     }
 
     public Board getBoard() {

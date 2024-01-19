@@ -1,7 +1,7 @@
 package mechanics;
 
 import board.Board;
-import board.Pawn;
+import board.ColoredPawn;
 import board.ValidMove;
 import player.Player;
 import player.human.Human;
@@ -9,7 +9,6 @@ import player.human.QuitGameException;
 import player.human.UndoException;
 
 import java.util.ArrayList;
-import java.util.Optional;
 import java.util.stream.IntStream;
 
 public class Game {
@@ -51,15 +50,14 @@ public class Game {
     }
 
     private ValidMove tryToSelectAValidMove() {
+        Player currentPlayer = board.isBlackToMove() ? blackPlayer : whitePlayer;
         try {
-            Player currentPlayer = board.isBlackToMove() ? blackPlayer : whitePlayer;
             return currentPlayer.askForAMove(movesChecker);
         } catch (QuitGameException e) {
             System.out.println("Quitting the game.\n Thanks for playing!");
             System.exit(0);
         } catch (UndoException e) {
             undoLastMove();
-            return null;
         } catch (Exception e) {
             System.out.println("Something went wrong. Closing the game.\n");
             System.exit(0);
@@ -90,9 +88,9 @@ public class Game {
     }
 
     private void printFinalScores(Board board) {
-        int whiteScore = board.computeScoreForPlayer(Pawn.WHITE);
-        int blackScore = board.computeScoreForPlayer(Pawn.BLACK);
-        System.out.println("FINAL SCORE: " + Pawn.WHITE + ": " + whiteScore + ", " + Pawn.BLACK + ": " + blackScore);
+        int whiteScore = board.computeScoreForPlayer(ColoredPawn.WHITE);
+        int blackScore = board.computeScoreForPlayer(ColoredPawn.BLACK);
+        System.out.println("FINAL SCORE: " + ColoredPawn.WHITE + ": " + whiteScore + ", " + ColoredPawn.BLACK + ": " + blackScore);
         System.out.println((whiteScore > blackScore) ? "White wins!" : (whiteScore < blackScore) ? "Black wins!" : "Draw!");
     }
 }

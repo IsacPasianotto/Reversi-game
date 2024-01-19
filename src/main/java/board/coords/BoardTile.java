@@ -13,7 +13,7 @@ public class BoardTile implements Couple {
 
     public BoardTile(String inputCoords) throws IllegalArgumentException {
         if (inputCoords.length() != 2)
-            throw new IllegalArgumentException("Input coordinates should be a 2 characters string, eg. \"a1\"");
+            throw new IllegalArgumentException("Format error: Input coordinates should be a 2 characters string, eg. \"a1\"");
 
         inputCoords = inputCoords.toLowerCase();
         char first = inputCoords.charAt(0);

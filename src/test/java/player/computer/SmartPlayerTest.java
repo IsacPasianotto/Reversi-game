@@ -1,7 +1,7 @@
 package player.computer;
 
 import board.Board;
-import board.Pawn;
+import board.ColoredPawn;
 import board.ValidMove;
 import mechanics.Game;
 import mechanics.ValidMovesChecker;
@@ -61,8 +61,8 @@ public class SmartPlayerTest {
             Game game = new Game(new Board(), smart, random);
             game.play();
             Board finalBoard = game.getBoard();
-            int blackPawns = finalBoard.computeScoreForPlayer(Pawn.BLACK);
-            int whitePawns = finalBoard.computeScoreForPlayer(Pawn.WHITE);
+            int blackPawns = finalBoard.computeScoreForPlayer(ColoredPawn.BLACK);
+            int whitePawns = finalBoard.computeScoreForPlayer(ColoredPawn.WHITE);
             if (blackPawns > whitePawns)
                 smartWon++;
         }
@@ -78,8 +78,8 @@ public class SmartPlayerTest {
             Game game = new Game(new Board(), random, smart);
             game.play();
             Board finalBoard = game.getBoard();
-            int blackPawns = finalBoard.computeScoreForPlayer(Pawn.BLACK);
-            int whitePawns = finalBoard.computeScoreForPlayer(Pawn.WHITE);
+            int blackPawns = finalBoard.computeScoreForPlayer(ColoredPawn.BLACK);
+            int whitePawns = finalBoard.computeScoreForPlayer(ColoredPawn.WHITE);
             if (whitePawns > blackPawns)
                 smartWon++;
         }
