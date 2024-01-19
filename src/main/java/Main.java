@@ -78,7 +78,6 @@ public class Main {
         return chosenMode;
     }
 
-
     private static int findUserInput(BufferedReader reader) {
         String input = "";
         int intInput = 0;

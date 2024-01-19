@@ -43,7 +43,7 @@ public class GamePositions {
         return board;
     }
 
-    public static Board twoLinesFlippableOneMove (){
+    public static Board thereAreTwoFlippableLinesInOneMove(){
       // equivalent to play: C4-C3-D3
         Board board = new Board();
         board.setPositionValue(new BoardTile("c3"), Pawn.WHITE);
@@ -81,7 +81,7 @@ public class GamePositions {
         return Stream.of(
                 new Object[]{new Board(), 2, 2},
                 new Object[]{impossibleToMovePosition(), 3, 17},
-                new Object[]{twoLinesFlippableOneMove(), 5, 2},
+                new Object[]{thereAreTwoFlippableLinesInOneMove(), 5, 2},
                 new Object[]{twoLinesFlippedOneMove(), 3, 5},
                 new Object[]{d3IsPlayed(), 4, 1}
         );

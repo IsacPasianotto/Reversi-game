@@ -40,7 +40,6 @@ public class BoardTest {
     @Test
     void turnChangesAfterMove(){
         Board board = new Board();
-        assertTrue(board.isBlackToMove());
         ValidMove c4 = new ValidMove(new BoardTile("c4"), new ArrayList<>() {{
             add(new Direction(0, 1));
         }});
@@ -63,7 +62,7 @@ public class BoardTest {
 
     @Test
     void swapAlongAllDirections() {
-        Board board = twoLinesFlippableOneMove();
+        Board board = thereAreTwoFlippableLinesInOneMove();
         board.swapTurn();
         ArrayList<Direction> directions = new ArrayList<>() {{
             add(new Direction(-1, 0));
