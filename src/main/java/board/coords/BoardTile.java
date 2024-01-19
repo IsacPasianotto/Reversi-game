@@ -1,5 +1,7 @@
 package board.coords;
 
+import board.Board;
+
 public class BoardTile implements Couple {
     private final int x;
     private final int y;
@@ -29,6 +31,10 @@ public class BoardTile implements Couple {
         } catch (IllegalArgumentException e) {
             throw e;
         }
+    }
+
+    public boolean isInsideTheBoard() {
+        return x >= 0 && x < Board.BOARD_SIZE && y >= 0 && y < Board.BOARD_SIZE;
     }
 
     public BoardTile add(Direction other) {

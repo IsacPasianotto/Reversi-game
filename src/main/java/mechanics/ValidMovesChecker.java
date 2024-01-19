@@ -23,31 +23,27 @@ public class ValidMovesChecker {
     }
 
     public Optional<ValidMove> IsValid(BoardTile move) {
-        //return validMoves.stream().findAny().filter(validMove -> validMove.getPosition().equals(move));
-        for (ValidMove validMove : validMoves) {
-            if (validMove.getPosition().equals(move))
-                return Optional.of(validMove);
-        }
-        return Optional.empty();
+        return validMoves.stream().findAny().filter(validMove -> validMove.getPosition().equals(move));
     }
 
     public void computeValidMoves() {
         this.validMoves.clear();
         for (int i = 0; i < Board.BOARD_SIZE; i++){
-            for (int j = 0; j < Board.BOARD_SIZE; j++)
-                checkBoardTile(new BoardTile(i, j));
+            for (int j = 0; j < Board.BOARD_SIZE; j++) {
+                BoardTile currentBoardTile = new BoardTile(i, j);
+                if (board.getPositionValue(currentBoardTile) == Pawn.EMPTY) {
+                    checkBoardTile(currentBoardTile);
+                }
+            }
         }
     }
 
     private void checkBoardTile(BoardTile currentBoardTile) {
-        if (board.getPositionValue(currentBoardTile) == Pawn.EMPTY) {
-            ArrayList<Direction> possiblyValidDirections = findDirectionsWithOppositeColor(currentBoardTile);
-            if (!possiblyValidDirections.isEmpty()) {
-                ArrayList<Direction> validDirections = computeValidDirections(possiblyValidDirections, currentBoardTile);
-                if (!validDirections.isEmpty())
-                    validMoves.add(new ValidMove(currentBoardTile, validDirections));
-            }
-        }
+        ArrayList<Direction> possiblyValidDirections = findDirectionsWithOppositeColor(currentBoardTile);
+        if (possiblyValidDirections.isEmpty()) { return; }
+        ArrayList<Direction> validDirections = computeValidDirections(possiblyValidDirections, currentBoardTile);
+        if (validDirections.isEmpty()) { return; }
+        validMoves.add(new ValidMove(currentBoardTile, validDirections));
     }
 
     public ArrayList<Direction> findDirectionsWithOppositeColor(BoardTile currentBoardTile) {
@@ -58,7 +54,7 @@ public class ValidMovesChecker {
                 try {
                     BoardTile neighbourToCheck = currentBoardTile.add(currentDirection);
                     Pawn neighbourPawn = board.getPositionValue(neighbourToCheck);
-                    if ( (neighbourPawn == Pawn.BLACK && !board.isBlackToMove()) || (neighbourPawn == Pawn.WHITE && board.isBlackToMove()))
+                    if (neighbourPawn == board.getCurrentOpponent())
                         possiblyValidDirections.add(currentDirection);
                 } catch (ArrayIndexOutOfBoundsException e) {
                     // Do nothing
@@ -79,9 +75,10 @@ public class ValidMovesChecker {
 
     private boolean isValidDirection(BoardTile currentBoardTile, Direction currentDirection) {
         BoardTile pointCurrentlyOnCheck= currentBoardTile.add(currentDirection).add(currentDirection);
-        while (pointCurrentlyOnCheck.getX() >= 0 && pointCurrentlyOnCheck.getX() < Board.BOARD_SIZE && pointCurrentlyOnCheck.getY() >= 0 && pointCurrentlyOnCheck.getY() < Board.BOARD_SIZE) {
-            Pawn pawnCurrentlyOnCheck = board.getPositionValue(pointCurrentlyOnCheck);
-            if ( (pawnCurrentlyOnCheck == Pawn.BLACK && board.isBlackToMove()) || (pawnCurrentlyOnCheck == Pawn.WHITE && !board.isBlackToMove())  )
+        while (pointCurrentlyOnCheck.isInsideTheBoard()) {
+            if (board.getPositionValue(pointCurrentlyOnCheck) == Pawn.EMPTY)
+                return false;
+            if (board.getPositionValue(pointCurrentlyOnCheck) == board.getCurrentPlayer())
                 return true;
             pointCurrentlyOnCheck = pointCurrentlyOnCheck.add(currentDirection);
         }
@@ -94,5 +91,9 @@ public class ValidMovesChecker {
             validMoves.append(validMove.getPosition()).append(" ");
         }
         System.out.println(validMoves);
+    }
+
+    public Board getBoard() {
+        return board;
     }
 }

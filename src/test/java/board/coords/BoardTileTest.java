@@ -1,35 +1,43 @@
 package board.coords;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class BoardTileTest {
-
-    @Test
-    void a1IsZeroZero() {
-        BoardTile boardTile = new BoardTile("a1");
-        assertEquals(0, boardTile.getX());
-        assertEquals(0, boardTile.getY());
-
+    @ParameterizedTest
+    @MethodSource("positions.BoardTilePositions#getXYBoardTiles")
+    void fromXYToName(int x, int y, String tileName) {
+        BoardTile tile = new BoardTile(x, y);
+        assertEquals(tileName, tile.toString());
     }
 
-    @Test
-    void zeroZeroIsA1() {
-        BoardTile boardTile = new BoardTile(0, 0);
-        assertEquals("A1", boardTile.toString());
+    @ParameterizedTest
+    @MethodSource("positions.BoardTilePositions#getXYBoardTiles")
+    void fromNameToXY(int x, int y, String tileName) {
+        BoardTile tile = new BoardTile(tileName);
+        assertEquals(x, tile.getX());
+        assertEquals(y, tile.getY());
     }
 
     @Test
     void inputTooLong() {
-        String exceptionMessage = assertThrows(IllegalArgumentException.class, () -> new BoardTile("a11")).getMessage();
+        String fakeInput = "A42";
+        String exceptionMessage = assertThrows(IllegalArgumentException.class, () -> new BoardTile(fakeInput)).getMessage();
         assertEquals("Input coordinates should be a 2 characters string, eg. \"a1\"", exceptionMessage);
     }
 
-    @Test
-    void inputOutOfRange() {
-        String exceptionMessage = assertThrows(IllegalArgumentException.class, () -> new BoardTile("a9")).getMessage();
+    private static Stream<String> provideBoardTileOutOfRange() { return Stream.of("a0", "a9", "i1", "i9");  }
+
+    @ParameterizedTest
+    @MethodSource("provideBoardTileOutOfRange")
+    void inputOutOfRange(String input) {
+        String exceptionMessage = assertThrows(IllegalArgumentException.class, () -> new BoardTile(input)).getMessage();
         assertEquals("One or both of the coordinates are out of range", exceptionMessage);
     }
 
