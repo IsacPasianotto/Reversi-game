@@ -77,6 +77,16 @@ public class GamePositions {
         return board;
     }
 
+    public static Stream<Board> getAllPositions() {
+        return Stream.of(
+                new Board(),
+                emptyTileBetweenTwoPawns(),
+                thereAreTwoFlippableLinesInOneMove(),
+                twoLinesFlippedOneMove(),
+                d3IsPlayed()
+        );
+    }
+
     public static Stream<Object> someScores() {
         return Stream.of(
                 new Object[]{new Board(), 2, 2},

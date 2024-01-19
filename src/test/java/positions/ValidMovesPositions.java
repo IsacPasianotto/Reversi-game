@@ -95,8 +95,6 @@ public class ValidMovesPositions {
         );
     }
 
-
-
     public static Stream<Object[]> provideCoordinatesForValidMovesAfterD3(){
         return Stream.of(
                 new Object[]{"C3", 0, new ArrayList<Direction>() {{
