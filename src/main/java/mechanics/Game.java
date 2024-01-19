@@ -9,14 +9,16 @@ import player.human.QuitGameException;
 import player.human.UndoException;
 
 import java.util.ArrayList;
+import java.util.Optional;
+import java.util.stream.IntStream;
 
 public class Game {
-    Board board;
-    Player whitePlayer;
-    Player blackPlayer;
-    ValidMovesChecker movesChecker;
+    final Board board;
+    final Player whitePlayer;
+    final Player blackPlayer;
+    final ValidMovesChecker movesChecker;
     int skippedTurns;
-    ArrayList<Board> previousSteps;
+    final ArrayList<Board> previousSteps;
 
     public Game(Board board, Player blackPlayer, Player whitePlayer) {
         this.board = board;
@@ -29,13 +31,12 @@ public class Game {
     }
 
     public void play () {
-        while (!board.isFull()) {
+        while (!board.isFull() && (skippedTurns < 2)) {
             System.out.println(board);
             movesChecker.computeValidMoves();
             if (movesChecker.getValidMoves().isEmpty()) {
                 skippedTurns++;
                 thereAreNoAllowedMoves();
-                if (skippedTurns == 2) break;
                 continue;
             }
             skippedTurns = 0;
@@ -69,27 +70,23 @@ public class Game {
     public Board getBoard() { return this.board; }
 
     public void undoLastMove() {
-        int numberOfHumanPlayers = ((whitePlayer.getClass().equals(Human.class)) ? 1 : 0) + ((blackPlayer.getClass().equals(Human.class)) ? 1 : 0);
+        int numberOfHumanPlayers = (whitePlayer.getClass().equals(Human.class) ? 1 : 0) +
+                                   (blackPlayer.getClass().equals(Human.class) ? 1 : 0);
         int numberOfStepsBack = (numberOfHumanPlayers == 1) ? 2 : 1;
         if (previousSteps.size() > numberOfStepsBack) {
             System.out.println("Undoing last move.");
-            for (int i = 0; i < numberOfStepsBack; i++)
-                previousSteps.remove(previousSteps.size() - 1);
+            IntStream.range(0, numberOfStepsBack).forEachOrdered(i -> previousSteps.remove(previousSteps.size() - 1));
             board.importBoardFrom(previousSteps.get(previousSteps.size()-1));
         } else
             System.out.println("Cannot undo anymore.");
     }
 
     private void thereAreNoAllowedMoves() {
-        if (skippedTurns == 2) {
-            board.GameOver();
+        if (skippedTurns < 2) {
+            System.out.println("No valid moves for the current player. Changing turn.");
+            board.swapTurn();
+        } else
             System.out.println("No valid moves for both players. Game over.");
-            printFinalScores(board);
-            // System.exit(0);   // Does not allow benchmarking
-            return;
-        }
-        System.out.println("No valid moves for the current player. Changing turn.");
-        board.swapTurn();
     }
 
     private void printFinalScores(Board board) {

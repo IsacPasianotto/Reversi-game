@@ -75,7 +75,7 @@ public class BoardTilePositions {
 
     public static Stream<String> emptyBoardTilesOnStart() {
         Stream<String> allBoardTile = getXYBoardTiles().map(objects -> (String) objects[2]);
-        return allBoardTile.filter(boardTile -> !boardTile.equals("D4") && !boardTile.equals("D5") && !boardTile.equals("E4") && !boardTile.equals("E5"));
+        return allBoardTile.filter(boardTile -> Stream.of("D4", "D5", "E4", "E5").noneMatch(boardTile::equals));
     }
 
 }

@@ -5,11 +5,12 @@ import board.coords.BoardTile;
 import mechanics.ValidMovesChecker;
 import player.Player;
 
+import javax.swing.text.html.Option;
 import java.util.Optional;
 
 public class Human implements Player {
 
-    private UserInputReader reader;
+    private final UserInputReader reader;
 
     public Human() {
         reader = new UserInputReader();
@@ -18,26 +19,25 @@ public class Human implements Player {
     public ValidMove askForAMove(ValidMovesChecker validMovesChecker) throws UndoException, QuitGameException {
         System.out.print("Enter your move: ");
         while (true) {
-            try {
-                return getMove(validMovesChecker);
-            } catch (IllegalArgumentException e) {
+            try{
+            Optional<ValidMove> validMove = getMove(validMovesChecker);
+            if (validMove.isPresent())
+                return validMove.get();
+            else
                 validMovesChecker.printErrorMessage();
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
             }
         }
     }
 
-    public ValidMove getMove(ValidMovesChecker movesChecker) throws IllegalArgumentException,
-            UndoException,
-            QuitGameException
-    {
+    private Optional<ValidMove> getMove(ValidMovesChecker movesChecker) throws IllegalArgumentException, UndoException,QuitGameException {
         String readInput = reader.readInput();
         BoardTile chosen = new BoardTile(readInput);
-        Optional<ValidMove> validMove = movesChecker.IsValid(chosen);
-        if (validMove.isEmpty()) {
-            throw new IllegalArgumentException("Not acceptable move entered.");
-        } else  {
-            return validMove.get();
-        }
+        return movesChecker.IsValid(chosen);
+//        Optional<ValidMove> validMove = movesChecker.IsValid(chosen);
+//        if (validMove.isEmpty()) throw new IllegalArgumentException("Not acceptable move entered.");
+//        else return validMove.get();
     }
 
 

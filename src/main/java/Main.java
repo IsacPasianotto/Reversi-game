@@ -19,7 +19,7 @@ public class Main {
                        "- Enter a letter (upper or lower case) followed by a number to place a pawn in the corresponding box (examples: a1, A1)\n" +
                        "If the move is not valid you will be asked to enter another one, and the system will show you the available ones.\n\n" +
                        "- quit: quit the game\n\n" +
-                       "- undo: undo the last move you have done (it will also undo bot's last move if you are playing solo)\n" +
+                       "- undo: undo the last move you have done (it will also undo bot last move if you are playing solo)\n" +
                        "######################################################################################\n";
         System.out.println(begin);
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -43,7 +43,6 @@ public class Main {
     }
 
     private static int choosePlayerStarting(BufferedReader reader) {
-        String input = "";
         int start = 0;
         System.out.print("Select which player starts playing:\n1: you\n2: bot\nYour choice: ");
         while (start != 1 && start != 2) {
@@ -55,7 +54,6 @@ public class Main {
     }
 
     private static int chooseDifficulty(BufferedReader reader) {
-        String input = "";
         int difficulty = 0;
         System.out.print("Select bot difficulty:\n1: random bot\n2: smart bot\nYour choice: ");
         while (difficulty != 1 && difficulty != 2) {
@@ -79,18 +77,17 @@ public class Main {
     }
 
     static int findUserInput(BufferedReader reader) {
-        String input = "";
+        String input;
         int intInput = 0;
         try {
             input = reader.readLine();
             intInput = Integer.parseInt(input);
         } catch (NumberFormatException n) {
-
+            return 0;
         } catch (IOException e) {
             System.out.println("Unknown error, exit.");
             System.exit(0);
         }
-        if (input == null) System.exit(0);
         return intInput;
     }
 

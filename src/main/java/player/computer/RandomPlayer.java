@@ -4,18 +4,18 @@ import board.ValidMove;
 import mechanics.ValidMovesChecker;
 import player.Player;
 
+import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Random;
 
 public class RandomPlayer implements Player {
 
-    public RandomPlayer () {
-    }
-
     public ValidMove askForAMove(ValidMovesChecker checker) {
-        int size = checker.getValidMoves().size();
+        ArrayList<ValidMove> validMoves = checker.getValidMoves();
+        int numberOfValidMoves = validMoves.size();
         Random rnd = new Random();
-        int extracted = rnd.nextInt(size);
-        return checker.getValidMoves().get(extracted);
+        int extracted = rnd.nextInt(numberOfValidMoves);
+        return validMoves.get(extracted);
     }
 
     public void close() { }

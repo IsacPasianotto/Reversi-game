@@ -9,18 +9,14 @@ import java.util.Arrays;
 public class Board {
     public static final int BOARD_SIZE = 8;
     private boolean blackToMove;
-    private Pawn[][] board;
+    private final Pawn[][] board;
     private boolean gameOver;
 
     public Board() {
         board = new Pawn[BOARD_SIZE][BOARD_SIZE];
-        for (int i = 0; i < BOARD_SIZE; i++)
-            for (int j = 0; j < BOARD_SIZE; j++)
-                board[i][j] = Pawn.EMPTY;
-        setPositionValue(new BoardTile("d4"), Pawn.WHITE);
-        setPositionValue(new BoardTile("e5"), Pawn.WHITE);
-        setPositionValue(new BoardTile("e4"), Pawn.BLACK);
-        setPositionValue(new BoardTile("d5"), Pawn.BLACK);
+        Arrays.stream(board).forEach(row -> Arrays.fill(row, Pawn.EMPTY));
+        Arrays.asList("d4", "e5").forEach(s -> setPositionValue(new BoardTile(s), Pawn.WHITE));
+        Arrays.asList("e4", "d5").forEach(s -> setPositionValue(new BoardTile(s), Pawn.BLACK));
         this.blackToMove = true;
     }
 
@@ -43,9 +39,7 @@ public class Board {
     }
 
     public void applyMoveToBoard(ValidMove move) {
-        for (Direction direction : move.getValidDirections()) {
-            flipLineOfPawns(move.getPosition(), direction);
-        }
+        move.getValidDirections().forEach(direction -> flipLineOfPawns(move.getPosition(), direction));
         setPositionValue(move.getPosition(),getCurrentPlayer());
         swapTurn();
     }
@@ -83,17 +77,16 @@ public class Board {
         return newBoard;
     }
 
-    public boolean hasTheSamePositionOf(Board board1){
-        return Arrays.deepEquals(this.board, board1.board);
+    @Override
+    public boolean equals(Object other){
+        if (this == other) return true;
+        if (other == null || getClass() != other.getClass()) return false;
+        Board otherBoard = (Board) other;
+        return Arrays.deepEquals(this.board, otherBoard.board) && this.blackToMove == otherBoard.blackToMove;
     }
 
     public int computeScoreForPlayer(Pawn player) {
-        int score = 0;
-        for (int i = 0; i < BOARD_SIZE; i++) {
-            for (int j = 0; j < BOARD_SIZE; j++)
-                if (this.getPositionValue(i, j) == player) score++;
-        }
-        return score;
+        return Arrays.stream(board).mapToInt(row -> (int) Arrays.stream(row).filter(pawn -> pawn == player).count()).sum();
     }
 
     @Override
@@ -102,9 +95,8 @@ public class Board {
         result.append("      A     B     C     D     E     F     G     H  \n   ┏─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┓\n");
         for (int i = 0; i < BOARD_SIZE; i++){
             result.append(" ").append(i+1).append(" ┃");
-            for (int j = 0; j < BOARD_SIZE; j++) {
-                result.append("  ").append(getPositionValue(i,j)).append((j == BOARD_SIZE - 1) ? "  ┃" : "  ╎");
-            }
+            for (int j = 0; j < BOARD_SIZE; j++)
+                result.append("  ").append(getPositionValue(i, j)).append((j == BOARD_SIZE - 1) ? "  ┃" : "  ╎");
             result.append((i == BOARD_SIZE - 1) ? "\n" : "\n   ┣-----+-----+-----+-----+-----+-----+-----+-----┫\n");
         }
         result.append("   ┗─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┛\n");

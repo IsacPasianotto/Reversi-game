@@ -28,7 +28,8 @@ public class BoardTileTest {
     @Test
     void inputTooLong() {
         String fakeInput = "A42";
-        String exceptionMessage = assertThrows(IllegalArgumentException.class, () -> new BoardTile(fakeInput)).getMessage();
+        IllegalArgumentException tooLong = assertThrows(IllegalArgumentException.class, () -> new BoardTile(fakeInput));
+        String exceptionMessage = tooLong.getMessage();
         assertEquals("Input coordinates should be a 2 characters string, eg. \"a1\"", exceptionMessage);
     }
 
@@ -37,13 +38,15 @@ public class BoardTileTest {
     @ParameterizedTest
     @MethodSource("provideBoardTileOutOfRange")
     void inputOutOfRange(String input) {
-        String exceptionMessage = assertThrows(IllegalArgumentException.class, () -> new BoardTile(input)).getMessage();
+        IllegalArgumentException outOfRange = assertThrows(IllegalArgumentException.class, () -> new BoardTile(input));
+        String exceptionMessage = outOfRange.getMessage();
         assertEquals("One or both of the coordinates are out of range", exceptionMessage);
     }
 
     @Test
     void swappedInput() {
-        String exceptionMessage = assertThrows(IllegalArgumentException.class, () -> new BoardTile("1a")).getMessage();
+        IllegalArgumentException wrongInput = assertThrows(IllegalArgumentException.class, () -> new BoardTile("1a"));
+        String exceptionMessage = wrongInput.getMessage();
         assertEquals("The coordinates should be a letter followed by a number", exceptionMessage);
     }
 

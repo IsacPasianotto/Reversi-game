@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 public class ValidMovesChecker {
-    private Board board;
-    private ArrayList<ValidMove> validMoves;
+    private final Board board;
+    private final ArrayList<ValidMove> validMoves;
 
     public ValidMovesChecker(Board board) {
         this.board = board;
@@ -23,7 +23,12 @@ public class ValidMovesChecker {
     }
 
     public Optional<ValidMove> IsValid(BoardTile move) {
-        return validMoves.stream().findAny().filter(validMove -> validMove.getPosition().equals(move));
+        for (ValidMove validMove : validMoves) {
+            if (validMove.getPosition().equals(move))
+                return Optional.of(validMove);
+        }
+        return Optional.empty();
+        //return validMoves.stream().findAny().filter(validMove -> validMove.getPosition().equals(move));
     }
 
     public void computeValidMoves() {
@@ -31,18 +36,17 @@ public class ValidMovesChecker {
         for (int i = 0; i < Board.BOARD_SIZE; i++){
             for (int j = 0; j < Board.BOARD_SIZE; j++) {
                 BoardTile currentBoardTile = new BoardTile(i, j);
-                if (board.getPositionValue(currentBoardTile) == Pawn.EMPTY) {
+                if (board.getPositionValue(i,j) == Pawn.EMPTY)
                     checkBoardTile(currentBoardTile);
-                }
             }
         }
     }
 
     private void checkBoardTile(BoardTile currentBoardTile) {
         ArrayList<Direction> possiblyValidDirections = findDirectionsWithOppositeColor(currentBoardTile);
-        if (possiblyValidDirections.isEmpty()) { return; }
+        if (possiblyValidDirections.isEmpty()) return;
         ArrayList<Direction> validDirections = computeValidDirections(possiblyValidDirections, currentBoardTile);
-        if (validDirections.isEmpty()) { return; }
+        if (validDirections.isEmpty()) return;
         validMoves.add(new ValidMove(currentBoardTile, validDirections));
     }
 

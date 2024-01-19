@@ -14,7 +14,8 @@ public class DirectionTest {
 
     @Test
     void directionIsRelativeToABoardTile() {
-        String exceptionMessage = assertThrows(IllegalArgumentException.class, () -> new Direction(5, -1)).getMessage();
+        IllegalArgumentException wrongDirectionFormat = assertThrows(IllegalArgumentException.class, () -> new Direction(5, -1));
+        String exceptionMessage = wrongDirectionFormat.getMessage();
         assertEquals("Invalid direction, given x and y should be in range [-1, 1]", exceptionMessage);
     }
 

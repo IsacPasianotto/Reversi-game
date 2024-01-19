@@ -37,7 +37,7 @@ public class InputReaderTest {
         BufferedReader mockedReader = mock(BufferedReader.class);
         when(mockedReader.readLine()).thenReturn(undoString);
         UserInputReader reader = new UserInputReader(mockedReader);
-        Exception e =  assertThrows(QuitGameException.class, reader::readInput);
+        Exception e = assertThrows(QuitGameException.class, reader::readInput);
     }
 
 }

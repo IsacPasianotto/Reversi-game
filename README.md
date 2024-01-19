@@ -6,12 +6,12 @@ The project consists in implementing a game, practicing Continuous integration a
 
 ## TODO List 
 
-- [ ] Define the tests for TTD
+- [x] Define the tests for TTD
   - [x] test the board 
-    - [x] **TODO**: add a test to be shure that the board is able to flip lines in more than one direction if it's necessary 
-  - [ ] Test the aspects related to player: 
-    - [] Is the program handling correctly a human player?
-    - [] Is the program handling correctly the computer player?
+    - [x] **TODO**: add a test to be sure that the board is able to flip lines in more than one direction if it's necessary 
+  - [x] Test the aspects related to player: 
+    - [x] Is the program handling correctly a human player?
+    - [x] Is the program handling correctly the computer player?
   - [x] test the mechanics of the game  
 - [x] Implement the base game in terminal
   - [x] Define the rules

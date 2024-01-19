@@ -23,7 +23,7 @@ public class BoardTest {
     }
 
     @Test
-    void startingPosition(){
+    void checkStartingPosition(){
         Board board = new Board();
         assertEquals(Pawn.WHITE, board.getPositionValue(3, 3));
         assertEquals(Pawn.WHITE, board.getPositionValue(4, 4));
@@ -48,7 +48,7 @@ public class BoardTest {
     }
 
     @Test
-    void currentPlayerIsUpdated(){
+    void playersAreUpdated(){
         Board board = new Board();
         assertEquals(Pawn.BLACK, board.getCurrentPlayer());
         assertEquals(Pawn.WHITE, board.getCurrentOpponent());
@@ -71,7 +71,7 @@ public class BoardTest {
         ValidMove move = new ValidMove(new BoardTile("c5"), directions);
         board.applyMoveToBoard(move);
         Board expectedBoard = twoLinesFlippedOneMove();
-        assertTrue(board.hasTheSamePositionOf(expectedBoard));
+        assertEquals(board, expectedBoard);
     }
 
     @ParameterizedTest
@@ -85,7 +85,7 @@ public class BoardTest {
     void copyFunctionsWorks() {
         Board board = impossibleToMovePosition();
         Board copiedBoard = board.copy();
-        assertTrue(board.hasTheSamePositionOf(copiedBoard));
+        assertTrue(board.equals(copiedBoard));
     }
 
 }

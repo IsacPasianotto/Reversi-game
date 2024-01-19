@@ -60,8 +60,9 @@ public class SmartPlayerTest {
             Player random = new RandomPlayer();
             Game game = new Game(new Board(), smart, random);
             game.play();
-            int blackPawns = game.getBoard().computeScoreForPlayer(Pawn.BLACK);
-            int whitePawns = game.getBoard().computeScoreForPlayer(Pawn.WHITE);
+            Board finalBoard = game.getBoard();
+            int blackPawns = finalBoard.computeScoreForPlayer(Pawn.BLACK);
+            int whitePawns = finalBoard.computeScoreForPlayer(Pawn.WHITE);
             if (blackPawns > whitePawns)
                 smartWon++;
         }
@@ -76,8 +77,9 @@ public class SmartPlayerTest {
             Player random = new RandomPlayer();
             Game game = new Game(new Board(), random, smart);
             game.play();
-            int blackPawns = game.getBoard().computeScoreForPlayer(Pawn.BLACK);
-            int whitePawns = game.getBoard().computeScoreForPlayer(Pawn.WHITE);
+            Board finalBoard = game.getBoard();
+            int blackPawns = finalBoard.computeScoreForPlayer(Pawn.BLACK);
+            int whitePawns = finalBoard.computeScoreForPlayer(Pawn.WHITE);
             if (whitePawns > blackPawns)
                 smartWon++;
         }

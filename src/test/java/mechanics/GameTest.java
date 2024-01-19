@@ -8,8 +8,6 @@ import org.junit.jupiter.api.Test;
 import player.Player;
 import player.computer.RandomPlayer;
 import player.human.Human;
-import player.human.QuitGameException;
-import player.human.UndoException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -27,7 +25,7 @@ public class GameTest {
     }
 
     @Test
-    void bothPlayersCanNotMove() throws QuitGameException, UndoException {
+    void bothPlayersCanNotMove() {
         Board board = impossibleToMovePosition();
         Player player1 = new RandomPlayer();
         Player player2 = new RandomPlayer();
@@ -48,7 +46,7 @@ public class GameTest {
         game.board.applyMoveToBoard(move);
         game.previousSteps.add(game.board.copy());
         game.undoLastMove();
-        assertTrue(game.board.hasTheSamePositionOf(new Board()));
+        assertTrue(game.board.equals(new Board()));
     }
 
     @Test
@@ -66,7 +64,7 @@ public class GameTest {
         game.board.applyMoveToBoard(move2);
         game.previousSteps.add(game.board.copy());
         game.undoLastMove();
-        assertTrue(game.board.hasTheSamePositionOf(new Board()));
+        assertTrue(game.board.equals(new Board()));
     }
 
     @AfterEach

@@ -12,9 +12,10 @@ public class MainTest {
     @Test
     void findUserInputDoesNotBreak() throws IOException {
         String wrongInput = "This is not a number";
-        BufferedReader mockedReader = mock(BufferedReader.class);
-        when(mockedReader.readLine()).thenReturn(wrongInput);
-        assertDoesNotThrow(() -> Main.findUserInput(mockedReader));
+        try (BufferedReader mockedReader = mock(BufferedReader.class)){
+            when(mockedReader.readLine()).thenReturn(wrongInput);
+            assertDoesNotThrow(() -> Main.findUserInput(mockedReader));
+        }
     }
 
 }

@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class UserInputReader implements AutoCloseable {
-    BufferedReader reader;
+    final BufferedReader reader;
     public UserInputReader() {
         reader = new BufferedReader(new InputStreamReader(System.in));
     }
