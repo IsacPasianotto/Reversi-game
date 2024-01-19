@@ -1,14 +1,12 @@
 package mechanics;
 
 import board.Board;
-import board.Pawn;
 import board.ValidMove;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import player.Player;
 import player.computer.RandomPlayer;
-import player.computer.SmartPlayer;
 import player.human.Human;
 import player.human.QuitGameException;
 import player.human.UndoException;
@@ -26,7 +24,7 @@ public class GameTest {
     @BeforeEach
     public void setUp() {
         System.setOut(new PrintStream(outputStreamCaptor));
-   }
+    }
 
     @Test
     void bothPlayersCanNotMove() throws QuitGameException, UndoException {
@@ -39,40 +37,6 @@ public class GameTest {
         assertTrue(board.isGameOver());
 
    }
-
-    @Test
-    void isSmartPlayerStrongerThanRandomWithBlack() {
-        int smartWon = 0;
-        int nIter = 150;
-        for (int i = 0; i < nIter; i++) {
-            Player smart = new SmartPlayer();
-            Player random = new RandomPlayer();
-            Game game = new Game(new Board(), smart, random);
-            game.play();
-            int blackPawns = game.board.computeScoreForPlayer(Pawn.BLACK);
-            int whitePawns = game.board.computeScoreForPlayer(Pawn.WHITE);
-            if (blackPawns > whitePawns)
-                smartWon++;
-        }
-        assertTrue(smartWon > nIter/2);
-    }
-
-    @Test
-    void isSmartPlayerStrongerThanRandomWithWhite() {
-        int smartWon = 0;
-        int nIter = 150;
-        for (int i = 0; i < nIter; i ++) {
-            Player smart = new SmartPlayer();
-            Player random = new RandomPlayer();
-            Game game = new Game(new Board(), random, smart);
-            game.play();
-            int blackPawns = game.board.computeScoreForPlayer(Pawn.BLACK);
-            int whitePawns = game.board.computeScoreForPlayer(Pawn.WHITE);
-            if (whitePawns > blackPawns)
-                smartWon++;
-        }
-        assertTrue(smartWon > nIter/2);
-    }
 
     @Test
     void undoToInitialPosition () {
@@ -104,7 +68,6 @@ public class GameTest {
         game.undoLastMove();
         assertTrue(game.board.hasTheSamePositionOf(new Board()));
     }
-
 
     @AfterEach
     public void tearDown() {

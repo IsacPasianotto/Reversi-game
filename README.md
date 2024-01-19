@@ -20,5 +20,5 @@ The project consists in implementing a game, practicing Continuous integration a
   - [x] Check the end of the game
   - [x] Check the validity of the moves
   - [x] Update the score ad each move (and print maybe?)
-- [ ] ~~**_IMPORTANT_**: Since I had some external libraries, I had to check credits and licenses for them.~~
+- [ ] **_IMPORTANT_**: Since I had some external libraries, I had to check credits and licenses for them.
 - [ ] (Optional) Implement the game in a GUI

@@ -15,8 +15,6 @@ public class RandomPlayer implements Player {
         int size = checker.getValidMoves().size();
         Random rnd = new Random();
         int extracted = rnd.nextInt(size);
-        // wait a second
-        // wait(1500);
         return checker.getValidMoves().get(extracted);
     }
 

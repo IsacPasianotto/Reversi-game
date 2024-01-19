@@ -66,6 +66,8 @@ public class Game {
         return null;
     }
 
+    public Board getBoard() { return this.board; }
+
     public void undoLastMove() {
         int numberOfHumanPlayers = ((whitePlayer.getClass().equals(Human.class)) ? 1 : 0) + ((blackPlayer.getClass().equals(Human.class)) ? 1 : 0);
         int numberOfStepsBack = (numberOfHumanPlayers == 1) ? 2 : 1;
@@ -88,7 +90,6 @@ public class Game {
         }
         System.out.println("No valid moves for the current player. Changing turn.");
         board.swapTurn();
-
     }
 
     private void printFinalScores(Board board) {
