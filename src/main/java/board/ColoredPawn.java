@@ -14,5 +14,4 @@ public enum ColoredPawn {
     public String toString() {
         return String.valueOf(symbol);
     }
-
 }

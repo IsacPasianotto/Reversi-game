@@ -43,8 +43,8 @@ public class SmartPlayerTest {
     @ParameterizedTest
     @MethodSource("positions.GamePositions#getAllPositions")
     void ReturnedMoveIsValidWithWhite(Board currentPosition) {
-        currentPosition.swapTurn();
         ValidMovesChecker checker = new ValidMovesChecker(currentPosition);
+        checker.swapTurn();
         checker.computeValidMoves();
         ArrayList<ValidMove> expected = checker.getValidMoves();
         SmartPlayer player = new SmartPlayer();
@@ -65,6 +65,7 @@ public class SmartPlayerTest {
             int whitePawns = finalBoard.computeScoreForPlayer(ColoredPawn.WHITE);
             if (blackPawns > whitePawns) smartWon++;
         }
+        System.out.println("Smart won " + smartWon + " times out of " + nIter + " games.");
         assertTrue(smartWon > nIter/2);
     }
 

@@ -15,45 +15,50 @@ public class Game {
     final Board board;
     final Player whitePlayer;
     final Player blackPlayer;
-    final ValidMovesChecker movesChecker;
     int skippedTurns;
+    final ValidMovesChecker validMovesChecker;
+    private boolean gameOver;
+
+
     final ArrayList<Board> previousSteps;
 
     public Game(Board board, Player blackPlayer, Player whitePlayer) {
         this.board = board;
-        this.whitePlayer = whitePlayer;
         this.blackPlayer = blackPlayer;
+        this.whitePlayer = whitePlayer;
         skippedTurns = 0;
         this.previousSteps = new ArrayList<>();
         previousSteps.add(this.board.copy());
-        this.movesChecker = new ValidMovesChecker(board);
+        this.validMovesChecker = new ValidMovesChecker(this.board);
     }
 
     public void play () {
         while (!board.isFull() && (skippedTurns < 2)) {
             System.out.println(board);
-            movesChecker.computeValidMoves();
-            if (movesChecker.getValidMoves().isEmpty()) {
+            System.out.println("Current player: " + validMovesChecker.getCurrentPlayerColor());
+            validMovesChecker.computeValidMoves();
+            if (validMovesChecker.numberOfValidMoves()==0) {
                 skippedTurns++;
-                thereAreNoValidMoves();
+                if (skippedTurns == 1) System.out.println("No valid moves for the current player. Changing turn.");
+                else System.out.println("No valid moves for both players. Game over.");
             } else {
                 skippedTurns = 0;
-                ValidMove chosenMove = tryToSelectAValidMove();
-                if (chosenMove != null) {
-                    board.applyMoveToBoard(chosenMove);
-                    previousSteps.add(board.copy());
-                }
+                ValidMove chosenMove = selectAValidMoveOrUndo();
+                if (chosenMove == null) continue;
+                board.applyMoveToBoard(chosenMove);
+                previousSteps.add(board.copy());
             }
+            validMovesChecker.swapTurn();
         }
-        board.GameOver();
+        GameOver();  // currently not used
         System.out.println(board);
         printFinalScores(board);
     }
 
-    private ValidMove tryToSelectAValidMove() {
-        Player currentPlayer = board.isBlackToMove() ? blackPlayer : whitePlayer;
+    private ValidMove selectAValidMoveOrUndo() {
+        Player currentPlayer = validMovesChecker.isBlackToMove() ? blackPlayer : whitePlayer;
         try {
-            return currentPlayer.askForAMove(movesChecker);
+            return currentPlayer.askForAMove(validMovesChecker);
         } catch (QuitGameException e) {
             System.out.println(e.getMessage());
             System.exit(0);
@@ -69,6 +74,13 @@ public class Game {
 
     public Board getBoard() { return this.board; }
 
+    public boolean isGameOver() {
+        return gameOver;
+    }
+    public void GameOver() {
+        this.gameOver = true;
+    }
+
     public void undoLastMove() {
         int numberOfHumanPlayers = (whitePlayer.getClass().equals(Human.class) ? 1 : 0) +
                                    (blackPlayer.getClass().equals(Human.class) ? 1 : 0);
@@ -77,16 +89,9 @@ public class Game {
             System.out.println("Undoing last move.");
             IntStream.range(0, numberOfStepsBack).forEachOrdered(i -> previousSteps.remove(previousSteps.size() - 1));
             board.importBoardFrom(previousSteps.get(previousSteps.size()-1));
+            validMovesChecker.swapTurn();
         } else
             System.out.println("Cannot undo anymore.");
-    }
-
-    private void thereAreNoValidMoves() {
-        if (skippedTurns < 2) {
-            System.out.println("No valid moves for the current player. Changing turn.");
-            board.swapTurn();
-        } else
-            System.out.println("No valid moves for both players. Game over.");
     }
 
     private void printFinalScores(Board board) {

@@ -1,6 +1,7 @@
 package mechanics;
 
 import board.Board;
+import board.ColoredPawn;
 import board.ValidMove;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,16 +31,16 @@ public class GameTest {
         Game game = new Game(board, new RandomPlayer(), new RandomPlayer());
         game.play();
         assertTrue(outputStreamCaptor.toString().trim().contains("No valid moves for both players. Game over."));
-        assertTrue(board.isGameOver());
+        assertTrue(game.isGameOver());
    }
 
     @Test
     void undoToInitialPosition () {
         Board board = new Board();
         Game game = new Game(board, new Human(), new Human());
-        ValidMovesChecker checker = new ValidMovesChecker(board);
-        checker.computeValidMoves();
-        ValidMove move = checker.getValidMoves().get(0);
+        ValidMovesChecker validMovesChecker = new ValidMovesChecker(board);
+        validMovesChecker.computeValidMoves();
+        ValidMove move = validMovesChecker.getValidMoves().get(0);
         board.applyMoveToBoard(move);
         game.previousSteps.add(board.copy());
         game.undoLastMove();

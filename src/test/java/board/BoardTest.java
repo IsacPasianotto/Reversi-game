@@ -2,6 +2,7 @@ package board;
 
 import board.coords.BoardTile;
 import board.coords.Direction;
+import mechanics.ValidMovesChecker;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -30,44 +31,20 @@ public class BoardTest {
         assertEquals(expectedColor, coloredPawnTile);
         }
 
-    @Test
-    void blackToMoveOnStart(){
-        Board board = new Board();
-        assertTrue(board.isBlackToMove());
-    }
 
-    @Test
-    void changeTurnAfterMove(){
-        Board board = new Board();
-        ValidMove c4 = new ValidMove(new BoardTile("c4"), new ArrayList<>() {{
-            add(new Direction(0, 1));
-        }});
-        board.applyMoveToBoard(c4);
-        assertFalse(board.isBlackToMove());
-    }
 
-    @Test
-    void playersUpdatedAfterMove(){
-        Board board = new Board();
-        assertEquals(ColoredPawn.BLACK, board.getCurrentPlayerColor());
-        assertEquals(ColoredPawn.WHITE, board.getCurrentOpponentColor());
-        ValidMove c4 = new ValidMove(new BoardTile("c4"), new ArrayList<>() {{
-            add(new Direction(0, 1));
-        }});
-        board.applyMoveToBoard(c4);
-        assertEquals(ColoredPawn.WHITE, board.getCurrentPlayerColor());
-        assertEquals(ColoredPawn.BLACK, board.getCurrentOpponentColor());
-    }
+
 
     @Test
     void swapAlongAllDirections() {
         Board board = thereAreTwoFlippableLinesInOneMove();
-        board.swapTurn();
+        ValidMovesChecker validMovesChecker = new ValidMovesChecker(board);
+        validMovesChecker.swapTurn();
         ArrayList<Direction> directions = new ArrayList<>() {{
             add(new Direction(-1, 0));
             add(new Direction(0, 1));
         }};
-        ValidMove move = new ValidMove(new BoardTile("c5"), directions);
+        ValidMove move = new ValidMove(new BoardTile("c5"), directions,validMovesChecker.getCurrentPlayerColor());
         board.applyMoveToBoard(move);
         Board expectedBoard = twoLinesFlippedOneMove();
         assertEquals(board, expectedBoard);

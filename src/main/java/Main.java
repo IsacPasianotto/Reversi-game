@@ -1,4 +1,5 @@
 import board.Board;
+import board.ColoredPawn;
 import mechanics.Game;
 import player.Player;
 import player.computer.RandomPlayer;
@@ -23,23 +24,28 @@ public class Main {
                        "######################################################################################\n";
         System.out.println(begin);
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        int start = 0;
-        int difficulty = 0;
+
+
+        Player firstPlayer = new Human();
+        Player secondPlayer = new Human();
+
+        int difficulty;
+        int start;
         int chosenMode = chooseGameMode(reader);
-        if (chosenMode == 2 || chosenMode == 3) {
+        if (chosenMode !=1) {
             difficulty = chooseDifficulty(reader);
-            if (chosenMode == 2)
+            Player bot = (difficulty == 1 ? new RandomPlayer() : new SmartPlayer());
+            if (chosenMode == 2) {
                 start = choosePlayerStarting(reader);
+                firstPlayer =  (start == 1 ? new Human() : bot);
+                secondPlayer = (start == 2 ? new Human() : bot);
+            } else {
+                firstPlayer = bot;
+                secondPlayer = bot;
+            }
         }
-        Player human = new Human();
-        Player smartBot = new SmartPlayer();
-        Player randomBot = new RandomPlayer();
-        Player chosenBot = difficulty == 1 ? randomBot : smartBot;
-        Player firstPlayer = ((chosenMode == 1) || (start == 1)) ? human : chosenBot;
-        Player secondPlayer = chosenMode == 1 || start == 2 ? human : chosenBot;
         Game game = new Game(new Board(), firstPlayer, secondPlayer);
         game.play();
-
     }
 
     private static int choosePlayerStarting(BufferedReader reader) {
@@ -48,7 +54,7 @@ public class Main {
         while (start != 1 && start != 2) {
             start = findUserInput(reader);
             if (start != 1 && start != 2)
-                System.out.println("Error, select one of the two choices");
+                System.out.print("Error, select one of the two choices.\nYour choice (q to quit): ");
         }
         return start;
     }
@@ -59,8 +65,7 @@ public class Main {
         while (difficulty != 1 && difficulty != 2) {
             difficulty = findUserInput(reader);
             if (difficulty != 1 && difficulty != 2)
-                System.out.println("Error, select a valid difficulty");
-
+                System.out.print("Error, select a valid difficulty.\nYour choice (q to quit): ");
         }
         return difficulty;
     }
@@ -71,7 +76,7 @@ public class Main {
         while (chosenMode != 1 && chosenMode != 2 && chosenMode != 3) {
             chosenMode = findUserInput(reader);
             if (chosenMode != 1 && chosenMode != 2 && chosenMode != 3)
-                System.out.println("Error, select a valid mode");
+                System.out.print("Error, select a valid mode.\nYour choice (q to quit): ");
         }
         return chosenMode;
     }

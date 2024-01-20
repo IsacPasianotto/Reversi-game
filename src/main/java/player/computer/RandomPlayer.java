@@ -1,5 +1,6 @@
 package player.computer;
 
+import board.ColoredPawn;
 import board.ValidMove;
 import mechanics.ValidMovesChecker;
 import player.Player;

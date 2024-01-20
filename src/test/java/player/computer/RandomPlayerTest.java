@@ -26,8 +26,8 @@ public class RandomPlayerTest {
     @ParameterizedTest
     @MethodSource("positions.GamePositions#getAllPositions")
     void ReturnedMoveIsValidWithWhite(Board currentPosition) {
-        currentPosition.swapTurn();
         ValidMovesChecker checker = new ValidMovesChecker(currentPosition);
+        checker.swapTurn();
         checker.computeValidMoves();
         ArrayList<ValidMove> expected = checker.getValidMoves();
         RandomPlayer player = new RandomPlayer();
