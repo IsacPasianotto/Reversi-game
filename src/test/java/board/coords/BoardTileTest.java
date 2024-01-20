@@ -4,8 +4,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.stream.Stream;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -30,13 +28,11 @@ public class BoardTileTest {
         String fakeInput = "A42";
         IllegalArgumentException tooLong = assertThrows(IllegalArgumentException.class, () -> new BoardTile(fakeInput));
         String exceptionMessage = tooLong.getMessage();
-        assertEquals("Input coordinates should be a 2 characters string, eg. \"a1\"", exceptionMessage);
+        assertEquals("Format error: Input coordinates should be a 2 characters string, eg. \"a1\"", exceptionMessage);
     }
 
-    private static Stream<String> provideBoardTileOutOfRange() { return Stream.of("a0", "a9", "i1", "i9");  }
-
     @ParameterizedTest
-    @MethodSource("provideBoardTileOutOfRange")
+    @MethodSource("positions.BoardTilePositions#provideBoardTileOutOfRange")
     void inputOutOfRange(String input) {
         IllegalArgumentException outOfRange = assertThrows(IllegalArgumentException.class, () -> new BoardTile(input));
         String exceptionMessage = outOfRange.getMessage();

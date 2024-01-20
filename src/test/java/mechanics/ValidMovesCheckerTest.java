@@ -11,6 +11,7 @@ import positions.GamePositions;
 
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -22,9 +23,9 @@ public class ValidMovesCheckerTest {
     void findDirectionsWithOppositeColor(String inputCoords, int expectedX, int expectedY) {
         Board board = new Board();
         ValidMovesChecker validMovesChecker = new ValidMovesChecker(board);
-        ArrayList<Direction> possiblyValidDirections = validMovesChecker.findDirectionsWithOppositeColor(new BoardTile(inputCoords));
-        assertEquals(1, possiblyValidDirections.size());
-        Direction chosenDirection = possiblyValidDirections.get(0);
+        ArrayList<Direction> directionsWithOppositeColor = validMovesChecker.findDirectionsWithOppositeColor(new BoardTile(inputCoords));
+        assertEquals(1, directionsWithOppositeColor.size());
+        Direction chosenDirection = directionsWithOppositeColor.get(0);
         assertEquals(expectedX, chosenDirection.getX());
         assertEquals(expectedY, chosenDirection.getY());
     }
@@ -35,8 +36,8 @@ public class ValidMovesCheckerTest {
         Board board = GamePositions.d3IsPlayed();
         board.swapTurn();
         ValidMovesChecker validMovesChecker = new ValidMovesChecker(board);
-        ArrayList<Direction> possiblyValidDirections = validMovesChecker.findDirectionsWithOppositeColor(new BoardTile(inputCoords));
-        assertEquals(expectedDirections, possiblyValidDirections);
+        ArrayList<Direction> directionsWithOppositeColor = validMovesChecker.findDirectionsWithOppositeColor(new BoardTile(inputCoords));
+        assertEquals(expectedDirections, directionsWithOppositeColor);
 
     }
 
@@ -45,8 +46,8 @@ public class ValidMovesCheckerTest {
     void findDirectionsWithOppositeColorImpossible(String inputPosition) {
         Board board = new Board();
         ValidMovesChecker validMovesChecker = new ValidMovesChecker(board);
-        ArrayList<Direction> possiblyValidDirections = validMovesChecker.findDirectionsWithOppositeColor(new BoardTile(inputPosition));
-        assertEquals(0, possiblyValidDirections.size());
+        ArrayList<Direction> directionsWithOppositeColor = validMovesChecker.findDirectionsWithOppositeColor(new BoardTile(inputPosition));
+        assertEquals(0, directionsWithOppositeColor.size());
     }
 
 
@@ -93,14 +94,14 @@ public class ValidMovesCheckerTest {
 
     @Test
     void PlayerCanDoAnyMoveAmongValidMoves() {
-        // test made due to a discovered bug for which the player was allowed to play only the first valid move of the ValidMovesChecker
         Board board = new Board();
         ValidMovesChecker validMovesChecker = new ValidMovesChecker(board);
         validMovesChecker.computeValidMoves();
-        ValidMove notFirstValidMove = validMovesChecker.getValidMoves().get(1);
-        Optional<ValidMove> thisShouldNotBeNull = validMovesChecker.IsValid(notFirstValidMove.getPosition());
+        Random rnd = new Random();
+        int extracted = rnd.nextInt(validMovesChecker.getValidMoves().size());
+        ValidMove randomMove = validMovesChecker.getValidMoves().get(extracted);
+        Optional<ValidMove> thisShouldNotBeNull = validMovesChecker.IsValid(randomMove.getPosition());
         assertTrue(thisShouldNotBeNull.isPresent());
-
     }
 
 

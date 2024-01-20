@@ -34,5 +34,4 @@ public class RandomPlayerTest {
         ValidMove obtained = player.askForAMove(checker);
         assertTrue(expected.contains(obtained));
     }
-
 }

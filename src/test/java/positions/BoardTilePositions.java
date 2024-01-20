@@ -1,5 +1,7 @@
 package positions;
 
+import board.ColoredPawn;
+
 import java.util.stream.Stream;
 
 public class BoardTilePositions {
@@ -78,4 +80,14 @@ public class BoardTilePositions {
         return allBoardTile.filter(boardTile -> Stream.of("D4", "D5", "E4", "E5").noneMatch(boardTile::equals));
     }
 
+    private static Stream<String> provideBoardTileOutOfRange() { return Stream.of("a0", "a9", "i1", "i9");  }
+
+    public static Stream<Object[]> nonEmptyBoardTilesOnStart() {
+        return Stream.of(
+                new Object[]{ColoredPawn.WHITE, 3, 3},
+                new Object[]{ColoredPawn.WHITE, 4, 4},
+                new Object[]{ColoredPawn.BLACK, 3, 4},
+                new Object[]{ColoredPawn.BLACK, 4, 3}
+        );
+    }
 }

@@ -18,18 +18,17 @@ public class BoardTest {
     void emptyBoardTilesOnStart(String tileName) {
         Board board = new Board();
         BoardTile tile = new BoardTile(tileName);
-        ColoredPawn coloredPawnTile = board.getPositionColor(tile.getX(), tile.getY());
+        ColoredPawn coloredPawnTile = board.getPositionColor(tile);
         assertEquals(ColoredPawn.EMPTY, coloredPawnTile);
     }
 
-    @Test
-    void checkStartingPosition(){
+    @ParameterizedTest
+    @MethodSource("positions.BoardTilePositions#nonEmptyBoardTilesOnStart")
+    void checkStartingPosition(ColoredPawn expectedColor, int x, int y) {
         Board board = new Board();
-        assertEquals(ColoredPawn.WHITE, board.getPositionColor(3, 3));
-        assertEquals(ColoredPawn.WHITE, board.getPositionColor(4, 4));
-        assertEquals(ColoredPawn.BLACK, board.getPositionColor(3, 4));
-        assertEquals(ColoredPawn.BLACK, board.getPositionColor(4, 3));
-    }
+        ColoredPawn coloredPawnTile = board.getPositionColor(x, y);
+        assertEquals(expectedColor, coloredPawnTile);
+        }
 
     @Test
     void blackToMoveOnStart(){
@@ -38,7 +37,7 @@ public class BoardTest {
     }
 
     @Test
-    void turnChangesAfterMove(){
+    void changeTurnAfterMove(){
         Board board = new Board();
         ValidMove c4 = new ValidMove(new BoardTile("c4"), new ArrayList<>() {{
             add(new Direction(0, 1));
@@ -48,7 +47,7 @@ public class BoardTest {
     }
 
     @Test
-    void playersAreUpdated(){
+    void playersUpdatedAfterMove(){
         Board board = new Board();
         assertEquals(ColoredPawn.BLACK, board.getCurrentPlayerColor());
         assertEquals(ColoredPawn.WHITE, board.getCurrentOpponentColor());
@@ -85,7 +84,7 @@ public class BoardTest {
     void copyFunctionsWorks() {
         Board board = impossibleToMovePosition();
         Board copiedBoard = board.copy();
-        assertTrue(board.equals(copiedBoard));
+        assertEquals(board, copiedBoard);
     }
 
 }

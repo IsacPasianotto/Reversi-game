@@ -35,14 +35,15 @@ public class Game {
             movesChecker.computeValidMoves();
             if (movesChecker.getValidMoves().isEmpty()) {
                 skippedTurns++;
-                thereAreNoAllowedMoves();
-                continue;
+                thereAreNoValidMoves();
+            } else {
+                skippedTurns = 0;
+                ValidMove chosenMove = tryToSelectAValidMove();
+                if (chosenMove != null) {
+                    board.applyMoveToBoard(chosenMove);
+                    previousSteps.add(board.copy());
+                }
             }
-            skippedTurns = 0;
-            ValidMove chosenMove = tryToSelectAValidMove();
-            if (chosenMove == null) continue;
-            board.applyMoveToBoard(chosenMove);
-            previousSteps.add(board.copy());
         }
         board.GameOver();
         System.out.println(board);
@@ -54,12 +55,13 @@ public class Game {
         try {
             return currentPlayer.askForAMove(movesChecker);
         } catch (QuitGameException e) {
-            System.out.println("Quitting the game.\n Thanks for playing!");
+            System.out.println(e.getMessage());
             System.exit(0);
         } catch (UndoException e) {
             undoLastMove();
         } catch (Exception e) {
             System.out.println("Something went wrong. Closing the game.\n");
+            System.out.println(e.getMessage());
             System.exit(0);
         }
         return null;
@@ -79,7 +81,7 @@ public class Game {
             System.out.println("Cannot undo anymore.");
     }
 
-    private void thereAreNoAllowedMoves() {
+    private void thereAreNoValidMoves() {
         if (skippedTurns < 2) {
             System.out.println("No valid moves for the current player. Changing turn.");
             board.swapTurn();

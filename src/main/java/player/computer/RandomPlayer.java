@@ -5,7 +5,6 @@ import mechanics.ValidMovesChecker;
 import player.Player;
 
 import java.util.ArrayList;
-import java.util.Optional;
 import java.util.Random;
 
 public class RandomPlayer implements Player {

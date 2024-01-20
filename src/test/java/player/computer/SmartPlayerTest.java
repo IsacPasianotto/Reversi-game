@@ -63,8 +63,7 @@ public class SmartPlayerTest {
             Board finalBoard = game.getBoard();
             int blackPawns = finalBoard.computeScoreForPlayer(ColoredPawn.BLACK);
             int whitePawns = finalBoard.computeScoreForPlayer(ColoredPawn.WHITE);
-            if (blackPawns > whitePawns)
-                smartWon++;
+            if (blackPawns > whitePawns) smartWon++;
         }
         assertTrue(smartWon > nIter/2);
     }

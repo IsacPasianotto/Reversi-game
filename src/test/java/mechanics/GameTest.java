@@ -5,13 +5,13 @@ import board.ValidMove;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import player.Player;
 import player.computer.RandomPlayer;
 import player.human.Human;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static positions.GamePositions.impossibleToMovePosition;
 
@@ -25,46 +25,44 @@ public class GameTest {
     }
 
     @Test
-    void bothPlayersCanNotMove() {
+    void bothPlayersCantMove() {
         Board board = impossibleToMovePosition();
-        Player player1 = new RandomPlayer();
-        Player player2 = new RandomPlayer();
-        Game game = new Game(board, player1, player2);
+        Game game = new Game(board, new RandomPlayer(), new RandomPlayer());
         game.play();
         assertTrue(outputStreamCaptor.toString().trim().contains("No valid moves for both players. Game over."));
         assertTrue(board.isGameOver());
-
    }
 
     @Test
     void undoToInitialPosition () {
         Board board = new Board();
+        Game game = new Game(board, new Human(), new Human());
         ValidMovesChecker checker = new ValidMovesChecker(board);
         checker.computeValidMoves();
         ValidMove move = checker.getValidMoves().get(0);
-        Game game = new Game(board, new RandomPlayer(), new RandomPlayer());
-        game.board.applyMoveToBoard(move);
-        game.previousSteps.add(game.board.copy());
+        board.applyMoveToBoard(move);
+        game.previousSteps.add(board.copy());
         game.undoLastMove();
-        assertTrue(game.board.equals(new Board()));
+        assertEquals(board, new Board());
     }
 
     @Test
-    void undoChangesTwoMovesIfThereIsOneHuman() {
+    void undoTwoMovesIfHumanVsBot() {
         Board board = new Board();
+        Game game = new Game(board, new Human(), new RandomPlayer());
         ValidMovesChecker checker = new ValidMovesChecker(board);
+
         checker.computeValidMoves();
         ValidMove move1 = checker.getValidMoves().get(0);
-        Game game = new Game(board, new Human(), new RandomPlayer());
-        game.board.applyMoveToBoard(move1);
-        game.previousSteps.add(game.board.copy());
-        checker = new ValidMovesChecker(game.board);
+        board.applyMoveToBoard(move1);
+        game.previousSteps.add(board.copy());
+
         checker.computeValidMoves();
         ValidMove move2 = checker.getValidMoves().get(0);
-        game.board.applyMoveToBoard(move2);
-        game.previousSteps.add(game.board.copy());
+        board.applyMoveToBoard(move2);
+        game.previousSteps.add(board.copy());
         game.undoLastMove();
-        assertTrue(game.board.equals(new Board()));
+        assertEquals(board, new Board());
     }
 
     @AfterEach
