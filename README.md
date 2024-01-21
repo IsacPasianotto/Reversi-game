@@ -21,4 +21,38 @@ The project consists in implementing a game, practicing Continuous integration a
   - [x] Check the validity of the moves
   - [x] Update the score ad each move (and print maybe?)
 - [ ] **_IMPORTANT_**: Since I had some external libraries, I had to check credits and licenses for them.
+  - [ ]  JUnit 5 --> Eclipse Public License 2.0
+  - [ ]  Mockito --> MIT License
+  - [ ]  Swing  --> GNU General Public License v2.0
+  - [ ]  openJDK --> GNU General Public License v2.0
+- [ ] Add the README
 - [ ] (Optional) Implement the game in a GUI
+
+
+
+
+## Terminal Game
+
+### How to run the game: 
+
+1. Clone the repo
+2. Open the terminal and go to the folder where you cloned the repo
+3. Run the command: 
+  ```
+  ./gradlew terminal:run --console=plain
+  ```
+
+Otherwise you can obtain the `.jar`  file with: 
+
+```
+./gradlew terminal:dist
+```
+
+which will create the `.jar` file in the folder `/readyToDistribute`. Then you can cd into the folder and run the command: 
+
+```
+java -jar terminal-1.0.jar
+```
+
+Note that the `./gradlew build` command will take care of destroying the `.jar` file and the folder `/readyToDistribute`. 
+

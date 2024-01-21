@@ -1,0 +1,70 @@
+def mainClassName = 'terminal.TerminalMain'
+def distributionDir = "$rootProject.projectDir/readyToDistribute"
+
+
+project.ext.mainClassName = mainClassName
+
+dependencies {
+    testImplementation Junit5['jupiter']
+    testRuntimeOnly Junit5['jupiter-platform-launcher']
+    testImplementation mockito['mockito-core']
+    testImplementation mockito['mockito-junit-jupiter']
+
+    implementation project(":core")
+    runtimeOnly project(":core")
+
+}
+
+test {
+    useJUnitPlatform()
+}
+
+application {
+    mainClass = mainClassName
+    applicationDefaultJvmArgs = ['-Dgreeting.language=en']
+}
+
+run {
+    standardInput = System.in
+    standardOutput = System.out
+    dependsOn {
+        ":core:jar"
+        ":terminal:jar"
+    }
+}
+
+
+jar {
+    enabled = true
+
+    manifest {
+        attributes(
+                'Main-Class': mainClassName
+        )
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    dependsOn {
+        ":core:jar"
+
+    }
+}
+
+
+tasks.register('dist', Jar) {
+    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+    manifest {
+        attributes 'Main-Class': project.mainClassName
+    }
+    dependsOn{
+        configurations.runtimeClasspath
+        ":core:jar"
+        ":terminal:jar"
+    }
+    from {
+        configurations.runtimeClasspath.collect {it.isDirectory() ? it : zipTree(it)}
+    }
+    with jar
+    destinationDirectory = file(distributionDir)
+}

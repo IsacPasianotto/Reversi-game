@@ -7,14 +7,14 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class MainTest {
+public class TerminalMainTest {
 
     @Test
     void findUserInputDoesNotBreak() throws IOException {
         String wrongInput = "This is not a number";
         try (BufferedReader mockedReader = mock(BufferedReader.class)){
             when(mockedReader.readLine()).thenReturn(wrongInput);
-            assertDoesNotThrow(() -> Main.findUserInput(mockedReader));
+            assertDoesNotThrow(() -> terminal.TerminalMain.findUserInput(mockedReader));
         }
     }
 

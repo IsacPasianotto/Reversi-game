@@ -1,5 +1,6 @@
+package terminal;
+
 import board.Board;
-import board.ColoredPawn;
 import mechanics.Game;
 import player.Player;
 import player.computer.RandomPlayer;
@@ -11,7 +12,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class Main {
+public class TerminalMain {
     public static void main(String[] args) {
         String begin = "mechanics.Game started!\n" +
                        "######################################################################################\n" +
@@ -81,7 +82,7 @@ public class Main {
         return chosenMode;
     }
 
-    static int findUserInput(BufferedReader reader) {
+    public static int findUserInput(BufferedReader reader) {
         String input = null;
         int intInput = 0;
         try {
