@@ -25,39 +25,45 @@ public class TerminalMain {
                        "######################################################################################\n";
         System.out.println(begin);
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-
-
         Player firstPlayer = new Human();
         Player secondPlayer = new Human();
 
         int difficulty;
         int start;
         int chosenMode = chooseGameMode(reader);
-        if (chosenMode !=1) {
+        if (chosenMode != 1) {
             difficulty = chooseDifficulty(reader);
             Player bot = (difficulty == 1 ? new RandomPlayer() : new SmartPlayer());
             if (chosenMode == 2) {
                 start = choosePlayerStarting(reader);
-                firstPlayer =  (start == 1 ? new Human() : bot);
+                firstPlayer = (start == 1 ? new Human() : bot);
                 secondPlayer = (start == 2 ? new Human() : bot);
             } else {
                 firstPlayer = bot;
                 secondPlayer = bot;
             }
         }
+
         Game game = new Game(new Board(), firstPlayer, secondPlayer);
         game.play();
+        try {
+            reader.close();
+        } catch (IOException e) {
+            System.out.println("Error while closing the reader.");
+        }
+        firstPlayer.close();
+        secondPlayer.close();
     }
 
-    private static int choosePlayerStarting(BufferedReader reader) {
-        int start = 0;
-        System.out.print("Select which player starts playing:\n1: you\n2: bot\nYour choice (q to quit): ");
-        while (start != 1 && start != 2) {
-            start = findUserInput(reader);
-            if (start != 1 && start != 2)
-                System.out.print("Error, select one of the two choices.\nYour choice (q to quit): ");
+    private static int chooseGameMode(BufferedReader reader) {
+        int chosenMode = 0;
+        System.out.print("Select the game mode:\n1: human vs human\n2: human vs computer\n3: computer vs computer\nYour choice (q to quit): ");
+        while (chosenMode != 1 && chosenMode != 2 && chosenMode != 3) {
+            chosenMode = findUserInput(reader);
+            if (chosenMode != 1 && chosenMode != 2 && chosenMode != 3)
+                System.out.print("Error, select a valid mode.\nYour choice (q to quit): ");
         }
-        return start;
+        return chosenMode;
     }
 
     private static int chooseDifficulty(BufferedReader reader) {
@@ -71,15 +77,15 @@ public class TerminalMain {
         return difficulty;
     }
 
-    private static int chooseGameMode(BufferedReader reader) {
-        System.out.print("Select the game mode:\n1: human vs human\n2: human vs computer\n3: computer vs computer\nYour choice (q to quit): ");
-        int chosenMode = 0;
-        while (chosenMode != 1 && chosenMode != 2 && chosenMode != 3) {
-            chosenMode = findUserInput(reader);
-            if (chosenMode != 1 && chosenMode != 2 && chosenMode != 3)
-                System.out.print("Error, select a valid mode.\nYour choice (q to quit): ");
+    private static int choosePlayerStarting(BufferedReader reader) {
+        int start = 0;
+        System.out.print("Select which player starts playing:\n1: you\n2: bot\nYour choice (q to quit): ");
+        while (start != 1 && start != 2) {
+            start = findUserInput(reader);
+            if (start != 1 && start != 2)
+                System.out.print("Error, select one of the two choices.\nYour choice (q to quit): ");
         }
-        return chosenMode;
+        return start;
     }
 
     public static int findUserInput(BufferedReader reader) {
@@ -88,11 +94,16 @@ public class TerminalMain {
         try {
             input = reader.readLine();
             intInput = Integer.parseInt(input);
-        } catch (NumberFormatException | IOException n) {
+        } catch (NumberFormatException | IOException e) {
             // Do nothing, skip the attempt and try again
         }
-        if((input == null) || input.equals("q")) {
+        if ((input == null) || input.equals("q")) {
             System.out.println("Quitting the game...Bye!");
+            try {
+                reader.close();
+            } catch (IOException e) {
+                System.out.println("Error while closing the reader.");
+            }
             System.exit(0);
         }
         return intInput;

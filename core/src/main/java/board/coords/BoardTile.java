@@ -1,12 +1,10 @@
 package board.coords;
 
-import board.Board;
-
 public class BoardTile implements Couple {
     private final int x;
     private final int y;
 
-    public BoardTile(int x, int y){
+    public BoardTile(int x, int y) {
         this.x = x;
         this.y = y;
     }
@@ -15,9 +13,9 @@ public class BoardTile implements Couple {
         if (inputCoords.length() != 2)
             throw new IllegalArgumentException("Format error: Input coordinates should be a 2 characters string, eg. \"a1\"");
 
-        inputCoords = inputCoords.toLowerCase();
-        char first = inputCoords.charAt(0);
-        char second = inputCoords.charAt(1);
+        String inputCoordsLowerCase = inputCoords.toLowerCase();
+        char first = inputCoordsLowerCase.charAt(0);
+        char second = inputCoordsLowerCase.charAt(1);
 
         if (second < '0' || second > '9' || first < 'a' || first > 'z')
             throw new IllegalArgumentException("The coordinates should be a letter followed by a number");
@@ -28,18 +26,15 @@ public class BoardTile implements Couple {
         y = first - 'a';
     }
 
-    public boolean isInsideTheBoard() {
-        return x >= 0 && x < Board.BOARD_SIZE && y >= 0 && y < Board.BOARD_SIZE;
-    }
-
     public BoardTile add(Direction other) {
-        return new BoardTile(this.x + other.getX(), this.y + other.getY());
+        return new BoardTile(x + other.getX(), y + other.getY());
     }
 
     @Override
     public int getX() {
         return x;
     }
+
     @Override
     public int getY() {
         return y;
@@ -50,7 +45,7 @@ public class BoardTile implements Couple {
         if (this == other) return true;
         if (other == null || getClass() != other.getClass()) return false;
         BoardTile otherBoardTile = (BoardTile) other;
-        return this.getX() == otherBoardTile.getX() && this.getY() == otherBoardTile.getY();
+        return getX() == otherBoardTile.getX() && getY() == otherBoardTile.getY();
     }
 
     @Override

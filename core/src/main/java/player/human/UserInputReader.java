@@ -2,17 +2,15 @@ package player.human;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
-public class UserInputReader implements AutoCloseable {
-    final BufferedReader reader;
-    public UserInputReader() {
-        reader = new BufferedReader(new InputStreamReader(System.in));
+class UserInputReader implements AutoCloseable {
+    private final BufferedReader reader;
+
+    UserInputReader(BufferedReader reader) {
+        this.reader = reader;
     }
 
-    public UserInputReader(BufferedReader reader)  { this.reader = reader; }
-
-    public String readInput() throws QuitGameException, UndoException{
+    public String readInput() throws QuitGameException, UndoException {
         String input;
         try {
             input = reader.readLine();
@@ -28,8 +26,7 @@ public class UserInputReader implements AutoCloseable {
     public void close() {
         try {
             reader.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("Error while closing the reader.");
         }
     }

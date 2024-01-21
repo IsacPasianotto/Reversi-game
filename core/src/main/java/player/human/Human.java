@@ -1,18 +1,19 @@
 package player.human;
 
-import board.ColoredPawn;
 import board.ValidMove;
 import board.coords.BoardTile;
 import mechanics.ValidMovesChecker;
 import player.Player;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.Optional;
 
 public class Human implements Player {
     private final UserInputReader reader;
 
     public Human() {
-        reader = new UserInputReader();
+        reader = new UserInputReader(new BufferedReader(new InputStreamReader(System.in)));
     }
 
     public ValidMove askForAMove(ValidMovesChecker validMovesChecker) throws UndoException, QuitGameException {
@@ -24,23 +25,18 @@ public class Human implements Player {
     }
 
     private Optional<ValidMove> getMove(ValidMovesChecker validMovesChecker) throws QuitGameException, UndoException {
-        try{
+        try {
             String readInput = reader.readInput();
             BoardTile chosen = new BoardTile(readInput);
             Optional<ValidMove> enteredMove = validMovesChecker.IsValid(chosen);
-            if (enteredMove.isEmpty()) getInvalidMoveMessage(validMovesChecker);
+            if (enteredMove.isEmpty())
+                validMovesChecker.getInvalidMoveMessage();
             return enteredMove;
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
             System.out.print("Enter your move: ");
         }
         return Optional.empty();
-    }
-
-    private void getInvalidMoveMessage(ValidMovesChecker validMovesChecker) {
-        System.out.println("Invalid move entered. Valid moves are: ");
-        System.out.println(validMovesChecker.printValidMoves());
-        System.out.print("Enter your move: ");
     }
 
     public void close() {

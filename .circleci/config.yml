@@ -109,14 +109,14 @@ jobs:
     executor: win/default
     working_directory: ~/repo
     steps:
-      # It doesn't work out of the box on windows machine, like in: 
+      # It doesn't work out of the box on Windows machine, like in:
       #   https://discuss.circleci.com/t/empty-checkout-key-on-windows-pipeline-only/47116
-      # the workaround (proposed also in the circleCI discuss forum) seems to be adding by hand a ssh keys which
+      # the workaround (proposed also in the circleCI discuss forum) seems to be adding by hand an ssh keys which
       # is not automatically added even if it should be supposed to be, see also: 
       #   https://circleci.com/docs/add-ssh-key/
       - add_ssh_keys:
-            fingerprints:
-              - "a6:75:a4:04:58:c5:7a:40:00:f7:6b:19:a6:0a:16:2b"
+          fingerprints:
+            - "a6:75:a4:04:58:c5:7a:40:00:f7:6b:19:a6:0a:16:2b"
       - checkout
       - run:
           name: test-all
@@ -162,7 +162,7 @@ jobs:
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
 workflows:
-   test:
+  test:
     jobs:
       - test-linux
       - linux-core

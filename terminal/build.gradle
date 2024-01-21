@@ -57,13 +57,13 @@ tasks.register('dist', Jar) {
     manifest {
         attributes 'Main-Class': project.mainClassName
     }
-    dependsOn{
+    dependsOn {
         configurations.runtimeClasspath
         ":core:jar"
         ":terminal:jar"
     }
     from {
-        configurations.runtimeClasspath.collect {it.isDirectory() ? it : zipTree(it)}
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
     with jar
     destinationDirectory = file(distributionDir)

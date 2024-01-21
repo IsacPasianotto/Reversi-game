@@ -80,7 +80,9 @@ public class BoardTilePositions {
         return allBoardTile.filter(boardTile -> Stream.of("D4", "D5", "E4", "E5").noneMatch(boardTile::equals));
     }
 
-    private static Stream<String> provideBoardTileOutOfRange() { return Stream.of("a0", "a9", "i1", "i9");  }
+    private static Stream<String> provideBoardTileOutOfRange() {
+        return Stream.of("a0", "a9", "i1", "i9");
+    }
 
     public static Stream<Object[]> nonEmptyBoardTilesOnStart() {
         return Stream.of(

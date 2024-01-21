@@ -18,11 +18,12 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class SmartPlayerTest {
+class SmartPlayerTest {
 
-    private final int nIter = 500;
+    private static final int nIter = 500;
     private final PrintStream standardOut = System.out;
     private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
+
     @BeforeEach
     public void setUp() {
         System.setOut(new PrintStream(outputStreamCaptor));
@@ -55,35 +56,39 @@ public class SmartPlayerTest {
     @Test
     void isSmartPlayerStrongerThanRandomWithBlack() {
         int smartWon = 0;
+        Player smart = new SmartPlayer();
+        Player random = new RandomPlayer();
+        int blackPawns;
+        int whitePawns;
         for (int i = 0; i < nIter; i++) {
-            Player smart = new SmartPlayer();
-            Player random = new RandomPlayer();
             Game game = new Game(new Board(), smart, random);
             game.play();
             Board finalBoard = game.getBoard();
-            int blackPawns = finalBoard.computeScoreForPlayer(ColoredPawn.BLACK);
-            int whitePawns = finalBoard.computeScoreForPlayer(ColoredPawn.WHITE);
+            blackPawns = finalBoard.computeScoreForPlayer(ColoredPawn.BLACK);
+            whitePawns = finalBoard.computeScoreForPlayer(ColoredPawn.WHITE);
             if (blackPawns > whitePawns) smartWon++;
         }
         System.out.println("Smart won " + smartWon + " times out of " + nIter + " games.");
-        assertTrue(smartWon > nIter/2);
+        assertTrue(smartWon > nIter / 2);
     }
 
     @Test
     void isSmartPlayerStrongerThanRandomWithWhite() {
         int smartWon = 0;
-        for (int i = 0; i < nIter; i ++) {
-            Player smart = new SmartPlayer();
-            Player random = new RandomPlayer();
+        Player smart = new SmartPlayer();
+        Player random = new RandomPlayer();
+        int blackPawns;
+        int whitePawns;
+        for (int i = 0; i < nIter; i++) {
             Game game = new Game(new Board(), random, smart);
             game.play();
             Board finalBoard = game.getBoard();
-            int blackPawns = finalBoard.computeScoreForPlayer(ColoredPawn.BLACK);
-            int whitePawns = finalBoard.computeScoreForPlayer(ColoredPawn.WHITE);
+            blackPawns = finalBoard.computeScoreForPlayer(ColoredPawn.BLACK);
+            whitePawns = finalBoard.computeScoreForPlayer(ColoredPawn.WHITE);
             if (whitePawns > blackPawns)
                 smartWon++;
         }
-        assertTrue(smartWon > nIter/2);
+        assertTrue(smartWon > nIter / 2);
     }
 
     @AfterEach

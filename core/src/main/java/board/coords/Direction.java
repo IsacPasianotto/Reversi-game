@@ -3,8 +3,9 @@ package board.coords;
 public class Direction implements Couple {
     private final int x;
     private final int y;
+
     public Direction(int x, int y) throws IllegalArgumentException {
-        if ( Math.abs(x)>1 || Math.abs(y)>1 )
+        if (Math.abs(x) > 1 || Math.abs(y) > 1)
             throw new IllegalArgumentException("Invalid direction, given x and y should be in range [-1, 1]");
         this.x = x;
         this.y = y;
@@ -14,6 +15,7 @@ public class Direction implements Couple {
     public int getX() {
         return x;
     }
+
     @Override
     public int getY() {
         return y;
@@ -24,7 +26,7 @@ public class Direction implements Couple {
         if (this == other) return true;
         if (other == null || getClass() != other.getClass()) return false;
         Direction otherDirection = (Direction) other;
-        return this.getX() == otherDirection.getX() && this.getY() == otherDirection.getY();
+        return x == otherDirection.x && y == otherDirection.y;
     }
 
     // used only for debugging purposes

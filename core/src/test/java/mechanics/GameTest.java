@@ -1,7 +1,6 @@
 package mechanics;
 
 import board.Board;
-import board.ColoredPawn;
 import board.ValidMove;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,10 +15,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static positions.GamePositions.impossibleToMovePosition;
 
-public class GameTest {
+class GameTest {
 
     private final PrintStream standardOut = System.out;
     private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
+
     @BeforeEach
     public void setUp() {
         System.setOut(new PrintStream(outputStreamCaptor));
@@ -32,10 +32,10 @@ public class GameTest {
         game.play();
         assertTrue(outputStreamCaptor.toString().trim().contains("No valid moves for both players. Game over."));
         assertTrue(game.isGameOver());
-   }
+    }
 
     @Test
-    void undoToInitialPosition () {
+    void undoToInitialPosition() {
         Board board = new Board();
         Game game = new Game(board, new Human(), new Human());
         ValidMovesChecker validMovesChecker = new ValidMovesChecker(board);
@@ -44,7 +44,7 @@ public class GameTest {
         board.applyMoveToBoard(move);
         game.previousSteps.add(board.copy());
         game.undoLastMove();
-        assertEquals(board, new Board());
+        assertEquals(new Board(), board);
     }
 
     @Test
@@ -63,7 +63,7 @@ public class GameTest {
         board.applyMoveToBoard(move2);
         game.previousSteps.add(board.copy());
         game.undoLastMove();
-        assertEquals(board, new Board());
+        assertEquals(new Board(), board);
     }
 
     @AfterEach

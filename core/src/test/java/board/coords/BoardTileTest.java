@@ -7,7 +7,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class BoardTileTest {
+class BoardTileTest {
     @ParameterizedTest
     @MethodSource("positions.BoardTilePositions#getXYBoardTiles")
     void fromXYToName(int x, int y, String tileName) {

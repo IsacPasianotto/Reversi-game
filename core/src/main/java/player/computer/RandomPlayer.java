@@ -1,6 +1,5 @@
 package player.computer;
 
-import board.ColoredPawn;
 import board.ValidMove;
 import mechanics.ValidMovesChecker;
 import player.Player;
@@ -10,14 +9,13 @@ import java.util.Random;
 
 public class RandomPlayer implements Player {
 
-    public ValidMove askForAMove(ValidMovesChecker checker) {
-        ArrayList<ValidMove> validMoves = checker.getValidMoves();
-        int numberOfValidMoves = validMoves.size();
+    public ValidMove askForAMove(ValidMovesChecker validMovesChecker) {
+        ArrayList<ValidMove> validMoves = validMovesChecker.getValidMoves();
         Random rnd = new Random();
-        int extracted = rnd.nextInt(numberOfValidMoves);
+        int extracted = rnd.nextInt(validMovesChecker.numberOfValidMoves());
         return validMoves.get(extracted);
     }
 
-    public void close() { }
-
+    public void close() {
+    }
 }

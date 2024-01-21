@@ -18,50 +18,58 @@ public class Board {
         Arrays.asList("e4", "d5").forEach(s -> setPositionColor(new BoardTile(s), ColoredPawn.BLACK));
     }
 
-
-    public ColoredPawn getPositionColor(BoardTile position) {
-        return board[position.getX()][position.getY()];
-    }
-    public ColoredPawn getPositionColor(int x, int y) {
-        return board[x][y];
-    }
-    public void setPositionColor(BoardTile position, ColoredPawn color) {
-        board[position.getX()][position.getY()] = color;
-    }
-
-    public void applyMoveToBoard(ValidMove move){
+    public void applyMoveToBoard(ValidMove move) {
         BoardTile startingPosition = move.getPosition();
-        move.getValidDirections().forEach(direction -> flipLineOfPawns(startingPosition, direction, move.getCurrentColor()));
-        setPositionColor(startingPosition, move.getCurrentColor());
+        ColoredPawn currentColor = move.getCurrentColor();
+        move.getValidDirections().forEach(direction -> flipLineOfPawns(startingPosition, direction, currentColor));
+        setPositionColor(startingPosition, currentColor);
     }
+
     private void flipLineOfPawns(BoardTile startingPosition, Direction direction, ColoredPawn currentPlayerColor) {
         BoardTile currentPosition = startingPosition.add(direction);
-        while (getPositionColor(currentPosition) != currentPlayerColor){
+        while (getPositionColor(currentPosition) != currentPlayerColor) {
             setPositionColor(currentPosition, currentPlayerColor);
             currentPosition = currentPosition.add(direction);
         }
     }
 
     public boolean isFull() {
-        return Arrays.stream(this.board).allMatch(row -> Arrays.stream(row).noneMatch(pawn -> pawn == ColoredPawn.EMPTY));
-    }
-  public void importBoardFrom(Board another){
-        for (int i = 0; i < BOARD_SIZE; i++)
-            System.arraycopy(another.board[i], 0, this.board[i], 0, BOARD_SIZE);
+        return Arrays.stream(board).allMatch(row -> Arrays.stream(row).noneMatch(pawn -> pawn == ColoredPawn.EMPTY));
     }
 
-    public Board copy(){
+    public boolean isInsideTheBoard(BoardTile tile) {
+        return tile.getX() >= 0 && tile.getX() < BOARD_SIZE && tile.getY() >= 0 && tile.getY() < BOARD_SIZE;
+    }
+
+    public void importBoardFrom(Board another) {
+        for (int i = 0; i < BOARD_SIZE; i++)
+            System.arraycopy(another.board[i], 0, board[i], 0, BOARD_SIZE);
+    }
+
+    public Board copy() {
         Board newBoard = new Board();
         newBoard.importBoardFrom(this);
         return newBoard;
     }
 
+    public ColoredPawn getPositionColor(BoardTile position) {
+        return board[position.getX()][position.getY()];
+    }
+
+    public ColoredPawn getPositionColor(int x, int y) {
+        return board[x][y];
+    }
+
+    public void setPositionColor(BoardTile position, ColoredPawn color) {
+        board[position.getX()][position.getY()] = color;
+    }
+
     @Override
-    public boolean equals(Object other){
+    public boolean equals(Object other) {
         if (this == other) return true;
         if (other == null || getClass() != other.getClass()) return false;
         Board otherBoard = (Board) other;
-        return Arrays.deepEquals(this.board, otherBoard.board);
+        return Arrays.deepEquals(board, otherBoard.board);
     }
 
     public int computeScoreForPlayer(ColoredPawn player) {
@@ -72,14 +80,15 @@ public class Board {
     public String toString() {
         StringBuilder result = new StringBuilder();
         result.append("      A     B     C     D     E     F     G     H  \n   ┏─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┓\n");
-        for (int i = 0; i < BOARD_SIZE; i++){
-            result.append(" ").append(i+1).append(" ┃");
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            result.append(" ").append(i + 1).append(" ┃");
             for (int j = 0; j < BOARD_SIZE; j++)
                 result.append("  ").append(getPositionColor(i, j)).append((j == BOARD_SIZE - 1) ? "  ┃" : "  ╎");
             result.append((i == BOARD_SIZE - 1) ? "\n" : "\n   ┣-----+-----+-----+-----+-----+-----+-----+-----┫\n");
         }
         result.append("   ┗─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┛\n");
-        result.append("Current score: ").append(ColoredPawn.WHITE).append(" ").append(computeScoreForPlayer(ColoredPawn.WHITE)).append(" - ").append(computeScoreForPlayer(ColoredPawn.BLACK)).append(" ").append(ColoredPawn.BLACK);
+        result.append("Current score: ").append(ColoredPawn.WHITE).append(" ").append(computeScoreForPlayer(ColoredPawn.WHITE)).
+                append(" - ").append(computeScoreForPlayer(ColoredPawn.BLACK)).append(" ").append(ColoredPawn.BLACK);
         return result.toString();
     }
 }

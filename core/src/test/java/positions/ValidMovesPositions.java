@@ -80,14 +80,14 @@ public class ValidMovesPositions {
 
     public static Stream<Object[]> provideCoordinatesForValidMovesOnStart() {
         return Stream.of(
-                new Object[]{"D3", 0,  new ArrayList<Direction>() {{
+                new Object[]{"D3", 0, new ArrayList<Direction>() {{
                     add(new Direction(1, 0));
                 }}},
                 new Object[]{"C4", 1, new ArrayList<Direction>() {{
                     add(new Direction(0, 1));
                 }}},
                 new Object[]{"F5", 2, new ArrayList<Direction>() {{
-                    add(new Direction(0, - 1));
+                    add(new Direction(0, -1));
                 }}},
                 new Object[]{"E6", 3, new ArrayList<Direction>() {{
                     add(new Direction(-1, 0));
@@ -95,7 +95,7 @@ public class ValidMovesPositions {
         );
     }
 
-    public static Stream<Object[]> provideCoordinatesForValidMovesAfterD3(){
+    public static Stream<Object[]> provideCoordinatesForValidMovesAfterD3() {
         return Stream.of(
                 new Object[]{"C3", 0, new ArrayList<Direction>() {{
                     add(new Direction(1, 1));

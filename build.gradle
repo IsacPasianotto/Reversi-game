@@ -37,4 +37,4 @@ def distributionDir = "$rootProject.projectDir/readyToDistribute"
 
 clean {
     delete distributionDir
- }
+}

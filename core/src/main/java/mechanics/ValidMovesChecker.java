@@ -8,52 +8,54 @@ import board.coords.Direction;
 
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
-public class ValidMovesChecker{
-    final Board board;
+public class ValidMovesChecker {
+    private final Board board;
     private final ArrayList<ValidMove> validMoves;
-    protected boolean blackToMove;
+    private boolean blackToMove;
 
 
     public ValidMovesChecker(Board board) {
-        this.validMoves = new ArrayList<>();
+        validMoves = new ArrayList<>();
         this.board = board;
-        this.blackToMove = true;
+        blackToMove = true;
     }
 
     public ArrayList<ValidMove> getValidMoves() {
         return validMoves;
     }
-    public boolean isBlackToMove() {
-        return blackToMove;
-    }
-    public void swapTurn() {
-        blackToMove = !blackToMove;
-    }
-    public int numberOfValidMoves() {
-        return validMoves.size();
-    }
-    public Optional<ValidMove> IsValid(BoardTile move) {
-        for (ValidMove validMove : validMoves) {
-            if (validMove.getPosition().equals(move))
-                return Optional.of(validMove);
-        }
-        return Optional.empty();
-        //return validMoves.stream().findAny().filter(validMove -> validMove.getPosition().equals(move));
-    }
 
-    public ColoredPawn getCurrentPlayerColor(){
+    public ColoredPawn getCurrentPlayerColor() {
         return blackToMove ? ColoredPawn.BLACK : ColoredPawn.WHITE;
     }
-    public ColoredPawn getOppositePlayerColor(){
+
+    public ColoredPawn getOppositePlayerColor() {
         return blackToMove ? ColoredPawn.WHITE : ColoredPawn.BLACK;
     }
 
+    public Board getBoard() {
+        return board.copy();
+    }
+
+    public boolean isBlackToMove() {
+        return blackToMove;
+    }
+
+    public void swapTurn() {
+        blackToMove = !blackToMove;
+    }
+
+    public int numberOfValidMoves() {
+        return validMoves.size();
+    }
+
     public void computeValidMoves() {
-        this.validMoves.clear();
-        for (int i = 0; i < Board.BOARD_SIZE; i++){
+        validMoves.clear();
+        BoardTile currentPosition;
+        for (int i = 0; i < Board.BOARD_SIZE; i++) {
             for (int j = 0; j < Board.BOARD_SIZE; j++) {
-                BoardTile currentPosition = new BoardTile(i, j);
+                currentPosition = new BoardTile(i, j);
                 if (board.getPositionColor(currentPosition) == ColoredPawn.EMPTY)
                     checkPosition(currentPosition);
             }
@@ -70,16 +72,15 @@ public class ValidMovesChecker{
 
     public ArrayList<Direction> findDirectionsWithOppositeColor(BoardTile currentPosition) {
         ArrayList<Direction> directionsWithOppositeColor = new ArrayList<>();
+        Direction currentDirection;
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
-                Direction currentDirection = new Direction(i, j);
-                try {
-                    BoardTile neighbourToCheck = currentPosition.add(currentDirection);
+                currentDirection = new Direction(i, j);
+                BoardTile neighbourToCheck = currentPosition.add(currentDirection);
+                if (board.isInsideTheBoard(neighbourToCheck)) {
                     ColoredPawn neighbourColor = board.getPositionColor(neighbourToCheck);
                     if (neighbourColor == getOppositePlayerColor())
                         directionsWithOppositeColor.add(currentDirection);
-                } catch (ArrayIndexOutOfBoundsException e) {
-                    // Edge of the board, skip the direction
                 }
             }
         }
@@ -97,7 +98,7 @@ public class ValidMovesChecker{
 
     private boolean isValidDirection(BoardTile currentPosition, Direction currentDirection) {
         BoardTile tileCurrentlyOnCheck = currentPosition.add(currentDirection).add(currentDirection);
-        while (tileCurrentlyOnCheck.isInsideTheBoard()) {
+        while (board.isInsideTheBoard(tileCurrentlyOnCheck)) {
             if (board.getPositionColor(tileCurrentlyOnCheck) == ColoredPawn.EMPTY)
                 return false;
             if (board.getPositionColor(tileCurrentlyOnCheck) == getCurrentPlayerColor())
@@ -107,15 +108,14 @@ public class ValidMovesChecker{
         return false;
     }
 
-    public String printValidMoves() {
-        StringBuilder validMoves = new StringBuilder();
-        for (ValidMove validMove : getValidMoves()) {
-            validMoves.append(validMove.getPosition()).append(" ");
-        }
-        return validMoves.toString();
+    public Optional<ValidMove> IsValid(BoardTile move) {
+        return validMoves.stream().filter(validMove -> validMove.getPosition().equals(move)).findAny();
     }
 
-    public Board getBoard() {
-        return board;
+    public void getInvalidMoveMessage() {
+        System.out.println("Invalid move entered. Valid moves are: ");
+        String moves = validMoves.stream().map(validMove -> validMove.getPosition() + " ").collect(Collectors.joining());
+        System.out.println(moves);
+        System.out.print("Enter your move: ");
     }
 }

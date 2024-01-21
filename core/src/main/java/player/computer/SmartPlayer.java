@@ -1,29 +1,29 @@
 package player.computer;
 
 import board.Board;
-import board.ColoredPawn;
 import board.ValidMove;
 import mechanics.ValidMovesChecker;
 import player.Player;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class SmartPlayer implements Player {
     @Override
-    public ValidMove askForAMove(ValidMovesChecker validMovesChecker)  {
-        ArrayList<Integer> futureScores = new ArrayList<>();
+    public ValidMove askForAMove(ValidMovesChecker validMovesChecker) {
+        List<Integer> futureScores = new ArrayList<>(0);
         ArrayList<ValidMove> validMoves = validMovesChecker.getValidMoves();
         for (ValidMove validMove : validMoves) {
-            Board board = validMovesChecker.getBoard().copy();
+            Board board = validMovesChecker.getBoard();
             board.applyMoveToBoard(validMove);
             futureScores.add(board.computeScoreForPlayer(validMovesChecker.getCurrentPlayerColor()));
         }
-        System.out.println("Future scores: " + futureScores);
         int maxScore = Collections.max(futureScores);
         return validMoves.get(futureScores.indexOf(maxScore));
     }
 
-    public void close()  { }
+    public void close() {
+    }
 
 }

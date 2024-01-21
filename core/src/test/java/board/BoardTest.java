@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 import static positions.GamePositions.*;
 
-public class BoardTest {
+class BoardTest {
 
     @ParameterizedTest
     @MethodSource("positions.BoardTilePositions#emptyBoardTilesOnStart")
@@ -29,10 +29,7 @@ public class BoardTest {
         Board board = new Board();
         ColoredPawn coloredPawnTile = board.getPositionColor(x, y);
         assertEquals(expectedColor, coloredPawnTile);
-        }
-
-
-
+    }
 
 
     @Test
@@ -40,11 +37,11 @@ public class BoardTest {
         Board board = thereAreTwoFlippableLinesInOneMove();
         ValidMovesChecker validMovesChecker = new ValidMovesChecker(board);
         validMovesChecker.swapTurn();
-        ArrayList<Direction> directions = new ArrayList<>() {{
-            add(new Direction(-1, 0));
-            add(new Direction(0, 1));
-        }};
-        ValidMove move = new ValidMove(new BoardTile("c5"), directions,validMovesChecker.getCurrentPlayerColor());
+        ArrayList<Direction> directions = new ArrayList<>();
+        directions.add(new Direction(-1, 0));
+        directions.add(new Direction(0, 1));
+
+        ValidMove move = new ValidMove(new BoardTile("c5"), directions, validMovesChecker.getCurrentPlayerColor());
         board.applyMoveToBoard(move);
         Board expectedBoard = twoLinesFlippedOneMove();
         assertEquals(board, expectedBoard);

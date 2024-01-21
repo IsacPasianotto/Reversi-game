@@ -15,9 +15,11 @@ public class ValidMove {
         this.validDirections = validDirections;
         this.currentColor = currentColor;
     }
+
     public ArrayList<Direction> getValidDirections() {
         return validDirections;
     }
+
     public BoardTile getPosition() {
         return position;
     }
