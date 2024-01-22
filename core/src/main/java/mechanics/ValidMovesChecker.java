@@ -62,6 +62,7 @@ public class ValidMovesChecker {
         }
     }
 
+
     private void checkPosition(BoardTile currentPosition) {
         ArrayList<Direction> directionsWithOppositeColor = findDirectionsWithOppositeColor(currentPosition);
         if (directionsWithOppositeColor.isEmpty()) return;
@@ -114,8 +115,13 @@ public class ValidMovesChecker {
 
     public void getInvalidMoveMessage() {
         System.out.println("Invalid move entered. Valid moves are: ");
-        String moves = validMoves.stream().map(validMove -> validMove.position() + " ").collect(Collectors.joining());
+        String moves = getValidMovesInCurrentStatus();
         System.out.println(moves);
         System.out.print("Enter your move: ");
     }
+
+    private String getValidMovesInCurrentStatus() {
+        return validMoves.stream().map(validMove -> validMove.position() + " ").collect(Collectors.joining());
+    }
+
 }

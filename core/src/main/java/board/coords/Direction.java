@@ -6,7 +6,6 @@ public record Direction(int x, int y) implements Couple {
             throw new IllegalArgumentException("Invalid direction, given x and y should be in range [-1, 1]");
     }
 
-    // used only for debugging purposes
     @Override
     public String toString() {
         return "(" + x + ", " + y + ")";

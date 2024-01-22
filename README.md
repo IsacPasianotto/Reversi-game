@@ -14,6 +14,8 @@
 
 
 
+***Reminder:*** check better the `flipLineOfPawns` new implementation in the `core/.../Board.java` file!!! 
+
 
 # Reversi-game
 
@@ -45,6 +47,7 @@ Development to grow the code.
     - [ ]  Mockito --> MIT License
     - [ ]  Swing --> GNU General Public License v2.0
     - [ ]  openJDK --> GNU General Public License v2.0
+- [ ] Isac suggestion: remove `core/.../mechanics/Game.java` class, or even better make it as an interface and which is implemented in `terminal/.../?/TerminalGame`
 - [ ] Add the README
 - [ ] (Optional) Implement the game in a GUI
 
