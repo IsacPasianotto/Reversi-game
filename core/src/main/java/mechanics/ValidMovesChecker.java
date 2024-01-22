@@ -77,7 +77,7 @@ public class ValidMovesChecker {
             for (int j = -1; j <= 1; j++) {
                 currentDirection = new Direction(i, j);
                 BoardTile neighbourToCheck = currentPosition.add(currentDirection);
-                if (board.isInsideTheBoard(neighbourToCheck)) {
+                if (neighbourToCheck.isInsideTheBoard()) {
                     ColoredPawn neighbourColor = board.getPositionColor(neighbourToCheck);
                     if (neighbourColor == getOppositePlayerColor())
                         directionsWithOppositeColor.add(currentDirection);
@@ -98,7 +98,7 @@ public class ValidMovesChecker {
 
     private boolean isValidDirection(BoardTile currentPosition, Direction currentDirection) {
         BoardTile tileCurrentlyOnCheck = currentPosition.add(currentDirection).add(currentDirection);
-        while (board.isInsideTheBoard(tileCurrentlyOnCheck)) {
+        while (tileCurrentlyOnCheck.isInsideTheBoard()) {
             if (board.getPositionColor(tileCurrentlyOnCheck) == ColoredPawn.EMPTY)
                 return false;
             if (board.getPositionColor(tileCurrentlyOnCheck) == getCurrentPlayerColor())
@@ -109,12 +109,12 @@ public class ValidMovesChecker {
     }
 
     public Optional<ValidMove> IsValid(BoardTile move) {
-        return validMoves.stream().filter(validMove -> validMove.getPosition().equals(move)).findAny();
+        return validMoves.stream().filter(validMove -> validMove.position().equals(move)).findAny();
     }
 
     public void getInvalidMoveMessage() {
         System.out.println("Invalid move entered. Valid moves are: ");
-        String moves = validMoves.stream().map(validMove -> validMove.getPosition() + " ").collect(Collectors.joining());
+        String moves = validMoves.stream().map(validMove -> validMove.position() + " ").collect(Collectors.joining());
         System.out.println(moves);
         System.out.print("Enter your move: ");
     }

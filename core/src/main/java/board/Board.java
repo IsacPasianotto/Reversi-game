@@ -19,9 +19,9 @@ public class Board {
     }
 
     public void applyMoveToBoard(ValidMove move) {
-        BoardTile startingPosition = move.getPosition();
-        ColoredPawn currentColor = move.getCurrentColor();
-        move.getValidDirections().forEach(direction -> flipLineOfPawns(startingPosition, direction, currentColor));
+        BoardTile startingPosition = move.position();
+        ColoredPawn currentColor = move.currentColor();
+        move.validDirections().forEach(direction -> flipLineOfPawns(startingPosition, direction, currentColor));
         setPositionColor(startingPosition, currentColor);
     }
 
@@ -37,10 +37,6 @@ public class Board {
         return Arrays.stream(board).allMatch(row -> Arrays.stream(row).noneMatch(pawn -> pawn == ColoredPawn.EMPTY));
     }
 
-    public boolean isInsideTheBoard(BoardTile tile) {
-        return tile.getX() >= 0 && tile.getX() < BOARD_SIZE && tile.getY() >= 0 && tile.getY() < BOARD_SIZE;
-    }
-
     public void importBoardFrom(Board another) {
         for (int i = 0; i < BOARD_SIZE; i++)
             System.arraycopy(another.board[i], 0, board[i], 0, BOARD_SIZE);
@@ -53,7 +49,7 @@ public class Board {
     }
 
     public ColoredPawn getPositionColor(BoardTile position) {
-        return board[position.getX()][position.getY()];
+        return board[position.x()][position.y()];
     }
 
     public ColoredPawn getPositionColor(int x, int y) {
@@ -61,7 +57,7 @@ public class Board {
     }
 
     public void setPositionColor(BoardTile position, ColoredPawn color) {
-        board[position.getX()][position.getY()] = color;
+        board[position.x()][position.y()] = color;
     }
 
     @Override

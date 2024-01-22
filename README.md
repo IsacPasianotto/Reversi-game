@@ -1,3 +1,20 @@
+
+![Static Badge](https://img.shields.io/badge/Java-r?logo=oracle&color=darkred)&nbsp;
+![Static Badge](https://img.shields.io/badge/gradle-gradle?logo=gradle&color=%2302303A)&nbsp;
+![Static Badge](https://img.shields.io/badge/Apache%20Groovy-groovy?logo=Apache%20Groovy&logoColor=white&color=%234298B8
+)&nbsp;
+![Static Badge](https://img.shields.io/badge/JUnit5-JUnit5?logo=JUnit5&logoColor=white&color=%2325A162)&nbsp;
+![Static Badge](https://img.shields.io/badge/Mockito-Mockito?logo=Mockito&logoColor=white&color=%23FFC837)&nbsp;
+![Static Badge](https://img.shields.io/badge/OpenJDK-OpenJDK?logo=OpenJDK&logoColor=white&color=%23437291)
+
+[//]: # (![Static Badge]&#40;https://img.shields.io/badge/Swing-Swing?logo=Java&logoColor=white&color=%23E60012&#41;&nbsp;)
+
+![Static Badge](https://img.shields.io/badge/CircleCI%20stautus:-circleci?logo=circleci&color=%23343434)
+[![CircleCI](https://dl.circleci.com/status-badge/img/circleci/Nnx7eettKAjZjgLqohmuHD/82KDGxEoAw8hcLPNtEJmox/tree/main.svg?style=svg&circle-token=c19e80ed0f5747a0dd7dc3d7f326b2ff245cd5cf)](https://dl.circleci.com/status-badge/redirect/circleci/Nnx7eettKAjZjgLqohmuHD/82KDGxEoAw8hcLPNtEJmox/tree/main)&nbsp;
+
+
+
+
 # Reversi-game
 
 This repo was made for the "Software Development Methods" exam at the University of Trieste that I took during my
@@ -53,9 +70,9 @@ which will create the `.jar` file in the folder `/readyToDistribute`. Then you c
 command:
 
 ```
-java -jar terminal-1.0.jar
+java -jar ReversiGame-terminal-1.0.jar
 ```
 
-Note that the `./gradlew build` command will take care of destroying the `.jar` file and the
+Note that the `./gradlew clean` command will take care of destroying the `.jar` file and the
 folder `/readyToDistribute`. 
 

@@ -1,6 +1,6 @@
 def mainClassName = 'terminal.TerminalMain'
 def distributionDir = "$rootProject.projectDir/readyToDistribute"
-
+def archiveName = rootProject.name + '-' + project.name + '-' + String.valueOf(project.version) + '.jar'
 
 project.ext.mainClassName = mainClassName
 
@@ -67,4 +67,8 @@ tasks.register('dist', Jar) {
     }
     with jar
     destinationDirectory = file(distributionDir)
+    archiveFileName = archiveName
+    doLast {
+        println "\nDistribution file ready at ${distributionDir}/${archiveName}\n"
+    }
 }

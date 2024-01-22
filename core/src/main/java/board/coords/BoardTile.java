@@ -1,5 +1,7 @@
 package board.coords;
 
+import board.Board;
+
 public class BoardTile implements Couple {
     private final int x;
     private final int y;
@@ -27,16 +29,16 @@ public class BoardTile implements Couple {
     }
 
     public BoardTile add(Direction other) {
-        return new BoardTile(x + other.getX(), y + other.getY());
+        return new BoardTile(x + other.x(), y + other.y());
     }
 
     @Override
-    public int getX() {
+    public int x() {
         return x;
     }
 
     @Override
-    public int getY() {
+    public int y() {
         return y;
     }
 
@@ -45,7 +47,7 @@ public class BoardTile implements Couple {
         if (this == other) return true;
         if (other == null || getClass() != other.getClass()) return false;
         BoardTile otherBoardTile = (BoardTile) other;
-        return getX() == otherBoardTile.getX() && getY() == otherBoardTile.getY();
+        return x() == otherBoardTile.x() && y() == otherBoardTile.y();
     }
 
     @Override
@@ -53,5 +55,9 @@ public class BoardTile implements Couple {
         String row = "ABCDEFGH";
         String col = "12345678";
         return "" + row.charAt(y) + col.charAt(x);
+    }
+
+    public boolean isInsideTheBoard() {
+        return x() >= 0 && x() < Board.BOARD_SIZE && y() >= 0 && y() < Board.BOARD_SIZE;
     }
 }

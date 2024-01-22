@@ -1,9 +1,9 @@
 package board.coords;
 
 public interface Couple {
-    int getX();
+    int x();
 
-    int getY();
+    int y();
 
     @Override
     boolean equals(Object other);

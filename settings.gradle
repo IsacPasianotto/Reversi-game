@@ -1,4 +1,4 @@
-rootProject.name = 'Reversi-game'
+rootProject.name = 'ReversiGame'
 include 'core'
 include 'terminal'
 

@@ -14,15 +14,20 @@ import java.io.InputStreamReader;
 
 public class TerminalMain {
     public static void main(String[] args) {
-        String begin = "mechanics.Game started!\n" +
-                       "######################################################################################\n" +
-                       "Welcome to Reversi!\n" +
-                       "This is the list of possible commands:\n\n" +
-                       "- Enter a letter (upper or lower case) followed by a number to place a pawn in the corresponding box (examples: a1, A1)\n" +
-                       "If the move is not valid you will be asked to enter another one, and the system will show you the available ones.\n\n" +
-                       "- quit: quit the game\n\n" +
-                       "- undo: undo the last move you have done (it will also undo bot last move if you are playing solo)\n" +
-                       "######################################################################################\n";
+        String begin = """
+                mechanics.Game started!
+                ######################################################################################
+                Welcome to Reversi!
+                This is the list of possible commands:
+
+                - Enter a letter (upper or lower case) followed by a number to place a pawn in the corresponding box (examples: a1, A1)
+                If the move is not valid you will be asked to enter another one, and the system will show you the available ones.
+
+                - quit: quit the game
+
+                - undo: undo the last move you have done (it will also undo bot last move if you are playing solo)
+                ######################################################################################
+                """;
         System.out.println(begin);
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         Player firstPlayer = new Human();

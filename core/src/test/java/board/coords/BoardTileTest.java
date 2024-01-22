@@ -19,8 +19,8 @@ class BoardTileTest {
     @MethodSource("positions.BoardTilePositions#getXYBoardTiles")
     void fromNameToXY(int x, int y, String tileName) {
         BoardTile tile = new BoardTile(tileName);
-        assertEquals(x, tile.getX());
-        assertEquals(y, tile.getY());
+        assertEquals(x, tile.x());
+        assertEquals(y, tile.y());
     }
 
     @Test

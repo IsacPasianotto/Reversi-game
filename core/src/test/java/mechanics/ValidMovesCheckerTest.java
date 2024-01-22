@@ -32,8 +32,8 @@ class ValidMovesCheckerTest {
         ArrayList<Direction> directionsWithOppositeColor = validMovesChecker.findDirectionsWithOppositeColor(new BoardTile(inputCoords));
         assertEquals(1, directionsWithOppositeColor.size());
         Direction chosenDirection = directionsWithOppositeColor.get(0);
-        assertEquals(expectedX, chosenDirection.getX());
-        assertEquals(expectedY, chosenDirection.getY());
+        assertEquals(expectedX, chosenDirection.x());
+        assertEquals(expectedY, chosenDirection.y());
     }
 
     @ParameterizedTest
@@ -100,9 +100,9 @@ class ValidMovesCheckerTest {
         ValidMovesChecker validMovesChecker = new ValidMovesChecker(board);
         validMovesChecker.computeValidMoves();
         ValidMove obtainedValidMove = validMovesChecker.getValidMoves().get(discoveredOrder);
-        assertEquals(truePositionCenter, obtainedValidMove.getPosition().toString());
-        assertEquals(trueDirections, obtainedValidMove.getValidDirections());
-        assertEquals(ColoredPawn.BLACK, obtainedValidMove.getCurrentColor());
+        assertEquals(truePositionCenter, obtainedValidMove.position().toString());
+        assertEquals(trueDirections, obtainedValidMove.validDirections());
+        assertEquals(ColoredPawn.BLACK, obtainedValidMove.currentColor());
     }
 
     @ParameterizedTest
@@ -113,9 +113,9 @@ class ValidMovesCheckerTest {
         validMovesChecker.swapTurn();
         validMovesChecker.computeValidMoves();
         ValidMove obtainedValidMove = validMovesChecker.getValidMoves().get(discoveredOrder);
-        assertEquals(truePositionCenter, obtainedValidMove.getPosition().toString());
-        assertEquals(trueDirections, obtainedValidMove.getValidDirections());
-        assertEquals(ColoredPawn.WHITE, obtainedValidMove.getCurrentColor());
+        assertEquals(truePositionCenter, obtainedValidMove.position().toString());
+        assertEquals(trueDirections, obtainedValidMove.validDirections());
+        assertEquals(ColoredPawn.WHITE, obtainedValidMove.currentColor());
     }
 
     @Test
@@ -124,7 +124,7 @@ class ValidMovesCheckerTest {
         ValidMovesChecker validMovesChecker = new ValidMovesChecker(board);
         validMovesChecker.computeValidMoves();
         ArrayList<ValidMove> validMoves = validMovesChecker.getValidMoves();
-        assertTrue(validMoves.stream().noneMatch(validMove -> validMove.getPosition().equals(new BoardTile("d1"))));
+        assertTrue(validMoves.stream().noneMatch(validMove -> validMove.position().equals(new BoardTile("d1"))));
     }
 
     @Test
@@ -135,7 +135,7 @@ class ValidMovesCheckerTest {
         Random rnd = new Random();
         int extracted = rnd.nextInt(validMovesChecker.numberOfValidMoves());
         ValidMove randomMove = validMovesChecker.getValidMoves().get(extracted);
-        Optional<ValidMove> thisShouldNotBeNull = validMovesChecker.IsValid(randomMove.getPosition());
+        Optional<ValidMove> thisShouldNotBeNull = validMovesChecker.IsValid(randomMove.position());
         assertTrue(thisShouldNotBeNull.isPresent());
     }
 
