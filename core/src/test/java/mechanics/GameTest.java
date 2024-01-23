@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static positions.GamePositions.impossibleToMovePosition;
 
-class sGameTest {
+class GameTest {
 
     @Test
     void bothPlayersCantMove() {

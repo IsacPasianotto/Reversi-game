@@ -37,7 +37,7 @@ public class GameTerminal extends Game {
             }
             validMovesChecker.swapTurn();
         }
-        GameOver();  // currently not used
+        GameOver();
         System.out.println(board);
         printFinalScores();
     }
