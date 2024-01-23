@@ -10,20 +10,23 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class ValidMovesChecker {
-    private final Board board;
-    private final ArrayList<ValidMove> validMoves;
-    private boolean blackToMove;
+public class GameController {
+    protected final Board board;
+    protected final ArrayList<ValidMove> validMoves;
+    boolean blackToMove;
 
-
-    public ValidMovesChecker(Board board) {
-        validMoves = new ArrayList<>();
+    public GameController(Board board) {
         this.board = board;
+        validMoves = new ArrayList<>();
         blackToMove = true;
     }
 
     public ArrayList<ValidMove> getValidMoves() {
         return validMoves;
+    }
+
+    public Board getBoard() {
+        return board.copy();
     }
 
     public ColoredPawn getCurrentPlayerColor() {
@@ -34,16 +37,29 @@ public class ValidMovesChecker {
         return blackToMove ? ColoredPawn.WHITE : ColoredPawn.BLACK;
     }
 
-    public Board getBoard() {
-        return board.copy();
-    }
-
     public boolean isBlackToMove() {
         return blackToMove;
     }
 
     public void swapTurn() {
         blackToMove = !blackToMove;
+    }
+
+
+    public boolean isBoardFull() {
+        return board.isFull();
+    }
+
+    public void applyMoveToBoard(ValidMove move) {
+        board.applyMoveToBoard(move);
+    }
+
+    public void importBoardFrom(Board board) {
+        this.board.importBoardFrom(board);
+    }
+
+    public int computeScoreForPlayer(ColoredPawn playerColor) {
+        return board.computeScoreForPlayer(playerColor);
     }
 
     public int numberOfValidMoves() {
@@ -61,7 +77,6 @@ public class ValidMovesChecker {
             }
         }
     }
-
 
     private void checkPosition(BoardTile currentPosition) {
         ArrayList<Direction> directionsWithOppositeColor = findDirectionsWithOppositeColor(currentPosition);
@@ -89,12 +104,9 @@ public class ValidMovesChecker {
     }
 
     private ArrayList<Direction> computeValidDirections(BoardTile currentPosition, ArrayList<Direction> directionsWithOppositeColor) {
-        ArrayList<Direction> validDirections = new ArrayList<>();
-        for (Direction currentDirection : directionsWithOppositeColor) {
-            if (isValidDirection(currentPosition, currentDirection))
-                validDirections.add(currentDirection);
-        }
-        return validDirections;
+        return directionsWithOppositeColor.stream()
+                .filter(currentDirection -> isValidDirection(currentPosition, currentDirection))
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     private boolean isValidDirection(BoardTile currentPosition, Direction currentDirection) {
@@ -113,39 +125,8 @@ public class ValidMovesChecker {
         return validMoves.stream().filter(validMove -> validMove.position().equals(move)).findAny();
     }
 
-    public void printInvalidMoveMessage() {
-        System.out.println("Invalid move entered. Valid moves are: ");
-        String moves = getValidMovesInCurrentStatusAsString();
-        System.out.println(moves);
-        System.out.print("Enter your move: ");
-    }
-
-    private String getValidMovesInCurrentStatusAsString() {
-        return validMoves.stream().map(validMove -> validMove.position() + " ").collect(Collectors.joining());
-    }
-
-    private ArrayList<String> getValidMovesInCurrentStatusAsArrayList() {
-        return validMoves.stream().map(validMove -> validMove.position().toString()).collect(Collectors.toCollection(ArrayList::new));
-    }
-
-
-    public Optional<ValidMove> getMoveInTerminal(String readInput)  {
-        try {
-            BoardTile chosen = new BoardTile(readInput);
-            Optional<ValidMove> enteredMove = IsValid(chosen);
-            if (enteredMove.isEmpty())
-                printInvalidMoveMessage();
-            return enteredMove;
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-            System.out.print("Enter your move: ");
-        }
-        return Optional.empty();
-    }
-
-    public Optional<ValidMove> getMoveFromGUI(String input) {
+    public Optional<ValidMove> getMove(String input) {
         BoardTile chosen = new BoardTile(input);
         return IsValid(chosen);
     }
-
 }

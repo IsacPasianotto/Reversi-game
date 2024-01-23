@@ -30,5 +30,4 @@ class UserInputReader implements AutoCloseable {
             System.out.println("Error while closing the reader.");
         }
     }
-
 }

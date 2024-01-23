@@ -1,7 +1,7 @@
 package player.computer;
 
 import board.ValidMove;
-import mechanics.ValidMovesChecker;
+import mechanics.GameController;
 import player.Player;
 
 import java.util.ArrayList;
@@ -9,10 +9,10 @@ import java.util.Random;
 
 public class RandomPlayer implements Player {
 
-    public ValidMove askForAMove(ValidMovesChecker validMovesChecker) {
-        ArrayList<ValidMove> validMoves = validMovesChecker.getValidMoves();
+    public ValidMove askForAMove(GameController gameController) {
+        ArrayList<ValidMove> validMoves = gameController.getValidMoves();
         Random rnd = new Random();
-        int extracted = rnd.nextInt(validMovesChecker.numberOfValidMoves());
+        int extracted = rnd.nextInt(gameController.numberOfValidMoves());
         return validMoves.get(extracted);
     }
 

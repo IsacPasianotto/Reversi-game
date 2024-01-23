@@ -24,9 +24,9 @@ class GameTest {
     void undoToInitialPosition() {
         Board board = new Board();
         Game game = new Game(board, new Human(), new Human());
-        ValidMovesChecker validMovesChecker = new ValidMovesChecker(board);
-        validMovesChecker.computeValidMoves();
-        ValidMove move = validMovesChecker.getValidMoves().getFirst();
+        GameController gameController = new GameController(board);
+        gameController.computeValidMoves();
+        ValidMove move = gameController.getValidMoves().getFirst();
         board.applyMoveToBoard(move);
         game.previousSteps.add(board.copy());
         game.undoLastMove();
@@ -37,7 +37,7 @@ class GameTest {
     void undoTwoMovesIfHumanVsBot() {
         Board board = new Board();
         Game game = new Game(board, new Human(), new RandomPlayer());
-        ValidMovesChecker checker = new ValidMovesChecker(board);
+        GameController checker = new GameController(board);
 
         checker.computeValidMoves();
         ValidMove move1 = checker.getValidMoves().getFirst();
