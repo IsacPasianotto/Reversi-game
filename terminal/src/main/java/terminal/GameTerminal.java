@@ -1,11 +1,9 @@
 package terminal;
 
 import board.Board;
-import board.ColoredPawn;
 import board.ValidMove;
 import mechanics.Game;
 import player.Player;
-import player.human.Human;
 import player.human.QuitGameException;
 import player.human.UndoException;
 
@@ -20,6 +18,7 @@ public class GameTerminal extends Game {
     }
 
     public void play() {
+        int skippedTurns = 0;
         while (!gameController.isBoardFull() && (skippedTurns < 2)) {
             System.out.println(gameController.getBoard());
             System.out.println("Current player: " + gameController.getCurrentPlayerColor());
@@ -33,13 +32,12 @@ public class GameTerminal extends Game {
                 Optional<ValidMove> chosenMove = selectAValidMoveOrUndo();
                 if (chosenMove.isEmpty()) continue;
                 gameController.applyMoveToBoard(chosenMove.get());
-                previousSteps.add(gameController.getBoard().copy());
+                previousSteps.add(gameController.getBoard());
             }
             gameController.swapTurn();
         }
+        gameController.printFinalScores();
         GameOver();
-        System.out.println(gameController.getBoard());
-        printFinalScores();
         blackPlayer.close();
         whitePlayer.close();
     }
@@ -47,7 +45,7 @@ public class GameTerminal extends Game {
     private Optional<ValidMove> selectAValidMoveOrUndo() {
         Player currentPlayer = gameController.isBlackToMove() ? blackPlayer : whitePlayer;
         try {
-            if (currentPlayer.getClass().equals(Human.class))
+            if (isHumanPlayer(currentPlayer))
                 System.out.print("Enter your move: ");
             return Optional.of(currentPlayer.askForAMove(gameController));
         } catch (QuitGameException e) {
@@ -66,13 +64,9 @@ public class GameTerminal extends Game {
         return Optional.empty();
     }
 
-    private void GameOver() {
-        gameOver = true;
-    }
-
     public void undoLastMove() {
-        int numberOfHumanPlayers = (whitePlayer.getClass().equals(Human.class) ? 1 : 0) +
-                (blackPlayer.getClass().equals(Human.class) ? 1 : 0);
+        int numberOfHumanPlayers = (isHumanPlayer(whitePlayer) ? 1 : 0) +
+                (isHumanPlayer(blackPlayer) ? 1 : 0);
         int numberOfStepsBack = (numberOfHumanPlayers == 1) ? 2 : 1;
         if (previousSteps.size() > numberOfStepsBack) {
             System.out.println("Undoing last move.");
@@ -81,13 +75,6 @@ public class GameTerminal extends Game {
             IntStream.range(0, numberOfStepsBack).forEach(i -> gameController.swapTurn());
         } else
             System.out.println("Cannot undo anymore.");
-    }
-
-    private void printFinalScores() {
-        int whiteScore = gameController.computeScoreForPlayer(ColoredPawn.WHITE);
-        int blackScore = gameController.computeScoreForPlayer(ColoredPawn.BLACK);
-        System.out.println("FINAL SCORE: " + ColoredPawn.WHITE + ": " + whiteScore + ", " + ColoredPawn.BLACK + ": " + blackScore);
-        System.out.println((whiteScore > blackScore) ? "White wins!" : (whiteScore < blackScore) ? "Black wins!" : "Draw!");
     }
 
 }

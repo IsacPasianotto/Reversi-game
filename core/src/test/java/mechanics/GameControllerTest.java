@@ -84,7 +84,7 @@ class GameControllerTest {
         Board board = new Board();
         GameController gameController = new GameController(board);
         assertEquals(ColoredPawn.BLACK, gameController.getCurrentPlayerColor());
-        assertEquals(ColoredPawn.WHITE, gameController.getOppositePlayerColor());
+        assertEquals(ColoredPawn.WHITE, gameController.getCurrentPlayerColor().opposite());
     }
 
     @Test
@@ -97,7 +97,7 @@ class GameControllerTest {
         board.applyMoveToBoard(c4);
         gameController.swapTurn();
         assertEquals(ColoredPawn.WHITE, gameController.getCurrentPlayerColor());
-        assertEquals(ColoredPawn.BLACK, gameController.getOppositePlayerColor());
+        assertEquals(ColoredPawn.BLACK, gameController.getCurrentPlayerColor().opposite());
     }
 
     @Test
@@ -140,7 +140,8 @@ class GameControllerTest {
         GameController gameController = new GameController(board);
         gameController.computeValidMoves();
         ArrayList<ValidMove> validMoves = gameController.getValidMoves();
-        assertTrue(validMoves.stream().noneMatch(validMove -> validMove.position().equals(new BoardTile("d1"))));
+        BoardTile d1 = new BoardTile("d1");
+        assertTrue(validMoves.stream().noneMatch(validMove -> validMove.position().equals(d1)));
     }
 
     @Test
@@ -151,7 +152,7 @@ class GameControllerTest {
         Random rnd = new Random();
         int extracted = rnd.nextInt(gameController.numberOfValidMoves());
         ValidMove randomMove = gameController.getValidMoves().get(extracted);
-        Optional<ValidMove> thisShouldNotBeNull = gameController.IsValid(randomMove.position());
+        Optional<ValidMove> thisShouldNotBeNull = gameController.isValid(randomMove.position());
         assertTrue(thisShouldNotBeNull.isPresent());
     }
 

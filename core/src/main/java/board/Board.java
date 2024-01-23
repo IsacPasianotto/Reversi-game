@@ -5,6 +5,7 @@ import board.coords.BoardTile;
 import board.coords.Direction;
 
 import java.util.Arrays;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class Board {
@@ -32,14 +33,12 @@ public class Board {
                 .forEach(position -> setPositionColor(position, currentPlayerColor));
     }
 
-
     public boolean isFull() {
         return Arrays.stream(board).allMatch(row -> Arrays.stream(row).noneMatch(pawn -> pawn == ColoredPawn.EMPTY));
     }
 
     public void importBoardFrom(Board another) {
-        for (int i = 0; i < BOARD_SIZE; i++)
-            System.arraycopy(another.board[i], 0, board[i], 0, BOARD_SIZE);
+        IntStream.range(0, BOARD_SIZE).forEachOrdered(i -> System.arraycopy(another.board[i], 0, board[i], 0, BOARD_SIZE));
     }
 
     public Board copy() {
@@ -83,8 +82,10 @@ public class Board {
             result.append((i == BOARD_SIZE - 1) ? "\n" : "\n   ┣-----+-----+-----+-----+-----+-----+-----+-----┫\n");
         }
         result.append("   ┗─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┛\n");
-        result.append("Current score: ").append(ColoredPawn.WHITE).append(" ").append(computeScoreForPlayer(ColoredPawn.WHITE)).
-                append(" - ").append(computeScoreForPlayer(ColoredPawn.BLACK)).append(" ").append(ColoredPawn.BLACK);
+        result.append("Current score: ")
+                .append(ColoredPawn.WHITE).append(" ").append(computeScoreForPlayer(ColoredPawn.WHITE))
+                .append(" - ")
+                .append(computeScoreForPlayer(ColoredPawn.BLACK)).append(" ").append(ColoredPawn.BLACK);
         return result.toString();
     }
 }
