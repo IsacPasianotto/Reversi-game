@@ -24,8 +24,25 @@ jobs:
       - run:
           name: "Test: all"
           command: ./gradlew test
+  linux-core:
+    # Specify the execution environment. You can specify an image from Docker Hub or use one of our convenience images from CircleCI's Developer Hub.
+    # See: https://circleci.com/docs/configuration-reference/#executor-job
+    docker:
+      # See available images in: 
+      # https://circleci.com/developer/images
+      - image: cimg/openjdk:21.0.0
 
-  test-board:
+    working_directory: ~/repo
+    # Add steps to the job
+    # See: https://circleci.com/docs/configuration-reference/#steps
+    steps:
+      - checkout
+      - run:
+          name: "Test: all"
+          command: ./gradlew core:test
+
+
+  test-core-board:
     docker:
       - image: cimg/openjdk:21.0.0
     working_directory: ~/repo
@@ -33,15 +50,15 @@ jobs:
       - checkout
       - run:
           name: "Test: BoardTest"
-          command: ./gradlew test --tests board.BoardTest
+          command: ./gradlew core:test --tests board.BoardTest
       - run:
           name: "Teas: coords.BoardTileTest"
-          command: ./gradlew test --tests board.coords.BoardTileTest
+          command: ./gradlew core:test --tests board.coords.BoardTileTest
       - run:
           name: "Teas: coords.DirectionTest"
-          command: ./gradlew test --tests board.coords.DirectionTest
+          command: ./gradlew core:test --tests board.coords.DirectionTest
 
-  test-mechanics:
+  test-core-mechanics:
     docker:
       - image: cimg/openjdk:21.0.0
     working_directory: ~/repo
@@ -49,12 +66,12 @@ jobs:
       - checkout
       - run:
           name: "Test: ValidMovesCheckerTest"
-          command: ./gradlew test --tests mechanics.ValidMovesCheckerTest
+          command: ./gradlew core:test --tests mechanics.ValidMovesCheckerTest
       - run:
           name: "Test: GameTest"
-          command: ./gradlew test --tests mechanics.GameTest
+          command: ./gradlew core:test --tests mechanics.GameTest
 
-  test-player-computer:
+  test-core-player-computer:
     docker:
       - image: cimg/openjdk:21.0.0
     working_directory: ~/repo
@@ -62,12 +79,12 @@ jobs:
       - checkout
       - run:
           name: "Test: RandomPlayerTest"
-          command: ./gradlew test --tests player.computer.RandomPlayerTest
+          command: ./gradlew core:test --tests player.computer.RandomPlayerTest
       - run:
           name: "Test: SmartPlayerTest"
-          command: ./gradlew test --tests player.computer.SmartPlayerTest
+          command: ./gradlew core:test --tests player.computer.SmartPlayerTest
 
-  test-player-human:
+  test-core-player-human:
     docker:
       - image: cimg/openjdk:21.0.0
     working_directory: ~/repo
@@ -75,9 +92,9 @@ jobs:
       - checkout
       - run:
           name: "Test: InputReaderTest"
-          command: ./gradlew test --tests player.human.InputReaderTest
+          command: ./gradlew core:test --tests player.human.InputReaderTest
 
-  test-main:
+  test-terminal-main:
     docker:
       - image: cimg/openjdk:21.0.0
     working_directory: ~/repo
@@ -85,73 +102,74 @@ jobs:
       - checkout
       - run:
           name: "Test: mainTest"
-          command: ./gradlew test --tests MainTest
+          command: ./gradlew terminal:test --tests TerminalMainTest
 
 
   test-win:
     executor: win/default
     working_directory: ~/repo
     steps:
-      # It doesn't work out of the box on windows machine, like in: 
+      # It doesn't work out of the box on Windows machine, like in:
       #   https://discuss.circleci.com/t/empty-checkout-key-on-windows-pipeline-only/47116
-      # the workaround (proposed also in the circleCI discuss forum) seems to be adding by hand a ssh keys which
+      # the workaround (proposed also in the circleCI discuss forum) seems to be adding by hand an ssh keys which
       # is not automatically added even if it should be supposed to be, see also: 
       #   https://circleci.com/docs/add-ssh-key/
       - add_ssh_keys:
-            fingerprints:
-              - "a6:75:a4:04:58:c5:7a:40:00:f7:6b:19:a6:0a:16:2b"
+          fingerprints:
+            - "a6:75:a4:04:58:c5:7a:40:00:f7:6b:19:a6:0a:16:2b"
       - checkout
       - run:
           name: test-all
           shell: bash.exe
           command: ./gradlew.bat test
       - run:
-          name: test-board.BoardTest
+          name: test-core-board.BoardTest
           shell: bash.exe
-          command: ./gradlew test --tests board.BoardTest
+          command: ./gradlew core:test --tests board.BoardTest
       - run:
-          name: test-board.coords.BoardTileTest
+          name: test-core-board.coords.BoardTileTest
           shell: bash.exe
-          command: ./gradlew test --tests board.coords.BoardTileTest
+          command: ./gradlew core:test --tests board.coords.BoardTileTest
       - run:
-          name: test-board.coords.DirectionTest
+          name: test-core-board.coords.DirectionTest
           shell: bash.exe
-          command: ./gradlew test --tests board.coords.DirectionTest
+          command: ./gradlew core:test --tests board.coords.DirectionTest
       - run:
-          name: test-mechanics.ValidMovesCheckerTest
+          name: test-core-mechanics.ValidMovesCheckerTest
           shell: bash.exe
-          command: ./gradlew test --tests mechanics.ValidMovesCheckerTest
+          command: ./gradlew core:test --tests mechanics.ValidMovesCheckerTest
       - run:
-          name: test-mechanics.GameTest
+          name: test-core-mechanics.GameTest
           shell: bash.exe
-          command: ./gradlew test --tests mechanics.GameTest
+          command: ./gradlew core:test --tests mechanics.GameTest
       - run:
-          name: test-player.computer.RandomPlayerTest
+          name: test-core-player.computer.RandomPlayerTest
           shell: bash.exe
-          command: ./gradlew test --tests player.computer.RandomPlayerTest
+          command: ./gradlew core:test --tests player.computer.RandomPlayerTest
       - run:
-          name: test-player.computer.SmartPlayerTest
+          name: test-core-player.computer.SmartPlayerTest
           shell: bash.exe
-          command: ./gradlew test --tests player.computer.SmartPlayerTest
+          command: ./gradlew core:test --tests player.computer.SmartPlayerTest
       - run:
-          name: test-player.human.InputReaderTest
+          name: test-core-player.human.InputReaderTest
           shell: bash.exe
-          command: ./gradlew test --tests player.human.InputReaderTest
+          command: ./gradlew core:test --tests player.human.InputReaderTest
       - run:
-          name: test-main
+          name: test-terminal-main
           shell: bash.exe
-          command: ./gradlew test --tests MainTest
+          command: ./gradlew terminal:test --tests TerminalMainTest
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
 workflows:
-   test:
+  test:
     jobs:
       - test-linux
-      - test-board
-      - test-mechanics
-      - test-player-computer
-      - test-player-human
-      - test-main
+      - linux-core
+      - test-core-board
+      - test-core-mechanics
+      - test-core-player-computer
+      - test-core-player-human
+      - test-terminal-main
       - test-win
 

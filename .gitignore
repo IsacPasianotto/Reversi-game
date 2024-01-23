@@ -44,3 +44,4 @@ bin/
 ### User-edited .gitignore: ###
 .idea/
 
+.readyToDistribute/

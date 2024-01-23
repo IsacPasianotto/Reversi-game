@@ -1,0 +1,40 @@
+apply {
+    plugin 'java'
+}
+
+allprojects {
+
+    java {
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
+    }
+
+    sourceSets.main.java.srcDirs = ["src/main/java"]
+    sourceSets.test.java.srcDirs = ['src/test/java']
+
+    [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+    repositories {
+        mavenCentral()
+    }
+
+    group = 'Isac_and_Davide'
+    version = '1.0'
+
+    apply from: "$rootProject.projectDir/dependencies.gradle"
+
+}
+
+subprojects {
+    apply {
+        plugin 'java'
+        plugin 'java-library'
+        plugin 'application'
+    }
+}
+
+def distributionDir = "$rootProject.projectDir/readyToDistribute"
+
+clean {
+    delete distributionDir
+}

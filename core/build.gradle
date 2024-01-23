@@ -1,0 +1,23 @@
+def mainClassName = 'main.CoreMain'
+project.ext.mainClassName = mainClassName
+
+dependencies {
+    testImplementation Junit5['jupiter']
+    testRuntimeOnly Junit5['jupiter-platform-launcher']
+    testImplementation mockito['mockito-core']
+    testImplementation mockito['mockito-junit-jupiter']
+}
+
+test {
+    useJUnitPlatform()
+}
+
+jar {
+    jar.enabled = true
+    manifest {
+        attributes(
+                'Main-Class': mainClassName
+        )
+    }
+}
+
