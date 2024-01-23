@@ -78,7 +78,7 @@ public class Game {
         if (previousSteps.size() > numberOfStepsBack) {
             IntStream.range(0, numberOfStepsBack).forEachOrdered(i -> previousSteps.removeLast());
             gameController.importBoardFrom(previousSteps.getLast());
-            for (int i = 0; i < numberOfStepsBack; i++) gameController.swapTurn();
+            IntStream.range(0, numberOfStepsBack).forEach(i -> gameController.swapTurn());
         }
     }
 }

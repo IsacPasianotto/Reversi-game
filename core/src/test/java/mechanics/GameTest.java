@@ -24,32 +24,31 @@ class GameTest {
     void undoToInitialPosition() {
         Board board = new Board();
         Game game = new Game(board, new Human(), new Human());
-        GameController gameController = new GameController(board);
-        gameController.computeValidMoves();
-        ValidMove move = gameController.getValidMoves().getFirst();
+        game.gameController.computeValidMoves();
+        ValidMove move = game.gameController.getValidMoves().getFirst();
         board.applyMoveToBoard(move);
         game.previousSteps.add(board.copy());
         game.undoLastMove();
-        assertEquals(new Board(), board);
+        assertEquals(new Board(), game.gameController.board);
     }
 
     @Test
     void undoTwoMovesIfHumanVsBot() {
         Board board = new Board();
         Game game = new Game(board, new Human(), new RandomPlayer());
-        GameController checker = new GameController(board);
 
-        checker.computeValidMoves();
-        ValidMove move1 = checker.getValidMoves().getFirst();
+        game.gameController.computeValidMoves();
+        ValidMove move1 = game.gameController.getValidMoves().getFirst();
         board.applyMoveToBoard(move1);
         game.previousSteps.add(board.copy());
 
-        checker.computeValidMoves();
-        ValidMove move2 = checker.getValidMoves().getFirst();
+        game.gameController.computeValidMoves();
+        ValidMove move2 = game.gameController.getValidMoves().getFirst();
         board.applyMoveToBoard(move2);
         game.previousSteps.add(board.copy());
-        game.undoLastMove();
-        assertEquals(new Board(), board);
-    }
 
+        game.undoLastMove();
+
+        assertEquals(new Board(), game.gameController.board);
+    }
 }
