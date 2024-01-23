@@ -1,7 +1,6 @@
 package player.human;
 
 import board.ValidMove;
-import board.coords.BoardTile;
 import mechanics.ValidMovesChecker;
 import player.Player;
 
@@ -17,26 +16,12 @@ public class Human implements Player {
     }
 
     public ValidMove askForAMove(ValidMovesChecker validMovesChecker) throws UndoException, QuitGameException {
-        System.out.print("Enter your move: ");
         Optional<ValidMove> enteredMove = Optional.empty();
-        while (enteredMove.isEmpty())
-            enteredMove = getMove(validMovesChecker);
-        return enteredMove.get();
-    }
-
-    private Optional<ValidMove> getMove(ValidMovesChecker validMovesChecker) throws QuitGameException, UndoException {
-        try {
+        while (enteredMove.isEmpty()) {
             String readInput = reader.readInput();
-            BoardTile chosen = new BoardTile(readInput);
-            Optional<ValidMove> enteredMove = validMovesChecker.IsValid(chosen);
-            if (enteredMove.isEmpty())
-                validMovesChecker.getInvalidMoveMessage();
-            return enteredMove;
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-            System.out.print("Enter your move: ");
+            enteredMove = validMovesChecker.getMoveInTerminal(readInput);
         }
-        return Optional.empty();
+        return enteredMove.get();
     }
 
     public void close() {

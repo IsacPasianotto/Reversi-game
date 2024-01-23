@@ -26,14 +26,6 @@ public class Board {
         setPositionColor(startingPosition, currentColor);
     }
 
-//    private void flipLineOfPawns(BoardTile startingPosition, Direction direction, ColoredPawn currentPlayerColor) {
-//        BoardTile currentPosition = startingPosition.add(direction);
-//        while (getPositionColor(currentPosition) != currentPlayerColor) {
-//            setPositionColor(currentPosition, currentPlayerColor);
-//            currentPosition = currentPosition.add(direction);
-//        }
-//    }
-
     private void flipLineOfPawns(BoardTile startingPosition, Direction direction, ColoredPawn currentPlayerColor) {
         Stream.iterate(startingPosition
                 .add(direction), position -> getPositionColor(position) != currentPlayerColor, position -> position.add(direction))

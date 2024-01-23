@@ -10,7 +10,7 @@ allprojects {
     }
 
     sourceSets.main.java.srcDirs = ["src/main/java"]
-    sourceSets.test.java.srcDirs = ["src/test/java"]
+    sourceSets.test.java.srcDirs = ['src/test/java']
 
     [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 

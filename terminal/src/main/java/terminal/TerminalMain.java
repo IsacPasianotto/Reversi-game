@@ -1,7 +1,6 @@
 package terminal;
 
 import board.Board;
-import mechanics.Game;
 import player.Player;
 import player.computer.RandomPlayer;
 import player.computer.SmartPlayer;
@@ -49,7 +48,7 @@ public class TerminalMain {
             }
         }
 
-        Game game = new Game(new Board(), firstPlayer, secondPlayer);
+        GameTerminal game = new GameTerminal(new Board(), firstPlayer, secondPlayer);
         game.play();
         try {
             reader.close();

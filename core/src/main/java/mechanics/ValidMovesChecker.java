@@ -113,15 +113,39 @@ public class ValidMovesChecker {
         return validMoves.stream().filter(validMove -> validMove.position().equals(move)).findAny();
     }
 
-    public void getInvalidMoveMessage() {
+    public void printInvalidMoveMessage() {
         System.out.println("Invalid move entered. Valid moves are: ");
-        String moves = getValidMovesInCurrentStatus();
+        String moves = getValidMovesInCurrentStatusAsString();
         System.out.println(moves);
         System.out.print("Enter your move: ");
     }
 
-    private String getValidMovesInCurrentStatus() {
+    private String getValidMovesInCurrentStatusAsString() {
         return validMoves.stream().map(validMove -> validMove.position() + " ").collect(Collectors.joining());
+    }
+
+    private ArrayList<String> getValidMovesInCurrentStatusAsArrayList() {
+        return validMoves.stream().map(validMove -> validMove.position().toString()).collect(Collectors.toCollection(ArrayList::new));
+    }
+
+
+    public Optional<ValidMove> getMoveInTerminal(String readInput)  {
+        try {
+            BoardTile chosen = new BoardTile(readInput);
+            Optional<ValidMove> enteredMove = IsValid(chosen);
+            if (enteredMove.isEmpty())
+                printInvalidMoveMessage();
+            return enteredMove;
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            System.out.print("Enter your move: ");
+        }
+        return Optional.empty();
+    }
+
+    public Optional<ValidMove> getMoveFromGUI(String input) {
+        BoardTile chosen = new BoardTile(input);
+        return IsValid(chosen);
     }
 
 }

@@ -13,10 +13,6 @@
 [![CircleCI](https://dl.circleci.com/status-badge/img/circleci/Nnx7eettKAjZjgLqohmuHD/82KDGxEoAw8hcLPNtEJmox/tree/main.svg?style=svg&circle-token=c19e80ed0f5747a0dd7dc3d7f326b2ff245cd5cf)](https://dl.circleci.com/status-badge/redirect/circleci/Nnx7eettKAjZjgLqohmuHD/82KDGxEoAw8hcLPNtEJmox/tree/main)&nbsp;
 
 
-
-***Reminder:*** check better the `flipLineOfPawns` new implementation in the `core/.../Board.java` file!!! 
-
-
 # Reversi-game
 
 This repo was made for the "Software Development Methods" exam at the University of Trieste that I took during my
@@ -47,7 +43,6 @@ Development to grow the code.
     - [ ]  Mockito --> MIT License
     - [ ]  Swing --> GNU General Public License v2.0
     - [ ]  openJDK --> GNU General Public License v2.0
-- [ ] Isac suggestion: remove `core/.../mechanics/Game.java` class, or even better make it as an interface and which is implemented in `terminal/.../?/TerminalGame`
 - [ ] Add the README
 - [ ] (Optional) Implement the game in a GUI
 
@@ -79,3 +74,14 @@ java -jar ReversiGame-terminal-1.0.jar
 Note that the `./gradlew clean` command will take care of destroying the `.jar` file and the
 folder `/readyToDistribute`. 
 
+
+## Troubleshooting
+
+Apparently gradle in some case ignores the `targetCompatibility` and `sourceCompatibility` settings in the `build.gradle`.
+We have tested the project with `Java 21`, but any version from `Java 14` (when the `Record` class was introduced) should work. 
+
+If your Gradle wrapper is not working, check the version of Gradle you are using with `./gradlew -v` and make sure it is
+recent enough.
+
+A workaround in Unix systems is to set the `JAVA_HOME` environment variable to the path of the JDK you want to use.
+for example: `export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64`. 

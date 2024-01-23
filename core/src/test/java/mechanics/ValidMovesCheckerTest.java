@@ -26,15 +26,26 @@ class ValidMovesCheckerTest {
 
     @ParameterizedTest
     @MethodSource("positions.ValidMovesPositions#providesDirectionsWithOppositeColorOnStart")
-    void findDirectionsWithOppositeColor(String inputCoords, int expectedX, int expectedY) {
+    void findDirectionsWithOppositeColorCheckLength(String inputCoords, int expectedX, int expectedY) {
         Board board = new Board();
         ValidMovesChecker validMovesChecker = new ValidMovesChecker(board);
         ArrayList<Direction> directionsWithOppositeColor = validMovesChecker.findDirectionsWithOppositeColor(new BoardTile(inputCoords));
         assertEquals(1, directionsWithOppositeColor.size());
-        Direction chosenDirection = directionsWithOppositeColor.get(0);
+    }
+
+    @ParameterizedTest
+    @MethodSource("positions.ValidMovesPositions#providesDirectionsWithOppositeColorOnStart")
+    void findDirectionsWithOppositeColorCheckCoordinates(String inputCoords, int expectedX, int expectedY) {
+        Board board = new Board();
+        ValidMovesChecker validMovesChecker = new ValidMovesChecker(board);
+        ArrayList<Direction> directionsWithOppositeColor = validMovesChecker.findDirectionsWithOppositeColor(new BoardTile(inputCoords));
+        Direction chosenDirection = directionsWithOppositeColor.getFirst();
         assertEquals(expectedX, chosenDirection.x());
         assertEquals(expectedY, chosenDirection.y());
     }
+
+
+
 
     @ParameterizedTest
     @MethodSource("positions.ValidMovesPositions#provideDirectionsWithOppositeColorAfterD3")
@@ -69,11 +80,17 @@ class ValidMovesCheckerTest {
     }
 
     @Test
-    void playersUpdatedAfterMove() {
+    void PlayerAreCorrectOnStart() {
         Board board = new Board();
         ValidMovesChecker validMovesChecker = new ValidMovesChecker(board);
         assertEquals(ColoredPawn.BLACK, validMovesChecker.getCurrentPlayerColor());
         assertEquals(ColoredPawn.WHITE, validMovesChecker.getOppositePlayerColor());
+    }
+
+    @Test
+    void playersUpdatedAfterMove() {
+        Board board = new Board();
+        ValidMovesChecker validMovesChecker = new ValidMovesChecker(board);
         ValidMove c4 = new ValidMove(new BoardTile("c4"), new ArrayList<>() {{
             add(new Direction(0, 1));
         }}, validMovesChecker.getCurrentPlayerColor());
@@ -82,7 +99,6 @@ class ValidMovesCheckerTest {
         assertEquals(ColoredPawn.WHITE, validMovesChecker.getCurrentPlayerColor());
         assertEquals(ColoredPawn.BLACK, validMovesChecker.getOppositePlayerColor());
     }
-
 
     @Test
     void onStartThereAreFourValidMoves() {
