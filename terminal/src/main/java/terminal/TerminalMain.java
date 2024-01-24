@@ -92,7 +92,7 @@ public class TerminalMain {
         return start;
     }
 
-    public static int findUserInput(BufferedReader reader) {
+    protected static int findUserInput(BufferedReader reader) {
         String input = null;
         int intInput = 0;
         try {

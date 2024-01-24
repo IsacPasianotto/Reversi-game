@@ -50,18 +50,20 @@ public class GameTerminal extends Game {
             return Optional.of(currentPlayer.askForAMove(gameController));
         } catch (QuitGameException e) {
             System.out.println(e.getMessage());
-            blackPlayer.close();
-            whitePlayer.close();
-            System.exit(0);
+            exit();
         } catch (UndoException e) {
             undoLastMove();
         } catch (RuntimeException e) {
             System.out.println("\nSomething went wrong. Closing the game.\n");
-            blackPlayer.close();
-            whitePlayer.close();
-            System.exit(0);
+            exit();
         }
         return Optional.empty();
+    }
+
+    private void exit() {
+        blackPlayer.close();
+        whitePlayer.close();
+        System.exit(0);
     }
 
     public void undoLastMove() {

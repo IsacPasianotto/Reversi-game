@@ -7,6 +7,7 @@ import board.coords.BoardTile;
 import board.coords.Direction;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -41,7 +42,7 @@ public class GameController {
         validMoves.add(new ValidMove(currentPosition, validDirections, getCurrentPlayerColor()));
     }
 
-    public ArrayList<Direction> findDirectionsWithOppositeColor(BoardTile currentPosition) {
+    protected ArrayList<Direction> findDirectionsWithOppositeColor(BoardTile currentPosition) {
         ArrayList<Direction> directionsWithOppositeColor = new ArrayList<>();
         Direction currentDirection;
         for (int i = -1; i <= 1; i++) {
@@ -53,7 +54,6 @@ public class GameController {
         }
         return directionsWithOppositeColor;
     }
-
 
     private boolean hasTheRightColor(BoardTile currentPosition, Direction currentDirection) {
         BoardTile neighbourToCheck = currentPosition.add(currentDirection);
@@ -88,7 +88,7 @@ public class GameController {
     }
 
     public ArrayList<ValidMove> getValidMoves() {
-        return validMoves;
+        return new ArrayList<>(this.validMoves);
     }
 
     public Board getBoard() {

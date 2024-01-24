@@ -61,7 +61,7 @@ public class Game {
         return Optional.empty();
     }
 
-    public void undoLastMove() {
+    protected void undoLastMove() {
         int numberOfHumanPlayers = (isHumanPlayer(whitePlayer) ? 1 : 0) +
                 (isHumanPlayer(blackPlayer) ? 1 : 0);
         int numberOfStepsBack = (numberOfHumanPlayers == 1) ? 2 : 1;
@@ -72,7 +72,7 @@ public class Game {
         }
     }
 
-    public boolean isGameOver() {
+    protected boolean isGameOver() {
         return gameOver;
     }
 

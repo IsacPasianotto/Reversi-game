@@ -35,7 +35,7 @@ public class GameControllerTerminal extends GameController {
     }
 
 
-    public void printInvalidMoveMessage() {
+    private void printInvalidMoveMessage() {
         System.out.println("Invalid move entered. Valid moves are: ");
         String moves = getValidMovesInCurrentStatusAsString();
         System.out.println(moves);
