@@ -4,6 +4,7 @@ package board;
 import board.coords.BoardTile;
 import board.coords.Direction;
 
+import javax.swing.*;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -88,6 +89,8 @@ public class Board {
                 .append(computeScoreForPlayer(ColoredPawn.BLACK)).append(" ").append(ColoredPawn.BLACK);
         return result.toString();
     }
+
+    public JPanel getPanel() { return null; }
 }
 
 

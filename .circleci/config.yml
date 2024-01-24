@@ -102,7 +102,7 @@ jobs:
       - checkout
       - run:
           name: "Test: mainTest"
-          command: ./gradlew terminal:test --tests TerminalMainTest
+          command: ./gradlew terminal:test --tests MainTerminalTest
 
 
   test-win:

@@ -14,6 +14,7 @@ public class MainDesktop {
 
         GameDesktop game = new GameDesktop(new Board(),new Human(), new Human());
         game.play();
+
     }
 
 
