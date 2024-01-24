@@ -9,14 +9,14 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class TerminalMainTest {
+class MainTerminalTest {
 
     @Test
     void findUserInputDoesNotBreak() throws IOException {
         String wrongInput = "This is not a number";
         try (BufferedReader mockedReader = mock(BufferedReader.class)) {
             when(mockedReader.readLine()).thenReturn(wrongInput);
-            assertDoesNotThrow(() -> terminal.TerminalMain.findUserInput(mockedReader));
+            assertDoesNotThrow(() -> MainTerminal.findUserInput(mockedReader));
         }
     }
 

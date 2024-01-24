@@ -1,12 +1,9 @@
-package org.example;
+package desktop;
 
 //import board.coords.BoardTile;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.sql.SQLOutput;
 import javax.swing.*;
 import javax.swing.border.*;
 

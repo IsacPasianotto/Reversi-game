@@ -14,7 +14,7 @@ public class GameTerminal extends Game {
 
     public GameTerminal(Board board, Player blackPlayer, Player whitePlayer) {
         super(board, blackPlayer, whitePlayer);
-        this.gameController = new GameControllerTerminal(new Board());
+        this.gameController = new GameControllerTerminal(board);
     }
 
     public void play() {
