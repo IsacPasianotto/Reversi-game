@@ -1,4 +1,5 @@
 rootProject.name = 'ReversiGame'
 include 'core'
 include 'terminal'
+include 'desktop'
 
