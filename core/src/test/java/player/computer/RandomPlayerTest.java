@@ -2,7 +2,7 @@ package player.computer;
 
 import board.Board;
 import board.ValidMove;
-import mechanics.ValidMovesChecker;
+import mechanics.GameController;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -15,7 +15,7 @@ public class RandomPlayerTest {
     @ParameterizedTest
     @MethodSource("positions.GamePositions#getAllPositions")
     void ReturnedMoveIsValid(Board currentPosition) {
-        ValidMovesChecker checker = new ValidMovesChecker(currentPosition);
+        GameController checker = new GameController(currentPosition);
         checker.computeValidMoves();
         ArrayList<ValidMove> expected = checker.getValidMoves();
         RandomPlayer player = new RandomPlayer();
@@ -26,7 +26,7 @@ public class RandomPlayerTest {
     @ParameterizedTest
     @MethodSource("positions.GamePositions#getAllPositions")
     void ReturnedMoveIsValidWithWhite(Board currentPosition) {
-        ValidMovesChecker checker = new ValidMovesChecker(currentPosition);
+        GameController checker = new GameController(currentPosition);
         checker.swapTurn();
         checker.computeValidMoves();
         ArrayList<ValidMove> expected = checker.getValidMoves();

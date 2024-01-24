@@ -78,10 +78,36 @@ folder `/readyToDistribute`.
 ## Troubleshooting
 
 Apparently gradle in some case ignores the `targetCompatibility` and `sourceCompatibility` settings in the `build.gradle`.
-We have tested the project with `Java 21`, but any version from `Java 14` (when the `Record` class was introduced) should work. 
+We have tested the project with `Java 21`. 
 
 If your Gradle wrapper is not working, check the version of Gradle you are using with `./gradlew -v` and make sure it is
 recent enough.
 
-A workaround in Unix systems is to set the `JAVA_HOME` environment variable to the path of the JDK you want to use.
-for example: `export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64`. 
+- A workaround in Unix systems is to set the `JAVA_HOME` environment variable to the path of the JDK you want to use.
+for example: `export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64`.
+- The other workaround we tested is to use a container with the correct version of Java. We've tested the [amazoncorretto:21.0.2](https://hub.docker.com/_/amazoncorretto).  Note that with the containerized solution you will need to download gradle and libraries every time you run the container.
+    - to run directly the game:
+        ```
+        podman run -v$PWD:/reversi -w /reversi -it amazoncorretto:21.0.2 /bin/bash -c "./gradlew terminal:run --console=plain"
+        ```
+    - to obtain the `.jar` file:
+        ```
+        podman run -v$PWD:/reversi -w /reversi amazoncorretto:21.0.2 /bin/bash -c "./gradlew terminal:dist"
+        ```
+    - to run the `.jar` file:
+        ```
+        podman run -v$PWD:/reversi -w /reversi -it amazoncorretto:21.0.2 /bin/bash -c "cd readyToDistribute && java -jar ReversiGame-terminal-1.0.jar"
+        ```
+    - to build the project:
+        ```
+      podman run -v$PWD:/reversi -w /reversi amazoncorretto:21.0.2 /bin/bash -c "./gradlew build"
+        ```
+    - to run the tests:
+        ```
+        podman run -v$PWD:/reversi -w /reversi amazoncorretto:21.0.2 /bin/bash -c "./gradlew test"
+        ```
+    - to clean the project:
+        ```
+        podman run -v$PWD:/reversi -w /reversi amazoncorretto:21.0.2 /bin/bash -c "./gradlew clean"
+        ```
+    Those commands work also with `docker` instead of `podman`.

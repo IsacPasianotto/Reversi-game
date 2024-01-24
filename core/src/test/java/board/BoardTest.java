@@ -2,7 +2,7 @@ package board;
 
 import board.coords.BoardTile;
 import board.coords.Direction;
-import mechanics.ValidMovesChecker;
+import mechanics.GameController;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -35,13 +35,13 @@ class BoardTest {
     @Test
     void swapAlongAllDirections() {
         Board board = thereAreTwoFlippableLinesInOneMove();
-        ValidMovesChecker validMovesChecker = new ValidMovesChecker(board);
-        validMovesChecker.swapTurn();
+        GameController gameController = new GameController(board);
+        gameController.swapTurn();
         ArrayList<Direction> directions = new ArrayList<>();
         directions.add(new Direction(-1, 0));
         directions.add(new Direction(0, 1));
 
-        ValidMove move = new ValidMove(new BoardTile("c5"), directions, validMovesChecker.getCurrentPlayerColor());
+        ValidMove move = new ValidMove(new BoardTile("c5"), directions, gameController.getCurrentPlayerColor());
         board.applyMoveToBoard(move);
         Board expectedBoard = twoLinesFlippedOneMove();
         assertEquals(board, expectedBoard);

@@ -1,7 +1,7 @@
 package player.human;
 
 import board.ValidMove;
-import mechanics.ValidMovesChecker;
+import mechanics.GameController;
 import player.Player;
 
 import java.io.BufferedReader;
@@ -15,11 +15,11 @@ public class Human implements Player {
         reader = new UserInputReader(new BufferedReader(new InputStreamReader(System.in)));
     }
 
-    public ValidMove askForAMove(ValidMovesChecker validMovesChecker) throws UndoException, QuitGameException {
+    public ValidMove askForAMove(GameController gameController) throws UndoException, QuitGameException {
         Optional<ValidMove> enteredMove = Optional.empty();
         while (enteredMove.isEmpty()) {
             String readInput = reader.readInput();
-            enteredMove = validMovesChecker.getMoveInTerminal(readInput);
+            enteredMove = gameController.getMove(readInput);
         }
         return enteredMove.get();
     }

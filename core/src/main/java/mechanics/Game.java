@@ -8,85 +8,79 @@ import player.human.QuitGameException;
 import player.human.UndoException;
 
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.stream.IntStream;
 
 public class Game {
-
-    protected final Board board;
     protected final Player whitePlayer;
     protected final Player blackPlayer;
-    protected int skippedTurns;
-    protected final ValidMovesChecker validMovesChecker;
+    public GameController gameController;
     protected boolean gameOver;
-
     protected final ArrayList<Board> previousSteps;
 
     public Game(Board board, Player blackPlayer, Player whitePlayer) {
-        this.board = board;
         this.blackPlayer = blackPlayer;
         this.whitePlayer = whitePlayer;
-        skippedTurns = 0;
+        gameController = new GameController(board);
         previousSteps = new ArrayList<>(0);
-        previousSteps.add(this.board.copy());
-        validMovesChecker = new ValidMovesChecker(this.board);
+        previousSteps.add(board.copy());
         gameOver = false;
     }
 
     public void play() {
-        while (!board.isFull() && (skippedTurns < 2)) {
-            validMovesChecker.computeValidMoves();
-            if (validMovesChecker.numberOfValidMoves() == 0) {
+        int skippedTurns = 0;
+        while (!gameController.isBoardFull() && (skippedTurns < 2)) {
+            gameController.computeValidMoves();
+            if (gameController.numberOfValidMoves() == 0) {
                 skippedTurns++;
             } else {
                 skippedTurns = 0;
-                ValidMove chosenMove = selectAValidMoveOrUndo();
-                if (chosenMove == null) continue;
-                board.applyMoveToBoard(chosenMove);
-                previousSteps.add(board.copy());
+                Optional<ValidMove> chosenMove = selectAValidMoveOrUndo();
+                if (chosenMove.isEmpty()) continue;
+                gameController.applyMoveToBoard(chosenMove.get());
+                previousSteps.add(gameController.getBoard());
             }
-            validMovesChecker.swapTurn();
+            gameController.swapTurn();
         }
         GameOver();
+        blackPlayer.close();
+        whitePlayer.close();
     }
 
-    private ValidMove selectAValidMoveOrUndo() {
-        Player currentPlayer = validMovesChecker.isBlackToMove() ? blackPlayer : whitePlayer;
+    private Optional<ValidMove> selectAValidMoveOrUndo() {
+        Player currentPlayer = gameController.isBlackToMove() ? blackPlayer : whitePlayer;
         try {
-            return currentPlayer.askForAMove(validMovesChecker);
-        } catch (QuitGameException e) {
+            return Optional.of(currentPlayer.askForAMove(gameController));
+        } catch (QuitGameException | RuntimeException e) {
             blackPlayer.close();
             whitePlayer.close();
             System.exit(0);
         } catch (UndoException e) {
             undoLastMove();
-        } catch (RuntimeException e) {
-            blackPlayer.close();
-            whitePlayer.close();
-            System.exit(0);
         }
-        return null;
+        return Optional.empty();
     }
 
-    public boolean isGameOver() {
-        return gameOver;
-    }
-
-    private void GameOver() {
-        gameOver = true;
-    }
-
-    public Board getBoard() {
-        return board.copy();
-    }
-
-    public void undoLastMove() {
-        int numberOfHumanPlayers = (whitePlayer.getClass().equals(Human.class) ? 1 : 0) +
-                (blackPlayer.getClass().equals(Human.class) ? 1 : 0);
+    protected void undoLastMove() {
+        int numberOfHumanPlayers = (isHumanPlayer(whitePlayer) ? 1 : 0) +
+                (isHumanPlayer(blackPlayer) ? 1 : 0);
         int numberOfStepsBack = (numberOfHumanPlayers == 1) ? 2 : 1;
         if (previousSteps.size() > numberOfStepsBack) {
             IntStream.range(0, numberOfStepsBack).forEachOrdered(i -> previousSteps.removeLast());
-            board.importBoardFrom(previousSteps.getLast());
-            IntStream.range(0, numberOfStepsBack).forEach(i -> validMovesChecker.swapTurn());
+            gameController.importBoardFrom(previousSteps.getLast());
+            IntStream.range(0, numberOfStepsBack).forEach(i -> gameController.swapTurn());
         }
+    }
+
+    protected boolean isGameOver() {
+        return gameOver;
+    }
+
+    protected void GameOver() {
+        gameOver = true;
+    }
+
+    protected boolean isHumanPlayer(Player player) {
+        return player.getClass().equals(Human.class);
     }
 }

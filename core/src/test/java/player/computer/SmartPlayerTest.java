@@ -4,7 +4,7 @@ import board.Board;
 import board.ColoredPawn;
 import board.ValidMove;
 import mechanics.Game;
-import mechanics.ValidMovesChecker;
+import mechanics.GameController;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,7 +33,7 @@ class SmartPlayerTest {
     @ParameterizedTest
     @MethodSource("positions.GamePositions#getAllPositions")
     void ReturnedMoveIsValid(Board currentPosition) {
-        ValidMovesChecker checker = new ValidMovesChecker(currentPosition);
+        GameController checker = new GameController(currentPosition);
         checker.computeValidMoves();
         ArrayList<ValidMove> expected = checker.getValidMoves();
         SmartPlayer player = new SmartPlayer();
@@ -44,7 +44,7 @@ class SmartPlayerTest {
     @ParameterizedTest
     @MethodSource("positions.GamePositions#getAllPositions")
     void ReturnedMoveIsValidWithWhite(Board currentPosition) {
-        ValidMovesChecker checker = new ValidMovesChecker(currentPosition);
+        GameController checker = new GameController(currentPosition);
         checker.swapTurn();
         checker.computeValidMoves();
         ArrayList<ValidMove> expected = checker.getValidMoves();
@@ -63,7 +63,7 @@ class SmartPlayerTest {
         for (int i = 0; i < nIter; i++) {
             Game game = new Game(new Board(), smart, random);
             game.play();
-            Board finalBoard = game.getBoard();
+            Board finalBoard = game.gameController.getBoard();
             blackPawns = finalBoard.computeScoreForPlayer(ColoredPawn.BLACK);
             whitePawns = finalBoard.computeScoreForPlayer(ColoredPawn.WHITE);
             if (blackPawns > whitePawns) smartWon++;
@@ -82,7 +82,7 @@ class SmartPlayerTest {
         for (int i = 0; i < nIter; i++) {
             Game game = new Game(new Board(), random, smart);
             game.play();
-            Board finalBoard = game.getBoard();
+            Board finalBoard = game.gameController.getBoard();
             blackPawns = finalBoard.computeScoreForPlayer(ColoredPawn.BLACK);
             whitePawns = finalBoard.computeScoreForPlayer(ColoredPawn.WHITE);
             if (whitePawns > blackPawns)
