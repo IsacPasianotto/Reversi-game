@@ -65,8 +65,8 @@ jobs:
     steps:
       - checkout
       - run:
-          name: "Test: ValidMovesCheckerTest"
-          command: ./gradlew core:test --tests mechanics.ValidMovesCheckerTest
+          name: "Test: GameControllerTest"
+          command: ./gradlew core:test --tests mechanics.GameControllerTest
       - run:
           name: "Test: GameTest"
           command: ./gradlew core:test --tests mechanics.GameTest
@@ -135,9 +135,9 @@ jobs:
           shell: bash.exe
           command: ./gradlew core:test --tests board.coords.DirectionTest
       - run:
-          name: test-core-mechanics.ValidMovesCheckerTest
+          name: test-core-mechanics.GameControllerTest
           shell: bash.exe
-          command: ./gradlew core:test --tests mechanics.ValidMovesCheckerTest
+          command: ./gradlew core:test --tests mechanics.GameControllerTest
       - run:
           name: test-core-mechanics.GameTest
           shell: bash.exe

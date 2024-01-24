@@ -7,7 +7,6 @@ import board.coords.BoardTile;
 import board.coords.Direction;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
