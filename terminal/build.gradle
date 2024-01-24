@@ -12,7 +12,6 @@ dependencies {
 
     implementation project(":core")
     runtimeOnly project(":core")
-
 }
 
 test {
