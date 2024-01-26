@@ -1,28 +1,71 @@
 package desktop;
 
 import board.Board;
+import board.ColoredPawn;
+import board.ValidMove;
 import board.coords.BoardTile;
 import mechanics.GameController;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.util.Optional;
+
+import static board.Board.BOARD_SIZE;
 
 public class GameControllerDesktop extends GameController {
-    static class MyButtonListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            JButton sourceBtn = (JButton) e.getSource();
-            handleButtonPress(new BoardTile((int) sourceBtn.getClientProperty("column"), (int) sourceBtn.getClientProperty("row")));
-        }
+
+    private final BoardDesktop board;
+
+    @Override
+    public BoardDesktop getBoard() {
+        return board;
     }
-    public GameControllerDesktop(BoardDesktop board) {
-        super(board);
+    public ActionListener getButtonListener(int x, int y) {
+        return e -> handleButtonPress(x, y);
     }
 
-    static void handleButtonPress(BoardTile tile) {
-        System.out.println("clicked column " + tile.x() + ", row " + tile.y());
+
+    public void handleButtonPress(int x, int y) {
+        System.out.println("clicked");
+        System.out.println(x + " " + y);
+        computeValidMoves();
+        BoardTile position = new BoardTile(x, y);
+        Optional<ValidMove> move = isValid(position);
+        if (move.isPresent()) {
+            board.applyMoveToBoard(move.get());
+            updateBoard();
+            swapTurn();
+        }
     }
+
+
+    public GameControllerDesktop(BoardDesktop board) {
+        super(board);
+        this.board = board;
+
+    }
+    public void updateBoard() {
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            for (int j = 0; j < BOARD_SIZE; j++) {
+                if (board.getPositionColor(i, j) == ColoredPawn.BLACK) {
+                    Image img = BoardDesktop.black.getImage().getScaledInstance(64, 64, Image.SCALE_SMOOTH);
+                    ImageIcon icon = new ImageIcon(img);
+                    board.buttonGrid[i][j].setIcon(icon);
+                } else if (board.getPositionColor(i, j) == ColoredPawn.WHITE) {
+                    Image img = BoardDesktop.white.getImage().getScaledInstance(64, 64, Image.SCALE_SMOOTH);
+                    ImageIcon icon = new ImageIcon(img);
+                    board.buttonGrid[i][j].setIcon(icon);
+                }
+            }
+        }
+    }
+//    public void updateTile(JButton tile) {
+//        // the two images are in main/resources folder and are loaded here
+//        Image img = (blackToMove? BoardDesktop.black : BoardDesktop.white).getImage().getScaledInstance(64, 64, Image.SCALE_SMOOTH);
+//        ImageIcon icon = new ImageIcon(img);
+//        tile.setIcon(icon);
+//    }
 
 }

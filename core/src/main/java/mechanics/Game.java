@@ -14,7 +14,7 @@ import java.util.stream.IntStream;
 public class Game {
     protected final Player whitePlayer;
     protected final Player blackPlayer;
-    public GameController gameController;
+    private final GameController gameController;
     protected boolean gameOver;
     protected final ArrayList<Board> previousSteps;
 

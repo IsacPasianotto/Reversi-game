@@ -10,7 +10,7 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 
 public class GameDesktop extends Game {
-
+    private final GameControllerDesktop gameController;
     public JFrame frame;
     public GameDesktop(BoardDesktop board, Player blackPlayer, Player whitePlayer) {
         super(board, blackPlayer, whitePlayer);
@@ -19,6 +19,7 @@ public class GameDesktop extends Game {
     }
 
     public void play(){
+        gameController.computeValidMoves();
         frame.setVisible(true);
     }
 

@@ -29,7 +29,7 @@ class GameTest {
         board.applyMoveToBoard(move);
         game.previousSteps.add(board.copy());
         game.undoLastMove();
-        assertEquals(new Board(), game.gameController.board);
+        assertEquals(new Board(), game.gameController.getBoard());
     }
 
     @Test
@@ -49,6 +49,6 @@ class GameTest {
 
         game.undoLastMove();
 
-        assertEquals(new Board(), game.gameController.board);
+        assertEquals(new Board(), game.gameController.getBoard());
     }
 }

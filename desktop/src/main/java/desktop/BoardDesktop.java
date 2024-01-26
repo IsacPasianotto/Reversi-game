@@ -1,6 +1,7 @@
 package desktop;
 
 import board.Board;
+import board.ColoredPawn;
 import board.coords.BoardTile;
 
 import javax.swing.*;
@@ -16,12 +17,10 @@ import java.util.stream.IntStream;
 public class BoardDesktop extends Board {
 
     JPanel panel;
-    public JGradientButton[][] buttonGrid;
+    public final JGradientButton[][] buttonGrid;
     private static final String columnLabels = "ABCDEFGH";
-
-
-    private static final ImageIcon black = new ImageIcon(Objects.requireNonNull(BoardDesktop.class.getResource("/black.png")));
-    private static  final ImageIcon white = new ImageIcon(Objects.requireNonNull(BoardDesktop.class.getResource("/white.png")));
+    public static final ImageIcon black = new ImageIcon(Objects.requireNonNull(BoardDesktop.class.getResource("/black.png")));
+    public static final ImageIcon white = new ImageIcon(Objects.requireNonNull(BoardDesktop.class.getResource("/white.png")));
 
 
     public BoardDesktop() {
@@ -33,11 +32,11 @@ public class BoardDesktop extends Board {
     public void initializeGui() {
         panel = new JPanel(new GridLayout(0, 9));
         panel.setBorder(new LineBorder(Color.BLACK));
-
         // INITIALIZE THE BUTTONS
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                buttonGrid[i][j]=new JGradientButton("", i, j);
+                buttonGrid[i][j] = new JGradientButton("", i, j);
+                buttonGrid[i][j].addActionListener(new GameControllerDesktop(this).getButtonListener(i, j));
             }
         }
 
@@ -49,19 +48,21 @@ public class BoardDesktop extends Board {
             for (int j = 0; j < BOARD_SIZE; j++)
                 panel.add(buttonGrid[i][j]);
         }
-
         // set initial pawns
-        updateTile(buttonGrid[3][3], true);
-        updateTile(buttonGrid[3][4], false);
-        updateTile(buttonGrid[4][3], false);
-        updateTile(buttonGrid[4][4], true);
-
+        updateBoard();
     }
-
-
-
-
-
+    public void updateBoard(){
+        for (int idx = 0; idx < BOARD_SIZE; idx++) {
+            for (int j = 0; j < BOARD_SIZE; j++) {
+                if (getPositionColor(idx, j) == ColoredPawn.BLACK){
+                    updateTile(buttonGrid[idx][j], true);
+                }
+                else if (getPositionColor(idx, j) == ColoredPawn.WHITE){
+                    updateTile(buttonGrid[idx][j], false);
+                }
+            }
+        }
+    }
     public void updateTile(JButton tile, boolean isBlack) {
         // the two images are in main/resources folder and are loaded here
         Image img;

@@ -3,6 +3,7 @@ package desktop;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 public class JGradientButton extends JButton {
     private static final Color boardColor = new Color(37, 135, 24);
@@ -19,8 +20,12 @@ public class JGradientButton extends JButton {
         setBackground(boardColor);
         putClientProperty("row", i);
         putClientProperty("column", j);
-        addActionListener(new GameControllerDesktop.MyButtonListener());
     }
+
+    public void addActionListener(ActionListener listener) {
+        super.addActionListener(listener);
+    }
+
 
     @Override
     protected void paintComponent(Graphics g){
