@@ -9,9 +9,13 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 
+import static desktop.GameControllerDesktop.currentPlayerLabel;
+
 public class GameDesktop extends Game {
     private final GameControllerDesktop gameController;
     public JFrame frame;
+
+
     public GameDesktop(BoardDesktop board, Player blackPlayer, Player whitePlayer) {
         super(board, blackPlayer, whitePlayer);
         this.gameController = new GameControllerDesktop(board);
@@ -24,13 +28,10 @@ public class GameDesktop extends Game {
     }
 
 
-
-
     private JFrame getjFrame() {
         JFrame frame = new JFrame("Reversi");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        //frame.pack();
-        //frame.setMinimumSize(frame.getSize());
+
         frame.setSize(800, 800);
 
         BoardDesktop board = new BoardDesktop(); // this shouldn't be here!
@@ -44,6 +45,9 @@ public class GameDesktop extends Game {
             //undoLastMove();
         });
         dashboard.add(button);
+        dashboard.add(new JLabel("Current player: "));
+        dashboard.add(currentPlayerLabel);
+
 
         // Create a glue component to center the button vertically
         Component verticalGlue1 = Box.createVerticalGlue();
@@ -64,6 +68,7 @@ public class GameDesktop extends Game {
         frame.add(globalView);
         return frame;
     }
+
 
 
 }

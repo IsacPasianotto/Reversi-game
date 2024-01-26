@@ -22,6 +22,7 @@ public class BoardDesktop extends Board {
     public static final ImageIcon black = new ImageIcon(Objects.requireNonNull(BoardDesktop.class.getResource("/black.png")));
     public static final ImageIcon white = new ImageIcon(Objects.requireNonNull(BoardDesktop.class.getResource("/white.png")));
 
+    public GameControllerDesktop gameController = new GameControllerDesktop(this);
 
     public BoardDesktop() {
         super();
@@ -36,15 +37,24 @@ public class BoardDesktop extends Board {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 buttonGrid[i][j] = new JGradientButton("", i, j);
-                buttonGrid[i][j].addActionListener(new GameControllerDesktop(this).getButtonListener(i, j));
+                buttonGrid[i][j].addActionListener(gameController.getButtonListener(i, j));
             }
         }
 
         // PUT THE BUTTONS ON THE JPanel
         panel.add(new JLabel(""));
-        IntStream.range(0, BOARD_SIZE).forEachOrdered(i -> panel.add(new JLabel(columnLabels.substring(i, i + 1), SwingConstants.CENTER)));
+        // IntStream.range(0, BOARD_SIZE).forEachOrdered(i -> panel.add(new JLabel(columnLabels.substring(i, i + 1), SwingConstants.CENTER)));
+        IntStream.range(0, BOARD_SIZE).forEachOrdered(i -> {
+            JLabel label = new JLabel(columnLabels.substring(i, i + 1), SwingConstants.CENTER);
+            label.setFont(new Font("Arial", Font.BOLD, 25));
+            panel.add(label);
+        });
+
         for (int i = 0; i < BOARD_SIZE; i++) {
-            panel.add(new JLabel("" + (i + 1), SwingConstants.CENTER));
+            // panel.add(new JLabel("" + (i + 1), SwingConstants.CENTER));
+            JLabel label = new JLabel("" + (i + 1), SwingConstants.CENTER);
+            label.setFont(new Font("Arial", Font.BOLD, 25));
+            panel.add(label);
             for (int j = 0; j < BOARD_SIZE; j++)
                 panel.add(buttonGrid[i][j]);
         }
