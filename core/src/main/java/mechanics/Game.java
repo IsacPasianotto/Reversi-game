@@ -47,6 +47,10 @@ public class Game {
         whitePlayer.close();
     }
 
+    public GameController getGameController() {
+        return gameController;
+    }
+
     private Optional<ValidMove> selectAValidMoveOrUndo() {
         Player currentPlayer = gameController.isBlackToMove() ? blackPlayer : whitePlayer;
         try {

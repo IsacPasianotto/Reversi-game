@@ -61,11 +61,5 @@ public class GameControllerDesktop extends GameController {
             }
         }
     }
-//    public void updateTile(JButton tile) {
-//        // the two images are in main/resources folder and are loaded here
-//        Image img = (blackToMove? BoardDesktop.black : BoardDesktop.white).getImage().getScaledInstance(64, 64, Image.SCALE_SMOOTH);
-//        ImageIcon icon = new ImageIcon(img);
-//        tile.setIcon(icon);
-//    }
 
 }
