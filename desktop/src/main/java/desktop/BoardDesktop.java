@@ -6,19 +6,19 @@ import board.coords.BoardTile;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.stream.IntStream;
 
 public class BoardDesktop extends Board {
 
     JPanel panel;
-    JButton[][] buttonGrid;
+    public JGradientButton[][] buttonGrid;
     private static final String columnLabels = "ABCDEFGH";
 
-    private static final Color boardColor = new Color(37, 135, 24);
-    private static final Color tileBorderColor = new Color(0, 0, 0);
 
     private static final ImageIcon black = new ImageIcon(Objects.requireNonNull(BoardDesktop.class.getResource("/black.png")));
     private static  final ImageIcon white = new ImageIcon(Objects.requireNonNull(BoardDesktop.class.getResource("/white.png")));
@@ -26,7 +26,7 @@ public class BoardDesktop extends Board {
 
     public BoardDesktop() {
         super();
-        buttonGrid = new JButton[BOARD_SIZE][BOARD_SIZE];
+        buttonGrid = new JGradientButton[BOARD_SIZE][BOARD_SIZE];
         initializeGui();
     }
 
@@ -36,8 +36,9 @@ public class BoardDesktop extends Board {
 
         // INITIALIZE THE BUTTONS
         for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++)
-                buttonGrid[i][j] = getjButton(i, j);
+            for (int j = 0; j < 8; j++) {
+                buttonGrid[i][j]=new JGradientButton("", i, j);
+            }
         }
 
         // PUT THE BUTTONS ON THE JPanel
@@ -57,20 +58,9 @@ public class BoardDesktop extends Board {
 
     }
 
-    private  JButton getjButton(int i, int j) {
-        Insets buttonMargin = new Insets(0, 0, 0, 0);
-        JButton b = new JButton();
-        b.setMargin(buttonMargin);
-        b.setBorderPainted(true);
-        b.setBorder(new LineBorder(tileBorderColor));
-        b.setBackground(boardColor);
-        b.putClientProperty("column", j);
-        b.putClientProperty("row", i);
-        b.addActionListener(e -> {
-            GameControllerDesktop.handleButtonPress(new BoardTile((int) b.getClientProperty("column"), (int) b.getClientProperty("row")));
-        });
-        return b;
-    }
+
+
+
 
     public void updateTile(JButton tile, boolean isBlack) {
         // the two images are in main/resources folder and are loaded here

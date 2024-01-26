@@ -12,7 +12,7 @@ import java.awt.*;
 public class GameDesktop extends Game {
 
     public JFrame frame;
-    public GameDesktop(Board board, Player blackPlayer, Player whitePlayer) {
+    public GameDesktop(BoardDesktop board, Player blackPlayer, Player whitePlayer) {
         super(board, blackPlayer, whitePlayer);
         this.gameController = new GameControllerDesktop(board);
         this.frame = getjFrame();
