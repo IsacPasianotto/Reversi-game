@@ -4,10 +4,11 @@ import board.Board;
 import board.coords.BoardTile;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.image.BufferedImage;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.Objects;
 import java.util.stream.IntStream;
 
 public class BoardDesktop extends Board {
@@ -15,6 +16,12 @@ public class BoardDesktop extends Board {
     JPanel panel;
     JButton[][] buttonGrid;
     private static final String columnLabels = "ABCDEFGH";
+
+    private static final Color boardColor = new Color(37, 135, 24);
+    private static final Color tileBorderColor = new Color(0, 0, 0);
+
+    private static final ImageIcon black = new ImageIcon(Objects.requireNonNull(BoardDesktop.class.getResource("/black.png")));
+    private static  final ImageIcon white = new ImageIcon(Objects.requireNonNull(BoardDesktop.class.getResource("/white.png")));
 
 
     public BoardDesktop() {
@@ -42,27 +49,40 @@ public class BoardDesktop extends Board {
                 panel.add(buttonGrid[i][j]);
         }
 
+        // set initial pawns
+        updateTile(buttonGrid[3][3], true);
+        updateTile(buttonGrid[3][4], false);
+        updateTile(buttonGrid[4][3], false);
+        updateTile(buttonGrid[4][4], true);
+
     }
 
-    private static JButton getjButton(int i, int j) {
+    private  JButton getjButton(int i, int j) {
         Insets buttonMargin = new Insets(0, 0, 0, 0);
         JButton b = new JButton();
         b.setMargin(buttonMargin);
-
-        ImageIcon icon = new ImageIcon(new BufferedImage(64,64,BufferedImage.TYPE_INT_ARGB));
-        //Image img = icon.getImage();
-        //Image newimg = img.getScaledInstance(64, 64, Image.SCALE_SMOOTH); //NOTE: actually not necessary if we give the right size
-        //icon = new ImageIcon(newimg);
-
-        b.setIcon(icon);
-        b.setBackground(Color.WHITE);
+        b.setBorderPainted(true);
+        b.setBorder(new LineBorder(tileBorderColor));
+        b.setBackground(boardColor);
         b.putClientProperty("column", j);
         b.putClientProperty("row", i);
         b.addActionListener(e -> {
-            // DO SOMETHING IN ANOTHER CLASS
             GameControllerDesktop.handleButtonPress(new BoardTile((int) b.getClientProperty("column"), (int) b.getClientProperty("row")));
         });
         return b;
+    }
+
+    public void updateTile(JButton tile, boolean isBlack) {
+        // the two images are in main/resources folder and are loaded here
+        Image img;
+        if (isBlack) {
+            img = black.getImage().getScaledInstance(64, 64, Image.SCALE_SMOOTH);
+        }
+        else {
+            img = white.getImage().getScaledInstance(64, 64, Image.SCALE_SMOOTH);
+        }
+        ImageIcon icon = new ImageIcon(img);
+        tile.setIcon(icon);
     }
 
     public JPanel getPanel() {

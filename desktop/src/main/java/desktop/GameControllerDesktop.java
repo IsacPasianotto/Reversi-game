@@ -11,7 +11,6 @@ public class GameControllerDesktop extends GameController {
     }
 
     static void handleButtonPress(BoardTile tile) {
-
         System.out.println("clicked column " + tile.x() + ", row " + tile.y());
     }
 
