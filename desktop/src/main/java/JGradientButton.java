@@ -1,5 +1,3 @@
-package desktop;
-
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
@@ -38,6 +36,7 @@ public class JGradientButton extends JButton {
         });
 
     }
+
 
     public void addActionListener(ActionListener listener) {
         super.addActionListener(listener);
