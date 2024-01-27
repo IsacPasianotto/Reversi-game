@@ -13,6 +13,8 @@ public class DesktopBoard extends Board {
     public static final ImageIcon black = new ImageIcon(Objects.requireNonNull(DesktopBoard.class.getResource("/black.png")));
     public static final ImageIcon white = new ImageIcon(Objects.requireNonNull(DesktopBoard.class.getResource("/white.png")));
 
+    public final int PAWN_SIZE = 64;
+
     public DesktopBoard() {
         super();
         buttonGrid = new JGradientButton[BOARD_SIZE][BOARD_SIZE];
@@ -37,10 +39,10 @@ public class DesktopBoard extends Board {
     public void updateButtonIcon(int row, int col) {
         Image img = null;
         if (getPositionColor(row, col) == ColoredPawn.BLACK) {
-            img = black.getImage().getScaledInstance(64, 64, Image.SCALE_SMOOTH);
+            img = black.getImage().getScaledInstance(PAWN_SIZE, PAWN_SIZE, Image.SCALE_SMOOTH);
         }
         if (getPositionColor(row, col) == ColoredPawn.WHITE) {
-            img = white.getImage().getScaledInstance(64, 64, Image.SCALE_SMOOTH);
+            img = white.getImage().getScaledInstance(PAWN_SIZE, PAWN_SIZE, Image.SCALE_SMOOTH);
         }
         img = img == null ? new ImageIcon(new byte[0]).getImage() : img;
 

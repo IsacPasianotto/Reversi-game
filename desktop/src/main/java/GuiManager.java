@@ -26,6 +26,7 @@ public class GuiManager {
 
     public static JLabel currentScoreContextLabel = new JLabel();
 
+    public final int PLAYER_SYMBOL_SIZE = 32;
 
     DesktopBoard desktopBoard;
     DesktopGame desktopGame;
@@ -89,8 +90,8 @@ public class GuiManager {
         statusPanel.add(currentScoreLabel);
 
         // CURRENT SCORE CONTEXT
-        JLabel blackIcon = new JLabel(new ImageIcon(DesktopBoard.black.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
-        JLabel whiteIcon = new JLabel(new ImageIcon(DesktopBoard.white.getImage().getScaledInstance(32, 32, Image.SCALE_SMOOTH)));
+        JLabel blackIcon = new JLabel(new ImageIcon(DesktopBoard.black.getImage().getScaledInstance(PLAYER_SYMBOL_SIZE, PLAYER_SYMBOL_SIZE, Image.SCALE_SMOOTH)));
+        JLabel whiteIcon = new JLabel(new ImageIcon(DesktopBoard.white.getImage().getScaledInstance(PLAYER_SYMBOL_SIZE, PLAYER_SYMBOL_SIZE, Image.SCALE_SMOOTH)));
         setCurrentScoreContextLabel();
 
         // create  a panel to add the icons

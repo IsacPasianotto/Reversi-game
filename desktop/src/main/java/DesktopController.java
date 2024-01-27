@@ -21,6 +21,15 @@ public class DesktopController extends GameController {
 
 
     protected void handleButtonPress(int x, int y) {
+
+        // re-paint all the buttons to delete previous suggestions
+        for (int i = 0; i < Board.BOARD_SIZE; i++) {
+            for (int j = 0; j < Board.BOARD_SIZE; j++) {
+                board.buttonGrid[i][j].putClientProperty("toSuggest", false);
+                board.buttonGrid[i][j].setBackground(JGradientButton.boardColor);
+            }
+        }
+
         computeValidMoves();
         BoardTile position = new BoardTile(x, y);
         Optional<ValidMove> move = isValid(position);
@@ -33,9 +42,13 @@ public class DesktopController extends GameController {
                     computeScoreForPlayer(ColoredPawn.WHITE));
         }
         else {
-            //validMoves.forEach(validMove -> board.buttonGrid[validMove.position().x()][validMove.position().y()].setBackground(Color.MAGENTA));
-            JOptionPane.showMessageDialog(null, "Invalid move!");
-            // color the valid moves in the board
+            JOptionPane.showMessageDialog(null, "Invalid move!", "Error", JOptionPane.ERROR_MESSAGE);
+            // set the suggestion property of the buttons to be true for the valid moves
+            for (ValidMove validMove : validMoves) {
+                board.buttonGrid[validMove.position().x()][validMove.position().y()].putClientProperty("toSuggest", true);
+                board.buttonGrid[validMove.position().x()][validMove.position().y()].setBackground(JGradientButton.suggestionColor);
+            }
+
         }
     }
 

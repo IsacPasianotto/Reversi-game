@@ -6,11 +6,13 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class JGradientButton extends JButton {
-    private static final Color boardColor = new Color(37, 135, 24);
+    static final Color boardColor = new Color(37, 135, 24);
     private static final Color tileBorderColor = new Color(0, 0, 0);
     public static final Color boardColor2 = new Color(7, 177, 2);
 
     public static final Color mouseOverColor = new Color(15, 40, 155);
+
+    public static final Color suggestionColor = new Color(255, 255, 0);
 
     JGradientButton(String text, int i, int j){
         super(text);
@@ -22,6 +24,8 @@ public class JGradientButton extends JButton {
         setBackground(boardColor);
         putClientProperty("row", i);
         putClientProperty("column", j);
+        putClientProperty("toSuggest", false);
+
 
         addMouseListener(new MouseAdapter() {
             @Override
@@ -31,7 +35,10 @@ public class JGradientButton extends JButton {
 
             @Override
             public void mouseExited(MouseEvent e) {
-                setBackground(boardColor);
+                if ((boolean)getClientProperty("toSuggest"))
+                    setBackground(suggestionColor);
+                else
+                    setBackground(boardColor);
             }
         });
 
