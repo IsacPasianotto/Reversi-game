@@ -4,7 +4,8 @@ import board.Board;
 import board.ColoredPawn;
 import board.ValidMove;
 import board.coords.BoardTile;
-import desktop.gui.GuiManager;
+import desktop.gui.components.CurrentPlayerPanel;
+import desktop.gui.components.CurrentScorePanel;
 import mechanics.GameController;
 
 import javax.swing.*;
@@ -30,8 +31,8 @@ public class GameControllerDesktop extends GameController {
             board.applyMoveToBoard(move.get());
             swapTurn();
             board.updateButtonGrid();
-            GuiManager.updatePlayerTurnContextLabel();
-            GuiManager.updateScoreContextLabel(computeScoreForPlayer(ColoredPawn.BLACK),
+            CurrentPlayerPanel.updateCurrentPlayerLiveLabel();
+            CurrentScorePanel.updateCurrentScoreLiveLabel(computeScoreForPlayer(ColoredPawn.BLACK),
                     computeScoreForPlayer(ColoredPawn.WHITE));
         }
         else {

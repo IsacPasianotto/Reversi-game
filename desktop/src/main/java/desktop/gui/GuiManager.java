@@ -1,165 +1,71 @@
 package desktop.gui;
 
-import board.Board;
+import desktop.gui.components.BoardPanel;
+import desktop.gui.components.CurrentPlayerPanel;
+import desktop.gui.components.CurrentScorePanel;
+import desktop.gui.components.UndoButton;
 import desktop.utilities.BoardDesktop;
 import desktop.utilities.GameDesktop;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.util.stream.IntStream;
 
 public class GuiManager {
-    public JFrame frame;
-    public JPanel boardPanel;
-    public Color boardBorderColor = Color.BLACK;
+    private Color borderColor = new Color(0, 0, 0);
+    private BoardDesktop boardDesktop;
+    private GameDesktop gameDesktop;
+    private BoardPanel boardPanel;
+    private CurrentPlayerPanel currentPlayerPanel;
+    private CurrentScorePanel currentScorePanel;
+    private UndoButton undoButton;
+    private JFrame frame;
 
-    public Font boardFont = new Font("Arial", Font.BOLD, 25);
+    public GuiManager(BoardDesktop boardDesktop, GameDesktop gameDesktop) {
+        this.boardDesktop = boardDesktop;
+        this.gameDesktop = gameDesktop;
+        boardPanel = new BoardPanel(boardDesktop, gameDesktop);
+        currentPlayerPanel = new CurrentPlayerPanel(boardDesktop, gameDesktop);
+        currentScorePanel = new CurrentScorePanel();
+        undoButton = new UndoButton(gameDesktop, boardDesktop);
 
-    private static final String columnLabels = "ABCDEFGH";
-
-
-    public JPanel statusPanel;
-    public Font statusLabelFont = new Font("Arial", Font.PLAIN, 20);
-    public Font statusLabelContextFont = new Font("Arial", Font.PLAIN, 35);
-    public Color statusLabelColor = Color.WHITE;
-    public Color statusLabelContextColor = Color.WHITE;
-
-    public static JLabel playerTurnContextLabel = new JLabel();
-
-    public static JLabel currentScoreContextLabel = new JLabel();
-
-    public final int PLAYER_SYMBOL_SIZE = 32;
-
-    public JLabel blackIcon;
-    JLabel whiteIcon;
-
-    BoardDesktop desktopBoard;
-    GameDesktop desktopGame;
-
-
-    public GuiManager(BoardDesktop desktopBoard, GameDesktop desktopGame) {
-        this.desktopBoard = desktopBoard;
-        this.desktopGame = desktopGame;
-
-        blackIcon = new JLabel(new ImageIcon(desktopBoard.getBlack().getImage().getScaledInstance(PLAYER_SYMBOL_SIZE, PLAYER_SYMBOL_SIZE, Image.SCALE_SMOOTH)));
-        whiteIcon = new JLabel(new ImageIcon(desktopBoard.getWhite().getImage().getScaledInstance(PLAYER_SYMBOL_SIZE, PLAYER_SYMBOL_SIZE, Image.SCALE_SMOOTH)));
-
-
-        //desktopBoard.addListeners();  // old implementation --> a unique for loop in BoardDesktopClass
-        addListenerToButtonGrid();
-        composeBoardPanel();
-        composeStatusPanel();
-        composeJFrame();
-
-    }
-
-    public void addListenerToButtonGrid(){
-        for (int i = 0; i < Board.BOARD_SIZE; i++) {
-            for (int j = 0; j < Board.BOARD_SIZE; j++)
-                desktopBoard.addListenersAT(i, j, desktopGame.getButtonListener(i, j));
-        }
-    }
-
-    public void composeBoardPanel() {
-        boardPanel = new JPanel(new GridLayout(0, 9));
-        boardPanel.setBorder(new LineBorder(boardBorderColor));
-        boardPanel.add(new JLabel(""));
-
-        IntStream.range(0, Board.BOARD_SIZE).forEachOrdered(i -> {
-            JLabel label = new JLabel(columnLabels.substring(i, i + 1), SwingConstants.CENTER);
-            label.setFont(boardFont);
-            boardPanel.add(label);
-        });
-
-        for (int i = 0; i < Board.BOARD_SIZE; i++) {
-            JLabel label = new JLabel("" + (i + 1), SwingConstants.CENTER);
-            label.setFont(boardFont);
-            boardPanel.add(label);
-            for (int j = 0; j < Board.BOARD_SIZE; j++)
-                boardPanel.add(desktopBoard.getGradientButtonAt(i, j));
-        }
-    }
-
-    public void composeStatusPanel() {
-
-        // CURRENT PLAYER
-        statusPanel = new JPanel(new GridLayout(0, 1));
-        statusPanel.setBorder(new LineBorder(boardBorderColor));
-        JLabel playerTurnLabel = new JLabel("Player turn: ", SwingConstants.CENTER);
-        playerTurnLabel.setFont(statusLabelFont);
-        playerTurnLabel.setForeground(statusLabelColor);
-        statusPanel.add(playerTurnLabel);
-
-        // CURRENT PLAYER CONTEXT
-        setPlayerTurnContextLabel();
-        statusPanel.add(playerTurnContextLabel);
-
-        // CURRENT SCORE
-        JLabel currentScoreLabel = new JLabel("Current score: ", SwingConstants.CENTER);
-        currentScoreLabel.setFont(statusLabelFont);
-        currentScoreLabel.setForeground(statusLabelColor);
-        statusPanel.add(currentScoreLabel);
-
-        // CURRENT SCORE CONTEXT
-         setCurrentScoreContextLabel();
-
-        // create  a panel to add the icons
-        JPanel scorePanel = new JPanel(new GridLayout(0, 3));
-        scorePanel.add(blackIcon);
-        scorePanel.add(currentScoreContextLabel);
-        scorePanel.add(whiteIcon);
-        statusPanel.add(scorePanel);
-
-        // UNDO BUTTON
-        JButton undoButton = new JButton("Undo");
-        undoButton.setFont(statusLabelFont);
-        undoButton.setForeground(statusLabelColor);
-        undoButton.addActionListener(desktopGame.getUndoListener(desktopGame.getGameControllerDesktop(), desktopBoard));
-        statusPanel.add(undoButton);
-
-    }
-
-    private void setCurrentScoreContextLabel() {
-        currentScoreContextLabel.setFont(statusLabelContextFont);
-        currentScoreContextLabel.setForeground(statusLabelContextColor);
-        currentScoreContextLabel.setText("2 - 2");
-        currentScoreContextLabel.setHorizontalAlignment(SwingConstants.CENTER);
-    }
-
-    public void setPlayerTurnContextLabel() {
-        playerTurnContextLabel.setFont(statusLabelContextFont);
-        playerTurnContextLabel.setForeground(statusLabelContextColor);
-        playerTurnContextLabel.setText("Black");
-        playerTurnContextLabel.setHorizontalAlignment(SwingConstants.CENTER);
-    }
-
-    public void composeJFrame() {
-        frame = new JFrame("Reversi");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.add(boardPanel, BorderLayout.CENTER);
-        frame.add(statusPanel, BorderLayout.EAST);
-        frame.pack();
-        //frame.setVisible(true);
-    }
-
-
-    public static void updatePlayerTurnContextLabel() {
-        String actual = playerTurnContextLabel.getText();
-        if (actual.equals("Black")) {
-            playerTurnContextLabel.setText("White");
-        } else {
-            playerTurnContextLabel.setText("Black");
-        }
-    }
-
-    public static void updateScoreContextLabel(int blackScore, int whiteScore) {
-        currentScoreContextLabel.setText(blackScore + " - " + whiteScore);
+        composeFrame();
     }
 
     public JFrame getJFrame() {
         return frame;
     }
 
+    private void composeFrame() {
+        frame = new JFrame("Reversi");
+        // TODO --> When there will be a after game screen, this will be changed to dispose on close
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(900, 650);
 
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel.add(boardPanel.getBoardPanel(), BorderLayout.CENTER);
+        mainPanel.add(buildRightPanel(), BorderLayout.EAST);
+        mainPanel.add(undoButton.getUndoButton(), BorderLayout.SOUTH);
+
+        frame.add(mainPanel);
+    }
+
+    private JPanel buildRightPanel() {
+        JPanel rightPanel = new JPanel(new GridLayout(0, 1));
+        rightPanel.setBorder(new LineBorder(borderColor));
+
+        JPanel currentPlayerPanel = this.currentPlayerPanel.getCurrentPlayerPanel();
+        JPanel currentScorePanel = this.currentScorePanel.getCurrentScorePanel();
+
+        currentPlayerPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        currentPlayerPanel.setAlignmentY(Component.TOP_ALIGNMENT);
+
+        currentScorePanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        currentScorePanel.setAlignmentY(Component.TOP_ALIGNMENT);
+
+        rightPanel.add(currentPlayerPanel);
+        rightPanel.add(currentScorePanel);
+
+        return rightPanel;
+    }
 }

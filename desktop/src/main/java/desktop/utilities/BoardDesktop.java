@@ -65,4 +65,8 @@ public class BoardDesktop extends Board {
     public ImageIcon getBlack() { return black; }
     public ImageIcon getWhite() { return white; }
 
+    public JGradientButton getButton(int row, int col) {
+        return buttonGrid[row][col];
+    }
+
 }

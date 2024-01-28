@@ -1,7 +1,8 @@
 package desktop.utilities;
 
 import board.ColoredPawn;
-import desktop.gui.GuiManager;
+import desktop.gui.components.CurrentPlayerPanel;
+import desktop.gui.components.CurrentScorePanel;
 import mechanics.Game;
 import player.Player;
 
@@ -44,9 +45,10 @@ public class GameDesktop extends Game {
             IntStream.range(0, numberOfStepsBack).forEachOrdered(i -> previousSteps.removeLast());
             controller.importBoardFrom(previousSteps.getLast());
             IntStream.range(0, numberOfStepsBack).forEach(i -> controller.swapTurn());
-            IntStream.range(0, numberOfStepsBack).forEach(i -> GuiManager.updatePlayerTurnContextLabel());
+
+            IntStream.range(0, numberOfStepsBack).forEach(i -> CurrentPlayerPanel.updateCurrentPlayerLiveLabel());
             board.updateButtonGrid();
-            GuiManager.updateScoreContextLabel(controller.computeScoreForPlayer(ColoredPawn.BLACK),
+            CurrentScorePanel.updateCurrentScoreLiveLabel(controller.computeScoreForPlayer(ColoredPawn.BLACK),
                     controller.computeScoreForPlayer(ColoredPawn.WHITE));
         }
     }

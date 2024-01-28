@@ -53,18 +53,22 @@ Development to grow the code.
     - [x] Extend needed classes 
     - [x] Handle the mouse click on the board
     - [x] Update the score and the current player at each move
+    - [x] Handle the undo button
     - [ ] Check if there is at least one valid move for the current player or skip the turn
     - [ ] Handle the end of the game
+      - [ ] Make a "log-out" pop-up with the winner and the score (optional: play again button)
     - [x] Handle the validity of the moves
     - [ ] Handle the computer player
     - [x] Handle the human player
     - [ ] Handle the restart of the game (optional)
-    - [ ] **Important TODO** selector (mode and difficulty) before starting the game
+    - [x] **Important TODO** selector (mode and difficulty) before starting the game
+      - [ ] Make this selector effectivly change the game mode and the difficulty
     - [ ] Set gradle to build and auto-run the GUI version of the game
 
-## Known bugs that have to be fixed
+## Known bugs that have to be fixed and Known issues
 - [x] In the GUI, if you click on a cell that is not a valid move, then you click *undo* button, the program will not undo the move but change the current player only.
-- 
+- [ ] Sometimes (not always, like 5% of the times) in the gui, after closing the welcome window, the main window will not appear. This is not a big issue, since you can just close the program and re-run it but it's still annoying.
+- [ ] In the `gui` package, there are a bit too much static elements (in particular to make the live score and live current player work). This is not a big issue, but it's not a good practice.
 
 ## Terminal Game
 
@@ -97,37 +101,39 @@ folder `/readyToDistribute`.
 
 ## Troubleshooting
 
-Apparently gradle in some case ignores the `targetCompatibility` and `sourceCompatibility` settings in the `build.gradle`.
-We have tested the project with `Java 21`. 
+- Apparently gradle in some case ignores the `targetCompatibility` and `sourceCompatibility` settings in the `build.gradle`.
+    We have tested the project with `Java 21`. 
 
 If your Gradle wrapper is not working, check the version of Gradle you are using with `./gradlew -v` and make sure it is
 recent enough.
 
 - A workaround in Unix systems is to set the `JAVA_HOME` environment variable to the path of the JDK you want to use.
 for example: `export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64`.
-- The other workaround we tested is to use a container with the correct version of Java. We've tested the [amazoncorretto:21.0.2](https://hub.docker.com/_/amazoncorretto).  Note that with the containerized solution you will need to download gradle and libraries every time you run the container.
-    - to run directly the game:
-        ```
-        podman run -v$PWD:/reversi -w /reversi -it amazoncorretto:21.0.2 /bin/bash -c "./gradlew terminal:run --console=plain"
-        ```
-    - to obtain the `.jar` file:
-        ```
-        podman run -v$PWD:/reversi -w /reversi amazoncorretto:21.0.2 /bin/bash -c "./gradlew terminal:dist"
-        ```
-    - to run the `.jar` file:
-        ```
-        podman run -v$PWD:/reversi -w /reversi -it amazoncorretto:21.0.2 /bin/bash -c "cd readyToDistribute && java -jar ReversiGame-terminal-1.0.jar"
-        ```
-    - to build the project:
-        ```
-      podman run -v$PWD:/reversi -w /reversi amazoncorretto:21.0.2 /bin/bash -c "./gradlew build"
-        ```
-    - to run the tests:
-        ```
-        podman run -v$PWD:/reversi -w /reversi amazoncorretto:21.0.2 /bin/bash -c "./gradlew test"
-        ```
-    - to clean the project:
-        ```
-        podman run -v$PWD:/reversi -w /reversi amazoncorretto:21.0.2 /bin/bash -c "./gradlew clean"
-        ```
-    Those commands work also with `docker` instead of `podman`.
+  - The other workaround we tested is to use a container with the correct version of Java. We've tested the [amazoncorretto:21.0.2](https://hub.docker.com/_/amazoncorretto).  Note that with the containerized solution you will need to download gradle and libraries every time you run the container.
+      - to run directly the game:
+          ```
+          podman run -v$PWD:/reversi -w /reversi -it amazoncorretto:21.0.2 /bin/bash -c "./gradlew terminal:run --console=plain"
+          ```
+      - to obtain the `.jar` file:
+          ```
+          podman run -v$PWD:/reversi -w /reversi amazoncorretto:21.0.2 /bin/bash -c "./gradlew terminal:dist"
+          ```
+      - to run the `.jar` file:
+          ```
+          podman run -v$PWD:/reversi -w /reversi -it amazoncorretto:21.0.2 /bin/bash -c "cd readyToDistribute && java -jar ReversiGame-terminal-1.0.jar"
+          ```
+      - to build the project:
+          ```
+        podman run -v$PWD:/reversi -w /reversi amazoncorretto:21.0.2 /bin/bash -c "./gradlew build"
+          ```
+      - to run the tests:
+          ```
+          podman run -v$PWD:/reversi -w /reversi amazoncorretto:21.0.2 /bin/bash -c "./gradlew test"
+          ```
+      - to clean the project:
+          ```
+          podman run -v$PWD:/reversi -w /reversi amazoncorretto:21.0.2 /bin/bash -c "./gradlew clean"
+          ```
+      Those commands work also with `docker` instead of `podman`.
+- If you are a linux user and use [`wayland`](https://wayland.freedesktop.org/) as display server, to run the desktop version of the application you will need [`xwayland`](https://wayland.freedesktop.org/xserver.html) installed on your system.
+  
