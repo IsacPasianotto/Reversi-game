@@ -19,8 +19,8 @@ public class GuiManager {
     public JPanel statusPanel;
     public Font statusLabelFont = new Font("Arial", Font.PLAIN, 20);
     public Font statusLabelContextFont = new Font("Arial", Font.PLAIN, 35);
-    public Color statusLabelColor = Color.BLACK;
-    public Color statusLabelContextColor = Color.BLACK;
+    public Color statusLabelColor = Color.WHITE;
+    public Color statusLabelContextColor = Color.WHITE;
 
     public static JLabel playerTurnContextLabel = new JLabel();
 
@@ -99,9 +99,6 @@ public class GuiManager {
         scorePanel.add(blackIcon);
         scorePanel.add(currentScoreContextLabel);
         scorePanel.add(whiteIcon);
-        //statusPanel.add(blackIcon);
-        //statusPanel.add(currentScoreContextLabel);
-        //statusPanel.add(whiteIcon);
         statusPanel.add(scorePanel);
 
         // UNDO BUTTON
@@ -133,7 +130,7 @@ public class GuiManager {
         frame.add(boardPanel, BorderLayout.CENTER);
         frame.add(statusPanel, BorderLayout.EAST);
         frame.pack();
-        frame.setVisible(true);
+        //frame.setVisible(true);
    }
 
 

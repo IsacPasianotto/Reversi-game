@@ -1,10 +1,8 @@
-import board.Board;
 import board.ColoredPawn;
 import mechanics.Game;
 import player.Player;
 
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentListener;
 import java.util.stream.IntStream;
 
 public class DesktopGame extends Game{
@@ -18,6 +16,8 @@ public class DesktopGame extends Game{
     public ActionListener getButtonListener(int x, int y) {
         return e -> {
             controller.handleButtonPress(x, y);
+            if (controller.getBoard().equals(previousSteps.getLast()))
+                return;
             previousSteps.add(controller.getBoard());
         };
 
@@ -28,6 +28,7 @@ public class DesktopGame extends Game{
     }
 
     public void undoLastMoveDesktop(DesktopController controller, DesktopBoard board) {
+        controller.cancelPreviousSuggestion();
         int numberOfHumanPlayers = (isHumanPlayer(whitePlayer) ? 1 : 0) +
                 (isHumanPlayer(blackPlayer) ? 1 : 0);
         int numberOfStepsBack = (numberOfHumanPlayers == 1) ? 2 : 1;

@@ -29,13 +29,6 @@ public class DesktopBoard extends Board {
         }
     }
 
-    public void addListenerToButtons(ActionListener listener) {
-        for (int i = 0; i < BOARD_SIZE; i++) {
-            for (int j = 0; j < BOARD_SIZE; j++)
-                buttonGrid[i][j].addActionListener(listener);
-        }
-    }
-
     public void updateButtonIcon(int row, int col) {
         Image img = null;
         if (getPositionColor(row, col) == ColoredPawn.BLACK) {

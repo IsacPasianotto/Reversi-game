@@ -1,4 +1,7 @@
 dependencies {
     implementation project(":core")
     runtimeOnly project(":core")
+
+    implementation flatLaf['flatlaf']
+    implementation flatLaf['flatlaf-intellij-themes']
 }

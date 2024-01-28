@@ -8,3 +8,7 @@ ext.mockito = [
         'mockito-junit-jupiter': 'org.mockito:mockito-junit-jupiter:5.9.0'
 ]
 
+ext.flatLaf = [
+        'flatlaf'      : 'com.formdev:flatlaf:3.3',
+        'flatlaf-intellij-themes': 'com.formdev:flatlaf-intellij-themes:3.3'
+]

@@ -43,8 +43,28 @@ Development to grow the code.
     - [ ]  Mockito --> MIT License
     - [ ]  Swing --> GNU General Public License v2.0
     - [ ]  openJDK --> GNU General Public License v2.0
-- [ ] Add the README
+    - [ ]  flatlaf --> Apache License 2.0
+    - [ ]  ???? flatlafInteliJ --> Apache Liense 2.0
+    - [ ]  gradle --> Apache License 2.0
+    - [ ]  groovy --> Apache License 2.0
+    - [ ]  circleci --> Apache License 2.0
+- [ ] Write a proper README
 - [ ] (Optional) Implement the game in a GUI
+    - [x] Extend needed classes 
+    - [x] Handle the mouse click on the board
+    - [x] Update the score and the current player at each move
+    - [ ] Check if there is at least one valid move for the current player or skip the turn
+    - [ ] Handle the end of the game
+    - [x] Handle the validity of the moves
+    - [ ] Handle the computer player
+    - [x] Handle the human player
+    - [ ] Handle the restart of the game (optional)
+    - [ ] **Important TODO** selector (mode and difficulty) before starting the game
+    - [ ] Set gradle to build and auto-run the GUI version of the game
+
+## Known bugs that have to be fixed
+- [x] In the GUI, if you click on a cell that is not a valid move, then you click *undo* button, the program will not undo the move but change the current player only.
+- 
 
 ## Terminal Game
 
