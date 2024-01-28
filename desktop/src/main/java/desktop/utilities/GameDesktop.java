@@ -1,16 +1,19 @@
+package desktop.utilities;
+
 import board.ColoredPawn;
+import desktop.gui.GuiManager;
 import mechanics.Game;
 import player.Player;
 
 import java.awt.event.ActionListener;
 import java.util.stream.IntStream;
 
-public class DesktopGame extends Game{
+public class GameDesktop extends Game {
+    private final GameControllerDesktop controller;
 
-    public DesktopController controller;
-    public DesktopGame(DesktopBoard board, Player blackPlayer, Player whitePlayer) {
+    public GameDesktop(BoardDesktop board, Player blackPlayer, Player whitePlayer) {
         super(board, blackPlayer, whitePlayer);
-        controller = new DesktopController(board);
+        controller = new GameControllerDesktop(board);
     }
 
     public ActionListener getButtonListener(int x, int y) {
@@ -23,11 +26,15 @@ public class DesktopGame extends Game{
 
     }
 
-    public ActionListener getUndoListener(DesktopController controller, DesktopBoard board) {
+    public GameControllerDesktop getGameControllerDesktop() {
+        return controller;
+    }
+
+    public ActionListener getUndoListener(GameControllerDesktop controller, BoardDesktop board) {
         return e -> undoLastMoveDesktop(controller, board);
     }
 
-    public void undoLastMoveDesktop(DesktopController controller, DesktopBoard board) {
+    public void undoLastMoveDesktop(GameControllerDesktop controller, BoardDesktop board) {
         controller.cancelPreviousSuggestion();
         int numberOfHumanPlayers = (isHumanPlayer(whitePlayer) ? 1 : 0) +
                 (isHumanPlayer(blackPlayer) ? 1 : 0);

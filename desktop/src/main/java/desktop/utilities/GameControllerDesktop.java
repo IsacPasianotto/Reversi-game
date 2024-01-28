@@ -1,16 +1,18 @@
+package desktop.utilities;
+
 import board.Board;
 import board.ColoredPawn;
 import board.ValidMove;
-import mechanics.GameController;
-
 import board.coords.BoardTile;
+import desktop.gui.GuiManager;
+import mechanics.GameController;
 
 import javax.swing.*;
 import java.util.Optional;
 
-public class DesktopController extends GameController {
-    private final DesktopBoard board;
-    public DesktopController(DesktopBoard board) {
+public class GameControllerDesktop extends GameController {
+    private final BoardDesktop board;
+    public GameControllerDesktop(BoardDesktop board) {
         super(board);
         this.board = board;
     }
@@ -18,12 +20,12 @@ public class DesktopController extends GameController {
 
     protected void handleButtonPress(int x, int y) {
 
-        // re-paint all the buttons to delete previous suggestions
         cancelPreviousSuggestion();
 
         computeValidMoves();
         BoardTile position = new BoardTile(x, y);
         Optional<ValidMove> move = isValid(position);
+
         if (move.isPresent()) {
             board.applyMoveToBoard(move.get());
             swapTurn();
@@ -36,20 +38,20 @@ public class DesktopController extends GameController {
             JOptionPane.showMessageDialog(null, "Invalid move!", "Error", JOptionPane.ERROR_MESSAGE);
             // set the suggestion property of the buttons to be true for the valid moves
             for (ValidMove validMove : validMoves) {
-                board.buttonGrid[validMove.position().x()][validMove.position().y()].putClientProperty("toSuggest", true);
-                board.buttonGrid[validMove.position().x()][validMove.position().y()].setBackground(JGradientButton.suggestionColor);
+                int row = validMove.position().x();
+                int col = validMove.position().y();
+                board.updateSuggestionAtTile(row, col, true);
+                board.resetBackgroundAtTile(row, col);
             }
-
         }
     }
 
-     void cancelPreviousSuggestion() {
+    void cancelPreviousSuggestion() {
         for (int i = 0; i < Board.BOARD_SIZE; i++) {
             for (int j = 0; j < Board.BOARD_SIZE; j++) {
-                board.buttonGrid[i][j].putClientProperty("toSuggest", false);
-                board.buttonGrid[i][j].setBackground(JGradientButton.boardColor);
+                board.updateSuggestionAtTile(i, j, false);
+                board.resetBackgroundAtTile(i, j);
             }
         }
     }
-
 }

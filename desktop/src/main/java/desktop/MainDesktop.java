@@ -1,6 +1,9 @@
 package desktop;
 
 import com.formdev.flatlaf.intellijthemes.FlatGradiantoDeepOceanIJTheme;
+import desktop.gui.GuiManager;
+import desktop.utilities.BoardDesktop;
+import desktop.utilities.GameDesktop;
 import desktop.welcome.WelcomeFrame;
 import player.Player;
 import player.human.Human;
@@ -23,8 +26,11 @@ public class MainDesktop {
         }
         welcomePanel.frame.dispose();
 
-        Player blackPlayer;
-        Player whitePlayer;
+        Player blackPlayer = null;
+        Player whitePlayer = null;
+        BoardDesktop board = new BoardDesktop();
+
+
 
         if (!welcomePanel.isHumanVsComputer()){
             blackPlayer = new Human();
@@ -32,10 +38,16 @@ public class MainDesktop {
         } else {
             JOptionPane.showMessageDialog(null, "This game mode is not implemented yed!", "ATTENTION", JOptionPane.WARNING_MESSAGE);
             System.out.println("notImplemented yet");
+            System.exit(0);
         }
 
+        GameDesktop gameDesktop = new GameDesktop(board, blackPlayer, whitePlayer);
+        GuiManager guiManager = new GuiManager(board, gameDesktop);
 
+        SwingUtilities.invokeLater(() -> {
+            JFrame frame = guiManager.getJFrame();
+            frame.setVisible(true);
+        });
 
     }
-
 }

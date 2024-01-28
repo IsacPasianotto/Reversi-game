@@ -1,4 +1,8 @@
+package desktop.gui;
+
 import board.Board;
+import desktop.utilities.BoardDesktop;
+import desktop.utilities.GameDesktop;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -6,7 +10,6 @@ import java.awt.*;
 import java.util.stream.IntStream;
 
 public class GuiManager {
-
     public JFrame frame;
     public JPanel boardPanel;
     public Color boardBorderColor = Color.BLACK;
@@ -28,48 +31,57 @@ public class GuiManager {
 
     public final int PLAYER_SYMBOL_SIZE = 32;
 
-    DesktopBoard desktopBoard;
-    DesktopGame desktopGame;
+    public JLabel blackIcon;
+    JLabel whiteIcon;
+
+    BoardDesktop desktopBoard;
+    GameDesktop desktopGame;
 
 
-   public GuiManager(DesktopBoard desktopBoard, DesktopGame desktopGame) {
-         this.desktopBoard = desktopBoard;
-         this.desktopGame = desktopGame;
-         addListenerToButtonGrid();
-         composeBoardPanel();
-         composeStatusPanel();
-         composeJFrame();
+    public GuiManager(BoardDesktop desktopBoard, GameDesktop desktopGame) {
+        this.desktopBoard = desktopBoard;
+        this.desktopGame = desktopGame;
 
-   }
+        blackIcon = new JLabel(new ImageIcon(desktopBoard.getBlack().getImage().getScaledInstance(PLAYER_SYMBOL_SIZE, PLAYER_SYMBOL_SIZE, Image.SCALE_SMOOTH)));
+        whiteIcon = new JLabel(new ImageIcon(desktopBoard.getWhite().getImage().getScaledInstance(PLAYER_SYMBOL_SIZE, PLAYER_SYMBOL_SIZE, Image.SCALE_SMOOTH)));
 
-   public void addListenerToButtonGrid(){
-       for (int i = 0; i < Board.BOARD_SIZE; i++) {
-           for (int j = 0; j < Board.BOARD_SIZE; j++)
-               desktopBoard.buttonGrid[i][j].addActionListener(desktopGame.getButtonListener(i, j));
-       }
-   }
 
-   public void composeBoardPanel() {
-       boardPanel = new JPanel(new GridLayout(0, 9));
-       boardPanel.setBorder(new LineBorder(boardBorderColor));
-       boardPanel.add(new JLabel(""));
+        //desktopBoard.addListeners();  // old implementation --> a unique for loop in BoardDesktopClass
+        addListenerToButtonGrid();
+        composeBoardPanel();
+        composeStatusPanel();
+        composeJFrame();
 
-       IntStream.range(0, Board.BOARD_SIZE).forEachOrdered(i -> {
-           JLabel label = new JLabel(columnLabels.substring(i, i + 1), SwingConstants.CENTER);
-           label.setFont(boardFont);
+    }
+
+    public void addListenerToButtonGrid(){
+        for (int i = 0; i < Board.BOARD_SIZE; i++) {
+            for (int j = 0; j < Board.BOARD_SIZE; j++)
+                desktopBoard.addListenersAT(i, j, desktopGame.getButtonListener(i, j));
+        }
+    }
+
+    public void composeBoardPanel() {
+        boardPanel = new JPanel(new GridLayout(0, 9));
+        boardPanel.setBorder(new LineBorder(boardBorderColor));
+        boardPanel.add(new JLabel(""));
+
+        IntStream.range(0, Board.BOARD_SIZE).forEachOrdered(i -> {
+            JLabel label = new JLabel(columnLabels.substring(i, i + 1), SwingConstants.CENTER);
+            label.setFont(boardFont);
             boardPanel.add(label);
-       });
+        });
 
-       for (int i = 0; i < Board.BOARD_SIZE; i++) {
-           JLabel label = new JLabel("" + (i + 1), SwingConstants.CENTER);
-           label.setFont(boardFont);
-           boardPanel.add(label);
-           for (int j = 0; j < Board.BOARD_SIZE; j++)
-               boardPanel.add(desktopBoard.buttonGrid[i][j]);
-       }
-   }
+        for (int i = 0; i < Board.BOARD_SIZE; i++) {
+            JLabel label = new JLabel("" + (i + 1), SwingConstants.CENTER);
+            label.setFont(boardFont);
+            boardPanel.add(label);
+            for (int j = 0; j < Board.BOARD_SIZE; j++)
+                boardPanel.add(desktopBoard.getGradientButtonAt(i, j));
+        }
+    }
 
-   public void composeStatusPanel() {
+    public void composeStatusPanel() {
 
         // CURRENT PLAYER
         statusPanel = new JPanel(new GridLayout(0, 1));
@@ -90,9 +102,7 @@ public class GuiManager {
         statusPanel.add(currentScoreLabel);
 
         // CURRENT SCORE CONTEXT
-        JLabel blackIcon = new JLabel(new ImageIcon(DesktopBoard.black.getImage().getScaledInstance(PLAYER_SYMBOL_SIZE, PLAYER_SYMBOL_SIZE, Image.SCALE_SMOOTH)));
-        JLabel whiteIcon = new JLabel(new ImageIcon(DesktopBoard.white.getImage().getScaledInstance(PLAYER_SYMBOL_SIZE, PLAYER_SYMBOL_SIZE, Image.SCALE_SMOOTH)));
-        setCurrentScoreContextLabel();
+         setCurrentScoreContextLabel();
 
         // create  a panel to add the icons
         JPanel scorePanel = new JPanel(new GridLayout(0, 3));
@@ -105,50 +115,51 @@ public class GuiManager {
         JButton undoButton = new JButton("Undo");
         undoButton.setFont(statusLabelFont);
         undoButton.setForeground(statusLabelColor);
-        undoButton.addActionListener(desktopGame.getUndoListener(desktopGame.controller, desktopBoard));
+        undoButton.addActionListener(desktopGame.getUndoListener(desktopGame.getGameControllerDesktop(), desktopBoard));
         statusPanel.add(undoButton);
 
-   }
+    }
 
     private void setCurrentScoreContextLabel() {
         currentScoreContextLabel.setFont(statusLabelContextFont);
         currentScoreContextLabel.setForeground(statusLabelContextColor);
         currentScoreContextLabel.setText("2 - 2");
         currentScoreContextLabel.setHorizontalAlignment(SwingConstants.CENTER);
-   }
+    }
 
     public void setPlayerTurnContextLabel() {
-       playerTurnContextLabel.setFont(statusLabelContextFont);
-       playerTurnContextLabel.setForeground(statusLabelContextColor);
-       playerTurnContextLabel.setText("Black");
-       playerTurnContextLabel.setHorizontalAlignment(SwingConstants.CENTER);
-   }
+        playerTurnContextLabel.setFont(statusLabelContextFont);
+        playerTurnContextLabel.setForeground(statusLabelContextColor);
+        playerTurnContextLabel.setText("Black");
+        playerTurnContextLabel.setHorizontalAlignment(SwingConstants.CENTER);
+    }
 
-   public void composeJFrame() {
+    public void composeJFrame() {
         frame = new JFrame("Reversi");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(boardPanel, BorderLayout.CENTER);
         frame.add(statusPanel, BorderLayout.EAST);
         frame.pack();
         //frame.setVisible(true);
-   }
+    }
 
 
-   public static void updatePlayerTurnContextLabel() {
+    public static void updatePlayerTurnContextLabel() {
         String actual = playerTurnContextLabel.getText();
         if (actual.equals("Black")) {
             playerTurnContextLabel.setText("White");
         } else {
             playerTurnContextLabel.setText("Black");
         }
-   }
+    }
 
-   public static void updateScoreContextLabel(int blackScore, int whiteScore) {
+    public static void updateScoreContextLabel(int blackScore, int whiteScore) {
         currentScoreContextLabel.setText(blackScore + " - " + whiteScore);
-   }
+    }
 
-   public JFrame getJFrame() {
-       return frame;
-   }
+    public JFrame getJFrame() {
+        return frame;
+    }
+
 
 }
