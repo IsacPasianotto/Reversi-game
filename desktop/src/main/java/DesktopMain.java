@@ -7,7 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 
 
 
-public class MainDesktop {
+public class DesktopMain {
 
     public static void main(String[] args) throws InterruptedException, InvocationTargetException {
 
@@ -26,7 +26,7 @@ public class MainDesktop {
         // TODO: add a panel to select difficulty, bots, etc.
 
 
-        WelcomePanel welcomePanel = new WelcomePanel();
+        OltWelcomePanel welcomePanel = new OltWelcomePanel();
         SwingUtilities.invokeAndWait(() -> {
             JFrame frame = welcomePanel.frame;
             frame.setVisible(true);

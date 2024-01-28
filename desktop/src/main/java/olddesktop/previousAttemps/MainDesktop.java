@@ -1,4 +1,4 @@
-package desktop.previousAttemps;
+package olddesktop.previousAttemps;
 import player.human.Human;
 
 import java.awt.*;
