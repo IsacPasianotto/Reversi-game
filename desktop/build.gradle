@@ -1,7 +1,66 @@
+def mainClassName = 'desktop.MainDesktop'
+def distributionDir = "$rootProject.projectDir/readyToDistribute"
+def archiveName = rootProject.name + '-' + project.name + '-' + String.valueOf(project.version) + '.jar'
+
+project.ext.mainClassName = mainClassName
+
 dependencies {
     implementation project(":core")
     runtimeOnly project(":core")
 
     implementation flatLaf['flatlaf']
     implementation flatLaf['flatlaf-intellij-themes']
+}
+
+application {
+    mainClass = mainClassName
+    applicationDefaultJvmArgs = ['-Dgreeting.language=en']
+}
+
+run {
+    standardInput = System.in
+    standardOutput = System.out
+    dependsOn {
+        ":core:jar"
+        ":desktop:jar"
+    }
+}
+
+jar {
+    enabled = true
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes(
+                'Main-Class': mainClassName
+        )
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    dependsOn {
+        ":core:jar"
+
+    }
+}
+
+
+tasks.register('dist', Jar) {
+    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+    manifest {
+        attributes 'Main-Class': project.mainClassName
+    }
+    dependsOn {
+        configurations.runtimeClasspath
+        ":core:jar"
+        ":desktop:jar"
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    with jar
+    destinationDirectory = file(distributionDir)
+    archiveFileName = archiveName
+    doLast {
+        println "\nDistribution file ready at ${distributionDir}/${archiveName}\n"
+    }
 }

@@ -63,7 +63,7 @@ Development to grow the code.
     - [ ] Handle the restart of the game (optional)
     - [x] **Important TODO** selector (mode and difficulty) before starting the game
       - [ ] Make this selector effectivly change the game mode and the difficulty
-    - [ ] Set gradle to build and auto-run the GUI version of the game
+    - [x] Set gradle to build and auto-run the GUI version of the game
 
 ## Known bugs that have to be fixed and Known issues
 - [x] In the GUI, if you click on a cell that is not a valid move, then you click *undo* button, the program will not undo the move but change the current player only.
@@ -97,6 +97,12 @@ java -jar ReversiGame-terminal-1.0.jar
 
 Note that the `./gradlew clean` command will take care of destroying the `.jar` file and the
 folder `/readyToDistribute`. 
+
+### Desktop Game
+
+#### How to run the game:
+
+Do the same passage as for the terminal game, but replace the `terminal` with `desktop` in the commands.
 
 
 ## Troubleshooting
