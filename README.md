@@ -38,17 +38,18 @@ Development to grow the code.
     - [x] Check the end of the game
     - [x] Check the validity of the moves
     - [x] Update the score ad each move (and print maybe?)
-- [ ] **_IMPORTANT_**: Since I had some external libraries, I had to check credits and licenses for them.
-    - [ ]  JUnit 5 --> Eclipse Public License 2.0
-    - [ ]  Mockito --> MIT License
-    - [ ]  Swing --> GNU General Public License v2.0
-    - [ ]  openJDK --> GNU General Public License v2.0
-    - [ ]  flatlaf --> Apache License 2.0
-    - [ ]  ???? flatlafInteliJ --> Apache Liense 2.0
-    - [ ]  gradle --> Apache License 2.0
-    - [ ]  groovy --> Apache License 2.0
-    - [ ]  circleci --> Apache License 2.0
-- [ ] Write a proper README
+- [x] **_IMPORTANT_**: Since I had some external libraries, I had to check credits and licenses for them.
+    - [x]  JUnit 5 --> Eclipse Public License 2.0
+    - [x]  Mockito --> MIT License
+    - [x]  Swing --> GNU General Public License v2.0
+    - [x]  openJDK --> GNU General Public License v2.0
+    - [x]  flatlaf --> Apache License 2.0
+    - [x]  flatlafInteliJ --> Apache Liense 2.0
+    - [x]  gradle --> Apache License 2.0
+    - [x]  groovy --> Apache License 2.0
+    - [x]  circleci --> Apache License 2.0
+    - [x]  icons and images used in GUI --> CC0 1.0 Universal (CC0 1.0) Public Domain Dedication
+- [ ] **Write a proper README**
 - [ ] (Optional) Implement the game in a GUI
     - [x] Extend needed classes 
     - [x] Handle the mouse click on the board
@@ -64,7 +65,10 @@ Development to grow the code.
     - [x] **Important TODO** selector (mode and difficulty) before starting the game
       - [x] Make this selector effectively change the game mode and the difficulty
     - [x] Set gradle to build and auto-run the GUI version of the game
-
+- [ ] (Optional) Make sure that the code is always runnable providing instruction on how to run it with containers: 
+  - [ ] Conteiner for Desktop version
+  - [x] Container for Terminal version
+ 
 ## Known bugs that have to be fixed and Known issues
 - [x] In the GUI, if you click on a cell that is not a valid move, then you click *undo* button, the program will not undo the move but change the current player only.
 - [ ] Sometimes (not always, like 5% of the times) in the gui, after closing the welcome window, the main window will not appear. This is not a big issue, since you can just close the program and re-run it but it's still annoying.
@@ -142,4 +146,8 @@ for example: `export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64`.
           ```
       Those commands work also with `docker` instead of `podman`.
 - If you are a linux user and use [`wayland`](https://wayland.freedesktop.org/) as display server, to run the desktop version of the application you will need [`xwayland`](https://wayland.freedesktop.org/xserver.html) installed on your system.
-  
+
+
+## Credits and attributions
+
+The complete list of all the credits, attributions and licenses can be found in the file [`ATTRIBUTIONS.md`](./ATTRIBUTIONS.md). file. 
