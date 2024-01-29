@@ -45,7 +45,7 @@ public class GuiManager {
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.add(boardPanel.getBoardPanel(), BorderLayout.CENTER);
         mainPanel.add(buildRightPanel(), BorderLayout.EAST);
-        mainPanel.add(undoButton.getUndoButton(), BorderLayout.SOUTH);
+        // mainPanel.add(undoButton.getUndoButton(), BorderLayout.SOUTH);
 
         frame.add(mainPanel);
     }
@@ -65,6 +65,7 @@ public class GuiManager {
 
         rightPanel.add(currentPlayerPanel);
         rightPanel.add(currentScorePanel);
+        rightPanel.add(undoButton.getUndoButton(), BorderLayout.SOUTH);
 
         return rightPanel;
     }

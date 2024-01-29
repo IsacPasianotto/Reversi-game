@@ -20,6 +20,7 @@ public class GameControllerDesktop extends GameController {
 
 
     protected void handleButtonPress(int x, int y) {
+        board.disableButtonGrid();
 
         cancelPreviousSuggestion();
 
@@ -45,6 +46,30 @@ public class GameControllerDesktop extends GameController {
                 board.resetBackgroundAtTile(row, col);
             }
         }
+
+        // check if at one ValidMove is available for the next player
+        computeValidMoves();
+        if (validMoves.isEmpty()) {
+            swapTurn();
+            computeValidMoves();
+            if (validMoves.isEmpty()) {
+                gameOverHandle();
+            }
+            else {
+                JOptionPane.showMessageDialog(null, "No valid moves for the current player!", "Skipped turn", JOptionPane.INFORMATION_MESSAGE);
+                CurrentPlayerPanel.updateCurrentPlayerLiveLabel();
+            }
+        }
+        board.enableButtonGrid();
+    }
+
+    public void gameOverHandle() {
+        String winner = board.computeScoreForPlayer(ColoredPawn.BLACK) > board.computeScoreForPlayer(ColoredPawn.WHITE) ? "Black" : "White";
+        if (board.computeScoreForPlayer(ColoredPawn.BLACK) == board.computeScoreForPlayer(ColoredPawn.WHITE))
+            winner = "Draw";
+        String message = "Game over! " + winner + " wins!";
+        JOptionPane.showMessageDialog(null, message, "Game over", JOptionPane.INFORMATION_MESSAGE);
+        System.exit(0);
     }
 
     void cancelPreviousSuggestion() {

@@ -54,15 +54,15 @@ Development to grow the code.
     - [x] Handle the mouse click on the board
     - [x] Update the score and the current player at each move
     - [x] Handle the undo button
-    - [ ] Check if there is at least one valid move for the current player or skip the turn
-    - [ ] Handle the end of the game
-      - [ ] Make a "log-out" pop-up with the winner and the score (optional: play again button)
+    - [x] Check if there is at least one valid move for the current player or skip the turn
+    - [x] Handle the end of the game
+      - [] Make a "log-out" pop-up with the winner and the score (optional: play again button)
     - [x] Handle the validity of the moves
     - [ ] Handle the computer player
     - [x] Handle the human player
     - [ ] Handle the restart of the game (optional)
     - [x] **Important TODO** selector (mode and difficulty) before starting the game
-      - [ ] Make this selector effectivly change the game mode and the difficulty
+      - [x] Make this selector effectively change the game mode and the difficulty
     - [x] Set gradle to build and auto-run the GUI version of the game
 
 ## Known bugs that have to be fixed and Known issues

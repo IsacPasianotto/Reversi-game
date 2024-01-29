@@ -36,6 +36,7 @@ public class GameDesktop extends Game {
     }
 
     public void undoLastMoveDesktop(GameControllerDesktop controller, BoardDesktop board) {
+        board.disableButtonGrid();
         controller.cancelPreviousSuggestion();
         int numberOfHumanPlayers = (isHumanPlayer(whitePlayer) ? 1 : 0) +
                 (isHumanPlayer(blackPlayer) ? 1 : 0);
@@ -51,5 +52,8 @@ public class GameDesktop extends Game {
             CurrentScorePanel.updateCurrentScoreLiveLabel(controller.computeScoreForPlayer(ColoredPawn.BLACK),
                     controller.computeScoreForPlayer(ColoredPawn.WHITE));
         }
+        board.enableButtonGrid();
     }
+
+
 }

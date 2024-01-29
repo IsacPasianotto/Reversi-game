@@ -61,6 +61,22 @@ public class BoardDesktop extends Board {
             buttonGrid[row][col].addActionListener(listener);
     }
 
+    public void disableButtonGrid() {
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            for (int j = 0; j < BOARD_SIZE; ++j) {
+                buttonGrid[i][j].setEnabled(false);
+            }
+        }
+    }
+
+    public void enableButtonGrid() {
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            for (int j = 0; j < BOARD_SIZE; ++j) {
+                buttonGrid[i][j].setEnabled(true);
+            }
+        }
+    }
+
     public JGradientButton getGradientButtonAt(int row, int col) { return buttonGrid[row][col]; }
     public ImageIcon getBlack() { return black; }
     public ImageIcon getWhite() { return white; }
