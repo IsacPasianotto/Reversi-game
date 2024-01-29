@@ -4,8 +4,10 @@ import board.Board;
 import board.ColoredPawn;
 import board.ValidMove;
 import board.coords.BoardTile;
-import desktop.gui.components.CurrentPlayerPanel;
-import desktop.gui.components.CurrentScorePanel;
+import desktop.gui.main.GuiManager;
+import desktop.gui.main.components.CurrentPlayerPanel;
+import desktop.gui.main.components.CurrentScorePanel;
+import desktop.gui.other.OutcomeFrame;
 import mechanics.GameController;
 
 import javax.swing.*;
@@ -47,6 +49,10 @@ public class GameControllerDesktop extends GameController {
             }
         }
 
+        if (board.isFull()) {
+            gameOverHandle();
+        }
+
         // check if at one ValidMove is available for the next player
         computeValidMoves();
         if (validMoves.isEmpty()) {
@@ -56,7 +62,9 @@ public class GameControllerDesktop extends GameController {
                 gameOverHandle();
             }
             else {
-                JOptionPane.showMessageDialog(null, "No valid moves for the current player!", "Skipped turn", JOptionPane.INFORMATION_MESSAGE);
+                ColoredPawn currentPlayerColor = getCurrentPlayerColor();
+                String currentPlayerName = currentPlayerColor == ColoredPawn.BLACK ? "black" : "white";
+                JOptionPane.showMessageDialog(null, "No valid moves for the " + currentPlayerName + " player!", "Skipped turn", JOptionPane.INFORMATION_MESSAGE);
                 CurrentPlayerPanel.updateCurrentPlayerLiveLabel();
             }
         }
@@ -64,12 +72,12 @@ public class GameControllerDesktop extends GameController {
     }
 
     public void gameOverHandle() {
-        String winner = board.computeScoreForPlayer(ColoredPawn.BLACK) > board.computeScoreForPlayer(ColoredPawn.WHITE) ? "Black" : "White";
-        if (board.computeScoreForPlayer(ColoredPawn.BLACK) == board.computeScoreForPlayer(ColoredPawn.WHITE))
-            winner = "Draw";
-        String message = "Game over! " + winner + " wins!";
-        JOptionPane.showMessageDialog(null, message, "Game over", JOptionPane.INFORMATION_MESSAGE);
-        System.exit(0);
+        GuiManager.gameFrame.setVisible(false);
+        SwingUtilities.invokeLater(() -> {
+            JFrame outcomeFrame = new OutcomeFrame(board).getFrame();
+            outcomeFrame.setVisible(true);
+        });
+
     }
 
     void cancelPreviousSuggestion() {

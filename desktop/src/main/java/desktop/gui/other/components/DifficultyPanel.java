@@ -1,4 +1,4 @@
-package desktop.welcome.components;
+package desktop.gui.other.components;
 
 import javax.swing.*;
 import java.awt.*;

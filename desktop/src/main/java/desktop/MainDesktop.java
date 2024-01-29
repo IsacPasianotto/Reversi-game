@@ -1,10 +1,10 @@
 package desktop;
 
 import com.formdev.flatlaf.intellijthemes.FlatGradiantoDeepOceanIJTheme;
-import desktop.gui.GuiManager;
+import desktop.gui.main.GuiManager;
+import desktop.gui.other.WelcomeFrame;
 import desktop.utilities.BoardDesktop;
 import desktop.utilities.GameDesktop;
-import desktop.welcome.WelcomeFrame;
 import player.Player;
 import player.computer.SmartPlayer;
 import player.human.Human;
@@ -12,6 +12,9 @@ import player.human.Human;
 import javax.swing.*;
 
 public class MainDesktop {
+
+    public static JFrame gameFrame;
+    private static GuiManager guiManager;
 
     public static void main(String[] args) throws InterruptedException {
         FlatGradiantoDeepOceanIJTheme.setup();
@@ -60,12 +63,13 @@ public class MainDesktop {
         }
 
         GameDesktop gameDesktop = new GameDesktop(board, blackPlayer, whitePlayer);
-        GuiManager guiManager = new GuiManager(board, gameDesktop);
+
+        GuiManager guiManager  = new GuiManager(board, gameDesktop);
 
         SwingUtilities.invokeLater(() -> {
-            JFrame frame = guiManager.getJFrame();
-            frame.setVisible(true);
+            GuiManager.gameFrame.setVisible(true);
         });
+
 
     }
 }

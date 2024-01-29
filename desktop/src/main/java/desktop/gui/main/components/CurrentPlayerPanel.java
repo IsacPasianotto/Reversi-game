@@ -1,4 +1,4 @@
-package desktop.gui.components;
+package desktop.gui.main.components;
 
 import desktop.utilities.BoardDesktop;
 import desktop.utilities.GameDesktop;

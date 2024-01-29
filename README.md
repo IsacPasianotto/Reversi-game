@@ -56,7 +56,7 @@ Development to grow the code.
     - [x] Handle the undo button
     - [x] Check if there is at least one valid move for the current player or skip the turn
     - [x] Handle the end of the game
-      - [] Make a "log-out" pop-up with the winner and the score (optional: play again button)
+      - [x] Make a "log-out" pop-up with the winner and the score (optional: play again button)
     - [x] Handle the validity of the moves
     - [ ] Handle the computer player
     - [x] Handle the human player

@@ -1,9 +1,9 @@
-package desktop.gui;
+package desktop.gui.main;
 
-import desktop.gui.components.BoardPanel;
-import desktop.gui.components.CurrentPlayerPanel;
-import desktop.gui.components.CurrentScorePanel;
-import desktop.gui.components.UndoButton;
+import desktop.gui.main.components.BoardPanel;
+import desktop.gui.main.components.CurrentPlayerPanel;
+import desktop.gui.main.components.CurrentScorePanel;
+import desktop.gui.main.components.UndoButton;
 import desktop.utilities.BoardDesktop;
 import desktop.utilities.GameDesktop;
 
@@ -19,7 +19,7 @@ public class GuiManager {
     private CurrentPlayerPanel currentPlayerPanel;
     private CurrentScorePanel currentScorePanel;
     private UndoButton undoButton;
-    private JFrame frame;
+    public static JFrame gameFrame;
 
     public GuiManager(BoardDesktop boardDesktop, GameDesktop gameDesktop) {
         this.boardDesktop = boardDesktop;
@@ -32,22 +32,16 @@ public class GuiManager {
         composeFrame();
     }
 
-    public JFrame getJFrame() {
-        return frame;
-    }
-
     private void composeFrame() {
-        frame = new JFrame("Reversi");
-        // TODO --> When there will be a after game screen, this will be changed to dispose on close
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(900, 650);
+        gameFrame = new JFrame("Reversi");
+        gameFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        gameFrame.setSize(900, 650);
 
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.add(boardPanel.getBoardPanel(), BorderLayout.CENTER);
         mainPanel.add(buildRightPanel(), BorderLayout.EAST);
-        // mainPanel.add(undoButton.getUndoButton(), BorderLayout.SOUTH);
 
-        frame.add(mainPanel);
+        gameFrame.add(mainPanel);
     }
 
     private JPanel buildRightPanel() {

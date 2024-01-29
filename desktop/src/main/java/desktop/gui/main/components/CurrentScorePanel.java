@@ -1,4 +1,8 @@
-package desktop.gui.components;
+package desktop.gui.main.components;
+
+import board.ColoredPawn;
+import desktop.utilities.BoardDesktop;
+import desktop.utilities.GameControllerDesktop;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,6 +25,16 @@ public class CurrentScorePanel {
         currentScorePanel = new JPanel();
         composeCurrentScorePanel();
     }
+
+    public CurrentScorePanel(BoardDesktop board){
+        black.setImage(black.getImage().getScaledInstance(PLAYER_SYMBOL_SIZE, PLAYER_SYMBOL_SIZE, Image.SCALE_SMOOTH));
+        white.setImage(white.getImage().getScaledInstance(PLAYER_SYMBOL_SIZE, PLAYER_SYMBOL_SIZE, Image.SCALE_SMOOTH));
+        currentScorePanel = new JPanel();
+        composeCurrentScorePanel();
+        updateCurrentScoreLiveLabel(new GameControllerDesktop(board).computeScoreForPlayer(ColoredPawn.BLACK),
+                new GameControllerDesktop(board).computeScoreForPlayer(ColoredPawn.WHITE));
+    }
+
 
     public JPanel getCurrentScorePanel() {
         return currentScorePanel;
@@ -70,5 +84,4 @@ public class CurrentScorePanel {
     public static void updateCurrentScoreLiveLabel(int blackScore, int whiteScore) {
         currentScoreLiveLabel.setText(blackScore + " - " + whiteScore);
     }
-
 }

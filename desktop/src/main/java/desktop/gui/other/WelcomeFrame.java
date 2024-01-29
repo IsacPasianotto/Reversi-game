@@ -1,9 +1,9 @@
-package desktop.welcome;
+package desktop.gui.other;
 
-import desktop.welcome.components.DifficultyPanel;
-import desktop.welcome.components.GameModePanel;
-import desktop.welcome.components.StartButton;
-import desktop.welcome.components.WhoPlaysFirstPanel;
+import desktop.gui.other.components.DifficultyPanel;
+import desktop.gui.other.components.GameModePanel;
+import desktop.gui.other.components.Button;
+import desktop.gui.other.components.WhoPlaysFirstPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -40,7 +40,7 @@ public class WelcomeFrame {
         gameMode = new GameModePanel(LabelsFont, RadioButtonsFont);
         difficulty = new DifficultyPanel(LabelsFont, RadioButtonsFont);
         whoPlaysFirst = new WhoPlaysFirstPanel(LabelsFont, RadioButtonsFont);
-        startButton = new StartButton(StartButtonFont).getStartButton();
+        startButton = new Button(StartButtonFont, "Start").getButton();
 
         setActionListeners();
 

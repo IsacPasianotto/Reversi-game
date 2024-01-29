@@ -1,8 +1,8 @@
 package desktop.utilities;
 
 import board.ColoredPawn;
-import desktop.gui.components.CurrentPlayerPanel;
-import desktop.gui.components.CurrentScorePanel;
+import desktop.gui.main.components.CurrentPlayerPanel;
+import desktop.gui.main.components.CurrentScorePanel;
 import mechanics.Game;
 import player.Player;
 
