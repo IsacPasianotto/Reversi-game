@@ -12,7 +12,7 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 
 public class GuiManager {
-    private Color borderColor = new Color(0, 0, 0);
+    private final Color borderColor = new Color(0, 0, 0);
     private BoardDesktop boardDesktop;
     private GameDesktop gameDesktop;
     private BoardPanel boardPanel;

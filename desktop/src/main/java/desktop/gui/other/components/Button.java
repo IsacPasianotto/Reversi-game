@@ -7,17 +7,17 @@ public class Button {
 
     JButton startButton;
 
-    public Button(Font startButtonFont, String buttonText) {
-        buildStartButton(startButtonFont, buttonText);
+    public Button(Font buttonFont, String buttonText) {
+        buildButton(buttonFont, buttonText);
     }
 
     public JButton getButton() {
         return startButton;
     }
 
-    private void buildStartButton(Font startButtonFont, String buttonText) {
+    private void buildButton(Font buttonFont, String buttonText) {
         startButton = new JButton(buttonText);
-        startButton.setFont(startButtonFont);
+        startButton.setFont(buttonFont);
         startButton.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         startButton.setAlignmentY(JLabel.TOP_ALIGNMENT);
 

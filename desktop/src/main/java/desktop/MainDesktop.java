@@ -17,6 +17,7 @@ public class MainDesktop {
     private static GuiManager guiManager;
 
     public static void main(String[] args) throws InterruptedException {
+
         FlatGradiantoDeepOceanIJTheme.setup();
 
         WelcomeFrame welcomePanel = new WelcomeFrame();
@@ -28,6 +29,7 @@ public class MainDesktop {
         while (welcomePanel.frame.isVisible()) {
             Thread.sleep(100);
         }
+
         welcomePanel.frame.dispose();
 
         Player blackPlayer = null;

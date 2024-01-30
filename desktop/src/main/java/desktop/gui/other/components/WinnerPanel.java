@@ -1,4 +1,4 @@
-package desktop.gui.main.components;
+package desktop.gui.other.components;
 
 import board.ColoredPawn;
 import desktop.utilities.BoardDesktop;

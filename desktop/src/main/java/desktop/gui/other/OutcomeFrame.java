@@ -2,7 +2,7 @@ package desktop.gui.other;
 
 import desktop.gui.main.GuiManager;
 import desktop.gui.main.components.CurrentScorePanel;
-import desktop.gui.main.components.WinnerPanel;
+import desktop.gui.other.components.WinnerPanel;
 import desktop.gui.other.components.Button;
 import desktop.utilities.BoardDesktop;
 
