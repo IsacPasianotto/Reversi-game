@@ -16,7 +16,7 @@ public class GuiManager {
     private CurrentPlayerPanel currentPlayerPanel;
     private CurrentScorePanel currentScorePanel;
     private UndoButton undoButton;
-    public static JFrame gameFrame;
+    private JFrame gameFrame;
 
     public GuiManager(BoardDesktop boardDesktop, GameDesktop gameDesktop) {
         BoardPanel boardPanel = new BoardPanel(boardDesktop, gameDesktop);
@@ -34,8 +34,8 @@ public class GuiManager {
         gameFrame.add(mainPanel);
     }
 
-    public void setFrameVisible(boolean visible) {
-        gameFrame.setVisible(visible);
+    public void setFrameVisible() {
+        gameFrame.setVisible(true);
     }
 
     private JPanel buildRightPanel() {

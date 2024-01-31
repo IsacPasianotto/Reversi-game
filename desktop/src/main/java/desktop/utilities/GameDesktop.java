@@ -2,11 +2,15 @@ package desktop.utilities;
 
 import board.Board;
 import board.ColoredPawn;
+import board.coords.BoardTile;
 import desktop.gui.main.GuiManager;
 import desktop.gui.main.components.CurrentPlayerPanel;
 import desktop.gui.main.components.CurrentScorePanel;
+import desktop.gui.other.components.GameSettings;
 import mechanics.Game;
 import player.Player;
+import player.computer.RandomPlayer;
+import player.computer.SmartPlayer;
 
 import java.awt.event.ActionListener;
 import java.util.stream.IntStream;
@@ -20,9 +24,13 @@ public class GameDesktop extends Game {
 
         gameController = new GameControllerDesktop(board);
         guiManager = new GuiManager(board, this);
+        addListenersToButtonGrid(board);
+    }
+
+    private void addListenersToButtonGrid(BoardDesktop board) {
         for (int i = 0; i < Board.BOARD_SIZE; i++)
             for (int j = 0; j < Board.BOARD_SIZE; j++)
-                board.addListenersToButtonGrid(i,j, gameController.getButtonListener(i,j, previousSteps));
+                board.addListenersToButtonGrid(i,j, getButtonListener(i,j));
     }
 
     public ActionListener getUndoListener(BoardDesktop board) {
@@ -47,6 +55,30 @@ public class GameDesktop extends Game {
                     gameController.computeScoreForPlayer(ColoredPawn.WHITE));
         }
         board.enableButtonGrid();
+    }
+
+    private boolean thereIsAComputerPlayer() {
+        return !isHumanPlayer(whitePlayer) || !isHumanPlayer(blackPlayer);
+    }
+
+    private boolean isDifficultyHard() {
+        return whitePlayer instanceof SmartPlayer || blackPlayer instanceof SmartPlayer;
+    }
+
+
+    public ActionListener getButtonListener(int x, int y) {
+        return e -> {
+            gameController.handleHumanTurn(new BoardTile(x, y));
+            if (!((Board)gameController.board).equals(previousSteps.getLast())) {
+                previousSteps.add(gameController.board.copy());
+                if (thereIsAComputerPlayer()) {
+                    Player bot = isDifficultyHard() ? new SmartPlayer() : new RandomPlayer();
+                    gameController.handleBotTurn(bot);
+                    if (!gameController.board.equals(previousSteps.getLast()))
+                        previousSteps.add(gameController.board.copy());
+                }
+            }
+        };
     }
 
 }

@@ -1,6 +1,7 @@
 package desktop.utilities;
 
 import board.Board;
+import board.coords.BoardTile;
 
 import javax.swing.*;
 import java.awt.*;
@@ -43,11 +44,15 @@ public class BoardDesktop extends Board {
         }
     }
 
-    public void updateSuggestionAtTile(int row, int col, boolean toSuggest) {
+    public void updateSuggestionAtTile(BoardTile position, boolean toSuggest) {
+        int row = position.x();
+        int col = position.y();
         buttonGrid[row][col].setToSuggestProperty(toSuggest);
     }
 
-    public void resetBackgroundAtTile(int row, int col){
+    public void resetBackgroundAtTile(BoardTile position) {
+        int row = position.x();
+        int col = position.y();
         buttonGrid[row][col].resetBackground();
     }
 
@@ -80,8 +85,9 @@ public class BoardDesktop extends Board {
     void cancelPreviousSuggestion() {
         for (int i = 0; i < BOARD_SIZE; i++) {
             for (int j = 0; j < BOARD_SIZE; j++) {
-                updateSuggestionAtTile(i, j, false);
-                resetBackgroundAtTile(i, j);
+                BoardTile position = new BoardTile(i, j);
+                updateSuggestionAtTile(position, false);
+                resetBackgroundAtTile(position);
             }
         }
     }
