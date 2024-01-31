@@ -14,7 +14,7 @@ import java.util.stream.IntStream;
 public class Game {
     protected final Player whitePlayer;
     protected final Player blackPlayer;
-    public GameController gameController;
+    private final GameController gameController;
     protected boolean gameOver;
     protected final ArrayList<Board> previousSteps;
 
@@ -45,6 +45,10 @@ public class Game {
         GameOver();
         blackPlayer.close();
         whitePlayer.close();
+    }
+
+    public GameController getGameController() {
+        return gameController;
     }
 
     private Optional<ValidMove> selectAValidMoveOrUndo() {

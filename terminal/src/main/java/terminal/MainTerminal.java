@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 
-public class TerminalMain {
+public class MainTerminal {
     public static void main(String[] args) {
         String begin = """
                 mechanics.Game started!

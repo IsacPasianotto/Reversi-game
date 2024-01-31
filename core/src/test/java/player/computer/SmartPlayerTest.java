@@ -63,7 +63,7 @@ class SmartPlayerTest {
         for (int i = 0; i < nIter; i++) {
             Game game = new Game(new Board(), smart, random);
             game.play();
-            Board finalBoard = game.gameController.getBoard();
+            Board finalBoard = game.getGameController().getBoard();
             blackPawns = finalBoard.computeScoreForPlayer(ColoredPawn.BLACK);
             whitePawns = finalBoard.computeScoreForPlayer(ColoredPawn.WHITE);
             if (blackPawns > whitePawns) smartWon++;
@@ -82,7 +82,7 @@ class SmartPlayerTest {
         for (int i = 0; i < nIter; i++) {
             Game game = new Game(new Board(), random, smart);
             game.play();
-            Board finalBoard = game.gameController.getBoard();
+            Board finalBoard = game.getGameController().getBoard();
             blackPawns = finalBoard.computeScoreForPlayer(ColoredPawn.BLACK);
             whitePawns = finalBoard.computeScoreForPlayer(ColoredPawn.WHITE);
             if (whitePawns > blackPawns)

@@ -24,12 +24,12 @@ class GameTest {
     void undoToInitialPosition() {
         Board board = new Board();
         Game game = new Game(board, new Human(), new Human());
-        game.gameController.computeValidMoves();
-        ValidMove move = game.gameController.getValidMoves().getFirst();
+        game.getGameController().computeValidMoves();
+        ValidMove move = game.getGameController().getValidMoves().getFirst();
         board.applyMoveToBoard(move);
         game.previousSteps.add(board.copy());
         game.undoLastMove();
-        assertEquals(new Board(), game.gameController.board);
+        assertEquals(new Board(), game.getGameController().getBoard());
     }
 
     @Test
@@ -37,18 +37,18 @@ class GameTest {
         Board board = new Board();
         Game game = new Game(board, new Human(), new RandomPlayer());
 
-        game.gameController.computeValidMoves();
-        ValidMove move1 = game.gameController.getValidMoves().getFirst();
+        game.getGameController().computeValidMoves();
+        ValidMove move1 = game.getGameController().getValidMoves().getFirst();
         board.applyMoveToBoard(move1);
         game.previousSteps.add(board.copy());
 
-        game.gameController.computeValidMoves();
-        ValidMove move2 = game.gameController.getValidMoves().getFirst();
+        game.getGameController().computeValidMoves();
+        ValidMove move2 = game.getGameController().getValidMoves().getFirst();
         board.applyMoveToBoard(move2);
         game.previousSteps.add(board.copy());
 
         game.undoLastMove();
 
-        assertEquals(new Board(), game.gameController.board);
+        assertEquals(new Board(), game.getGameController().getBoard());
     }
 }

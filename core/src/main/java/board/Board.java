@@ -4,6 +4,7 @@ package board;
 import board.coords.BoardTile;
 import board.coords.Direction;
 
+import javax.swing.*;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -62,7 +63,7 @@ public class Board {
     @Override
     public boolean equals(Object other) {
         if (this == other) return true;
-        if (other == null || getClass() != other.getClass()) return false;
+        //if (other == null || getClass() != other.getClass()) return false;
         Board otherBoard = (Board) other;
         return Arrays.deepEquals(board, otherBoard.board);
     }
@@ -88,6 +89,8 @@ public class Board {
                 .append(computeScoreForPlayer(ColoredPawn.BLACK)).append(" ").append(ColoredPawn.BLACK);
         return result.toString();
     }
+
+    public JPanel getPanel() { return null; }
 }
 
 

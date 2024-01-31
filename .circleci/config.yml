@@ -102,7 +102,7 @@ jobs:
       - checkout
       - run:
           name: "Test: mainTest"
-          command: ./gradlew terminal:test --tests TerminalMainTest
+          command: ./gradlew terminal:test --tests MainTerminalTest
 
 
   test-win:
@@ -157,7 +157,7 @@ jobs:
       - run:
           name: test-terminal-main
           shell: bash.exe
-          command: ./gradlew terminal:test --tests TerminalMainTest
+          command: ./gradlew terminal:test --tests MainTerminalTest
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows

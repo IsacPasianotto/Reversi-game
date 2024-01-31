@@ -1,21 +1,15 @@
-def mainClassName = 'terminal.MainTerminal'
+def mainClassName = 'desktop.MainDesktop'
 def distributionDir = "$rootProject.projectDir/readyToDistribute"
 def archiveName = rootProject.name + '-' + project.name + '-' + String.valueOf(project.version) + '.jar'
 
 project.ext.mainClassName = mainClassName
 
 dependencies {
-    testImplementation Junit5['jupiter']
-    testRuntimeOnly Junit5['jupiter-platform-launcher']
-    testImplementation mockito['mockito-core']
-    testImplementation mockito['mockito-junit-jupiter']
-
     implementation project(":core")
     runtimeOnly project(":core")
-}
 
-test {
-    useJUnitPlatform()
+    implementation flatLaf['flatlaf']
+    implementation flatLaf['flatlaf-intellij-themes']
 }
 
 application {
@@ -28,10 +22,9 @@ run {
     standardOutput = System.out
     dependsOn {
         ":core:jar"
-        ":terminal:jar"
+        ":desktop:jar"
     }
 }
-
 
 jar {
     enabled = true
@@ -59,7 +52,7 @@ tasks.register('dist', Jar) {
     dependsOn {
         configurations.runtimeClasspath
         ":core:jar"
-        ":terminal:jar"
+        ":desktop:jar"
     }
     from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
