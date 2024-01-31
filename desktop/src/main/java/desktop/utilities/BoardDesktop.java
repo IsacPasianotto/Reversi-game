@@ -1,7 +1,6 @@
 package desktop.utilities;
 
 import board.Board;
-import board.ColoredPawn;
 
 import javax.swing.*;
 import java.awt.*;
@@ -52,9 +51,9 @@ public class BoardDesktop extends Board {
         buttonGrid[row][col].resetBackground();
     }
 
-    public void addListenersAT(int row, int col, ActionListener listener){
-            buttonGrid[row][col].addActionListener(listener);
-    }
+//    public void addListenersAT(int row, int col, ActionListener listener){
+//            buttonGrid[row][col].addActionListener(listener);
+//    }
 
     public void disableButtonGrid() {
         for (int i = 0; i < BOARD_SIZE; i++) {
@@ -78,4 +77,16 @@ public class BoardDesktop extends Board {
         return buttonGrid[row][col];
     }
 
+    void cancelPreviousSuggestion() {
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            for (int j = 0; j < BOARD_SIZE; j++) {
+                updateSuggestionAtTile(i, j, false);
+                resetBackgroundAtTile(i, j);
+            }
+        }
+    }
+
+    public void addListenersToButtonGrid(int i, int j, ActionListener listener){
+        buttonGrid[i][j].addActionListener(listener);
+    }
 }

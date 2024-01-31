@@ -4,31 +4,36 @@ import board.Board;
 import board.ColoredPawn;
 import board.ValidMove;
 import board.coords.BoardTile;
-import desktop.gui.main.GuiManager;
 import desktop.gui.main.components.CurrentPlayerPanel;
 import desktop.gui.main.components.CurrentScorePanel;
 import desktop.gui.other.OutcomeFrame;
 import mechanics.GameController;
 
 import javax.swing.*;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Optional;
 
 public class GameControllerDesktop extends GameController {
-    private final BoardDesktop board;
+    final BoardDesktop board;
+
     public GameControllerDesktop(BoardDesktop board) {
         super(board);
         this.board = board;
+        System.out.println("GameControllerDesktop constructor");
+
     }
 
 
     protected void handleButtonPress(BoardTile position) {
         board.disableButtonGrid();
 
-        cancelPreviousSuggestion();
+        board.cancelPreviousSuggestion();
 
         computeValidMoves();
         Optional<ValidMove> move = isValid(position);
-
+        System.out.println(position);
+        System.out.println(move);
         if (move.isPresent()) {
             board.applyMoveToBoard(move.get());
             swapTurn();
@@ -64,7 +69,7 @@ public class GameControllerDesktop extends GameController {
     }
 
     public void gameOverHandle() {
-        GuiManager.gameFrame.setVisible(false);
+        // guiManager.gameFrame.dispose();
         SwingUtilities.invokeLater(() -> {
             JFrame outcomeFrame = new OutcomeFrame(board).getFrame();
             outcomeFrame.setVisible(true);
@@ -72,12 +77,13 @@ public class GameControllerDesktop extends GameController {
 
     }
 
-    void cancelPreviousSuggestion() {
-        for (int i = 0; i < Board.BOARD_SIZE; i++) {
-            for (int j = 0; j < Board.BOARD_SIZE; j++) {
-                board.updateSuggestionAtTile(i, j, false);
-                board.resetBackgroundAtTile(i, j);
+    public ActionListener getButtonListener(int x, int y, ArrayList<Board> previousSteps) {
+        return e -> {
+            handleButtonPress(new BoardTile(x, y));
+            if (!board.equals(previousSteps.getLast())) {
+                System.out.println("Added to previousSteps");
+                previousSteps.add(board.copy());
             }
-        }
+        };
     }
 }

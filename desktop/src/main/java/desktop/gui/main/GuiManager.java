@@ -34,6 +34,9 @@ public class GuiManager {
         gameFrame.add(mainPanel);
     }
 
+    public void setFrameVisible(boolean visible) {
+        gameFrame.setVisible(visible);
+    }
 
     private JPanel buildRightPanel() {
         JPanel rightPanel = new JPanel(new GridLayout(0, 1));

@@ -22,7 +22,7 @@ public class BoardPanel {
         this.boardDesktop = desktopBoard;
         this.gameDesktop = desktopGame;
         composeBoardPanel();
-        addListenerToButtonGrid();
+        //boardDesktop.addListenerToButtonGrid(this);
     }
 
     public JPanel getBoardPanel() {
@@ -48,13 +48,6 @@ public class BoardPanel {
             for (int j = 0; j < Board.BOARD_SIZE; j++) {
                 boardPanel.add(boardDesktop.getButton(i, j));
             }
-        }
-    }
-
-    private void addListenerToButtonGrid(){
-        for (int i = 0; i < Board.BOARD_SIZE; i++) {
-            for (int j = 0; j < Board.BOARD_SIZE; j++)
-                boardDesktop.addListenersAT(i, j, gameDesktop.getButtonListener(i, j));
         }
     }
 

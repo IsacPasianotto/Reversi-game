@@ -1,9 +1,8 @@
 package desktop.gui.other;
 
-import desktop.gui.main.GuiManager;
 import desktop.gui.main.components.CurrentScorePanel;
-import desktop.gui.other.components.WinnerPanel;
 import desktop.gui.other.components.Button;
+import desktop.gui.other.components.WinnerPanel;
 import desktop.utilities.BoardDesktop;
 
 import javax.swing.*;
@@ -76,7 +75,6 @@ public class OutcomeFrame {
         JButton closeButton = new Button(buttonFont, "CLOSE").getButton();
         JButton playAgainButton = new Button(buttonFont, "PLAY AGAIN").getButton();
         closeButton.addActionListener(e -> {
-            GuiManager.gameFrame.dispose();
             frame.dispose();
             System.exit(0);
         });

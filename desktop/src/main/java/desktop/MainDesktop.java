@@ -1,7 +1,6 @@
 package desktop;
 
 import com.formdev.flatlaf.intellijthemes.FlatGradiantoDeepOceanIJTheme;
-import desktop.gui.main.GuiManager;
 import desktop.gui.other.WelcomeFrame;
 import desktop.utilities.BoardDesktop;
 import desktop.utilities.GameDesktop;
@@ -13,25 +12,21 @@ import javax.swing.*;
 
 public class MainDesktop {
 
-    public static JFrame gameFrame;    // can we safely delete them?
-    private static GuiManager guiManager;
-
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
 
         FlatGradiantoDeepOceanIJTheme.setup();
 
         WelcomeFrame welcomePanel = new WelcomeFrame();
         SwingUtilities.invokeLater(() -> {
-            JFrame welcomeJF = welcomePanel.frame;
-            welcomeJF.setVisible(true);
+            welcomePanel.setWelcomeFrameVisible();
+            welcomePanel.setActionListenerToStartButton(e -> {
+                welcomePanel.disposeWelcomeFrame();
+                startBoardFrame(welcomePanel);
+            });
         });
+    }
 
-        while (welcomePanel.frame.isVisible()) {    // to rework!
-            Thread.sleep(100);
-        }
-
-        welcomePanel.frame.dispose();
-
+    private static void startBoardFrame(WelcomeFrame welcomePanel) {
         Player blackPlayer = null;
         Player whitePlayer = null;
         BoardDesktop board = new BoardDesktop();
@@ -43,7 +38,7 @@ public class MainDesktop {
         } else {
             JOptionPane.showMessageDialog(null, "This game mode is not implemented yed!", "ATTENTION", JOptionPane.WARNING_MESSAGE);
             System.out.println("notImplemented yet");
-            // System.exit(0);
+            System.exit(0);
             if (welcomePanel.isDifficultyHard()){
                 if (welcomePanel.isHumanFirst()){
                     blackPlayer = new Human();
@@ -52,7 +47,7 @@ public class MainDesktop {
                     blackPlayer = new SmartPlayer();
                     whitePlayer = new Human();
                 }
-            } else if (!welcomePanel.isDifficultyHard()){   // can we delete the if condition?
+            } else {
                 if (welcomePanel.isHumanFirst()){
                     blackPlayer = new Human();
                     whitePlayer = new SmartPlayer();
@@ -63,12 +58,11 @@ public class MainDesktop {
             }
         }
 
+
         GameDesktop gameDesktop = new GameDesktop(board, blackPlayer, whitePlayer);
 
-        GuiManager guiManager  = new GuiManager(board, gameDesktop);   // can we delete the guiManager field?
-
-        SwingUtilities.invokeLater(() -> GuiManager.gameFrame.setVisible(true));
-
-
+        SwingUtilities.invokeLater(() -> {
+            gameDesktop.guiManager.setFrameVisible(true);
+        });
     }
 }

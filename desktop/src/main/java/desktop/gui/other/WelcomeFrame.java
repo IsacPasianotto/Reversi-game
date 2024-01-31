@@ -1,16 +1,17 @@
 package desktop.gui.other;
 
+import desktop.gui.other.components.Button;
 import desktop.gui.other.components.DifficultyPanel;
 import desktop.gui.other.components.GameModePanel;
-import desktop.gui.other.components.Button;
 import desktop.gui.other.components.WhoPlaysFirstPanel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 public class WelcomeFrame {
 
-    public JFrame frame;
+    private JFrame frame;
     private GameModePanel gameMode;
     private DifficultyPanel difficulty;
     private WhoPlaysFirstPanel whoPlaysFirst;
@@ -33,6 +34,10 @@ public class WelcomeFrame {
         JPanel generalPanel = getGeneralPanel();
         frame.add(generalPanel);
         frame.setVisible(true);    
+    }
+
+    public JFrame getFrame() {
+        return frame;
     }
 
     private JPanel getGeneralPanel() {
@@ -65,8 +70,18 @@ public class WelcomeFrame {
 
         whoPlaysFirst.setActionListenerToBlackButton(e -> isHumanFirst = true);
         whoPlaysFirst.setActionListenerToWhiteButton(e -> isHumanFirst = false);
+    }
 
-        startButton.addActionListener(e -> frame.setVisible(false));
+    public void setActionListenerToStartButton(ActionListener actionListener) {
+        startButton.addActionListener(actionListener);
+    }
+
+    public void setWelcomeFrameVisible() {
+        frame.setVisible(true);
+    }
+
+    public void disposeWelcomeFrame() {
+        frame.dispose();
     }
 
     private void setPlayersListener(boolean aFlag) {
