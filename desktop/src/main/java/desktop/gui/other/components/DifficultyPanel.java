@@ -7,8 +7,8 @@ import java.awt.event.ActionListener;
 public class DifficultyPanel {
 
     private final JPanel difficultyPanel;
-    private JRadioButton easyButton;
-    private JRadioButton hardButton;
+    private final JRadioButton easyButton;
+    private final JRadioButton hardButton;
 
     public DifficultyPanel(Font labelsFont, Font radioButtonsFont) {
         difficultyPanel = new JPanel();

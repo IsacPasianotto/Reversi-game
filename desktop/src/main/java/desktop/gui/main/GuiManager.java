@@ -10,19 +10,34 @@ import desktop.utilities.GameDesktop;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.util.Objects;
 
 public class GuiManager {
-    private static final Color borderColor = new Color(0, 0, 0);
-    private CurrentPlayerPanel currentPlayerPanel;
-    private CurrentScorePanel currentScorePanel;
-    private UndoButton undoButton;
-    private JFrame gameFrame;
 
-    public GuiManager(BoardDesktop boardDesktop, GameDesktop gameDesktop) {
-        BoardPanel boardPanel = new BoardPanel(boardDesktop, gameDesktop);
+    public static final Font arialBoldItalic35 = new Font("Arial", Font.BOLD | Font.ITALIC, 35);
+    public static final Color white = new Color(255, 255, 255);
+    public static final Color black = new Color(0, 0, 0);
+    public static final Font buttonFont = new Font("Arial", Font.BOLD, 20);
+    public static final Font currentLabelFont = new Font("Arial", Font.ITALIC, 20);
+    public static final Font boardLabelsFont = new Font("Arial", Font.BOLD, 25);
+
+    public static final ImageIcon blackPawn = new ImageIcon(Objects.requireNonNull(BoardDesktop.class.getResource("/black.png")));
+    public static final ImageIcon whitePawn = new ImageIcon(Objects.requireNonNull(BoardDesktop.class.getResource("/white.png")));
+
+    public static final String columnLabels = "ABCDEFGH";
+
+    private static final Color borderColor = new Color(0, 0, 0);
+    private final CurrentPlayerPanel currentPlayerPanel;
+    private final CurrentScorePanel currentScorePanel;
+    private final UndoButton undoButton;
+    private final JFrame gameFrame;
+
+    public GuiManager(GameDesktop gameDesktop) {
+        BoardDesktop boardDesktop = gameDesktop.getGameController().getBoard();
+        BoardPanel boardPanel = new BoardPanel(boardDesktop);
         currentPlayerPanel = new CurrentPlayerPanel(boardDesktop);
         currentScorePanel = new CurrentScorePanel();
-        undoButton = new UndoButton(gameDesktop, boardDesktop);
+        undoButton = new UndoButton(gameDesktop);
         gameFrame = new JFrame("Reversi");
         gameFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         gameFrame.setSize(900, 650);

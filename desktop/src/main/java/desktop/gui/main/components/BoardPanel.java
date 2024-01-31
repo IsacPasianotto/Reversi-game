@@ -1,6 +1,7 @@
 package desktop.gui.main.components;
 
 import board.Board;
+import desktop.gui.main.GuiManager;
 import desktop.utilities.BoardDesktop;
 import desktop.utilities.GameDesktop;
 
@@ -11,18 +12,15 @@ import java.awt.*;
 public class BoardPanel {
 
     private final BoardDesktop boardDesktop;
-    private final GameDesktop gameDesktop;
     private JPanel boardPanel;
-    private static final Color boardBorderColor = new Color(0, 0, 0);
-    private static final Color boardLabelColor = new Color(255, 255, 255);
-    private static final Font boardLabelsFont = new Font("Arial", Font.BOLD, 25);
-    private static final String columnLabels = "ABCDEFGH";
+    private static final Color boardBorderColor = GuiManager.black;
+    private static final Color boardLabelColor = GuiManager.white;
+    private static final Font boardLabelsFont = GuiManager.boardLabelsFont;
+    private static final String columnLabels = GuiManager.columnLabels;
 
-    public BoardPanel(BoardDesktop desktopBoard, GameDesktop desktopGame) {
+    public BoardPanel(BoardDesktop desktopBoard) {
         this.boardDesktop = desktopBoard;
-        this.gameDesktop = desktopGame;
         composeBoardPanel();
-        //boardDesktop.addListenerToButtonGrid(this);
     }
 
     public JPanel getBoardPanel() {
@@ -40,7 +38,7 @@ public class BoardPanel {
             label.setForeground(boardLabelColor);
             boardPanel.add(label);
         }
-        for (int i = 0; i < Board.BOARD_SIZE; i++) {  // why 2 times??
+        for (int i = 0; i < Board.BOARD_SIZE; i++) {
             JLabel label = new JLabel("" + (i + 1), SwingConstants.CENTER);
             label.setFont(boardLabelsFont);
             label.setForeground(boardLabelColor);

@@ -1,6 +1,7 @@
 package desktop.gui.other.components;
 
 import board.ColoredPawn;
+import desktop.gui.main.GuiManager;
 import desktop.utilities.BoardDesktop;
 
 import javax.swing.*;
@@ -9,10 +10,10 @@ import java.util.Objects;
 
 public class WinnerPanel {
     private final JPanel winnerPanel;
-    private final Font winnerFont = new Font("Arial", Font.BOLD | Font.ITALIC, 35);
-    private final Color fontColor = new Color(255, 255, 255);
-    private final ImageIcon black = new ImageIcon(Objects.requireNonNull(WinnerPanel.class.getResource("/black.png")));
-    private final ImageIcon white = new ImageIcon(Objects.requireNonNull(WinnerPanel.class.getResource("/white.png")));
+    private final Font winnerFont = GuiManager.arialBoldItalic35;
+    private final Color fontColor = GuiManager.white;
+    private final ImageIcon black = GuiManager.blackPawn;
+    private final ImageIcon white = GuiManager.whitePawn;
     private final ImageIcon draw = new ImageIcon(Objects.requireNonNull(WinnerPanel.class.getResource("/blackAndWhite.png")));
 
     public WinnerPanel(BoardDesktop boardDesktop) {

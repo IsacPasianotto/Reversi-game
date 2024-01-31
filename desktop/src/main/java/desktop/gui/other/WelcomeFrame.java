@@ -1,5 +1,6 @@
 package desktop.gui.other;
 
+import desktop.gui.main.GuiManager;
 import desktop.gui.other.components.*;
 import desktop.gui.other.components.Button;
 import desktop.utilities.BoardDesktop;
@@ -24,7 +25,7 @@ public class WelcomeFrame {
     private JButton startButton;
     private static final Font LabelsFont = new Font("Arial", Font.ITALIC,18 );
     private static final Font RadioButtonsFont = new Font("Arial", Font.BOLD, 15);
-    private static final Font StartButtonFont = new Font("Arial", Font.BOLD, 20);
+    private static final Font StartButtonFont = GuiManager.buttonFont;
 
     private GameSettings gameSettings;
 

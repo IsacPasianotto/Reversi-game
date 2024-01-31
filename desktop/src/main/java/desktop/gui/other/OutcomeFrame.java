@@ -1,5 +1,6 @@
 package desktop.gui.other;
 
+import desktop.gui.main.GuiManager;
 import desktop.gui.main.components.CurrentScorePanel;
 import desktop.gui.other.components.Button;
 import desktop.gui.other.components.WinnerPanel;
@@ -10,9 +11,9 @@ import java.awt.*;
 
 public class OutcomeFrame {
     private final JFrame frame;
-    private static final Font headerFont = new Font("Arial", Font.BOLD | Font.ITALIC, 35);  // the following variables are already defined in Welcomeframe, can we share them somehow?
-    private static final Color fontColor = new Color(255, 255, 255);
-    private static final Font buttonFont = new Font("Arial", Font.BOLD, 20);
+    private static final Font headerFont = GuiManager.arialBoldItalic35;
+    private static final Color fontColor = GuiManager.white;
+    private static final Font buttonFont = GuiManager.buttonFont;
 
     public OutcomeFrame(BoardDesktop boardDesktop) {
         frame = new JFrame("Outcome");

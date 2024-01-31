@@ -22,6 +22,11 @@ public class GameControllerDesktop extends GameController {
         this.board = board;
     }
 
+    public BoardDesktop getBoard() {
+        return board;  // problems here, it should be a copy!
+    }
+
+
     public void handleHumanTurn(BoardTile position) {
         computeValidMoves();
         if (validMoves.isEmpty()) handleNoValidMovesCase();
@@ -32,7 +37,7 @@ public class GameControllerDesktop extends GameController {
         board.disableButtonGrid();
         board.cancelPreviousSuggestion();
         Optional<ValidMove> move = isValid(position);
-        if (move.isPresent()) updateGame(move.get());
+        if (move.isPresent()) updateGUIBoard(move.get());
         else {
             JOptionPane.showMessageDialog(null, "Invalid move!", "Error", JOptionPane.ERROR_MESSAGE);
             // set the suggestion property of the buttons to be true for the valid moves
@@ -50,15 +55,18 @@ public class GameControllerDesktop extends GameController {
         else handleBotMove(bot);
     }
 
-    private void handleBotMove(Player bot) {
+    protected void handleBotMove(Player bot) {
         ValidMove move = null;
         try {
+            System.out.println(board);
             move = bot.askForAMove(this);
+            System.out.println(board);
+            System.out.println(move);
         } catch (QuitGameException | UndoException ignored) {}
-        updateGame(move);
+        updateGUIBoard(move);
     }
 
-    private void updateGame(ValidMove move) {
+    private void updateGUIBoard(ValidMove move) {
         board.applyMoveToBoard(move);
         swapTurn();
         board.updateButtonGrid();

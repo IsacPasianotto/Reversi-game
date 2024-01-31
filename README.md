@@ -44,7 +44,7 @@ Development to grow the code.
     - [x]  Swing --> GNU General Public License v2.0
     - [x]  openJDK --> GNU General Public License v2.0
     - [x]  flatlaf --> Apache License 2.0
-    - [x]  flatlafInteliJ --> Apache Liense 2.0
+    - [x]  flatlafIntelliJ --> Apache License 2.0
     - [x]  gradle --> Apache License 2.0
     - [x]  groovy --> Apache License 2.0
     - [x]  circleci --> Apache License 2.0
@@ -66,7 +66,7 @@ Development to grow the code.
       - [x] Make this selector effectively change the game mode and the difficulty
     - [x] Set gradle to build and auto-run the GUI version of the game
 - [ ] (Optional) Make sure that the code is always runnable providing instruction on how to run it with containers: 
-  - [ ] Conteiner for Desktop version
+  - [ ] Container for Desktop version
   - [x] Container for Terminal version
  
 ## Known bugs that have to be fixed and Known issues

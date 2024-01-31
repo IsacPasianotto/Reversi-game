@@ -5,10 +5,9 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class WhoPlaysFirstPanel {
-
     private final JPanel whoPlaysFirstPanel;
-    private JRadioButton blackButton;
-    private JRadioButton whiteButton;
+    private final JRadioButton blackButton;
+    private final JRadioButton whiteButton;
 
     public WhoPlaysFirstPanel(Font labelsFont, Font radioButtonsFont) {
         whoPlaysFirstPanel = new JPanel();

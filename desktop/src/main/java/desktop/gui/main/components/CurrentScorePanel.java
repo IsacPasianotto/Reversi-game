@@ -1,6 +1,7 @@
 package desktop.gui.main.components;
 
 import board.ColoredPawn;
+import desktop.gui.main.GuiManager;
 import desktop.utilities.BoardDesktop;
 import desktop.utilities.GameControllerDesktop;
 
@@ -10,8 +11,8 @@ import java.util.Objects;
 
 public class CurrentScorePanel {
     private JPanel currentScorePanel;
-    private static final Font currentScoreLabelFont = new Font("Arial", Font.ITALIC, 20);
-    private static final Color currentScoreLabelColor = new Color(255,255, 255);
+    private static final Font currentScoreLabelFont = GuiManager.currentLabelFont;
+    private static final Color currentScoreLabelColor = GuiManager.white;
     private static JPanel currentScoreLivePanel;
     private static JLabel currentScoreLiveLabel;
     private final ImageIcon black = new ImageIcon(Objects.requireNonNull(CurrentScorePanel.class.getResource("/black.png")));

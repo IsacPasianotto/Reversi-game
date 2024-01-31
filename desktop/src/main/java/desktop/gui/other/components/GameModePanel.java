@@ -6,8 +6,8 @@ import java.awt.event.ActionListener;
 
 public class GameModePanel {
     private final JPanel gameModePanel;
-    private JRadioButton humanVsHumanButton;
-    private JRadioButton humanVsComputerButton;
+    private final JRadioButton humanVsHumanButton;
+    private final JRadioButton humanVsComputerButton;
     //private JRadioButton computerVsComputerButton;
 
 

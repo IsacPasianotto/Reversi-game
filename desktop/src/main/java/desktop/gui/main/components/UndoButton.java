@@ -12,14 +12,14 @@ public class UndoButton {
     Color undoButtonColor = new Color(255,255, 255);
     private final JButton undoButton;
     GameDesktop gameDesktop;
-    BoardDesktop boardDesktop;
+    //BoardDesktop boardDesktop;
 
-    public UndoButton(GameDesktop gameDesktop, BoardDesktop boardDesktop) {
+    public UndoButton(GameDesktop gameDesktop) {
         ImageIcon undoIcon = new ImageIcon(Objects.requireNonNull(UndoButton.class.getResource("/undo4.png")));
         int UNDO_ICON_SIZE = 25;
         undoIcon.setImage(undoIcon.getImage().getScaledInstance(UNDO_ICON_SIZE, UNDO_ICON_SIZE, Image.SCALE_SMOOTH));
         this.gameDesktop = gameDesktop;
-        this.boardDesktop = boardDesktop;
+        //this.boardDesktop = boardDesktop;
         undoButton = new JButton("Undo");
         undoButton.setIcon(undoIcon);
         undoButton.setFont(undoButtonFont);
@@ -32,7 +32,7 @@ public class UndoButton {
     }
 
     private void addListenerToUndoButton() {
-        undoButton.addActionListener(gameDesktop.getUndoListener(boardDesktop));
+        undoButton.addActionListener(gameDesktop.getUndoListener(gameDesktop.getGameController().getBoard()));
     }
 
 }

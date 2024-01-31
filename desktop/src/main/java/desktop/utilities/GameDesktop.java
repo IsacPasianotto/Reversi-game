@@ -6,11 +6,11 @@ import board.coords.BoardTile;
 import desktop.gui.main.GuiManager;
 import desktop.gui.main.components.CurrentPlayerPanel;
 import desktop.gui.main.components.CurrentScorePanel;
-import desktop.gui.other.components.GameSettings;
 import mechanics.Game;
 import player.Player;
 import player.computer.RandomPlayer;
 import player.computer.SmartPlayer;
+import player.human.Human;
 
 import java.awt.event.ActionListener;
 import java.util.stream.IntStream;
@@ -23,18 +23,25 @@ public class GameDesktop extends Game {
         super(board, blackPlayer, whitePlayer);
 
         gameController = new GameControllerDesktop(board);
-        guiManager = new GuiManager(board, this);
-        addListenersToButtonGrid(board);
+        guiManager = new GuiManager(this);
+        addListenersToButtonGrid();
+        if (!(blackPlayer.getClass().equals(Human.class)))
+            gameController.handleBotTurn(blackPlayer);
     }
 
-    private void addListenersToButtonGrid(BoardDesktop board) {
+    private void addListenersToButtonGrid() {
         for (int i = 0; i < Board.BOARD_SIZE; i++)
             for (int j = 0; j < Board.BOARD_SIZE; j++)
-                board.addListenersToButtonGrid(i,j, getButtonListener(i,j));
+                gameController.board.addListenerToButton(i,j, getButtonListener(i,j));
     }
 
     public ActionListener getUndoListener(BoardDesktop board) {
         return e -> undoLastMoveDesktop(board);
+    }
+
+    @Override
+    public GameControllerDesktop getGameController() {
+        return gameController;
     }
 
     public void undoLastMoveDesktop(BoardDesktop board) {
@@ -62,7 +69,8 @@ public class GameDesktop extends Game {
     }
 
     private boolean isDifficultyHard() {
-        return whitePlayer instanceof SmartPlayer || blackPlayer instanceof SmartPlayer;
+        return whitePlayer.getClass().equals(SmartPlayer.class)  ||
+                blackPlayer.getClass().equals(SmartPlayer.class);
     }
 
 
