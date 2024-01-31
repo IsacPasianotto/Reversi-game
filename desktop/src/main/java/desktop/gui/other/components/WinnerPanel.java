@@ -8,16 +8,15 @@ import java.awt.*;
 import java.util.Objects;
 
 public class WinnerPanel {
-    private JPanel winnerPanel;
-    private JLabel winnerLabel;
-    private Font winnerFont = new Font("Arial", Font.BOLD | Font.ITALIC, 35);
-    private Color fontColor = new Color(255, 255, 255);
+    private final JPanel winnerPanel;
+    private final Font winnerFont = new Font("Arial", Font.BOLD | Font.ITALIC, 35);
+    private final Color fontColor = new Color(255, 255, 255);
     private final ImageIcon black = new ImageIcon(Objects.requireNonNull(WinnerPanel.class.getResource("/black.png")));
     private final ImageIcon white = new ImageIcon(Objects.requireNonNull(WinnerPanel.class.getResource("/white.png")));
     private final ImageIcon draw = new ImageIcon(Objects.requireNonNull(WinnerPanel.class.getResource("/blackAndWhite.png")));
-    private final int PLAYER_SYMBOL_SIZE = 48;
 
     public WinnerPanel(BoardDesktop boardDesktop) {
+        int PLAYER_SYMBOL_SIZE = 48;
         black.setImage(black.getImage().getScaledInstance(PLAYER_SYMBOL_SIZE, PLAYER_SYMBOL_SIZE, Image.SCALE_SMOOTH));
         white.setImage(white.getImage().getScaledInstance(PLAYER_SYMBOL_SIZE, PLAYER_SYMBOL_SIZE, Image.SCALE_SMOOTH));
         draw.setImage(draw.getImage().getScaledInstance(PLAYER_SYMBOL_SIZE, PLAYER_SYMBOL_SIZE, Image.SCALE_SMOOTH));
@@ -34,10 +33,7 @@ public class WinnerPanel {
         winnerPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         winnerPanel.setAlignmentY(Component.TOP_ALIGNMENT);
 
-        winnerLabel = getWinnerLabel(boardDesktop);
-        winnerLabel.setFont(winnerFont);
-        winnerLabel.setForeground(fontColor);
-        winnerLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        JLabel winnerLabel = getWinnerLabel(boardDesktop);
 
         winnerPanel.add(winnerLabel);
     }
@@ -62,6 +58,8 @@ public class WinnerPanel {
         }
 
         winnerLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        winnerLabel.setFont(winnerFont);
+        winnerLabel.setForeground(fontColor);
         return winnerLabel;
     }
 

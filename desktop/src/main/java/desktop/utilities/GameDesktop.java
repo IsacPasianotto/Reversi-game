@@ -1,6 +1,7 @@
 package desktop.utilities;
 
 import board.ColoredPawn;
+import board.coords.BoardTile;
 import desktop.gui.main.components.CurrentPlayerPanel;
 import desktop.gui.main.components.CurrentScorePanel;
 import mechanics.Game;
@@ -10,47 +11,46 @@ import java.awt.event.ActionListener;
 import java.util.stream.IntStream;
 
 public class GameDesktop extends Game {
-    private final GameControllerDesktop controller;
+    private final GameControllerDesktop gameController;
 
     public GameDesktop(BoardDesktop board, Player blackPlayer, Player whitePlayer) {
         super(board, blackPlayer, whitePlayer);
-        controller = new GameControllerDesktop(board);
+        gameController = new GameControllerDesktop(board);
     }
 
     public ActionListener getButtonListener(int x, int y) {
         return e -> {
-            controller.handleButtonPress(x, y);
-            if (controller.getBoard().equals(previousSteps.getLast()))
-                return;
-            previousSteps.add(controller.getBoard());
+            gameController.handleButtonPress(new BoardTile(x, y));
+            if (!gameController.getBoard().equals(previousSteps.getLast()))
+                previousSteps.add(gameController.getBoard());
         };
 
     }
 
-    public GameControllerDesktop getGameControllerDesktop() {
-        return controller;
+//    public GameControllerDesktop getGameControllerDesktop() {
+//        return gameController;
+//    }
+
+    public ActionListener getUndoListener(BoardDesktop board) {
+        return e -> undoLastMoveDesktop(board);
     }
 
-    public ActionListener getUndoListener(GameControllerDesktop controller, BoardDesktop board) {
-        return e -> undoLastMoveDesktop(controller, board);
-    }
-
-    public void undoLastMoveDesktop(GameControllerDesktop controller, BoardDesktop board) {
+    public void undoLastMoveDesktop(BoardDesktop board) {
         board.disableButtonGrid();
-        controller.cancelPreviousSuggestion();
+        gameController.cancelPreviousSuggestion();
         int numberOfHumanPlayers = (isHumanPlayer(whitePlayer) ? 1 : 0) +
                 (isHumanPlayer(blackPlayer) ? 1 : 0);
         int numberOfStepsBack = (numberOfHumanPlayers == 1) ? 2 : 1;
 
         if (previousSteps.size() > numberOfStepsBack) {
             IntStream.range(0, numberOfStepsBack).forEachOrdered(i -> previousSteps.removeLast());
-            controller.importBoardFrom(previousSteps.getLast());
-            IntStream.range(0, numberOfStepsBack).forEach(i -> controller.swapTurn());
+            gameController.importBoardFrom(previousSteps.getLast());
+            IntStream.range(0, numberOfStepsBack).forEach(i -> gameController.swapTurn());
 
             IntStream.range(0, numberOfStepsBack).forEach(i -> CurrentPlayerPanel.updateCurrentPlayerLiveLabel());
             board.updateButtonGrid();
-            CurrentScorePanel.updateCurrentScoreLiveLabel(controller.computeScoreForPlayer(ColoredPawn.BLACK),
-                    controller.computeScoreForPlayer(ColoredPawn.WHITE));
+            CurrentScorePanel.updateCurrentScoreLiveLabel(gameController.computeScoreForPlayer(ColoredPawn.BLACK),
+                    gameController.computeScoreForPlayer(ColoredPawn.WHITE));
         }
         board.enableButtonGrid();
     }

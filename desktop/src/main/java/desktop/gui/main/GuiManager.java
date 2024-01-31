@@ -12,27 +12,17 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 
 public class GuiManager {
-    private final Color borderColor = new Color(0, 0, 0);
-    private BoardDesktop boardDesktop;
-    private GameDesktop gameDesktop;
-    private BoardPanel boardPanel;
+    private static final Color borderColor = new Color(0, 0, 0);
     private CurrentPlayerPanel currentPlayerPanel;
     private CurrentScorePanel currentScorePanel;
     private UndoButton undoButton;
     public static JFrame gameFrame;
 
     public GuiManager(BoardDesktop boardDesktop, GameDesktop gameDesktop) {
-        this.boardDesktop = boardDesktop;
-        this.gameDesktop = gameDesktop;
-        boardPanel = new BoardPanel(boardDesktop, gameDesktop);
-        currentPlayerPanel = new CurrentPlayerPanel(boardDesktop, gameDesktop);
+        BoardPanel boardPanel = new BoardPanel(boardDesktop, gameDesktop);
+        currentPlayerPanel = new CurrentPlayerPanel(boardDesktop);
         currentScorePanel = new CurrentScorePanel();
         undoButton = new UndoButton(gameDesktop, boardDesktop);
-
-        composeFrame();
-    }
-
-    private void composeFrame() {
         gameFrame = new JFrame("Reversi");
         gameFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         gameFrame.setSize(900, 650);
@@ -43,6 +33,7 @@ public class GuiManager {
 
         gameFrame.add(mainPanel);
     }
+
 
     private JPanel buildRightPanel() {
         JPanel rightPanel = new JPanel(new GridLayout(0, 1));

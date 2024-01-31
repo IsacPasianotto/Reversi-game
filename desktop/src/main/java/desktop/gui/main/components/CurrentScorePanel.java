@@ -10,8 +10,8 @@ import java.util.Objects;
 
 public class CurrentScorePanel {
     private JPanel currentScorePanel;
-    private Font currentScoreLabelFont = new Font("Arial", Font.ITALIC, 20);
-    private Color currentScoreLabelColor = new Color(255,255, 255);
+    private static final Font currentScoreLabelFont = new Font("Arial", Font.ITALIC, 20);
+    private static final Color currentScoreLabelColor = new Color(255,255, 255);
     private static JPanel currentScoreLivePanel;
     private static JLabel currentScoreLiveLabel;
     private final ImageIcon black = new ImageIcon(Objects.requireNonNull(CurrentScorePanel.class.getResource("/black.png")));
@@ -22,14 +22,12 @@ public class CurrentScorePanel {
     public CurrentScorePanel() {
         black.setImage(black.getImage().getScaledInstance(PLAYER_SYMBOL_SIZE, PLAYER_SYMBOL_SIZE, Image.SCALE_SMOOTH));
         white.setImage(white.getImage().getScaledInstance(PLAYER_SYMBOL_SIZE, PLAYER_SYMBOL_SIZE, Image.SCALE_SMOOTH));
-        currentScorePanel = new JPanel();
         composeCurrentScorePanel();
     }
 
     public CurrentScorePanel(BoardDesktop board){
         black.setImage(black.getImage().getScaledInstance(PLAYER_SYMBOL_SIZE, PLAYER_SYMBOL_SIZE, Image.SCALE_SMOOTH));
         white.setImage(white.getImage().getScaledInstance(PLAYER_SYMBOL_SIZE, PLAYER_SYMBOL_SIZE, Image.SCALE_SMOOTH));
-        currentScorePanel = new JPanel();
         composeCurrentScorePanel();
         updateCurrentScoreLiveLabel(new GameControllerDesktop(board).computeScoreForPlayer(ColoredPawn.BLACK),
                 new GameControllerDesktop(board).computeScoreForPlayer(ColoredPawn.WHITE));
@@ -41,6 +39,7 @@ public class CurrentScorePanel {
     }
 
     private void composeCurrentScorePanel() {
+        currentScorePanel = new JPanel();
         currentScorePanel.setLayout(new GridLayout(0, 1));
         currentScorePanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         currentScorePanel.setAlignmentY(Component.TOP_ALIGNMENT);

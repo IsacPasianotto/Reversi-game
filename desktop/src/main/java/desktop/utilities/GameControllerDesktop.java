@@ -21,13 +21,12 @@ public class GameControllerDesktop extends GameController {
     }
 
 
-    protected void handleButtonPress(int x, int y) {
+    protected void handleButtonPress(BoardTile position) {
         board.disableButtonGrid();
 
         cancelPreviousSuggestion();
 
         computeValidMoves();
-        BoardTile position = new BoardTile(x, y);
         Optional<ValidMove> move = isValid(position);
 
         if (move.isPresent()) {
@@ -49,24 +48,17 @@ public class GameControllerDesktop extends GameController {
             }
         }
 
-        if (board.isFull()) {
-            gameOverHandle();
-        }
+        if (board.isFull()) gameOverHandle();
 
         // check if at one ValidMove is available for the next player
-        computeValidMoves();
         if (validMoves.isEmpty()) {
+            ColoredPawn currentPlayerColor = getCurrentPlayerColor();
+            String currentPlayerName = currentPlayerColor == ColoredPawn.BLACK ? "black" : "white";
+            JOptionPane.showMessageDialog(null, "No valid moves for the " + currentPlayerName + " player!", "Skipped turn", JOptionPane.INFORMATION_MESSAGE);
+            CurrentPlayerPanel.updateCurrentPlayerLiveLabel();
             swapTurn();
             computeValidMoves();
-            if (validMoves.isEmpty()) {
-                gameOverHandle();
-            }
-            else {
-                ColoredPawn currentPlayerColor = getCurrentPlayerColor();
-                String currentPlayerName = currentPlayerColor == ColoredPawn.BLACK ? "black" : "white";
-                JOptionPane.showMessageDialog(null, "No valid moves for the " + currentPlayerName + " player!", "Skipped turn", JOptionPane.INFORMATION_MESSAGE);
-                CurrentPlayerPanel.updateCurrentPlayerLiveLabel();
-            }
+            if (validMoves.isEmpty()) gameOverHandle();
         }
         board.enableButtonGrid();
     }

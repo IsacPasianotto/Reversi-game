@@ -13,7 +13,7 @@ import javax.swing.*;
 
 public class MainDesktop {
 
-    public static JFrame gameFrame;
+    public static JFrame gameFrame;    // can we safely delete them?
     private static GuiManager guiManager;
 
     public static void main(String[] args) throws InterruptedException {
@@ -26,7 +26,7 @@ public class MainDesktop {
             welcomeJF.setVisible(true);
         });
 
-        while (welcomePanel.frame.isVisible()) {
+        while (welcomePanel.frame.isVisible()) {    // to rework!
             Thread.sleep(100);
         }
 
@@ -35,7 +35,6 @@ public class MainDesktop {
         Player blackPlayer = null;
         Player whitePlayer = null;
         BoardDesktop board = new BoardDesktop();
-
 
 
         if (!welcomePanel.isHumanVsComputer()){
@@ -53,7 +52,7 @@ public class MainDesktop {
                     blackPlayer = new SmartPlayer();
                     whitePlayer = new Human();
                 }
-            } else if (!welcomePanel.isDifficultyHard()){
+            } else if (!welcomePanel.isDifficultyHard()){   // can we delete the if condition?
                 if (welcomePanel.isHumanFirst()){
                     blackPlayer = new Human();
                     whitePlayer = new SmartPlayer();
@@ -66,11 +65,9 @@ public class MainDesktop {
 
         GameDesktop gameDesktop = new GameDesktop(board, blackPlayer, whitePlayer);
 
-        GuiManager guiManager  = new GuiManager(board, gameDesktop);
+        GuiManager guiManager  = new GuiManager(board, gameDesktop);   // can we delete the guiManager field?
 
-        SwingUtilities.invokeLater(() -> {
-            GuiManager.gameFrame.setVisible(true);
-        });
+        SwingUtilities.invokeLater(() -> GuiManager.gameFrame.setVisible(true));
 
 
     }

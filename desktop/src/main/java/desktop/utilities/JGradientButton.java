@@ -7,22 +7,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class JGradientButton extends JButton {
-    static final Color boardColor = new Color(37, 135, 24);
-    private final Color tileBorderColor = new Color(0, 0, 0);
-    private final Color boardColor2 = new Color(7, 177, 2);
-    private final Color mouseOverColor = new Color(15, 40, 155);
+    private static final Color boardColor = new Color(37, 135, 24);
+    private static final Color boardColor2 = new Color(7, 177, 2);
+    private static final Color mouseOverColor = new Color(15, 40, 155);
     private static final Color suggestionColor = new Color(255, 255, 0);
-    private MouseAdapter mouseBheaviour = new MouseAdapter() {
-        @Override
-        public void mouseEntered(MouseEvent e) { setBackground(mouseOverColor);}
-        @Override
-        public void mouseExited(MouseEvent e) {
-            if ((boolean)getClientProperty("toSuggest"))
-                setBackground(suggestionColor);
-            else
-                setBackground(boardColor);
-        }
-    };
 
     JGradientButton(String text, int i, int j){
         super(text);
@@ -30,15 +18,28 @@ public class JGradientButton extends JButton {
         Insets buttonMargin = new Insets(0, 0, 0, 0);
         setMargin(buttonMargin);
         setBorderPainted(true);
+        Color tileBorderColor = new Color(0, 0, 0);
         setBorder(new LineBorder(tileBorderColor));
-
         setBackground(boardColor);
-
         putClientProperty("row", i);
         putClientProperty("column", j);
         putClientProperty("toSuggest", false);
 
-        addMouseListener(mouseBheaviour);
+        MouseAdapter mouseBehaviour = new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                setBackground(mouseOverColor);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                if ((boolean) getClientProperty("toSuggest"))
+                    setBackground(suggestionColor);
+                else
+                    setBackground(boardColor);
+            }
+        };
+        addMouseListener(mouseBehaviour);
 
     }
 
@@ -67,10 +68,7 @@ public class JGradientButton extends JButton {
     }
 
     public void resetBackground() {
-        if ((boolean) getClientProperty("toSuggest"))
-            setBackground(suggestionColor);
-        else
-            setBackground(boardColor);
+        setBackground((boolean) getClientProperty("toSuggest") ? suggestionColor : boardColor);
     }
 
 

@@ -11,32 +11,31 @@ import java.awt.*;
 public class WelcomeFrame {
 
     public JFrame frame;
-    private JPanel generalPanel;
     private GameModePanel gameMode;
     private DifficultyPanel difficulty;
     private WhoPlaysFirstPanel whoPlaysFirst;
-    private JPanel gameModePanel;
     private JPanel difficultyPanel;
     private JPanel whoPlaysFirstPanel;
     private JButton startButton;
-    private final Font LabelsFont = new Font("Arial", Font.ITALIC,18 );
-    private final Font RadioButtonsFont = new Font("Arial", Font.BOLD, 15);
-    private final Font StartButtonFont = new Font("Arial", Font.BOLD, 20);
+    private static final Font LabelsFont = new Font("Arial", Font.ITALIC,18 );
+    private static final Font RadioButtonsFont = new Font("Arial", Font.BOLD, 15);
+    private static final Font StartButtonFont = new Font("Arial", Font.BOLD, 20);
     private boolean isHumanVsComputer = true;
     private boolean isDifficultyHard = true;
     private boolean isHumanFirst = true;
 
     public WelcomeFrame() {
-        buildFrame();
-    }
-
-    private void buildFrame() {
         frame = new JFrame("Welcome to Reversi");
         frame.setSize(500, 200);
         frame.setMinimumSize(new Dimension(500, 200));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
+        JPanel generalPanel = getGeneralPanel();
+        frame.add(generalPanel);
+        frame.setVisible(true);    
+    }
 
+    private JPanel getGeneralPanel() {
         gameMode = new GameModePanel(LabelsFont, RadioButtonsFont);
         difficulty = new DifficultyPanel(LabelsFont, RadioButtonsFont);
         whoPlaysFirst = new WhoPlaysFirstPanel(LabelsFont, RadioButtonsFont);
@@ -44,50 +43,36 @@ public class WelcomeFrame {
 
         setActionListeners();
 
-        gameModePanel = gameMode.getGameModePanel();
+        JPanel gameModePanel = gameMode.getGameModePanel();
         difficultyPanel = difficulty.getDifficultyPanel();
         whoPlaysFirstPanel = whoPlaysFirst.getWhoPlaysFirstPanel();
 
-        generalPanel = new JPanel();
+        JPanel generalPanel = new JPanel();
         generalPanel.setLayout(new BorderLayout());
         generalPanel.add(gameModePanel, BorderLayout.WEST);
         generalPanel.add(difficultyPanel, BorderLayout.CENTER);
         generalPanel.add(whoPlaysFirstPanel, BorderLayout.EAST);
         generalPanel.add(startButton, BorderLayout.SOUTH);
-
-        frame.add(generalPanel);
-        frame.setVisible(true);
+        return generalPanel;
     }
 
     private void setActionListeners(){
-        gameMode.setActionListenerToHumanVsHumanButton(e -> {
-            difficultyPanel.setVisible(false);
-            whoPlaysFirstPanel.setVisible(false);
-            isHumanVsComputer = false;
-        });
-        gameMode.setActionListenerToHumanVsComputerButton(e -> {
-            difficultyPanel.setVisible(true);
-            whoPlaysFirstPanel.setVisible(true);
-            isHumanVsComputer = true;
-        });
+        gameMode.setActionListenerToHumanVsHumanButton(e -> setPlayersListener(false));
+        gameMode.setActionListenerToHumanVsComputerButton(e -> setPlayersListener(true));
 
-        difficulty.setActionListenerToEasyButton(e -> {
-            isDifficultyHard = false;
-        });
-        difficulty.setActionListenerToHardButton(e -> {
-            isDifficultyHard = true;
-        });
+        difficulty.setActionListenerToEasyButton(e -> isDifficultyHard = false);
+        difficulty.setActionListenerToHardButton(e -> isDifficultyHard = true);
 
-        whoPlaysFirst.setActionListenerToBlackButton(e -> {
-            isHumanFirst = true;
-        });
-        whoPlaysFirst.setActionListenerToWhiteButton(e -> {
-            isHumanFirst = false;
-        });
+        whoPlaysFirst.setActionListenerToBlackButton(e -> isHumanFirst = true);
+        whoPlaysFirst.setActionListenerToWhiteButton(e -> isHumanFirst = false);
 
-        startButton.addActionListener(e -> {
-            frame.setVisible(false);
-        });
+        startButton.addActionListener(e -> frame.setVisible(false));
+    }
+
+    private void setPlayersListener(boolean aFlag) {
+        difficultyPanel.setVisible(aFlag);
+        whoPlaysFirstPanel.setVisible(aFlag);
+        isHumanVsComputer = aFlag;
     }
 
     public boolean isHumanVsComputer() {

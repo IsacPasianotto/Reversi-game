@@ -6,45 +6,23 @@ import java.awt.event.ActionListener;
 
 public class DifficultyPanel {
 
-    private JPanel difficultyPanel;
-    private JLabel difficultyLabel;
-    private ButtonGroup difficultyGroup;
+    private final JPanel difficultyPanel;
     private JRadioButton easyButton;
     private JRadioButton hardButton;
 
     public DifficultyPanel(Font labelsFont, Font radioButtonsFont) {
-        buildDifficultyPanel(labelsFont, radioButtonsFont);
-    }
-
-    public JPanel getDifficultyPanel() {
-        return difficultyPanel;
-    }
-
-    private void buildDifficultyPanel(Font labelsFont, Font radioButtonsFont) {
         difficultyPanel = new JPanel();
         difficultyPanel.setLayout(new BoxLayout(difficultyPanel, BoxLayout.Y_AXIS));
         difficultyPanel.setBorder(BorderFactory.createTitledBorder("Difficulty"));
         difficultyPanel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         difficultyPanel.setAlignmentY(JLabel.TOP_ALIGNMENT);
 
-        difficultyLabel = new JLabel("Select a difficulty:");
-        difficultyLabel.setFont(labelsFont);
-        difficultyLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-        difficultyLabel.setAlignmentY(JLabel.TOP_ALIGNMENT);
-
+        JLabel difficultyLabel = getDifficultyLabel(labelsFont);
         difficultyPanel.add(difficultyLabel);
 
-        difficultyGroup = new ButtonGroup();
-        easyButton = new JRadioButton("Easy");
-        hardButton = new JRadioButton("Hard");
-
-        easyButton.setFont(radioButtonsFont);
-        hardButton.setFont(radioButtonsFont);
-
-        easyButton.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-        easyButton.setAlignmentY(JLabel.TOP_ALIGNMENT);
-        hardButton.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-        hardButton.setAlignmentY(JLabel.TOP_ALIGNMENT);
+        ButtonGroup difficultyGroup = new ButtonGroup();
+        easyButton = getButton("Easy",radioButtonsFont);
+        hardButton = getButton("Hard",radioButtonsFont);
 
         hardButton.setSelected(true);
         difficultyGroup.add(easyButton);
@@ -52,6 +30,26 @@ public class DifficultyPanel {
 
         difficultyPanel.add(easyButton);
         difficultyPanel.add(hardButton);
+    }
+
+    public JPanel getDifficultyPanel() {
+        return difficultyPanel;
+    }
+
+    private JRadioButton getButton(String buttonName, Font radioButtonsFont) {
+        JRadioButton button = new JRadioButton(buttonName);
+        button.setFont(radioButtonsFont);
+        button.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+        button.setAlignmentY(JLabel.TOP_ALIGNMENT);
+        return button;
+    }
+
+    private JLabel getDifficultyLabel(Font labelsFont) {
+        JLabel difficultyLabel = new JLabel("Select a difficulty:");
+        difficultyLabel.setFont(labelsFont);
+        difficultyLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+        difficultyLabel.setAlignmentY(JLabel.TOP_ALIGNMENT);
+        return difficultyLabel;
     }
 
     public void setActionListenerToEasyButton(ActionListener actionListener){
