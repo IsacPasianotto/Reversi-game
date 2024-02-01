@@ -3,7 +3,6 @@ package desktop.gui.main.components;
 import board.Board;
 import desktop.gui.main.GuiManager;
 import desktop.utilities.BoardDesktop;
-import desktop.utilities.GameDesktop;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

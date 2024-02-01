@@ -12,8 +12,8 @@ public class JGradientButton extends JButton {
     private static final Color mouseOverColor = new Color(15, 40, 155);
     private static final Color suggestionColor = new Color(255, 255, 0);
 
-    JGradientButton(String text, int i, int j){
-        super(text);
+    JGradientButton(int i, int j){
+        super("");
         setContentAreaFilled(false);
         Insets buttonMargin = new Insets(0, 0, 0, 0);
         setMargin(buttonMargin);

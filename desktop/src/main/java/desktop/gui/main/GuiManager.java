@@ -32,12 +32,11 @@ public class GuiManager {
     private final UndoButton undoButton;
     private final JFrame gameFrame;
 
-    public GuiManager(GameDesktop gameDesktop) {
-        BoardDesktop boardDesktop = gameDesktop.getGameController().getBoard();
+    public GuiManager(GameDesktop gameDesktop, BoardDesktop boardDesktop) {
         BoardPanel boardPanel = new BoardPanel(boardDesktop);
         currentPlayerPanel = new CurrentPlayerPanel(boardDesktop);
         currentScorePanel = new CurrentScorePanel();
-        undoButton = new UndoButton(gameDesktop);
+        undoButton = new UndoButton(gameDesktop, boardDesktop);
         gameFrame = new JFrame("Reversi");
         gameFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         gameFrame.setSize(900, 650);

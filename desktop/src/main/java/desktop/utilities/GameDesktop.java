@@ -23,7 +23,7 @@ public class GameDesktop extends Game {
         super(board, blackPlayer, whitePlayer);
 
         gameController = new GameControllerDesktop(board);
-        guiManager = new GuiManager(this);
+        guiManager = new GuiManager(this, board);
         addListenersToButtonGrid();
         if (!(blackPlayer.getClass().equals(Human.class)))
             gameController.handleBotTurn(blackPlayer);

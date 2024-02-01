@@ -4,9 +4,7 @@ package board;
 import board.coords.BoardTile;
 import board.coords.Direction;
 
-import javax.swing.*;
 import java.util.Arrays;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class Board {
@@ -39,7 +37,9 @@ public class Board {
     }
 
     public void importBoardFrom(Board another) {
-        IntStream.range(0, BOARD_SIZE).forEachOrdered(i -> System.arraycopy(another.board[i], 0, board[i], 0, BOARD_SIZE));
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            System.arraycopy(another.board[i], 0, board[i], 0, BOARD_SIZE);
+        }
     }
 
     public Board copy() {
@@ -89,8 +89,6 @@ public class Board {
                 .append(computeScoreForPlayer(ColoredPawn.BLACK)).append(" ").append(ColoredPawn.BLACK);
         return result.toString();
     }
-
-    public JPanel getPanel() { return null; }
 }
 
 

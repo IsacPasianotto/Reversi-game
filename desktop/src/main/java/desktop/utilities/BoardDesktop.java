@@ -23,7 +23,7 @@ public class BoardDesktop extends Board {
     public void initializeButtons(){
         for (int i = 0; i < BOARD_SIZE; i++)
             for (int j = 0; j < BOARD_SIZE; j++) {
-                buttonGrid[i][j] = new JGradientButton("", i, j);
+                buttonGrid[i][j] = new JGradientButton(i, j);
                 updateButtonIcon(i, j);
             }
     }

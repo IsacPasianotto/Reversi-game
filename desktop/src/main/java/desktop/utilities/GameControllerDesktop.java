@@ -22,9 +22,7 @@ public class GameControllerDesktop extends GameController {
         this.board = board;
     }
 
-    public BoardDesktop getBoard() {
-        return board;  // problems here, it should be a copy!
-    }
+
 
 
     public void handleHumanTurn(BoardTile position) {

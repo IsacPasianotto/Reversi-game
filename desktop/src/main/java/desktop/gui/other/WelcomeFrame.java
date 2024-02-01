@@ -12,11 +12,10 @@ import player.human.Human;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 
 public class WelcomeFrame {
 
-    private JFrame frame;
+    private final JFrame frame;
     private GameModePanel gameMode;
     private DifficultyPanel difficulty;
     private WhoPlaysFirstPanel whoPlaysFirst;
@@ -92,10 +91,6 @@ public class WelcomeFrame {
             blackPlayer = new Human();
             whitePlayer = new Human();
         } else {
-//            JOptionPane.showMessageDialog(null, "This game mode is not implemented yed!", "ATTENTION", JOptionPane.WARNING_MESSAGE);
-//            System.out.println("notImplemented yet");
-            //System.exit(0);
-
             if (gameSettings.isDifficultyHard()) {
                 blackPlayer = gameSettings.isHumanFirst() ? new Human() : new SmartPlayer();
                 whitePlayer = gameSettings.isHumanFirst() ? new SmartPlayer() : new Human();

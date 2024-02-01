@@ -71,7 +71,7 @@ Development to grow the code.
  
 ## Known bugs that have to be fixed and Known issues
 - [x] In the GUI, if you click on a cell that is not a valid move, then you click *undo* button, the program will not undo the move but change the current player only.
-- [ ] Sometimes (not always, like 5% of the times) in the gui, after closing the welcome window, the main window will not appear. This is not a big issue, since you can just close the program and re-run it but it's still annoying.
+- [ ] Sometimes (not always, like 5% of the times) in the gui, after closing the welcome window, the main window will not appear. This is not a big issue, since you can just close the program and re-run it, but it's still annoying.
 - [ ] In the `gui` package, there are a bit too much static elements (in particular to make the live score and live current player work). This is not a big issue, but it's not a good practice.
 
 ## Terminal Game
