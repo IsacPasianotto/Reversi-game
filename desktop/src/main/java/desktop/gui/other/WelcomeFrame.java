@@ -42,6 +42,8 @@ public class WelcomeFrame {
 
     public static JFrame getWelcomeFrame() { return frame; }
 
+    public void disposeWelcomFrame() { frame.dispose(); }
+
     public GameSettings getGameSettings() { return gameSettings; }
 
     public GameModePanel getGameMode() { return gameMode; }
