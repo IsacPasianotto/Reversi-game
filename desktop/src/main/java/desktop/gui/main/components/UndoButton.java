@@ -14,7 +14,7 @@ public class UndoButton {
     GameDesktop gameDesktop;
 
     public UndoButton(GameDesktop gameDesktop) {
-        ImageIcon undoIcon = new ImageIcon(Objects.requireNonNull(UndoButton.class.getResource("/undo4.png")));
+        ImageIcon undoIcon = new ImageIcon(Objects.requireNonNull(UndoButton.class.getResource("/undo.png")));
         int UNDO_ICON_SIZE = 25;
         undoIcon.setImage(undoIcon.getImage().getScaledInstance(UNDO_ICON_SIZE, UNDO_ICON_SIZE, Image.SCALE_SMOOTH));
         this.gameDesktop = gameDesktop;
