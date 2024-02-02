@@ -1,6 +1,13 @@
+import desktop.gui.main.GuiManager;
 import desktop.gui.other.WelcomeFrame;
 import org.junit.jupiter.api.Test;
 
+import javax.swing.*;
+import javax.swing.text.html.Option;
+
+import java.util.Optional;
+
+import static desktop.gui.main.GuiManager.getGameFrame;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -58,6 +65,14 @@ public class WelcomeFrameTest extends WelcomeFrame{
         welcomeFrame.getGameMode().getHumanVsHumanButton().doClick();
         assertFalse(welcomeFrame.getDifficulty().getDifficultyPanel().isVisible());
         assertFalse(welcomeFrame.getWhoPlaysFirst().getWhoPlaysFirstPanel().isVisible());
+    }
+
+    @Test
+    public void startButtonSpawnGuiGame() {
+        WelcomeFrame welcomeFrame = new WelcomeFrame();
+        welcomeFrame.getStartButton().doClick();
+        Optional<JFrame> gameFrame = Optional.ofNullable(GuiManager.getGameFrame());
+        assertTrue(gameFrame.isPresent());
     }
 
 }

@@ -15,19 +15,24 @@ public class OutcomeFrame {
     private static final Font headerFont = GuiManager.arialBoldItalic35;
     private static final Color fontColor = GuiManager.white;
     private static final Font buttonFont = GuiManager.buttonFont;
+    private JPanel generalPanel;
+    private JButton closeButton;
+    private JButton playAgainButton;
 
     public OutcomeFrame(int blackScore, int whiteScore){
         frame = new JFrame("Outcome");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 450);
         frame.setLocationRelativeTo(null);
-        JPanel generalPanel = getGeneralPanel(blackScore, whiteScore);
+        generalPanel = getGeneralPanel(blackScore, whiteScore);
         frame.add(generalPanel);
     }
 
     public JFrame getFrame() {
         return frame;
     }
+
+    public JButton getPlayAgainButton() { return playAgainButton; }
 
     private JPanel getGeneralPanel(int blackScore, int whiteScore) {
 
@@ -74,8 +79,8 @@ public class OutcomeFrame {
     private JPanel getButtonPanel() {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
-        JButton closeButton = new Button(buttonFont, "CLOSE").getButton();
-        JButton playAgainButton = new Button(buttonFont, "PLAY AGAIN").getButton();
+        closeButton = new Button(buttonFont, "CLOSE").getButton();
+        playAgainButton = new Button(buttonFont, "PLAY AGAIN").getButton();
         closeButton.addActionListener(e -> {
             frame.dispose();
             System.exit(0);

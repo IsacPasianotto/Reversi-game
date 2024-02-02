@@ -15,7 +15,7 @@ import java.awt.*;
 
 public class WelcomeFrame {
 
-    private final JFrame frame;
+    private static JFrame frame;
     private GameModePanel gameMode;
     private DifficultyPanel difficulty;
     private WhoPlaysFirstPanel whoPlaysFirst;
@@ -40,9 +40,13 @@ public class WelcomeFrame {
         frame.setVisible(true);
     }
 
+    public static JFrame getWelcomeFrame() { return frame; }
+
     public GameSettings getGameSettings() { return gameSettings; }
 
     public GameModePanel getGameMode() { return gameMode; }
+
+    public JButton getStartButton() { return startButton; }
 
     public DifficultyPanel getDifficulty() { return difficulty; }
 
