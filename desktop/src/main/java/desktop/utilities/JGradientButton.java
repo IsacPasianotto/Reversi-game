@@ -1,5 +1,7 @@
 package desktop.utilities;
 
+import board.coords.BoardTile;
+
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
@@ -12,7 +14,7 @@ public class JGradientButton extends JButton {
     private static final Color mouseOverColor = new Color(15, 40, 155);
     private static final Color suggestionColor = new Color(255, 255, 0);
 
-    JGradientButton(int i, int j){
+    JGradientButton(BoardTile position){
         super("");
         setContentAreaFilled(false);
         Insets buttonMargin = new Insets(0, 0, 0, 0);
@@ -21,8 +23,8 @@ public class JGradientButton extends JButton {
         Color tileBorderColor = new Color(0, 0, 0);
         setBorder(new LineBorder(tileBorderColor));
         setBackground(boardColor);
-        putClientProperty("row", i);
-        putClientProperty("column", j);
+        putClientProperty("row", position.x());
+        putClientProperty("column", position.y());
         putClientProperty("toSuggest", false);
 
         MouseAdapter mouseBehaviour = new MouseAdapter() {
@@ -63,11 +65,11 @@ public class JGradientButton extends JButton {
         super.paintComponent(g);
     }
 
-    public void setToSuggestProperty(boolean toSuggest){
+    protected void setToSuggestProperty(boolean toSuggest){
         putClientProperty("toSuggest", toSuggest);
     }
 
-    public void resetBackground() {
+    protected void resetBackground() {
         setBackground((boolean) getClientProperty("toSuggest") ? suggestionColor : boardColor);
     }
 

@@ -15,9 +15,9 @@ public class CurrentPlayerPanel {
     private static ImageIcon whiteIcon;
     private static final int PLAYER_SYMBOL_SIZE = 24;
 
-    public CurrentPlayerPanel(BoardDesktop desktopBoard) {
-        blackIcon = new ImageIcon(desktopBoard.getBlackPawnImage().getScaledInstance(PLAYER_SYMBOL_SIZE, PLAYER_SYMBOL_SIZE, Image.SCALE_SMOOTH));
-        whiteIcon = new ImageIcon(desktopBoard.getWhitePawnImage().getScaledInstance(PLAYER_SYMBOL_SIZE, PLAYER_SYMBOL_SIZE, Image.SCALE_SMOOTH));
+    public CurrentPlayerPanel() {
+        blackIcon = new ImageIcon(BoardDesktop.getBlackPawnImage().getScaledInstance(PLAYER_SYMBOL_SIZE, PLAYER_SYMBOL_SIZE, Image.SCALE_SMOOTH));
+        whiteIcon = new ImageIcon(BoardDesktop.getWhitePawnImage().getScaledInstance(PLAYER_SYMBOL_SIZE, PLAYER_SYMBOL_SIZE, Image.SCALE_SMOOTH));
 
         currentPlayerPanel = new JPanel();
         currentPlayerPanel.setLayout(new GridLayout(0, 1));

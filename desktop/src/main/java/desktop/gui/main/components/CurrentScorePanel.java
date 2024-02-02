@@ -17,21 +17,15 @@ public class CurrentScorePanel {
     private static JLabel currentScoreLiveLabel;
     private final ImageIcon black = new ImageIcon(Objects.requireNonNull(CurrentScorePanel.class.getResource("/black.png")));
     private final ImageIcon white = new ImageIcon(Objects.requireNonNull(CurrentScorePanel.class.getResource("/white.png")));
-
     private final int PLAYER_SYMBOL_SIZE = 32;
 
     public CurrentScorePanel() {
-        black.setImage(black.getImage().getScaledInstance(PLAYER_SYMBOL_SIZE, PLAYER_SYMBOL_SIZE, Image.SCALE_SMOOTH));
-        white.setImage(white.getImage().getScaledInstance(PLAYER_SYMBOL_SIZE, PLAYER_SYMBOL_SIZE, Image.SCALE_SMOOTH));
         composeCurrentScorePanel();
     }
 
-    public CurrentScorePanel(BoardDesktop board){
-        black.setImage(black.getImage().getScaledInstance(PLAYER_SYMBOL_SIZE, PLAYER_SYMBOL_SIZE, Image.SCALE_SMOOTH));
-        white.setImage(white.getImage().getScaledInstance(PLAYER_SYMBOL_SIZE, PLAYER_SYMBOL_SIZE, Image.SCALE_SMOOTH));
+    public CurrentScorePanel(int blackScore, int whiteScore) {
         composeCurrentScorePanel();
-        updateCurrentScoreLiveLabel(new GameControllerDesktop(board).computeScoreForPlayer(ColoredPawn.BLACK),
-                new GameControllerDesktop(board).computeScoreForPlayer(ColoredPawn.WHITE));
+        updateCurrentScoreLiveLabel(blackScore, whiteScore);
     }
 
 
@@ -40,6 +34,8 @@ public class CurrentScorePanel {
     }
 
     private void composeCurrentScorePanel() {
+        black.setImage(black.getImage().getScaledInstance(PLAYER_SYMBOL_SIZE, PLAYER_SYMBOL_SIZE, Image.SCALE_SMOOTH));
+        white.setImage(white.getImage().getScaledInstance(PLAYER_SYMBOL_SIZE, PLAYER_SYMBOL_SIZE, Image.SCALE_SMOOTH));
         currentScorePanel = new JPanel();
         currentScorePanel.setLayout(new GridLayout(0, 1));
         currentScorePanel.setAlignmentX(Component.CENTER_ALIGNMENT);

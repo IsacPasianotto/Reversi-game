@@ -16,12 +16,12 @@ public class OutcomeFrame {
     private static final Color fontColor = GuiManager.white;
     private static final Font buttonFont = GuiManager.buttonFont;
 
-    public OutcomeFrame(BoardDesktop boardDesktop) {
+    public OutcomeFrame(int blackScore, int whiteScore){
         frame = new JFrame("Outcome");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 450);
         frame.setLocationRelativeTo(null);
-        JPanel generalPanel = getGeneralPanel(boardDesktop);
+        JPanel generalPanel = getGeneralPanel(blackScore, whiteScore);
         frame.add(generalPanel);
     }
 
@@ -29,14 +29,14 @@ public class OutcomeFrame {
         return frame;
     }
 
-    private JPanel getGeneralPanel(BoardDesktop boardDesktop) {
+    private JPanel getGeneralPanel(int blackScore, int whiteScore) {
 
         JPanel generalPanel = new JPanel();
         generalPanel.setLayout(new BoxLayout(generalPanel, BoxLayout.Y_AXIS));
 
         JPanel headerPanel = getHeaderPanel();
-        JPanel outcomePanel = getOutcomePanel(boardDesktop);
-        JPanel winnerPanel = getWinnerPanel(boardDesktop);
+        JPanel outcomePanel = getOutcomePanel(blackScore, whiteScore);
+        JPanel winnerPanel = getWinnerPanel(blackScore, whiteScore);
         JPanel buttonPanel = getButtonPanel();
 
         generalPanel.add(headerPanel);
@@ -59,14 +59,14 @@ public class OutcomeFrame {
         return headerPanel;
     }
 
-    private JPanel getOutcomePanel(BoardDesktop boardDesktop) {
-        JPanel outcomePanel = new CurrentScorePanel(boardDesktop).getCurrentScorePanel();
+    private JPanel getOutcomePanel(int blackScore, int whiteScore) {
+        JPanel outcomePanel = new CurrentScorePanel(blackScore,whiteScore).getCurrentScorePanel();
         outcomePanel.setBorder(BorderFactory.createTitledBorder("Outcome"));
         return outcomePanel;
     }
 
-    private JPanel getWinnerPanel(BoardDesktop boardDesktop) {
-        JPanel winnerPanel = new WinnerPanel(boardDesktop).getWinnerPanel();
+    private JPanel getWinnerPanel(int blackScore, int whiteScore) {
+        JPanel winnerPanel = new WinnerPanel(blackScore,whiteScore).getWinnerPanel();
         winnerPanel.setBorder(BorderFactory.createTitledBorder("The winner is..."));
         return winnerPanel;
     }

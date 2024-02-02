@@ -27,9 +27,8 @@ public class GuiManager {
     public static final String columnLabels = "ABCDEFGH";
 
     private static final Color borderColor = new Color(0, 0, 0);
-    private final CurrentPlayerPanel currentPlayerPanel;
-    private final CurrentScorePanel currentScorePanel;
-    private final UndoButton undoButton;
+    private static UndoButton undoButton;
+    private static BoardPanel boardPanel;
     private static JFrame gameFrame;
 
     public static void disposeFrame() {
@@ -37,10 +36,8 @@ public class GuiManager {
     }
 
     public GuiManager(GameDesktop gameDesktop, BoardDesktop boardDesktop) {
-        BoardPanel boardPanel = new BoardPanel(boardDesktop);
-        currentPlayerPanel = new CurrentPlayerPanel(boardDesktop);
-        currentScorePanel = new CurrentScorePanel();
-        undoButton = new UndoButton(gameDesktop, boardDesktop);
+        boardPanel = new BoardPanel(boardDesktop);
+        undoButton = new UndoButton(gameDesktop);
         gameFrame = new JFrame("Reversi");
         gameFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         gameFrame.setSize(900, 650);
@@ -60,8 +57,10 @@ public class GuiManager {
         JPanel rightPanel = new JPanel(new GridLayout(0, 1));
         rightPanel.setBorder(new LineBorder(borderColor));
 
-        JPanel currentPlayerPanel = this.currentPlayerPanel.getCurrentPlayerPanel();
-        JPanel currentScorePanel = this.currentScorePanel.getCurrentScorePanel();
+        CurrentPlayerPanel currentPlayerPanel1 = new CurrentPlayerPanel();
+        CurrentScorePanel currentScorePanel1 = new CurrentScorePanel();
+        JPanel currentPlayerPanel = currentPlayerPanel1.getCurrentPlayerPanel();
+        JPanel currentScorePanel = currentScorePanel1.getCurrentScorePanel();
 
         currentPlayerPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         currentPlayerPanel.setAlignmentY(Component.TOP_ALIGNMENT);
@@ -74,5 +73,14 @@ public class GuiManager {
         rightPanel.add(undoButton.getUndoButton(), BorderLayout.SOUTH);
 
         return rightPanel;
+    }
+    public static void disableBoard(){
+        undoButton.setEnabled(false);
+        boardPanel.setEnabled(false);
+    }
+
+    public static void enableBoard(){
+        undoButton.setEnabled(true);
+        boardPanel.setEnabled(true);
     }
 }
