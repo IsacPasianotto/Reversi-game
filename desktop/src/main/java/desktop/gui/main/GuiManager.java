@@ -30,7 +30,11 @@ public class GuiManager {
     private final CurrentPlayerPanel currentPlayerPanel;
     private final CurrentScorePanel currentScorePanel;
     private final UndoButton undoButton;
-    private final JFrame gameFrame;
+    private static JFrame gameFrame;
+
+    public static void disposeFrame() {
+        gameFrame.dispose();
+    }
 
     public GuiManager(GameDesktop gameDesktop, BoardDesktop boardDesktop) {
         BoardPanel boardPanel = new BoardPanel(boardDesktop);

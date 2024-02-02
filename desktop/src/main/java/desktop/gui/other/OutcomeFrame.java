@@ -82,6 +82,7 @@ public class OutcomeFrame {
         });
         playAgainButton.addActionListener(e -> {
             frame.dispose();
+            GuiManager.disposeFrame();
             MainDesktop.main(null);
         });
         buttonPanel.add(closeButton);
