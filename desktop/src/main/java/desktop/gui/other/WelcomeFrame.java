@@ -40,6 +40,27 @@ public class WelcomeFrame {
         frame.setVisible(true);
     }
 
+    public GameSettings getGameSettings() { return gameSettings; }
+
+    public GameModePanel getGameMode() { return gameMode; }
+
+    public DifficultyPanel getDifficulty() { return difficulty; }
+
+    public WhoPlaysFirstPanel getWhoPlaysFirst() { return whoPlaysFirst; }
+
+    public void setWelcomeFrameVisible() {
+        frame.setVisible(true);
+    }
+
+    public void setActionListenerToStartButton() {
+        startButton.addActionListener(e -> {
+            frame.dispose();
+            Players result = getPlayers();
+            GameDesktop gameDesktop = new GameDesktop(new BoardDesktop(), result.blackPlayer(), result.whitePlayer());
+            SwingUtilities.invokeLater(gameDesktop.guiManager::setFrameVisible);
+        });
+    }
+
     private JPanel getGeneralPanel() {
         gameMode = new GameModePanel(LabelsFont, RadioButtonsFont);
         difficulty = new DifficultyPanel(LabelsFont, RadioButtonsFont);
@@ -74,15 +95,6 @@ public class WelcomeFrame {
         setActionListenerToStartButton();
     }
 
-    public void setActionListenerToStartButton() {
-        startButton.addActionListener(e -> {
-            frame.dispose();
-            Players result = getPlayers();
-            GameDesktop gameDesktop = new GameDesktop(new BoardDesktop(), result.blackPlayer(), result.whitePlayer());
-            SwingUtilities.invokeLater(gameDesktop.guiManager::setFrameVisible);
-        });
-    }
-
     private Players getPlayers() {
         Player blackPlayer;
         Player whitePlayer;
@@ -105,19 +117,10 @@ public class WelcomeFrame {
 
     private record Players(Player blackPlayer, Player whitePlayer) {}
 
-
-
-    public void setWelcomeFrameVisible() {
-        frame.setVisible(true);
-    }
-
-
-
     private void setPlayersListener(boolean aFlag) {
         difficultyPanel.setVisible(aFlag);
         whoPlaysFirstPanel.setVisible(aFlag);
         gameSettings = new GameSettings(aFlag, gameSettings.isDifficultyHard(), gameSettings.isHumanFirst());
     }
-
 
 }

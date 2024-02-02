@@ -35,6 +35,15 @@ public class DifficultyPanel {
     public JPanel getDifficultyPanel() {
         return difficultyPanel;
     }
+    public JRadioButton getEasyButton() { return easyButton; }
+
+    public void setActionListenerToEasyButton(ActionListener actionListener){
+        easyButton.addActionListener(actionListener);
+    }
+
+    public void setActionListenerToHardButton(ActionListener actionListener){
+        hardButton.addActionListener(actionListener);
+    }
 
     private JRadioButton getButton(String buttonName, Font radioButtonsFont) {
         JRadioButton button = new JRadioButton(buttonName);
@@ -51,13 +60,4 @@ public class DifficultyPanel {
         difficultyLabel.setAlignmentY(JLabel.TOP_ALIGNMENT);
         return difficultyLabel;
     }
-
-    public void setActionListenerToEasyButton(ActionListener actionListener){
-        easyButton.addActionListener(actionListener);
-    }
-
-    public void setActionListenerToHardButton(ActionListener actionListener){
-        hardButton.addActionListener(actionListener);
-    }
-
 }

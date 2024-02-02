@@ -5,17 +5,11 @@ def archiveName = rootProject.name + '-' + project.name + '-' + String.valueOf(p
 project.ext.mainClassName = mainClassName
 
 dependencies {
-    testImplementation Junit5['jupiter']
-    testRuntimeOnly Junit5['jupiter-platform-launcher']
     testImplementation mockito['mockito-core']
     testImplementation mockito['mockito-junit-jupiter']
 
     implementation project(":core")
     runtimeOnly project(":core")
-}
-
-test {
-    useJUnitPlatform()
 }
 
 application {

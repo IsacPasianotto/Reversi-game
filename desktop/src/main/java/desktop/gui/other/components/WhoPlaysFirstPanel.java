@@ -35,6 +35,16 @@ public class WhoPlaysFirstPanel {
         return whoPlaysFirstPanel;
     }
 
+    public JRadioButton getWhiteButton() { return whiteButton; }
+
+    public void setActionListenerToBlackButton(ActionListener actionListener){
+        blackButton.addActionListener(actionListener);
+    }
+
+    public void setActionListenerToWhiteButton(ActionListener actionListener){
+        whiteButton.addActionListener(actionListener);
+    }
+
     private JRadioButton getButton(String buttonName, Font radioButtonsFont) {
         JRadioButton button = new JRadioButton(buttonName);
         button.setFont(radioButtonsFont);
@@ -51,10 +61,4 @@ public class WhoPlaysFirstPanel {
         return whoPlaysFirstLabel;
     }
 
-    public void setActionListenerToBlackButton(ActionListener actionListener){
-        blackButton.addActionListener(actionListener);
-    }
-    public void setActionListenerToWhiteButton(ActionListener actionListener){
-        whiteButton.addActionListener(actionListener);
-    }
 }
