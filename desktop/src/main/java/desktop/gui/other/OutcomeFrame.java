@@ -34,6 +34,8 @@ public class OutcomeFrame {
 
     public JButton getPlayAgainButton() { return playAgainButton; }
 
+    public JButton getCloseButton() { return closeButton; }
+
     private JPanel getGeneralPanel(int blackScore, int whiteScore) {
 
         JPanel generalPanel = new JPanel();
@@ -83,7 +85,7 @@ public class OutcomeFrame {
         playAgainButton = new Button(buttonFont, "PLAY AGAIN").getButton();
         closeButton.addActionListener(e -> {
             frame.dispose();
-            System.exit(0);
+            GuiManager.disposeFrame();
         });
         playAgainButton.addActionListener(e -> {
             frame.dispose();
