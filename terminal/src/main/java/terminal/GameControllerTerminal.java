@@ -16,7 +16,7 @@ public class GameControllerTerminal extends GameController {
     }
 
     private String getValidMovesInCurrentStatusAsString() {
-        return validMoves.stream().map(validMove -> validMove.position() + " ").collect(Collectors.joining());
+        return getValidMoves().stream().map(validMove -> validMove.position() + " ").collect(Collectors.joining());
     }
 
     @Override

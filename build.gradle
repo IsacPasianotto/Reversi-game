@@ -31,6 +31,15 @@ subprojects {
         plugin 'java-library'
         plugin 'application'
     }
+
+    dependencies {
+        testImplementation Junit5['jupiter']
+        testRuntimeOnly Junit5['jupiter-platform-launcher']
+    }
+
+    test {
+        useJUnitPlatform()
+    }
 }
 
 def distributionDir = "$rootProject.projectDir/readyToDistribute"

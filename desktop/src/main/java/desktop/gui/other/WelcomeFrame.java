@@ -1,5 +1,6 @@
 package desktop.gui.other;
 
+import desktop.gui.main.GuiManager;
 import desktop.gui.other.components.*;
 import desktop.gui.other.components.Button;
 import desktop.utilities.BoardDesktop;
@@ -11,21 +12,20 @@ import player.human.Human;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 
 public class WelcomeFrame {
 
-    private JFrame frame;
+    private static JFrame frame;
+    private static final Font LabelsFont = new Font("Arial", Font.ITALIC,18 );
+    private static final Font RadioButtonsFont = new Font("Arial", Font.BOLD, 15);
+    private static final Font StartButtonFont = GuiManager.buttonFont;
     private GameModePanel gameMode;
     private DifficultyPanel difficulty;
     private WhoPlaysFirstPanel whoPlaysFirst;
     private JPanel difficultyPanel;
     private JPanel whoPlaysFirstPanel;
     private JButton startButton;
-    private static final Font LabelsFont = new Font("Arial", Font.ITALIC,18 );
-    private static final Font RadioButtonsFont = new Font("Arial", Font.BOLD, 15);
-    private static final Font StartButtonFont = new Font("Arial", Font.BOLD, 20);
-
+    public record GameSettings(boolean isHumanVsComputer, boolean isDifficultyHard, boolean isHumanFirst) {}
     private GameSettings gameSettings;
 
     public WelcomeFrame() {
@@ -40,14 +40,37 @@ public class WelcomeFrame {
         frame.setVisible(true);
     }
 
+    public static JFrame getWelcomeFrame() { return frame; }
+
+    public GameSettings getGameSettings() { return gameSettings; }
+
+    public GameModePanel getGameMode() { return gameMode; }
+
+    public JButton getStartButton() { return startButton; }
+
+    public DifficultyPanel getDifficulty() { return difficulty; }
+
+    public WhoPlaysFirstPanel getWhoPlaysFirst() { return whoPlaysFirst; }
+
+    public void setWelcomeFrameVisible() {
+        frame.setVisible(true);
+    }
+
+    public void setActionListenerToStartButton() {
+        startButton.addActionListener(e -> {
+            frame.dispose();
+            Players result = getPlayers();
+            GameDesktop gameDesktop = new GameDesktop(new BoardDesktop(), result.blackPlayer(), result.whitePlayer());
+            SwingUtilities.invokeLater(gameDesktop.guiManager::setFrameVisible);
+        });
+    }
+
     private JPanel getGeneralPanel() {
         gameMode = new GameModePanel(LabelsFont, RadioButtonsFont);
         difficulty = new DifficultyPanel(LabelsFont, RadioButtonsFont);
         whoPlaysFirst = new WhoPlaysFirstPanel(LabelsFont, RadioButtonsFont);
         startButton = new Button(StartButtonFont, "Start").getButton();
-
         setActionListeners();
-
         JPanel gameModePanel = gameMode.getGameModePanel();
         difficultyPanel = difficulty.getDifficultyPanel();
         whoPlaysFirstPanel = whoPlaysFirst.getWhoPlaysFirstPanel();
@@ -74,15 +97,7 @@ public class WelcomeFrame {
         setActionListenerToStartButton();
     }
 
-    public void setActionListenerToStartButton() {
-        startButton.addActionListener(e -> {
-            frame.dispose();
-            Players result = getPlayers();
-            GameDesktop gameDesktop = new GameDesktop(new BoardDesktop(), result.blackPlayer(), result.whitePlayer());
-            SwingUtilities.invokeLater(gameDesktop.guiManager::setFrameVisible);
-        });
-    }
-
+    private record Players(Player blackPlayer, Player whitePlayer) {}
     private Players getPlayers() {
         Player blackPlayer;
         Player whitePlayer;
@@ -91,10 +106,6 @@ public class WelcomeFrame {
             blackPlayer = new Human();
             whitePlayer = new Human();
         } else {
-//            JOptionPane.showMessageDialog(null, "This game mode is not implemented yed!", "ATTENTION", JOptionPane.WARNING_MESSAGE);
-//            System.out.println("notImplemented yet");
-            //System.exit(0);
-
             if (gameSettings.isDifficultyHard()) {
                 blackPlayer = gameSettings.isHumanFirst() ? new Human() : new SmartPlayer();
                 whitePlayer = gameSettings.isHumanFirst() ? new SmartPlayer() : new Human();
@@ -103,25 +114,12 @@ public class WelcomeFrame {
                 whitePlayer = gameSettings.isHumanFirst() ? new RandomPlayer() : new Human();
             }
         }
-
         return new Players(blackPlayer, whitePlayer);
     }
-
-    private record Players(Player blackPlayer, Player whitePlayer) {}
-
-
-
-    public void setWelcomeFrameVisible() {
-        frame.setVisible(true);
-    }
-
-
 
     private void setPlayersListener(boolean aFlag) {
         difficultyPanel.setVisible(aFlag);
         whoPlaysFirstPanel.setVisible(aFlag);
         gameSettings = new GameSettings(aFlag, gameSettings.isDifficultyHard(), gameSettings.isHumanFirst());
     }
-
-
 }

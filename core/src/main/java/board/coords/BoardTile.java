@@ -32,12 +32,10 @@ public class BoardTile implements Couple {
         return new BoardTile(x + other.x(), y + other.y());
     }
 
-    @Override
     public int x() {
         return x;
     }
 
-    @Override
     public int y() {
         return y;
     }

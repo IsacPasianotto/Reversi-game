@@ -3,13 +3,13 @@ package mechanics;
 import board.Board;
 import board.ValidMove;
 import player.Player;
+import player.computer.SmartPlayer;
 import player.human.Human;
 import player.human.QuitGameException;
 import player.human.UndoException;
 
 import java.util.ArrayList;
 import java.util.Optional;
-import java.util.stream.IntStream;
 
 public class Game {
     protected final Player whitePlayer;
@@ -31,7 +31,7 @@ public class Game {
         int skippedTurns = 0;
         while (!gameController.isBoardFull() && (skippedTurns < 2)) {
             gameController.computeValidMoves();
-            if (gameController.numberOfValidMoves() == 0) {
+            if (gameController.thereAreNoValidMoves()) {
                 skippedTurns++;
             } else {
                 skippedTurns = 0;
@@ -56,9 +56,7 @@ public class Game {
         try {
             return Optional.of(currentPlayer.askForAMove(gameController));
         } catch (QuitGameException | RuntimeException e) {
-            blackPlayer.close();
-            whitePlayer.close();
-            System.exit(0);
+            exit();
         } catch (UndoException e) {
             undoLastMove();
         }
@@ -66,15 +64,17 @@ public class Game {
     }
 
     protected void undoLastMove() {
-        int numberOfHumanPlayers = (isHumanPlayer(whitePlayer) ? 1 : 0) +
-                (isHumanPlayer(blackPlayer) ? 1 : 0);
-        int numberOfStepsBack = (numberOfHumanPlayers == 1) ? 2 : 1;
-        if (previousSteps.size() > numberOfStepsBack) {
-            IntStream.range(0, numberOfStepsBack).forEachOrdered(i -> previousSteps.removeLast());
-            gameController.importBoardFrom(previousSteps.getLast());
-            IntStream.range(0, numberOfStepsBack).forEach(i -> gameController.swapTurn());
-        }
+        int numberOfStepsBack = thereIsAComputerPlayer()? 2 : 1;
+        if (previousSteps.size() > numberOfStepsBack)
+            gameController.undo(numberOfStepsBack, previousSteps);
     }
+
+    protected void exit() {
+        blackPlayer.close();
+        whitePlayer.close();
+        System.exit(0);
+    }
+
 
     protected boolean isGameOver() {
         return gameOver;
@@ -87,4 +87,14 @@ public class Game {
     protected boolean isHumanPlayer(Player player) {
         return player.getClass().equals(Human.class);
     }
+
+    protected boolean thereIsAComputerPlayer() {
+        return !isHumanPlayer(whitePlayer) || !isHumanPlayer(blackPlayer);
+    }
+
+    protected boolean difficultyIsHard() {
+        return whitePlayer.getClass().equals(SmartPlayer.class) ||
+                blackPlayer.getClass().equals(SmartPlayer.class);
+    }
+
 }

@@ -1,52 +1,55 @@
 package desktop.gui.other;
 
+import desktop.MainDesktop;
+import desktop.gui.main.GuiManager;
 import desktop.gui.main.components.CurrentScorePanel;
 import desktop.gui.other.components.Button;
 import desktop.gui.other.components.WinnerPanel;
-import desktop.utilities.BoardDesktop;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class OutcomeFrame {
+    private static final Font headerFont = GuiManager.arialBoldItalic35;
+    private static final Color fontColor = GuiManager.white;
+    private static final Font buttonFont = GuiManager.buttonFont;
     private final JFrame frame;
-    private static final Font headerFont = new Font("Arial", Font.BOLD | Font.ITALIC, 35);  // the following variables are already defined in Welcomeframe, can we share them somehow?
-    private static final Color fontColor = new Color(255, 255, 255);
-    private static final Font buttonFont = new Font("Arial", Font.BOLD, 20);
+    private JButton closeButton;
+    private JButton playAgainButton;
 
-    public OutcomeFrame(BoardDesktop boardDesktop) {
+    public OutcomeFrame(int blackScore, int whiteScore){
         frame = new JFrame("Outcome");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 450);
         frame.setLocationRelativeTo(null);
-        JPanel generalPanel = getGeneralPanel(boardDesktop);
+        JPanel generalPanel = getGeneralPanel(blackScore, whiteScore);
         frame.add(generalPanel);
     }
 
-    public JFrame getFrame() {
-        return frame;
-    }
+    public JFrame getFrame() { return frame; }
 
-    private JPanel getGeneralPanel(BoardDesktop boardDesktop) {
+    public JButton getPlayAgainButton() { return playAgainButton; }
 
+    public JButton getCloseButton() { return closeButton; }
+
+    private JPanel getGeneralPanel(int blackScore, int whiteScore) {
         JPanel generalPanel = new JPanel();
         generalPanel.setLayout(new BoxLayout(generalPanel, BoxLayout.Y_AXIS));
 
         JPanel headerPanel = getHeaderPanel();
-        JPanel outcomePanel = getOutcomePanel(boardDesktop);
-        JPanel winnerPanel = getWinnerPanel(boardDesktop);
-        JPanel buttonPanel = getButtonPanel();
+        JPanel outcomePanel = getOutcomePanel(blackScore, whiteScore);
+        JPanel winnerPanel = getWinnerPanel(blackScore, whiteScore);
+        JPanel exitButtonPanel = getExitButtonPanel();
 
         generalPanel.add(headerPanel);
         generalPanel.add(outcomePanel);
         generalPanel.add(winnerPanel);
-        generalPanel.add(buttonPanel);
+        generalPanel.add(exitButtonPanel);
         return generalPanel;
     }
 
     private JPanel getHeaderPanel() {
         JPanel headerPanel = new JPanel();
-
         JLabel headerLabel = new JLabel("GAME OVER!");
         headerLabel.setFont(headerFont);
         headerLabel.setForeground(fontColor);
@@ -57,33 +60,35 @@ public class OutcomeFrame {
         return headerPanel;
     }
 
-    private JPanel getOutcomePanel(BoardDesktop boardDesktop) {
-        JPanel outcomePanel = new CurrentScorePanel(boardDesktop).getCurrentScorePanel();
+    private JPanel getOutcomePanel(int blackScore, int whiteScore) {
+        JPanel outcomePanel = new CurrentScorePanel(blackScore,whiteScore).getCurrentScorePanel();
         outcomePanel.setBorder(BorderFactory.createTitledBorder("Outcome"));
         return outcomePanel;
     }
 
-    private JPanel getWinnerPanel(BoardDesktop boardDesktop) {
-        JPanel winnerPanel = new WinnerPanel(boardDesktop).getWinnerPanel();
+    private JPanel getWinnerPanel(int blackScore, int whiteScore) {
+        JPanel winnerPanel = new WinnerPanel(blackScore,whiteScore).getWinnerPanel();
         winnerPanel.setBorder(BorderFactory.createTitledBorder("The winner is..."));
         return winnerPanel;
     }
 
-    private JPanel getButtonPanel() {
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
-        JButton closeButton = new Button(buttonFont, "CLOSE").getButton();
-        JButton playAgainButton = new Button(buttonFont, "PLAY AGAIN").getButton();
+    private JPanel getExitButtonPanel() {
+        JPanel exitButtonPanel = new JPanel();
+        exitButtonPanel.setLayout(new BoxLayout(exitButtonPanel, BoxLayout.X_AXIS));
+        closeButton = new Button(buttonFont, "CLOSE").getButton();
+        playAgainButton = new Button(buttonFont, "PLAY AGAIN").getButton();
         closeButton.addActionListener(e -> {
             frame.dispose();
-            System.exit(0);
+            GuiManager.disposeFrame();
         });
         playAgainButton.addActionListener(e -> {
-            // TODO --> implement the play again button
+            frame.dispose();
+            GuiManager.disposeFrame();
+            MainDesktop.main(null);
         });
-        buttonPanel.add(closeButton);
-        buttonPanel.add(playAgainButton);
-        buttonPanel.setSize(frame.getWidth(), 100);
-        return buttonPanel;
+        exitButtonPanel.add(closeButton);
+        exitButtonPanel.add(playAgainButton);
+        exitButtonPanel.setSize(frame.getWidth(), 100);
+        return exitButtonPanel;
     }
 }

@@ -105,7 +105,7 @@ class GameControllerTest {
         Board board = new Board();
         GameController gameController = new GameController(board);
         gameController.computeValidMoves();
-        int nMovesFound = gameController.numberOfValidMoves();
+        int nMovesFound = gameController.getValidMoves().size();
         assertEquals(4, nMovesFound);
     }
 
@@ -150,8 +150,9 @@ class GameControllerTest {
         GameController gameController = new GameController(board);
         gameController.computeValidMoves();
         Random rnd = new Random();
-        int extracted = rnd.nextInt(gameController.numberOfValidMoves());
-        ValidMove randomMove = gameController.getValidMoves().get(extracted);
+        ArrayList<ValidMove> validMoves = gameController.getValidMoves();
+        int extracted = rnd.nextInt(validMoves.size());
+        ValidMove randomMove = validMoves.get(extracted);
         Optional<ValidMove> thisShouldNotBeNull = gameController.isValid(randomMove.position());
         assertTrue(thisShouldNotBeNull.isPresent());
     }

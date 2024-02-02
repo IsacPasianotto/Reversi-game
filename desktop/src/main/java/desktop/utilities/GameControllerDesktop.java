@@ -1,18 +1,24 @@
 package desktop.utilities;
 
+import board.Board;
 import board.ColoredPawn;
 import board.ValidMove;
 import board.coords.BoardTile;
+import desktop.gui.main.GuiManager;
 import desktop.gui.main.components.CurrentPlayerPanel;
 import desktop.gui.main.components.CurrentScorePanel;
 import desktop.gui.other.OutcomeFrame;
 import mechanics.GameController;
 import player.Player;
+import player.computer.RandomPlayer;
+import player.computer.SmartPlayer;
 import player.human.QuitGameException;
 import player.human.UndoException;
 
 import javax.swing.*;
+import java.util.ArrayList;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 public class GameControllerDesktop extends GameController {
     final BoardDesktop board;
@@ -22,31 +28,46 @@ public class GameControllerDesktop extends GameController {
         this.board = board;
     }
 
-    public void handleHumanTurn(BoardTile position) {
+    void handleHumanAndBotTurns(BoardTile position, ArrayList<Board> previousSteps, boolean thereIsAComputerPlayer, boolean difficultyIsHard) {
+        handleHumanTurn(position);
+        if (aNewMoveHasBeenMade(previousSteps)) {
+            previousSteps.add(board.copy());
+            if (thereIsAComputerPlayer) {
+                Player bot = difficultyIsHard ? new SmartPlayer() : new RandomPlayer();
+                handleBotTurn(bot);
+                if (aNewMoveHasBeenMade(previousSteps))
+                    previousSteps.add(board.copy());
+            }
+        }
         computeValidMoves();
-        if (validMoves.isEmpty()) handleNoValidMovesCase();
+        if (thereAreNoValidMoves()) handleNoValidMovesCase();
+    }
+
+    private boolean aNewMoveHasBeenMade(ArrayList<Board> previousSteps) {
+        return !board.equals(previousSteps.getLast());
+    }
+
+    private void handleHumanTurn(BoardTile position) {
+        computeValidMoves();
+        if (thereAreNoValidMoves()) handleNoValidMovesCase();
         else handleHumanMove(position);
     }
 
     private void handleHumanMove(BoardTile position) {
-        board.disableButtonGrid();
         board.cancelPreviousSuggestion();
         Optional<ValidMove> move = isValid(position);
-        if (move.isPresent()) updateGame(move.get());
+        if (move.isPresent()) updateGUIBoard(move.get());
         else {
             JOptionPane.showMessageDialog(null, "Invalid move!", "Error", JOptionPane.ERROR_MESSAGE);
             // set the suggestion property of the buttons to be true for the valid moves
-            for (ValidMove validMove : validMoves) {
-                board.updateSuggestionAtTile(validMove.position(), true);
-                board.resetBackgroundAtTile(validMove.position());
-            }
+            for (ValidMove validMove : getValidMoves())
+                board.enableSuggestionAtTile(validMove.position());
         }
-        board.enableButtonGrid();
     }
 
     protected void handleBotTurn(Player bot){
         computeValidMoves();
-        if (validMoves.isEmpty()) handleNoValidMovesCase();
+        if (thereAreNoValidMoves()) handleNoValidMovesCase();
         else handleBotMove(bot);
     }
 
@@ -55,35 +76,45 @@ public class GameControllerDesktop extends GameController {
         try {
             move = bot.askForAMove(this);
         } catch (QuitGameException | UndoException ignored) {}
-        updateGame(move);
+        updateGUIBoard(move);
     }
 
-    private void updateGame(ValidMove move) {
+    private void updateGUIBoard(ValidMove move) {
         board.applyMoveToBoard(move);
         swapTurn();
         board.updateButtonGrid();
         CurrentPlayerPanel.updateCurrentPlayerLiveLabel();
-        CurrentScorePanel.updateCurrentScoreLiveLabel(computeScoreForPlayer(ColoredPawn.BLACK),
+        CurrentScorePanel.updateLiveScoreLabel(computeScoreForPlayer(ColoredPawn.BLACK),
                 computeScoreForPlayer(ColoredPawn.WHITE));
-        if (isBoardFull()) gameOverHandle();
     }
 
-    private void handleNoValidMovesCase() {
-        ColoredPawn currentPlayerColor = getCurrentPlayerColor();
-        String currentPlayerName = currentPlayerColor == ColoredPawn.BLACK ? "black" : "white";
-        JOptionPane.showMessageDialog(null, "No valid moves for the " + currentPlayerName + " player!", "Skipped turn", JOptionPane.INFORMATION_MESSAGE);
-        CurrentPlayerPanel.updateCurrentPlayerLiveLabel();
+    void handleNoValidMovesCase() {
+        String currentPlayerName = getCurrentPlayerColor() == ColoredPawn.BLACK ? "black" : "white";
         swapTurn();
         computeValidMoves();
-        if (validMoves.isEmpty()) gameOverHandle();
+        if (thereAreNoValidMoves()) gameOverHandle();
+        else {
+            JOptionPane.showMessageDialog(null, "No valid moves for the " + currentPlayerName + " player!", "Skipped turn", JOptionPane.INFORMATION_MESSAGE);
+            CurrentPlayerPanel.updateCurrentPlayerLiveLabel();
+        }
     }
 
-    public void gameOverHandle() {
-        // guiManager.gameFrame.dispose();
+    private void gameOverHandle() {
         SwingUtilities.invokeLater(() -> {
-            JFrame outcomeFrame = new OutcomeFrame(board).getFrame();
+            GuiManager.disableBoard();
+            int blackScore = computeScoreForPlayer(ColoredPawn.BLACK);
+            int whiteScore = computeScoreForPlayer(ColoredPawn.WHITE);
+            JFrame outcomeFrame = new OutcomeFrame(blackScore, whiteScore).getFrame();
             outcomeFrame.setVisible(true);
         });
+    }
 
+    @Override
+    public void undo(int numberOfStepsBack, ArrayList<Board> previousSteps) {
+        super.undo(numberOfStepsBack, previousSteps);
+        IntStream.range(0, numberOfStepsBack).forEach(i -> CurrentPlayerPanel.updateCurrentPlayerLiveLabel());
+        board.updateButtonGrid();
+        CurrentScorePanel.updateLiveScoreLabel(computeScoreForPlayer(ColoredPawn.BLACK),
+                computeScoreForPlayer(ColoredPawn.WHITE));
     }
 }

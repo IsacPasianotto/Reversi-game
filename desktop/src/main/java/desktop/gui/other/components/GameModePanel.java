@@ -6,8 +6,8 @@ import java.awt.event.ActionListener;
 
 public class GameModePanel {
     private final JPanel gameModePanel;
-    private JRadioButton humanVsHumanButton;
-    private JRadioButton humanVsComputerButton;
+    private final JRadioButton humanVsHumanButton;
+    private final JRadioButton humanVsComputerButton;
     //private JRadioButton computerVsComputerButton;
 
 
@@ -40,23 +40,7 @@ public class GameModePanel {
         return gameModePanel;
     }
 
-    private JRadioButton getButton(String buttonName, Font radioButtonsFont) {
-        JRadioButton button = new JRadioButton(buttonName);
-        button.setFont(radioButtonsFont);
-        button.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-        button.setAlignmentY(JLabel.TOP_ALIGNMENT);
-        return button;
-    }
-
-
-
-    private JLabel getGameModeLabel(Font labelsFont) {
-        JLabel gameModeLabel = new JLabel("Select a game mode:");
-        gameModeLabel.setFont(labelsFont);
-        gameModeLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-        gameModeLabel.setAlignmentY(JLabel.TOP_ALIGNMENT);
-        return gameModeLabel;
-    }
+    public JRadioButton getHumanVsHumanButton() { return humanVsHumanButton; }
 
     public void setActionListenerToHumanVsHumanButton(ActionListener actionListener){
         humanVsHumanButton.addActionListener(actionListener);
@@ -66,8 +50,20 @@ public class GameModePanel {
         humanVsComputerButton.addActionListener(actionListener);
     }
 
-//    public void setActionListenerToComputerVsComputerButton(ActionListener actionListener){
-//        computerVsComputerButton.addActionListener(actionListener);
-//    }
+    private JRadioButton getButton(String buttonName, Font radioButtonsFont) {
+        JRadioButton button = new JRadioButton(buttonName);
+        button.setFont(radioButtonsFont);
+        button.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+        button.setAlignmentY(JLabel.TOP_ALIGNMENT);
+        return button;
+    }
+
+    private JLabel getGameModeLabel(Font labelsFont) {
+        JLabel gameModeLabel = new JLabel("Select a game mode:");
+        gameModeLabel.setFont(labelsFont);
+        gameModeLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+        gameModeLabel.setAlignmentY(JLabel.TOP_ALIGNMENT);
+        return gameModeLabel;
+    }
 
 }

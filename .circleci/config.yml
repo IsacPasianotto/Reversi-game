@@ -23,7 +23,9 @@ jobs:
       - checkout
       - run:
           name: "Test: all"
-          command: ./gradlew test
+          # on this container there is no X11 server, then the GUI test will fail.
+          # A GUI dedicate test job is settet with Windows orbs. 
+          command: ./gradlew core:test && ./gradlew terminal:test
   linux-core:
     # Specify the execution environment. You can specify an image from Docker Hub or use one of our convenience images from CircleCI's Developer Hub.
     # See: https://circleci.com/docs/configuration-reference/#executor-job
@@ -104,8 +106,7 @@ jobs:
           name: "Test: mainTest"
           command: ./gradlew terminal:test --tests MainTerminalTest
 
-
-  test-win:
+  test-desktop-main:
     executor: win/default
     working_directory: ~/repo
     steps:
@@ -114,6 +115,45 @@ jobs:
       # the workaround (proposed also in the circleCI discuss forum) seems to be adding by hand an ssh keys which
       # is not automatically added even if it should be supposed to be, see also: 
       #   https://circleci.com/docs/add-ssh-key/
+      - add_ssh_keys:
+          fingerprints:
+            - "a6:75:a4:04:58:c5:7a:40:00:f7:6b:19:a6:0a:16:2b"
+      - checkout
+      - run:
+          name: test-desktop-main
+          shell: bash.exe
+          command: ./gradlew.bat desktop:test --tests MainDesktopTest
+
+  test-desktop-welcomeframe:
+    executor: win/default
+    working_directory: ~/repo
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "a6:75:a4:04:58:c5:7a:40:00:f7:6b:19:a6:0a:16:2b"
+      - checkout
+      - run:
+          name: test-desktop-welcomeframe
+          shell: bash.exe
+          command: ./gradlew.bat desktop:test --tests WelcomeFrameTest
+
+  test-desktop-outcomeframe:
+    executor: win/default
+    working_directory: ~/repo
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "a6:75:a4:04:58:c5:7a:40:00:f7:6b:19:a6:0a:16:2b"
+      - checkout
+      - run:
+          name: test-desktop-outcomeframe
+          shell: bash.exe
+          command: ./gradlew.bat desktop:test --tests OutcomeFrameTest
+
+  test-win:
+    executor: win/default
+    working_directory: ~/repo
+    steps:
       - add_ssh_keys:
           fingerprints:
             - "a6:75:a4:04:58:c5:7a:40:00:f7:6b:19:a6:0a:16:2b"
@@ -158,6 +198,18 @@ jobs:
           name: test-terminal-main
           shell: bash.exe
           command: ./gradlew terminal:test --tests MainTerminalTest
+      - run:
+          name: test-desktop-main
+          shell: bash.exe
+          command: ./gradlew desktop:test --tests MainDesktopTest
+      - run:
+          name: test-desktop-welcome
+          shell: bash.exe
+          command: ./gradlew desktop:test --tests WelcomeFrameTest
+      - run:
+          name: test-desktop-outcome
+          shell: bash.exe
+          command: ./gradlew desktop:test --tests OutcomeFrameTest
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
@@ -171,5 +223,8 @@ workflows:
       - test-core-player-computer
       - test-core-player-human
       - test-terminal-main
+      - test-desktop-main
+      - test-desktop-welcomeframe
+      - test-desktop-outcomeframe
       - test-win
 

@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class Button {
 
-    JButton startButton;
+    final JButton startButton;
 
     public Button(Font buttonFont, String buttonText) {
         startButton = new JButton(buttonText);

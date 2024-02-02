@@ -9,11 +9,12 @@ import board.coords.Direction;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class GameController {
     private final Board board;
-    protected final ArrayList<ValidMove> validMoves;
-    protected boolean blackToMove;
+    private final ArrayList<ValidMove> validMoves;
+    private boolean blackToMove;
 
     public GameController(Board board) {
         this.board = board;
@@ -123,9 +124,13 @@ public class GameController {
         return board.computeScoreForPlayer(playerColor);
     }
 
-    public int numberOfValidMoves() {
-        return validMoves.size();
+    public boolean thereAreNoValidMoves() {
+        return validMoves.isEmpty();
     }
 
-    public void printFinalScores(){ }
+    public void undo(int numberOfStepsBack, ArrayList<Board> previousSteps) {
+        IntStream.range(0, numberOfStepsBack).forEach(i -> previousSteps.removeLast());
+        importBoardFrom(previousSteps.getLast());
+        IntStream.range(0, numberOfStepsBack).forEach(i -> swapTurn());
+    }
 }
