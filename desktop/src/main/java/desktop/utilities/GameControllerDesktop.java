@@ -40,9 +40,7 @@ public class GameControllerDesktop extends GameController {
             }
         }
         computeValidMoves();
-        if (thereAreNoValidMoves()) {
-            handleNoValidMovesCase();
-        }
+        if (thereAreNoValidMoves()) handleNoValidMovesCase();
     }
 
     private boolean aNewMoveHasBeenMade(ArrayList<Board> previousSteps) {
@@ -91,8 +89,7 @@ public class GameControllerDesktop extends GameController {
     }
 
     void handleNoValidMovesCase() {
-        ColoredPawn currentPlayerColor = getCurrentPlayerColor();
-        String currentPlayerName = currentPlayerColor == ColoredPawn.BLACK ? "black" : "white";
+        String currentPlayerName = getCurrentPlayerColor() == ColoredPawn.BLACK ? "black" : "white";
         swapTurn();
         computeValidMoves();
         if (thereAreNoValidMoves()) gameOverHandle();
@@ -112,13 +109,10 @@ public class GameControllerDesktop extends GameController {
         });
     }
 
-    void undo(int numberOfStepsBack, ArrayList<Board> previousSteps) {
-        IntStream.range(0, numberOfStepsBack).forEachOrdered(i -> previousSteps.removeLast());
-        importBoardFrom(previousSteps.getLast());
-        for (int i = 0; i < numberOfStepsBack; i++) {
-            swapTurn();
-            CurrentPlayerPanel.updateCurrentPlayerLiveLabel();
-        }
+    @Override
+    public void undo(int numberOfStepsBack, ArrayList<Board> previousSteps) {
+        super.undo(numberOfStepsBack, previousSteps);
+        IntStream.range(0, numberOfStepsBack).forEach(i -> CurrentPlayerPanel.updateCurrentPlayerLiveLabel());
         board.updateButtonGrid();
         CurrentScorePanel.updateLiveScoreLabel(computeScoreForPlayer(ColoredPawn.BLACK),
                 computeScoreForPlayer(ColoredPawn.WHITE));

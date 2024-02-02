@@ -37,9 +37,8 @@ public class Board {
     }
 
     public void importBoardFrom(Board another) {
-        for (int i = 0; i < BOARD_SIZE; i++) {
+        for (int i = 0; i < BOARD_SIZE; i++)
             System.arraycopy(another.board[i], 0, board[i], 0, BOARD_SIZE);
-        }
     }
 
     public Board copy() {

@@ -6,7 +6,6 @@ import desktop.gui.other.WelcomeFrame;
 import javax.swing.*;
 
 public class MainDesktop {
-
     public static void main(String[] args) {
 
         FlatGradiantoDeepOceanIJTheme.setup();

@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class RandomPlayer implements Player {
-
     public ValidMove askForAMove(GameController gameController) {
         ArrayList<ValidMove> validMoves = gameController.getValidMoves();
         Random rnd = new Random();
@@ -16,6 +15,5 @@ public class RandomPlayer implements Player {
         return validMoves.get(extracted);
     }
 
-    public void close() {
-    }
+    public void close() { }
 }

@@ -9,6 +9,7 @@ import board.coords.Direction;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class GameController {
     private final Board board;
@@ -127,4 +128,9 @@ public class GameController {
         return validMoves.isEmpty();
     }
 
+    public void undo(int numberOfStepsBack, ArrayList<Board> previousSteps) {
+        IntStream.range(0, numberOfStepsBack).forEach(i -> previousSteps.removeLast());
+        importBoardFrom(previousSteps.getLast());
+        IntStream.range(0, numberOfStepsBack).forEach(i -> swapTurn());
+    }
 }

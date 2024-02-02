@@ -17,10 +17,8 @@ public class OutcomeFrameTest {
     public void playAgainButtonSpawnWelcomeFrame() {
         OutcomeFrame outcomeFrame = new OutcomeFrame(SCORE_BLACK, SCORE_WHITE);
 
-        // OutcomeFrame will try to dispose the GuiManager frame, so we need to create it to prevent a null pointer exception
-        BoardDesktop boardDesktop = new BoardDesktop();
-        GameDesktop gameDesktop = new GameDesktop(boardDesktop, new SmartPlayer(), new SmartPlayer());
-        GuiManager guiManager = new GuiManager(gameDesktop, boardDesktop);
+        // OutcomeFrame will try to dispose the game, so we need to create it to prevent a null pointer exception
+        GameDesktop gameDesktop = new GameDesktop(new BoardDesktop(), new SmartPlayer(), new SmartPlayer());
 
         outcomeFrame.getPlayAgainButton().doClick();
         assertTrue(WelcomeFrame.getWelcomeFrame().isVisible());
@@ -29,10 +27,7 @@ public class OutcomeFrameTest {
     @Test
     public void closeButtonTerminatesApp() {
         OutcomeFrame outcomeFrame = new OutcomeFrame(SCORE_BLACK, SCORE_WHITE);
-
-        BoardDesktop boardDesktop = new BoardDesktop();
-        GameDesktop gameDesktop = new GameDesktop(boardDesktop, new SmartPlayer(), new SmartPlayer());
-        GuiManager guiManager = new GuiManager(gameDesktop, boardDesktop);
+        GameDesktop gameDesktop = new GameDesktop(new BoardDesktop(), new SmartPlayer(), new SmartPlayer());
 
         outcomeFrame.getCloseButton().doClick();
         assertFalse(GuiManager.getGameFrame().isVisible());

@@ -16,16 +16,15 @@ import java.awt.*;
 public class WelcomeFrame {
 
     private static JFrame frame;
+    private static final Font LabelsFont = new Font("Arial", Font.ITALIC,18 );
+    private static final Font RadioButtonsFont = new Font("Arial", Font.BOLD, 15);
+    private static final Font StartButtonFont = GuiManager.buttonFont;
     private GameModePanel gameMode;
     private DifficultyPanel difficulty;
     private WhoPlaysFirstPanel whoPlaysFirst;
     private JPanel difficultyPanel;
     private JPanel whoPlaysFirstPanel;
     private JButton startButton;
-    private static final Font LabelsFont = new Font("Arial", Font.ITALIC,18 );
-    private static final Font RadioButtonsFont = new Font("Arial", Font.BOLD, 15);
-    private static final Font StartButtonFont = GuiManager.buttonFont;
-
     public record GameSettings(boolean isHumanVsComputer, boolean isDifficultyHard, boolean isHumanFirst) {}
     private GameSettings gameSettings;
 
@@ -71,9 +70,7 @@ public class WelcomeFrame {
         difficulty = new DifficultyPanel(LabelsFont, RadioButtonsFont);
         whoPlaysFirst = new WhoPlaysFirstPanel(LabelsFont, RadioButtonsFont);
         startButton = new Button(StartButtonFont, "Start").getButton();
-
         setActionListeners();
-
         JPanel gameModePanel = gameMode.getGameModePanel();
         difficultyPanel = difficulty.getDifficultyPanel();
         whoPlaysFirstPanel = whoPlaysFirst.getWhoPlaysFirstPanel();
@@ -100,6 +97,7 @@ public class WelcomeFrame {
         setActionListenerToStartButton();
     }
 
+    private record Players(Player blackPlayer, Player whitePlayer) {}
     private Players getPlayers() {
         Player blackPlayer;
         Player whitePlayer;
@@ -116,16 +114,12 @@ public class WelcomeFrame {
                 whitePlayer = gameSettings.isHumanFirst() ? new RandomPlayer() : new Human();
             }
         }
-
         return new Players(blackPlayer, whitePlayer);
     }
-
-    private record Players(Player blackPlayer, Player whitePlayer) {}
 
     private void setPlayersListener(boolean aFlag) {
         difficultyPanel.setVisible(aFlag);
         whoPlaysFirstPanel.setVisible(aFlag);
         gameSettings = new GameSettings(aFlag, gameSettings.isDifficultyHard(), gameSettings.isHumanFirst());
     }
-
 }

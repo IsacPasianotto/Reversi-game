@@ -5,7 +5,6 @@ import board.coords.BoardTile;
 import desktop.gui.main.GuiManager;
 import mechanics.Game;
 import player.Player;
-import player.computer.SmartPlayer;
 
 import java.awt.event.ActionListener;
 
@@ -30,22 +29,14 @@ public class GameDesktop extends Game {
             }
     }
 
-    public void undoLastMoveDesktop() {
+    @Override
+    public void undoLastMove() {
         GuiManager.disableBoard();
         gameController.board.cancelPreviousSuggestion();
         int numberOfStepsBack = thereIsAComputerPlayer() ? 2 : 1;
         if (previousSteps.size() > numberOfStepsBack)
             gameController.undo(numberOfStepsBack, previousSteps);
         GuiManager.enableBoard();
-    }
-
-    private boolean thereIsAComputerPlayer() {
-        return !isHumanPlayer(whitePlayer) || !isHumanPlayer(blackPlayer);
-    }
-
-    private boolean difficultyIsHard() {
-        return whitePlayer.getClass().equals(SmartPlayer.class)  ||
-                blackPlayer.getClass().equals(SmartPlayer.class);
     }
 
     private ActionListener getButtonListener(BoardTile position) {
@@ -55,5 +46,4 @@ public class GameDesktop extends Game {
             GuiManager.enableBoard();
         };
     }
-
 }

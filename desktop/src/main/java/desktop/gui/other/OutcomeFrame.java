@@ -10,10 +10,10 @@ import javax.swing.*;
 import java.awt.*;
 
 public class OutcomeFrame {
-    private final JFrame frame;
     private static final Font headerFont = GuiManager.arialBoldItalic35;
     private static final Color fontColor = GuiManager.white;
     private static final Font buttonFont = GuiManager.buttonFont;
+    private final JFrame frame;
     private JButton closeButton;
     private JButton playAgainButton;
 
@@ -26,34 +26,30 @@ public class OutcomeFrame {
         frame.add(generalPanel);
     }
 
-    public JFrame getFrame() {
-        return frame;
-    }
+    public JFrame getFrame() { return frame; }
 
     public JButton getPlayAgainButton() { return playAgainButton; }
 
     public JButton getCloseButton() { return closeButton; }
 
     private JPanel getGeneralPanel(int blackScore, int whiteScore) {
-
         JPanel generalPanel = new JPanel();
         generalPanel.setLayout(new BoxLayout(generalPanel, BoxLayout.Y_AXIS));
 
         JPanel headerPanel = getHeaderPanel();
         JPanel outcomePanel = getOutcomePanel(blackScore, whiteScore);
         JPanel winnerPanel = getWinnerPanel(blackScore, whiteScore);
-        JPanel buttonPanel = getButtonPanel();
+        JPanel exitButtonPanel = getExitButtonPanel();
 
         generalPanel.add(headerPanel);
         generalPanel.add(outcomePanel);
         generalPanel.add(winnerPanel);
-        generalPanel.add(buttonPanel);
+        generalPanel.add(exitButtonPanel);
         return generalPanel;
     }
 
     private JPanel getHeaderPanel() {
         JPanel headerPanel = new JPanel();
-
         JLabel headerLabel = new JLabel("GAME OVER!");
         headerLabel.setFont(headerFont);
         headerLabel.setForeground(fontColor);
@@ -76,9 +72,9 @@ public class OutcomeFrame {
         return winnerPanel;
     }
 
-    private JPanel getButtonPanel() {
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+    private JPanel getExitButtonPanel() {
+        JPanel exitButtonPanel = new JPanel();
+        exitButtonPanel.setLayout(new BoxLayout(exitButtonPanel, BoxLayout.X_AXIS));
         closeButton = new Button(buttonFont, "CLOSE").getButton();
         playAgainButton = new Button(buttonFont, "PLAY AGAIN").getButton();
         closeButton.addActionListener(e -> {
@@ -90,9 +86,9 @@ public class OutcomeFrame {
             GuiManager.disposeFrame();
             MainDesktop.main(null);
         });
-        buttonPanel.add(closeButton);
-        buttonPanel.add(playAgainButton);
-        buttonPanel.setSize(frame.getWidth(), 100);
-        return buttonPanel;
+        exitButtonPanel.add(closeButton);
+        exitButtonPanel.add(playAgainButton);
+        exitButtonPanel.setSize(frame.getWidth(), 100);
+        return exitButtonPanel;
     }
 }

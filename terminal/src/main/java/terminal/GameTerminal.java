@@ -8,7 +8,6 @@ import player.human.QuitGameException;
 import player.human.UndoException;
 
 import java.util.Optional;
-import java.util.stream.IntStream;
 
 public class GameTerminal extends Game {
     private final GameControllerTerminal gameController;
@@ -60,23 +59,13 @@ public class GameTerminal extends Game {
         return Optional.empty();
     }
 
-    private void exit() {
-        blackPlayer.close();
-        whitePlayer.close();
-        System.exit(0);
-    }
-
-    public void undoLastMove() {
-        int numberOfHumanPlayers = (isHumanPlayer(whitePlayer) ? 1 : 0) +
-                (isHumanPlayer(blackPlayer) ? 1 : 0);
-        int numberOfStepsBack = (numberOfHumanPlayers == 1) ? 2 : 1;
+    @Override
+    protected void undoLastMove() {
+        int numberOfStepsBack = thereIsAComputerPlayer()? 2 : 1;
         if (previousSteps.size() > numberOfStepsBack) {
             System.out.println("Undoing last move.");
-            IntStream.range(0, numberOfStepsBack).forEachOrdered(i -> previousSteps.removeLast());
-            gameController.importBoardFrom(previousSteps.getLast());
-            IntStream.range(0, numberOfStepsBack).forEach(i -> gameController.swapTurn());
+            gameController.undo(numberOfStepsBack,previousSteps);
         } else
             System.out.println("Cannot undo anymore.");
     }
-
 }

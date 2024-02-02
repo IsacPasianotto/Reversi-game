@@ -44,22 +44,6 @@ public class GuiManager {
         gameFrame.add(mainPanel);
     }
 
-    public void setFrameVisible() {
-        gameFrame.setVisible(true);
-    }
-
-    public static JFrame getGameFrame() { return gameFrame; }
-
-    public static void disableBoard(){
-        undoButton.setEnabled(false);
-        boardPanel.setEnabled(false);
-    }
-
-    public static void enableBoard(){
-        undoButton.setEnabled(true);
-        boardPanel.setEnabled(true);
-    }
-
     private JPanel buildRightPanel() {
         JPanel rightPanel = new JPanel(new GridLayout(0, 1));
         rightPanel.setBorder(new LineBorder(borderColor));
@@ -81,4 +65,20 @@ public class GuiManager {
 
         return rightPanel;
     }
+
+    public void setFrameVisible() {
+        gameFrame.setVisible(true);
+    }
+
+    public static void disableBoard(){
+        undoButton.setEnabled(false);
+        boardPanel.setEnabled(false);
+    }
+
+    public static void enableBoard(){
+        undoButton.setEnabled(true);
+        boardPanel.setEnabled(true);
+    }
+
+    public static JFrame getGameFrame() { return gameFrame; }
 }
