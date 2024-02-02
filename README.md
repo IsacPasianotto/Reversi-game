@@ -18,136 +18,95 @@
 This repo was made for the "Software Development Methods" exam at the University of Trieste that I took during my
 studies in Data Science and Scientific Computing.
 
-The project consists in implementing a game, practicing Continuous integration and using automated tests and Test Driven
-Development to grow the code.
+The project assignment consists in implementing a game, practicing Continuous integration and using automated tests and Test Driven
+Development to grow the code, and using the Agile methodology to manage the project in a group work setting (The project was done with [Davide Rossi](https://github.com/DavideRossi1)).
 
-## TODO List
+The implemented game is the classic [Reversi](https://en.wikipedia.org/wiki/Reversi) game, also known as Othello.
 
-- [x] Define the tests for TTD
-    - [x] test the board
-        - [x] **TODO**: add a test to be sure that the board is able to flip lines in more than one direction if it's
-          necessary
-    - [x] Test the aspects related to player:
-        - [x] Is the program handling correctly a human player?
-        - [x] Is the program handling correctly the computer player?
-    - [x] test the mechanics of the game
-- [x] Implement the base game in terminal
-    - [x] Define the rules
-    - [x] Define the board
-    - [x] Define the player and the computer mechanics
-    - [x] Check the end of the game
-    - [x] Check the validity of the moves
-    - [x] Update the score ad each move (and print maybe?)
-- [x] **_IMPORTANT_**: Since I had some external libraries, I had to check credits and licenses for them.
-    - [x]  JUnit 5 --> Eclipse Public License 2.0
-    - [x]  Mockito --> MIT License
-    - [x]  Swing --> GNU General Public License v2.0
-    - [x]  openJDK --> GNU General Public License v2.0
-    - [x]  flatlaf --> Apache License 2.0
-    - [x]  flatlafIntelliJ --> Apache License 2.0
-    - [x]  gradle --> Apache License 2.0
-    - [x]  groovy --> Apache License 2.0
-    - [x]  circleci --> Apache License 2.0
-    - [x]  icons and images used in GUI --> CC0 1.0 Universal (CC0 1.0) Public Domain Dedication
-- [ ] **Write a proper README**
-- [ ] (Optional) Implement the game in a GUI
-    - [x] Extend needed classes 
-    - [x] Handle the mouse click on the board
-    - [x] Update the score and the current player at each move
-    - [x] Handle the undo button
-    - [x] Check if there is at least one valid move for the current player or skip the turn
-    - [x] Handle the end of the game
-      - [x] Make a "log-out" pop-up with the winner and the score (optional: play again button)
-    - [x] Handle the validity of the moves
-    - [ ] Handle the computer player
-    - [x] Handle the human player
-    - [ ] Handle the restart of the game (optional)
-    - [x] **Important TODO** selector (mode and difficulty) before starting the game
-      - [x] Make this selector effectively change the game mode and the difficulty
-    - [x] Set gradle to build and auto-run the GUI version of the game
-- [ ] (Optional) Make sure that the code is always runnable providing instruction on how to run it with containers: 
-  - [ ] Container for Desktop version
-  - [x] Container for Terminal version
- 
-## Known bugs that have to be fixed and Known issues
-- [x] In the GUI, if you click on a cell that is not a valid move, then you click *undo* button, the program will not undo the move but change the current player only.
-- [ ] Sometimes (not always, like 5% of the times) in the gui, after closing the welcome window, the main window will not appear. This is not a big issue, since you can just close the program and re-run it, but it's still annoying.
-- [ ] In the `gui` package, there are a bit too much static elements (in particular to make the live score and live current player work). This is not a big issue, but it's not a good practice.
 
-## Terminal Game
+The project is built with [Gradle](https://gradle.org/), and programed in `Java 21`.
 
-### How to run the game:
+## Project structure
 
-1. Clone the repo
-2. Open the terminal and go to the folder where you cloned the repo
-3. Run the command:
+The project is divided into tree main modules:
 
-  ```
-  ./gradlew terminal:run --console=plain
-  ```
+- `core`: contains the game logic and the model of the game and serves as a library for the other two modules.
+- `terminal`: contains the terminal version of the game.
+- `desktop`: contains the desktop version of the game.
 
-Otherwise, you can obtain the `.jar`  file with:
+## Requirements
+
+The project requires `Java 21` to be installed on your system. check the [troubleshooting](#troubleshooting) section for more information.
+
+Gradle is not required to be installed on your system, as the project uses the gradle wrapper.
+
+
+## How to run the project
+
+The easiest way to run the project is to download the latest release from the [releases page](not available yet) and run the `reversi.jar` file:
 
 ```
-./gradlew terminal:dist
+$ java -jar reversi.jar
 ```
 
-which will create the `.jar` file in the folder `/readyToDistribute`. Then you can `cd` into the folder and run the
-command:
+Since the project is built with gradle, you can also rely on the gradle wrapper to build, test and run the project from the source code.  In particular, for each module listed [above](#project-structure), you can run the following commands:
+
+- `./gradlew <terminal|desktop>:run`: to play the game.
+- `./gradlew <module>:build`: to build the module.
+- `./gradlew <module>:test`: to run the tests of the module.
+- `./gradlew <module>:dist`: to create a distributable package of the module in the `./readyToDistribute` directory.
+
+Moreover, you can run: 
+- `./gradlew test` to run all the tests of the project.
+- `./gradlew build` to build the whole project.
+- `./gradlew dist` to create a distributable package of both the terminal and the desktop version of the game in the `./readyToDistribute` directory.
+- `./gradlew clean` to clean the project.
+
+Just for example, to run the graphical version of the game, you can run the following command:
 
 ```
-java -jar ReversiGame-terminal-1.0.jar
+$ ./gradlew desktop:run
 ```
 
-Note that the `./gradlew clean` command will take care of destroying the `.jar` file and the
-folder `/readyToDistribute`. 
+*Note*: We suggest to run the terminal version of the game with `./gradlew terminal:run --console=plain` to avoid some issues with the gradle output.
 
-### Desktop Game
-
-#### How to run the game:
-
-Do the same passage as for the terminal game, but replace the `terminal` with `desktop` in the commands.
 
 
 ## Troubleshooting
 
-- Apparently gradle in some case ignores the `targetCompatibility` and `sourceCompatibility` settings in the `build.gradle`.
-    We have tested the project with `Java 21`. 
+#### 1. How to check the version of Java installed on your system:
+    
+This project strictly requires `Java 21` to be installed on your system. Be sure that the output of the `java --version` command is something like: 
+```
+$ java --version
+openjdk 21.0.2 2024-01-16
+OpenJDK Runtime Environment (Red_Hat-21.0.2.0.13-1) (build 21.0.2+13)
+OpenJDK 64-Bit Server VM (Red_Hat-21.0.2.0.13-1) (build 21.0.2+13, mixed mode, sharing)
+```
+#### 2. Gradle wrapper and Java 21:
 
-If your Gradle wrapper is not working, check the version of Gradle you are using with `./gradlew -v` and make sure it is
-recent enough.
+Apparently in some contitions the gradle wrapper ignores the `targetCompatibility` and `sourceCompatibility` settings in the `build.gradle` when more than one version of Java is installed on the system.
 
-- A workaround in Unix systems is to set the `JAVA_HOME` environment variable to the path of the JDK you want to use.
-for example: `export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64`.
-  - The other workaround we tested is to use a container with the correct version of Java. We've tested the [amazoncorretto:21.0.2](https://hub.docker.com/_/amazoncorretto).  Note that with the containerized solution you will need to download gradle and libraries every time you run the container.
-      - to run directly the game:
-          ```
-          podman run -v$PWD:/reversi -w /reversi -it amazoncorretto:21.0.2 /bin/bash -c "./gradlew terminal:run --console=plain"
-          ```
-      - to obtain the `.jar` file:
-          ```
-          podman run -v$PWD:/reversi -w /reversi amazoncorretto:21.0.2 /bin/bash -c "./gradlew terminal:dist"
-          ```
-      - to run the `.jar` file:
-          ```
-          podman run -v$PWD:/reversi -w /reversi -it amazoncorretto:21.0.2 /bin/bash -c "cd readyToDistribute && java -jar ReversiGame-terminal-1.0.jar"
-          ```
-      - to build the project:
-          ```
-        podman run -v$PWD:/reversi -w /reversi amazoncorretto:21.0.2 /bin/bash -c "./gradlew build"
-          ```
-      - to run the tests:
-          ```
-          podman run -v$PWD:/reversi -w /reversi amazoncorretto:21.0.2 /bin/bash -c "./gradlew test"
-          ```
-      - to clean the project:
-          ```
-          podman run -v$PWD:/reversi -w /reversi amazoncorretto:21.0.2 /bin/bash -c "./gradlew clean"
-          ```
-      Those commands work also with `docker` instead of `podman`.
-- If you are a linux user and use [`wayland`](https://wayland.freedesktop.org/) as display server, to run the desktop version of the application you will need [`xwayland`](https://wayland.freedesktop.org/xserver.html) installed on your system.
+At least for Unix systems (we didn't have the chance to test it on Windows), a workaround is to manually set the `JAVA_HOME` environment variable: 
+```
+$ export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
+```
+where `/usr/lib/jvm/java-21-openjdk-amd64` is the path to the JDK 21 installation on your system.
+
+#### 3. Wayland and xwayland
+
+If you are a linux user and use [`wayland`](https://wayland.freedesktop.org/) as display server, to run the desktop version of the application you will need [`xwayland`](https://wayland.freedesktop.org/xserver.html) installed on your system.
 
 
 ## Credits and attributions
 
 The complete list of all the credits, attributions and licenses can be found in the file [`ATTRIBUTIONS.md`](./ATTRIBUTIONS.md). file. 
+
+
+## TODO 
+
+- [ ] Add the content to the releases page.
+- [ ] Add the link to the releases page.
+- [ ] Add a file which explains the technical details of the implementation. (I've seen that in other exam projects, so I think it's a good idea to add it here too).
+- [ ] Think about the transition from ArrayList to Array in the previousStep context.
+- [ ] Create the javaDoc for the project (again, not requested, but I think it's a good idea to have it).
