@@ -12,8 +12,8 @@ import java.util.stream.Collectors;
 
 public class GameController {
     private final Board board;
-    protected final ArrayList<ValidMove> validMoves;
-    protected boolean blackToMove;
+    private final ArrayList<ValidMove> validMoves;
+    private boolean blackToMove;
 
     public GameController(Board board) {
         this.board = board;
@@ -123,9 +123,8 @@ public class GameController {
         return board.computeScoreForPlayer(playerColor);
     }
 
-    public int numberOfValidMoves() {
-        return validMoves.size();
+    public boolean thereAreNoValidMoves() {
+        return validMoves.isEmpty();
     }
 
-    public void printFinalScores(){ }
 }

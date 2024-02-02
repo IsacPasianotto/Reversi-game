@@ -70,7 +70,7 @@ public class BoardDesktop extends Board {
                 disableSuggestionAtTile(new BoardTile(i, j));
     }
 
-    public void addListenerToButton(BoardTile position, ActionListener listener){
+    protected void addListenerToButton(BoardTile position, ActionListener listener){
         buttonGrid[position.x()][position.y()].addActionListener(listener);
     }
 }

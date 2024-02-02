@@ -3,12 +3,8 @@ import desktop.gui.other.OutcomeFrame;
 import desktop.gui.other.WelcomeFrame;
 import desktop.utilities.BoardDesktop;
 import desktop.utilities.GameDesktop;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import player.computer.SmartPlayer;
-
-import javax.swing.*;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -1,21 +1,16 @@
 package desktop.utilities;
 
 import board.Board;
-import board.ColoredPawn;
 import board.coords.BoardTile;
 import desktop.gui.main.GuiManager;
-import desktop.gui.main.components.CurrentPlayerPanel;
-import desktop.gui.main.components.CurrentScorePanel;
 import mechanics.Game;
 import player.Player;
 import player.computer.SmartPlayer;
-import player.human.Human;
 
 import java.awt.event.ActionListener;
-import java.util.stream.IntStream;
 
 public class GameDesktop extends Game {
-    final GameControllerDesktop gameController;
+    private final GameControllerDesktop gameController;
     public final GuiManager guiManager;
 
     public GameDesktop(BoardDesktop board, Player blackPlayer, Player whitePlayer) {
@@ -39,17 +34,8 @@ public class GameDesktop extends Game {
         GuiManager.disableBoard();
         gameController.board.cancelPreviousSuggestion();
         int numberOfStepsBack = thereIsAComputerPlayer() ? 2 : 1;
-        if (previousSteps.size() > numberOfStepsBack) {
-            IntStream.range(0, numberOfStepsBack).forEachOrdered(i -> previousSteps.removeLast());
-            gameController.importBoardFrom(previousSteps.getLast());
-            for (int i = 0; i < numberOfStepsBack; i++) {
-                gameController.swapTurn();
-                CurrentPlayerPanel.updateCurrentPlayerLiveLabel();
-            }
-            gameController.board.updateButtonGrid();
-            CurrentScorePanel.updateCurrentScoreLiveLabel(gameController.computeScoreForPlayer(ColoredPawn.BLACK),
-                    gameController.computeScoreForPlayer(ColoredPawn.WHITE));
-        }
+        if (previousSteps.size() > numberOfStepsBack)
+            gameController.undo(numberOfStepsBack, previousSteps);
         GuiManager.enableBoard();
     }
 

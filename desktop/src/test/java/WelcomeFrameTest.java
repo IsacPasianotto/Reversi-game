@@ -3,11 +3,9 @@ import desktop.gui.other.WelcomeFrame;
 import org.junit.jupiter.api.Test;
 
 import javax.swing.*;
-import javax.swing.text.html.Option;
 
 import java.util.Optional;
 
-import static desktop.gui.main.GuiManager.getGameFrame;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

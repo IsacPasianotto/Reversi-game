@@ -5,7 +5,6 @@ import desktop.gui.main.GuiManager;
 import desktop.gui.main.components.CurrentScorePanel;
 import desktop.gui.other.components.Button;
 import desktop.gui.other.components.WinnerPanel;
-import desktop.utilities.BoardDesktop;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +14,6 @@ public class OutcomeFrame {
     private static final Font headerFont = GuiManager.arialBoldItalic35;
     private static final Color fontColor = GuiManager.white;
     private static final Font buttonFont = GuiManager.buttonFont;
-    private JPanel generalPanel;
     private JButton closeButton;
     private JButton playAgainButton;
 
@@ -24,7 +22,7 @@ public class OutcomeFrame {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 450);
         frame.setLocationRelativeTo(null);
-        generalPanel = getGeneralPanel(blackScore, whiteScore);
+        JPanel generalPanel = getGeneralPanel(blackScore, whiteScore);
         frame.add(generalPanel);
     }
 

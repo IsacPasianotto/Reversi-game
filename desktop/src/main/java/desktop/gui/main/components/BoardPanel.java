@@ -14,8 +14,8 @@ public class BoardPanel {
     private final JPanel boardPanel;
     private static final Color boardBorderColor = GuiManager.black;
     private static final Color boardLabelColor = GuiManager.white;
-    private static final Font boardLabelsFont = GuiManager.boardLabelsFont;
-    private static final String columnLabels = GuiManager.columnLabels;
+    private static final Font boardLabelsFont = new Font("Arial", Font.BOLD, 25);
+    private static final String columnLabels = "ABCDEFGH";
 
     public BoardPanel(BoardDesktop desktopBoard) {
         this.boardDesktop = desktopBoard;

@@ -1,6 +1,5 @@
 package desktop.gui.main.components;
 
-import desktop.utilities.BoardDesktop;
 import desktop.utilities.GameDesktop;
 
 import javax.swing.*;
@@ -8,10 +7,10 @@ import java.awt.*;
 import java.util.Objects;
 
 public class UndoButton {
-    public static final Font undoButtonFont = new Font("Arial", Font.PLAIN, 20);
-    public static final Color undoButtonColor = new Color(255,255, 255);
+    private static final Font undoButtonFont = new Font("Arial", Font.PLAIN, 20);
+    private static final Color undoButtonColor = new Color(255,255, 255);
     private final JButton undoButton;
-    GameDesktop gameDesktop;
+    private final GameDesktop gameDesktop;
 
     public UndoButton(GameDesktop gameDesktop) {
         ImageIcon undoIcon = new ImageIcon(Objects.requireNonNull(UndoButton.class.getResource("/undo.png")));

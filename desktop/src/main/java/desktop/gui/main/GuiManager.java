@@ -19,13 +19,8 @@ public class GuiManager {
     public static final Color black = new Color(0, 0, 0);
     public static final Font buttonFont = new Font("Arial", Font.BOLD, 20);
     public static final Font currentLabelFont = new Font("Arial", Font.ITALIC, 20);
-    public static final Font boardLabelsFont = new Font("Arial", Font.BOLD, 25);
-
     public static final ImageIcon blackPawn = new ImageIcon(Objects.requireNonNull(BoardDesktop.class.getResource("/black.png")));
     public static final ImageIcon whitePawn = new ImageIcon(Objects.requireNonNull(BoardDesktop.class.getResource("/white.png")));
-
-    public static final String columnLabels = "ABCDEFGH";
-
     private static final Color borderColor = new Color(0, 0, 0);
     private static UndoButton undoButton;
     private static BoardPanel boardPanel;
@@ -70,7 +65,7 @@ public class GuiManager {
         rightPanel.setBorder(new LineBorder(borderColor));
 
         CurrentPlayerPanel currentPlayerPanel1 = new CurrentPlayerPanel();
-        CurrentScorePanel currentScorePanel1 = new CurrentScorePanel();
+        CurrentScorePanel currentScorePanel1 = new CurrentScorePanel(2,2);
         JPanel currentPlayerPanel = currentPlayerPanel1.getCurrentPlayerPanel();
         JPanel currentScorePanel = currentScorePanel1.getCurrentScorePanel();
 

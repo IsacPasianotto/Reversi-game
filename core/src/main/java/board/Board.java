@@ -63,8 +63,7 @@ public class Board {
     @Override
     public boolean equals(Object other) {
         if (this == other) return true;
-        //if (other == null || getClass() != other.getClass()) return false;
-        Board otherBoard = (Board) other;
+        if (!(other instanceof Board otherBoard)) return false;
         return Arrays.deepEquals(board, otherBoard.board);
     }
 

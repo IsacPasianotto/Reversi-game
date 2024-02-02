@@ -26,6 +26,7 @@ public class WelcomeFrame {
     private static final Font RadioButtonsFont = new Font("Arial", Font.BOLD, 15);
     private static final Font StartButtonFont = GuiManager.buttonFont;
 
+    public record GameSettings(boolean isHumanVsComputer, boolean isDifficultyHard, boolean isHumanFirst) {}
     private GameSettings gameSettings;
 
     public WelcomeFrame() {
@@ -41,8 +42,6 @@ public class WelcomeFrame {
     }
 
     public static JFrame getWelcomeFrame() { return frame; }
-
-    public void disposeWelcomFrame() { frame.dispose(); }
 
     public GameSettings getGameSettings() { return gameSettings; }
 

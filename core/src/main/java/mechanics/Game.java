@@ -31,7 +31,7 @@ public class Game {
         int skippedTurns = 0;
         while (!gameController.isBoardFull() && (skippedTurns < 2)) {
             gameController.computeValidMoves();
-            if (gameController.numberOfValidMoves() == 0) {
+            if (gameController.thereAreNoValidMoves()) {
                 skippedTurns++;
             } else {
                 skippedTurns = 0;

@@ -11,8 +11,7 @@ import java.util.Optional;
 import java.util.stream.IntStream;
 
 public class GameTerminal extends Game {
-
-    GameControllerTerminal gameController;
+    private final GameControllerTerminal gameController;
     public GameTerminal(Board board, Player blackPlayer, Player whitePlayer) {
         super(board, blackPlayer, whitePlayer);
         this.gameController = new GameControllerTerminal(board);
@@ -24,7 +23,7 @@ public class GameTerminal extends Game {
             System.out.println(gameController.getBoard());
             System.out.println("Current player: " + gameController.getCurrentPlayerColor());
             gameController.computeValidMoves();
-            if (gameController.numberOfValidMoves() == 0) {
+            if (gameController.thereAreNoValidMoves()) {
                 skippedTurns++;
                 if (skippedTurns == 1) System.out.println("No valid moves for the current player. Changing turn.");
                 else System.out.println("No valid moves for both players. Game over.");
