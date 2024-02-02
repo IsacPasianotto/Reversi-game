@@ -15,8 +15,8 @@ public class SmartPlayer implements Player {
         List<Integer> futureScores = new ArrayList<>(0);
         ArrayList<ValidMove> validMoves = gameController.getValidMoves();
         for (ValidMove validMove : validMoves) {
-            System.out.println("current board: ");
-            System.out.println(gameController.getBoard());
+            //System.out.println("current board: ");
+            //System.out.println(gameController.getBoard());
             Board board = gameController.getBoard();
             board.applyMoveToBoard(validMove);
             futureScores.add(board.computeScoreForPlayer(gameController.getCurrentPlayerColor()));

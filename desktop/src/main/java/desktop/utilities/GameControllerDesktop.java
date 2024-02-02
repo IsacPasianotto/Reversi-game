@@ -27,12 +27,14 @@ public class GameControllerDesktop extends GameController {
 
     public void handleHumanTurn(BoardTile position) {
         computeValidMoves();
-        if (validMoves.isEmpty()) handleNoValidMovesCase();
+        if (validMoves.isEmpty()){
+            System.out.println("No valid moves for the human player!");
+            handleNoValidMovesCase();
+        }
         else handleHumanMove(position);
     }
 
     private void handleHumanMove(BoardTile position) {
-        board.disableButtonGrid();
         board.cancelPreviousSuggestion();
         Optional<ValidMove> move = isValid(position);
         if (move.isPresent()) updateGUIBoard(move.get());
@@ -44,22 +46,24 @@ public class GameControllerDesktop extends GameController {
                 board.resetBackgroundAtTile(validMove.position());
             }
         }
-        board.enableButtonGrid();
     }
 
     protected void handleBotTurn(Player bot){
         computeValidMoves();
-        if (validMoves.isEmpty()) handleNoValidMovesCase();
+        if (validMoves.isEmpty()) {
+            System.out.println("No valid moves for the bot!");
+            handleNoValidMovesCase();
+        }
         else handleBotMove(bot);
     }
 
     protected void handleBotMove(Player bot) {
         ValidMove move = null;
         try {
-            System.out.println(board);
+            //System.out.println(board);
             move = bot.askForAMove(this);
-            System.out.println(board);
-            System.out.println(move);
+//            System.out.println(board);
+//            System.out.println(move);
         } catch (QuitGameException | UndoException ignored) {}
         updateGUIBoard(move);
     }
@@ -71,10 +75,11 @@ public class GameControllerDesktop extends GameController {
         CurrentPlayerPanel.updateCurrentPlayerLiveLabel();
         CurrentScorePanel.updateCurrentScoreLiveLabel(computeScoreForPlayer(ColoredPawn.BLACK),
                 computeScoreForPlayer(ColoredPawn.WHITE));
-        if (isBoardFull()) gameOverHandle();
+        //if (isBoardFull()) gameOverHandle();
     }
 
-    private void handleNoValidMovesCase() {
+    void handleNoValidMovesCase() {
+        System.out.println("No valid moves for the current player!");
         ColoredPawn currentPlayerColor = getCurrentPlayerColor();
         String currentPlayerName = currentPlayerColor == ColoredPawn.BLACK ? "black" : "white";
         JOptionPane.showMessageDialog(null, "No valid moves for the " + currentPlayerName + " player!", "Skipped turn", JOptionPane.INFORMATION_MESSAGE);
@@ -92,4 +97,5 @@ public class GameControllerDesktop extends GameController {
         });
 
     }
+
 }

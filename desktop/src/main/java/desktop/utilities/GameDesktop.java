@@ -64,11 +64,11 @@ public class GameDesktop extends Game {
         board.enableButtonGrid();
     }
 
-    private boolean thereIsAComputerPlayer() {
+    boolean thereIsAComputerPlayer() {
         return !isHumanPlayer(whitePlayer) || !isHumanPlayer(blackPlayer);
     }
 
-    private boolean isDifficultyHard() {
+    boolean isDifficultyHard() {
         return whitePlayer.getClass().equals(SmartPlayer.class)  ||
                 blackPlayer.getClass().equals(SmartPlayer.class);
     }
@@ -76,17 +76,23 @@ public class GameDesktop extends Game {
 
     public ActionListener getButtonListener(int x, int y) {
         return e -> {
+            gameController.board.disableButtonGrid();
             gameController.handleHumanTurn(new BoardTile(x, y));
-            if (!((Board)gameController.board).equals(previousSteps.getLast())) {
+            if (!((Board) gameController.board).equals(previousSteps.getLast())) {
                 previousSteps.add(gameController.board.copy());
                 if (thereIsAComputerPlayer()) {
+                    System.out.println("Bot's turn");
                     Player bot = isDifficultyHard() ? new SmartPlayer() : new RandomPlayer();
                     gameController.handleBotTurn(bot);
-                    if (!gameController.board.equals(previousSteps.getLast()))
+                    if (!((Board) gameController.board).equals(previousSteps.getLast()))
                         previousSteps.add(gameController.board.copy());
                 }
             }
+            gameController.computeValidMoves();
+            if (gameController.getValidMoves().isEmpty()) {
+                gameController.handleNoValidMovesCase();
+            }
+            gameController.board.enableButtonGrid();
         };
     }
-
 }

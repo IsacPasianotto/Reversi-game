@@ -1,5 +1,6 @@
 package desktop.gui.other;
 
+import desktop.MainDesktop;
 import desktop.gui.main.GuiManager;
 import desktop.gui.main.components.CurrentScorePanel;
 import desktop.gui.other.components.Button;
@@ -80,7 +81,8 @@ public class OutcomeFrame {
             System.exit(0);
         });
         playAgainButton.addActionListener(e -> {
-            // TODO --> implement the play again button
+            frame.dispose();
+            MainDesktop.main(null);
         });
         buttonPanel.add(closeButton);
         buttonPanel.add(playAgainButton);
