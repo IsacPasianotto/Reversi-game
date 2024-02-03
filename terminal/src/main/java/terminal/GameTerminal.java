@@ -10,43 +10,38 @@ import player.human.UndoException;
 import java.util.Optional;
 
 public class GameTerminal extends Game {
-    private final GameControllerTerminal gameController;
+    //private final GameControllerTerminal gameController;
     public GameTerminal(Board board, Player blackPlayer, Player whitePlayer) {
         super(board, blackPlayer, whitePlayer);
         this.gameController = new GameControllerTerminal(board);
     }
 
+    @Override
     public void play() {
-        int skippedTurns = 0;
-        while (!gameController.isBoardFull() && (skippedTurns < 2)) {
-            System.out.println(gameController.getBoard());
-            System.out.println("Current player: " + gameController.getCurrentPlayerColor());
-            gameController.computeValidMoves();
-            if (gameController.thereAreNoValidMoves()) {
-                skippedTurns++;
-                if (skippedTurns == 1) System.out.println("No valid moves for the current player. Changing turn.");
-                else System.out.println("No valid moves for both players. Game over.");
-            } else {
-                skippedTurns = 0;
-                Optional<ValidMove> chosenMove = selectAValidMoveOrUndo();
-                if (chosenMove.isEmpty()) continue;
-                gameController.applyMoveToBoard(chosenMove.get());
-                previousSteps.add(gameController.getBoard());
-            }
-            gameController.swapTurn();
+        while (getGameController().isBoardNotFull() && (skippedTurns < 2)) {
+            System.out.println(getGameController().getBoard());
+            System.out.println("Current player: " + getCurrentPlayerColor());
+            playASingleTurn();
+            if (skippedTurns == 1) System.out.println("No valid moves for the current player. Changing turn.");
+            else if (skippedTurns == 2) System.out.println("No valid moves for both players. Game over.");
         }
-        gameController.printFinalScores();
-        GameOver();
+        getGameController().printFinalScores();
         blackPlayer.close();
         whitePlayer.close();
     }
 
-    private Optional<ValidMove> selectAValidMoveOrUndo() {
-        Player currentPlayer = gameController.isBlackToMove() ? blackPlayer : whitePlayer;
+    @Override
+    public GameControllerTerminal getGameController() {
+        return (GameControllerTerminal) this.gameController;
+    }
+
+    @Override
+    protected Optional<ValidMove> selectAValidMoveOrUndo() {
+        Player currentPlayer = isBlackToMove() ? blackPlayer : whitePlayer;
         try {
-            if (isHumanPlayer(currentPlayer))
+            if (Player.isHumanPlayer(currentPlayer))
                 System.out.print("Enter your move: ");
-            return Optional.of(currentPlayer.askForAMove(gameController));
+            return Optional.of(currentPlayer.askForAMove(getGameController()));
         } catch (QuitGameException e) {
             System.out.println(e.getMessage());
             exit();
@@ -64,7 +59,7 @@ public class GameTerminal extends Game {
         int numberOfStepsBack = thereIsAComputerPlayer()? 2 : 1;
         if (previousSteps.size() > numberOfStepsBack) {
             System.out.println("Undoing last move.");
-            gameController.undo(numberOfStepsBack,previousSteps);
+            undo(numberOfStepsBack);
         } else
             System.out.println("Cannot undo anymore.");
     }

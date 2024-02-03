@@ -1,5 +1,6 @@
 package player.human;
 
+import board.ColoredPawn;
 import board.ValidMove;
 import mechanics.GameController;
 import player.Player;
@@ -10,9 +11,11 @@ import java.util.Optional;
 
 public class Human implements Player {
     private final UserInputReader reader;
+    private final ColoredPawn color;
 
-    public Human() {
+    public Human(ColoredPawn color) {
         reader = new UserInputReader(new BufferedReader(new InputStreamReader(System.in)));
+        this.color = color;
     }
 
     public ValidMove askForAMove(GameController gameController) throws UndoException, QuitGameException {
@@ -26,5 +29,9 @@ public class Human implements Player {
 
     public void close() {
         reader.close();
+    }
+
+    public ColoredPawn getPlayerColor(){
+        return color;
     }
 }

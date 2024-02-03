@@ -1,5 +1,6 @@
 package desktop.gui.other;
 
+import board.ColoredPawn;
 import desktop.gui.main.GuiManager;
 import desktop.gui.other.components.*;
 import desktop.gui.other.components.Button;
@@ -103,15 +104,15 @@ public class WelcomeFrame {
         Player whitePlayer;
 
         if (!gameSettings.isHumanVsComputer()) {
-            blackPlayer = new Human();
-            whitePlayer = new Human();
+            blackPlayer = new Human(ColoredPawn.BLACK);
+            whitePlayer = new Human(ColoredPawn.WHITE);
         } else {
             if (gameSettings.isDifficultyHard()) {
-                blackPlayer = gameSettings.isHumanFirst() ? new Human() : new SmartPlayer();
-                whitePlayer = gameSettings.isHumanFirst() ? new SmartPlayer() : new Human();
+                blackPlayer = gameSettings.isHumanFirst() ? new Human(ColoredPawn.BLACK) : new SmartPlayer(ColoredPawn.BLACK);
+                whitePlayer = gameSettings.isHumanFirst() ? new SmartPlayer(ColoredPawn.WHITE) : new Human(ColoredPawn.WHITE);
             } else {
-                blackPlayer = gameSettings.isHumanFirst() ? new Human() : new RandomPlayer();
-                whitePlayer = gameSettings.isHumanFirst() ? new RandomPlayer() : new Human();
+                blackPlayer = gameSettings.isHumanFirst() ? new Human(ColoredPawn.BLACK) : new RandomPlayer(ColoredPawn.BLACK);
+                whitePlayer = gameSettings.isHumanFirst() ? new RandomPlayer(ColoredPawn.WHITE) : new Human(ColoredPawn.WHITE);
             }
         }
         return new Players(blackPlayer, whitePlayer);

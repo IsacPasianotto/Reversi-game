@@ -15,10 +15,6 @@ public class GameControllerTerminal extends GameController {
         super(board);
     }
 
-    private String getValidMovesInCurrentStatusAsString() {
-        return getValidMoves().stream().map(validMove -> validMove.position() + " ").collect(Collectors.joining());
-    }
-
     @Override
     public Optional<ValidMove> getMove(String readInput)  {
         try {
@@ -40,6 +36,10 @@ public class GameControllerTerminal extends GameController {
         String moves = getValidMovesInCurrentStatusAsString();
         System.out.println(moves);
         System.out.print("Enter your move: ");
+    }
+
+    private String getValidMovesInCurrentStatusAsString() {
+        return getValidMoves().stream().map(validMove -> validMove.position() + " ").collect(Collectors.joining());
     }
 
     public void printFinalScores() {

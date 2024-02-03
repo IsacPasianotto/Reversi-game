@@ -1,6 +1,7 @@
 package terminal;
 
 import board.Board;
+import board.ColoredPawn;
 import player.Player;
 import player.computer.RandomPlayer;
 import player.computer.SmartPlayer;
@@ -29,22 +30,23 @@ public class MainTerminal {
                 """;
         System.out.println(begin);
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        Player firstPlayer = new Human();
-        Player secondPlayer = new Human();
+        Player firstPlayer = new Human(ColoredPawn.BLACK);
+        Player secondPlayer = new Human(ColoredPawn.WHITE);
 
         int difficulty;
         int start;
         int chosenMode = chooseGameMode(reader);
         if (chosenMode != 1) {
             difficulty = chooseDifficulty(reader);
-            Player bot = (difficulty == 1 ? new RandomPlayer() : new SmartPlayer());
+            Player firstPlayerBot = difficulty == 1 ? new RandomPlayer(ColoredPawn.BLACK) : new SmartPlayer(ColoredPawn.BLACK);
+            Player secondPlayerBot = difficulty == 1 ? new RandomPlayer(ColoredPawn.WHITE) : new SmartPlayer(ColoredPawn.WHITE);
             if (chosenMode == 2) {
                 start = choosePlayerStarting(reader);
-                firstPlayer = (start == 1 ? new Human() : bot);
-                secondPlayer = (start == 2 ? new Human() : bot);
+                firstPlayer = (start == 1 ? new Human(ColoredPawn.BLACK) : firstPlayerBot);
+                secondPlayer = (start == 2 ? new Human(ColoredPawn.WHITE) : secondPlayerBot);
             } else {
-                firstPlayer = bot;
-                secondPlayer = bot;
+                firstPlayer = firstPlayerBot;
+                secondPlayer = secondPlayerBot;
             }
         }
 

@@ -1,8 +1,12 @@
 package desktop.utilities;
 
 import board.Board;
+import board.ColoredPawn;
+import board.ValidMove;
 import board.coords.BoardTile;
 import desktop.gui.main.GuiManager;
+import desktop.gui.main.components.CurrentPlayerPanel;
+import desktop.gui.main.components.CurrentScorePanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -73,4 +77,13 @@ public class BoardDesktop extends Board {
     protected void addListenerToButton(BoardTile position, ActionListener listener){
         buttonGrid[position.x()][position.y()].addActionListener(listener);
     }
+
+    protected void updateGUIBoard(ValidMove move) {
+        applyMoveToBoard(move);
+        updateButtonGrid();
+        CurrentPlayerPanel.updateCurrentPlayerLiveLabel();
+        CurrentScorePanel.updateLiveScoreLabel(computeScoreForPlayer(ColoredPawn.BLACK),
+                computeScoreForPlayer(ColoredPawn.WHITE));
+    }
+
 }

@@ -1,22 +1,25 @@
 package mechanics;
 
 import board.Board;
+import board.ColoredPawn;
 import board.ValidMove;
 import player.Player;
 import player.computer.SmartPlayer;
-import player.human.Human;
 import player.human.QuitGameException;
 import player.human.UndoException;
 
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 public class Game {
     protected final Player whitePlayer;
     protected final Player blackPlayer;
-    private final GameController gameController;
-    protected boolean gameOver;
+    protected GameController gameController;
     protected final ArrayList<Board> previousSteps;
+    protected int skippedTurns;
+    private boolean blackToMove;
+    protected boolean isGameOver;
 
     public Game(Board board, Player blackPlayer, Player whitePlayer) {
         this.blackPlayer = blackPlayer;
@@ -24,35 +27,26 @@ public class Game {
         gameController = new GameController(board);
         previousSteps = new ArrayList<>(0);
         previousSteps.add(board.copy());
-        gameOver = false;
+        skippedTurns = 0;
+        blackToMove = true;
+        isGameOver = false;
     }
 
     public void play() {
-        int skippedTurns = 0;
-        while (!gameController.isBoardFull() && (skippedTurns < 2)) {
-            gameController.computeValidMoves();
-            if (gameController.thereAreNoValidMoves()) {
-                skippedTurns++;
-            } else {
-                skippedTurns = 0;
-                Optional<ValidMove> chosenMove = selectAValidMoveOrUndo();
-                if (chosenMove.isEmpty()) continue;
-                gameController.applyMoveToBoard(chosenMove.get());
-                previousSteps.add(gameController.getBoard());
-            }
-            gameController.swapTurn();
-        }
-        GameOver();
+        while (gameController.isBoardNotFull() && (skippedTurns < 2))
+            playASingleTurn();
+        isGameOver = true;
         blackPlayer.close();
         whitePlayer.close();
+
     }
 
     public GameController getGameController() {
-        return gameController;
+        return this.gameController;
     }
 
-    private Optional<ValidMove> selectAValidMoveOrUndo() {
-        Player currentPlayer = gameController.isBlackToMove() ? blackPlayer : whitePlayer;
+    protected Optional<ValidMove> selectAValidMoveOrUndo() {
+        Player currentPlayer = isBlackToMove() ? blackPlayer : whitePlayer;
         try {
             return Optional.of(currentPlayer.askForAMove(gameController));
         } catch (QuitGameException | RuntimeException e) {
@@ -66,7 +60,7 @@ public class Game {
     protected void undoLastMove() {
         int numberOfStepsBack = thereIsAComputerPlayer()? 2 : 1;
         if (previousSteps.size() > numberOfStepsBack)
-            gameController.undo(numberOfStepsBack, previousSteps);
+            undo(numberOfStepsBack);
     }
 
     protected void exit() {
@@ -75,26 +69,44 @@ public class Game {
         System.exit(0);
     }
 
-
-    protected boolean isGameOver() {
-        return gameOver;
-    }
-
-    protected void GameOver() {
-        gameOver = true;
-    }
-
-    protected boolean isHumanPlayer(Player player) {
-        return player.getClass().equals(Human.class);
-    }
-
     protected boolean thereIsAComputerPlayer() {
-        return !isHumanPlayer(whitePlayer) || !isHumanPlayer(blackPlayer);
+        return !Player.isHumanPlayer(whitePlayer) || !Player.isHumanPlayer(blackPlayer);
     }
 
-    protected boolean difficultyIsHard() {
-        return whitePlayer.getClass().equals(SmartPlayer.class) ||
-                blackPlayer.getClass().equals(SmartPlayer.class);
+    protected void undo(int numberOfStepsBack) {
+        IntStream.range(0, numberOfStepsBack).forEach(i -> previousSteps.removeLast());
+        getGameController().importBoardFrom(previousSteps.getLast());
+        IntStream.range(0, numberOfStepsBack).forEach(i -> swapTurn());
     }
+
+    protected void playASingleTurn() {
+        getGameController().computeValidMoves(getCurrentPlayerColor());
+        if (getGameController().thereAreNoValidMoves()) {
+            skippedTurns++;
+            swapTurn();
+        } else {
+            skippedTurns = 0;
+            Optional<ValidMove> chosenMove = selectAValidMoveOrUndo();
+            if (chosenMove.isPresent()) {
+                getGameController().applyMoveToBoard(chosenMove.get());
+                previousSteps.add(getGameController().getBoard().copy());
+                swapTurn();
+            }
+        }
+    }
+
+    public ColoredPawn getCurrentPlayerColor() {
+        return blackToMove ? ColoredPawn.BLACK : ColoredPawn.WHITE;
+    }
+
+    public boolean isBlackToMove() {
+        return blackToMove;
+    }
+
+    public void swapTurn() {
+        blackToMove = !blackToMove;
+    }
+
+
 
 }
