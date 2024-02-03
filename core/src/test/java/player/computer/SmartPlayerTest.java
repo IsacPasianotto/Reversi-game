@@ -35,9 +35,10 @@ class SmartPlayerTest {
     void ReturnedMoveIsValid(Board currentPosition) {
         SmartPlayer player = new SmartPlayer(ColoredPawn.BLACK);
         Game game = new Game(currentPosition, player, new RandomPlayer(ColoredPawn.WHITE));
-        GameController checker = game.getGameController();
-        ArrayList<ValidMove> expected = checker.getValidMoves();
-        ValidMove obtained = player.askForAMove(checker);
+        GameController gameController = game.getGameController();
+        gameController.computeValidMoves(player.getPlayerColor());
+        ArrayList<ValidMove> expected = gameController.getValidMoves();
+        ValidMove obtained = player.askForAMove(gameController);
         assertTrue(expected.contains(obtained));
     }
 
@@ -46,10 +47,11 @@ class SmartPlayerTest {
     void ReturnedMoveIsValidWithWhite(Board currentPosition) {
         SmartPlayer player = new SmartPlayer(ColoredPawn.WHITE);
         Game game = new Game(currentPosition, new RandomPlayer(ColoredPawn.BLACK), player);
-        GameController checker = game.getGameController();
+        GameController gameController = game.getGameController();
         game.swapTurn();
-        ArrayList<ValidMove> expected = checker.getValidMoves();
-        ValidMove obtained = player.askForAMove(checker);
+        gameController.computeValidMoves(player.getPlayerColor());
+        ArrayList<ValidMove> expected = gameController.getValidMoves();
+        ValidMove obtained = player.askForAMove(gameController);
         assertTrue(expected.contains(obtained));
     }
 

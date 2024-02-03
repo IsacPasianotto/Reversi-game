@@ -26,6 +26,14 @@ class GameTest {
     }
 
     @Test
+    void playersUpdatedAfterMove() {
+        Game game = new Game(new Board(), new RandomPlayer(ColoredPawn.BLACK), new RandomPlayer(ColoredPawn.WHITE));
+        game.playASingleTurn();
+        assertEquals(ColoredPawn.WHITE, game.getCurrentPlayerColor());
+        assertEquals(ColoredPawn.BLACK, game.getCurrentPlayerColor().opposite());
+    }
+
+    @Test
     void changeTurnAfterMove() {
         Game game = new Game(new Board(), new RandomPlayer(ColoredPawn.BLACK), new RandomPlayer(ColoredPawn.WHITE));
         game.playASingleTurn();
@@ -36,16 +44,19 @@ class GameTest {
     void bothPlayersCantMove() {
         Board board = impossibleToMovePosition();
         Game game = new Game(board, new RandomPlayer(ColoredPawn.BLACK), new RandomPlayer(ColoredPawn.WHITE));
-        game.play();
-        assertTrue(game.isGameOver);
+        game.playASingleTurn();
+        game.playASingleTurn();
+        assertEquals(2, game.skippedTurns);
     }
 
     @Test
     void undoToInitialPosition() {
-        Game game = new Game(new Board(), new Human(ColoredPawn.BLACK), new Human(ColoredPawn.WHITE));
-        game.playASingleTurn();
+        Board board = new Board();
+        Game game = new Game(board, new Human(ColoredPawn.BLACK), new Human(ColoredPawn.WHITE));
+        GameController gameController = game.getGameController();
+        doSingleMove(game);
         game.undoLastMove();
-        assertEquals(new Board(), game.getGameController().getBoard());
+        assertEquals(new Board(), gameController.getBoard());
     }
 
     @Test
@@ -53,18 +64,19 @@ class GameTest {
         Board board = new Board();
         Game game = new Game(board, new Human(ColoredPawn.BLACK), new RandomPlayer(ColoredPawn.WHITE));
         GameController gameController = game.getGameController();
-
-        gameController.computeValidMoves(game.getCurrentPlayerColor());
-        ValidMove move1 = gameController.getValidMoves().getFirst();
-        board.applyMoveToBoard(move1);
-        game.previousSteps.add(board.copy());
-
-        gameController.computeValidMoves(game.getCurrentPlayerColor());
-        ValidMove move2 = gameController.getValidMoves().getFirst();
-        board.applyMoveToBoard(move2);
-        game.previousSteps.add(board.copy());
-
+        doSingleMove(game);
+        game.swapTurn();
+        doSingleMove(game);
         game.undoLastMove();
         assertEquals(new Board(), gameController.getBoard());
+    }
+
+    private void doSingleMove(Game game) {
+        GameController gameController = game.getGameController();
+        Board board = gameController.getBoard();
+        gameController.computeValidMoves(game.getCurrentPlayerColor());
+        ValidMove move = gameController.getValidMoves().getFirst();
+        board.applyMoveToBoard(move);
+        game.previousSteps.add(board.copy());
     }
 }

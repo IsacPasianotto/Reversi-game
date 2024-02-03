@@ -13,6 +13,8 @@ public class OutcomeFrame {
     private static final Font headerFont = GuiManager.arialBoldItalic35;
     private static final Color fontColor = GuiManager.white;
     private static final Font buttonFont = GuiManager.buttonFont;
+    private static final int WIDTH = 500;
+    private static final int HEIGHT = 450;
     private final JFrame frame;
     private JButton closeButton;
     private JButton playAgainButton;
@@ -20,7 +22,7 @@ public class OutcomeFrame {
     public OutcomeFrame(int blackScore, int whiteScore){
         frame = new JFrame("Outcome");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(500, 450);
+        frame.setSize(WIDTH, HEIGHT);
         frame.setLocationRelativeTo(null);
         JPanel generalPanel = getGeneralPanel(blackScore, whiteScore);
         frame.add(generalPanel);

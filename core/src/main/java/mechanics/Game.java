@@ -4,7 +4,6 @@ import board.Board;
 import board.ColoredPawn;
 import board.ValidMove;
 import player.Player;
-import player.computer.SmartPlayer;
 import player.human.QuitGameException;
 import player.human.UndoException;
 
@@ -15,34 +14,29 @@ import java.util.stream.IntStream;
 public class Game {
     protected final Player whitePlayer;
     protected final Player blackPlayer;
-    protected GameController gameController;
     protected final ArrayList<Board> previousSteps;
+    protected GameController gameController;
     protected int skippedTurns;
     private boolean blackToMove;
-    protected boolean isGameOver;
 
     public Game(Board board, Player blackPlayer, Player whitePlayer) {
         this.blackPlayer = blackPlayer;
         this.whitePlayer = whitePlayer;
         gameController = new GameController(board);
-        previousSteps = new ArrayList<>(0);
+        previousSteps = new ArrayList<>(Board.BOARD_SIZE*Board.BOARD_SIZE);
         previousSteps.add(board.copy());
         skippedTurns = 0;
         blackToMove = true;
-        isGameOver = false;
     }
 
     public void play() {
-        while (gameController.isBoardNotFull() && (skippedTurns < 2))
-            playASingleTurn();
-        isGameOver = true;
+        while (skippedTurns < 2) playASingleTurn();
         blackPlayer.close();
         whitePlayer.close();
-
     }
 
     public GameController getGameController() {
-        return this.gameController;
+        return gameController;
     }
 
     protected Optional<ValidMove> selectAValidMoveOrUndo() {

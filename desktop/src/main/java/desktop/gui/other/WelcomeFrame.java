@@ -16,6 +16,8 @@ import java.awt.*;
 
 public class WelcomeFrame {
 
+    private static final int WIDTH = 500;
+    private static final int HEIGHT = 200;
     private static JFrame frame;
     private static final Font LabelsFont = new Font("Arial", Font.ITALIC,18 );
     private static final Font RadioButtonsFont = new Font("Arial", Font.BOLD, 15);
@@ -31,8 +33,8 @@ public class WelcomeFrame {
 
     public WelcomeFrame() {
         frame = new JFrame("Welcome to Reversi");
-        frame.setSize(500, 200);
-        frame.setMinimumSize(new Dimension(500, 200));
+        frame.setSize(WIDTH, HEIGHT);
+        frame.setMinimumSize(new Dimension(WIDTH, HEIGHT));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         gameSettings = new GameSettings(true, true, true);

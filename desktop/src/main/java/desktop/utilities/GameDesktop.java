@@ -9,7 +9,6 @@ import player.Player;
 import java.awt.event.ActionListener;
 
 public class GameDesktop extends Game {
-    //private final GameControllerDesktop gameController;
     public final GuiManager guiManager;
 
     public GameDesktop(BoardDesktop board, Player blackPlayer, Player whitePlayer) {

@@ -35,7 +35,8 @@ public class GameControllerDesktop extends GameController {
     private void handleHumanMove(BoardTile position) {
         getBoard().cancelPreviousSuggestion();
         Optional<ValidMove> move = isValid(position);
-        if (move.isPresent()) getBoard().updateGUIBoard(move.get());
+        if (move.isPresent())
+            getBoard().updateGUIBoard(move.get());
         else {
             JOptionPane.showMessageDialog(null, "Invalid move!", "Error", JOptionPane.ERROR_MESSAGE);
             // set the suggestion property of the buttons to be true for the valid moves

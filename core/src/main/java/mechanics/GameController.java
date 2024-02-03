@@ -11,7 +11,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class GameController {
-    final protected Board board;
+    protected final Board board;
     private final ArrayList<ValidMove> validMoves;
 
     public GameController(Board board) {
@@ -39,7 +39,7 @@ public class GameController {
         validMoves.add(new ValidMove(currentPosition, validDirections, currentPlayerColor));
     }
 
-    protected ArrayList<Direction> findDirectionsWithOppositeColor(BoardTile currentPosition, ColoredPawn currentPlayerColor) {
+    ArrayList<Direction> findDirectionsWithOppositeColor(BoardTile currentPosition, ColoredPawn currentPlayerColor) {
         ArrayList<Direction> directionsWithOppositeColor = new ArrayList<>();
         Direction currentDirection;
         for (int i = -1; i <= 1; i++) {
@@ -92,25 +92,19 @@ public class GameController {
         return board;
     }
 
-    public boolean isBoardNotFull() {
-        return !board.isFull();
-    }
-
-    public void applyMoveToBoard(ValidMove move) {
+    protected void applyMoveToBoard(ValidMove move) {
         board.applyMoveToBoard(move);
     }
 
-    public void importBoardFrom(Board board) {
+    protected void importBoardFrom(Board board) {
         this.board.importBoardFrom(board);
     }
 
-    public int computeScoreForPlayer(ColoredPawn playerColor) {
+    protected int computeScoreForPlayer(ColoredPawn playerColor) {
         return board.computeScoreForPlayer(playerColor);
     }
 
     public boolean thereAreNoValidMoves() {
         return validMoves.isEmpty();
     }
-
-
 }

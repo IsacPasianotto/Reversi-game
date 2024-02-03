@@ -11,7 +11,6 @@ public class Board {
     public static final int BOARD_SIZE = 8;
     private final ColoredPawn[][] board;
 
-
     public Board() {
         board = new ColoredPawn[BOARD_SIZE][BOARD_SIZE];
         Arrays.stream(board).forEach(row -> Arrays.fill(row, ColoredPawn.EMPTY));
@@ -30,10 +29,6 @@ public class Board {
         Stream.iterate(startingPosition
                 .add(direction), position -> getPositionColor(position) != currentPlayerColor, position -> position.add(direction))
                 .forEach(position -> setPositionColor(position, currentPlayerColor));
-    }
-
-    public boolean isFull() {
-        return Arrays.stream(board).allMatch(row -> Arrays.stream(row).noneMatch(pawn -> pawn == ColoredPawn.EMPTY));
     }
 
     public void importBoardFrom(Board another) {

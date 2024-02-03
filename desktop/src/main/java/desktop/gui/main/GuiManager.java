@@ -22,6 +22,8 @@ public class GuiManager {
     public static final ImageIcon blackPawn = new ImageIcon(Objects.requireNonNull(BoardDesktop.class.getResource("/black.png")));
     public static final ImageIcon whitePawn = new ImageIcon(Objects.requireNonNull(BoardDesktop.class.getResource("/white.png")));
     private static final Color borderColor = new Color(0, 0, 0);
+    private static final int WIDTH = 900;
+    private static final int HEIGHT = 650;
     private static UndoButton undoButton;
     private static BoardPanel boardPanel;
     private static JFrame gameFrame;
@@ -35,7 +37,7 @@ public class GuiManager {
         undoButton = new UndoButton(gameDesktop);
         gameFrame = new JFrame("Reversi");
         gameFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        gameFrame.setSize(900, 650);
+        gameFrame.setSize(WIDTH, HEIGHT);
 
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.add(boardPanel.getBoardPanel(), BorderLayout.CENTER);

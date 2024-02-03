@@ -39,7 +39,9 @@ public class GameControllerTerminal extends GameController {
     }
 
     private String getValidMovesInCurrentStatusAsString() {
-        return getValidMoves().stream().map(validMove -> validMove.position() + " ").collect(Collectors.joining());
+        return getValidMoves().stream().
+                map(validMove -> validMove.position() + " ").
+                collect(Collectors.joining());
     }
 
     public void printFinalScores() {

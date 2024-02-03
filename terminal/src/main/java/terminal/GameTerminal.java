@@ -18,7 +18,7 @@ public class GameTerminal extends Game {
 
     @Override
     public void play() {
-        while (getGameController().isBoardNotFull() && (skippedTurns < 2)) {
+        while (skippedTurns < 2) {
             System.out.println(getGameController().getBoard());
             System.out.println("Current player: " + getCurrentPlayerColor());
             playASingleTurn();

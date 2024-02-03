@@ -22,9 +22,9 @@ public class SmartPlayer implements Player {
         List<Integer> futureScores = new ArrayList<>(0);
         ArrayList<ValidMove> validMoves = gameController.getValidMoves();
         for (ValidMove validMove : validMoves) {
-            Board board = gameController.getBoard().copy();
-            board.applyMoveToBoard(validMove);
-            futureScores.add(board.computeScoreForPlayer(color));
+            Board fakeBoard = gameController.getBoard().copy();
+            fakeBoard.applyMoveToBoard(validMove);
+            futureScores.add(fakeBoard.computeScoreForPlayer(color));
         }
         int maxScore = Collections.max(futureScores);
         return validMoves.get(futureScores.indexOf(maxScore));

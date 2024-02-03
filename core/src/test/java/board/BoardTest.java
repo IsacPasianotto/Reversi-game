@@ -61,5 +61,4 @@ class BoardTest {
         Board copiedBoard = board.copy();
         assertEquals(board, copiedBoard);
     }
-
 }
