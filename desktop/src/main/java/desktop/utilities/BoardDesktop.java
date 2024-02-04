@@ -81,6 +81,12 @@ public class BoardDesktop extends Board {
                 updateButtonIcon(i,j);
     }
 
+    public void setEnabled(boolean enabled) {
+        for (int i = 0; i < BOARD_SIZE; i++)
+            for (int j = 0; j < BOARD_SIZE; j++)
+                getButton(i, j).setEnabled(enabled);
+    }
+
     public static Image getBlackPawnImage() {
         return blackPawn;
     }

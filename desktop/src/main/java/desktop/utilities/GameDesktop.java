@@ -7,7 +7,6 @@ import mechanics.Game;
 import player.Player;
 
 import java.awt.event.ActionListener;
-import java.util.concurrent.TimeUnit;
 
 public class GameDesktop extends Game {
     public final GuiManager guiManager;

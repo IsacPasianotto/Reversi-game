@@ -19,8 +19,10 @@ import java.util.stream.IntStream;
 
 public class GameControllerDesktop extends GameController {
 
+    private final BoardDesktop board;
     public GameControllerDesktop(BoardDesktop board) {
         super(board);
+        this.board = board;
     }
 
     protected void handleHumanTurn(BoardTile position, ColoredPawn currentPlayer) {
@@ -30,13 +32,13 @@ public class GameControllerDesktop extends GameController {
     }
 
     private void handleHumanMove(BoardTile position) {
-        getBoard().disableSuggestions();
+        board.disableSuggestions();
         Optional<ValidMove> move = isValid(position);
         if (move.isPresent())
-            getBoard().updateGUIBoard(move.get());
+            board.updateGUIBoard(move.get());
         else {
             JOptionPane.showMessageDialog(null, "Invalid move!", "Error", JOptionPane.ERROR_MESSAGE);
-            getBoard().enableSuggestions(getValidMoves());
+            board.enableSuggestions(getValidMoves());
         }
     }
 
@@ -51,7 +53,7 @@ public class GameControllerDesktop extends GameController {
         try {
             move = bot.askForAMove(this);
         } catch (QuitGameException | UndoException ignored) {}
-        getBoard().updateGUIBoard(move);
+        board.updateGUIBoard(move);
     }
 
     void handleNoValidMovesCase(ColoredPawn currentColor) {
@@ -76,17 +78,17 @@ public class GameControllerDesktop extends GameController {
 
     protected void updateBoard(int numberOfStepsBack) {
         IntStream.range(0, numberOfStepsBack).forEach(i -> CurrentPlayerPanel.updateCurrentPlayerLiveLabel());
-        getBoard().updateButtonGrid();
+        board.updateButtonGrid();
         CurrentScorePanel.updateLiveScoreLabel(computeScoreForPlayer((ColoredPawn.BLACK)),
                 computeScoreForPlayer(ColoredPawn.WHITE));
     }
 
     protected void addListenerToButton(BoardTile position, ActionListener listener){
-        getBoard().addListenerToButton(position, listener);
+        board.addListenerToButton(position, listener);
     }
 
     @Override
     public BoardDesktop getBoard() {
-        return (BoardDesktop) board;
+        return board;
     }
 }

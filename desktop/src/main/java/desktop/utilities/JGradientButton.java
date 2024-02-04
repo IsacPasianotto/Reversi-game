@@ -1,7 +1,5 @@
 package desktop.utilities;
 
-import board.coords.BoardTile;
-
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;

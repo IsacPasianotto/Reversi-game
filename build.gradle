@@ -48,7 +48,7 @@ clean {
     delete distributionDir
 }
 
-task mergeDocs(type: Copy) {
+tasks.register('mergeDocs', Copy) {
     duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
     from subprojects.collect { it.tasks.withType(Javadoc) }
     into "$distributionDir/javadoc"

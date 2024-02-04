@@ -3,7 +3,6 @@ package terminal;
 import board.Board;
 import board.ValidMove;
 import mechanics.Game;
-import mechanics.GameController;
 import player.Player;
 import player.human.QuitGameException;
 import player.human.UndoException;

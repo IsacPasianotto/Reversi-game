@@ -74,12 +74,12 @@ public class GuiManager {
 
     public static void disableBoard(){
         undoButton.setEnabled(false);
-        boardPanel.setEnabled(false);
+        boardPanel.boardDesktop.setEnabled(false);
     }
 
     public static void enableBoard(){
         undoButton.setEnabled(true);
-        boardPanel.setEnabled(true);
+        boardPanel.boardDesktop.setEnabled(true);
     }
 
     public static JFrame getGameFrame() {
