@@ -3,6 +3,7 @@ package terminal;
 import board.Board;
 import board.ValidMove;
 import mechanics.Game;
+import mechanics.GameController;
 import player.Player;
 import player.human.QuitGameException;
 import player.human.UndoException;
@@ -10,7 +11,7 @@ import player.human.UndoException;
 import java.util.Optional;
 
 public class GameTerminal extends Game {
-    //private final GameControllerTerminal gameController;
+    private final GameControllerTerminal gameController;
     public GameTerminal(Board board, Player blackPlayer, Player whitePlayer) {
         super(board, blackPlayer, whitePlayer);
         this.gameController = new GameControllerTerminal(board);
@@ -19,20 +20,19 @@ public class GameTerminal extends Game {
     @Override
     public void play() {
         while (skippedTurns < 2) {
-            System.out.println(getGameController().getBoard());
+            System.out.println(gameController.getBoard());
             System.out.println("Current player: " + getCurrentPlayerColor());
             playASingleTurn();
             if (skippedTurns == 1) System.out.println("No valid moves for the current player. Changing turn.");
             else if (skippedTurns == 2) System.out.println("No valid moves for both players. Game over.");
         }
-        getGameController().printFinalScores();
+        gameController.printFinalScores();
         blackPlayer.close();
         whitePlayer.close();
     }
 
-    @Override
     public GameControllerTerminal getGameController() {
-        return (GameControllerTerminal) this.gameController;
+        return gameController;
     }
 
     @Override
@@ -41,7 +41,7 @@ public class GameTerminal extends Game {
         try {
             if (Player.isHumanPlayer(currentPlayer))
                 System.out.print("Enter your move: ");
-            return Optional.of(currentPlayer.askForAMove(getGameController()));
+            return Optional.of(currentPlayer.askForAMove(gameController));
         } catch (QuitGameException e) {
             System.out.println(e.getMessage());
             exit();

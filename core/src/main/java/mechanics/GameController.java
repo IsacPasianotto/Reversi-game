@@ -11,7 +11,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class GameController {
-    protected final Board board;
+    private final Board board;
     private final ArrayList<ValidMove> validMoves;
 
     public GameController(Board board) {

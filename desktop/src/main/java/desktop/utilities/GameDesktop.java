@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 
 public class GameDesktop extends Game {
     public final GuiManager guiManager;
+    private final GameControllerDesktop gameController;
 
     public GameDesktop(BoardDesktop board, Player blackPlayer, Player whitePlayer) {
         super(board, blackPlayer, whitePlayer);
@@ -17,23 +18,28 @@ public class GameDesktop extends Game {
         guiManager = new GuiManager(this, board);
         addListenersToButtonGrid();
         if (!Player.isHumanPlayer(blackPlayer)) {
-            getGameController().handleBotTurn(blackPlayer);
+            gameController.handleBotTurn(blackPlayer);
             swapTurn();
         }
+    }
+
+    @Override
+    public GameControllerDesktop getGameController() {
+        return gameController;
     }
 
     private void addListenersToButtonGrid() {
         for (int i = 0; i < Board.BOARD_SIZE; i++)
             for (int j = 0; j < Board.BOARD_SIZE; j++){
                 BoardTile position = new BoardTile(i, j);
-                getGameController().getBoard().addListenerToButton(position, getButtonListener(position));
+                gameController.getBoard().addListenerToButton(position, getButtonListener(position));
             }
     }
 
     @Override
     public void undoLastMove() {
         GuiManager.disableBoard();
-        getGameController().getBoard().cancelPreviousSuggestion();
+        gameController.getBoard().cancelPreviousSuggestion();
         int numberOfStepsBack = thereIsAComputerPlayer() ? 2 : 1;
         if (previousSteps.size() > numberOfStepsBack)
             undo(numberOfStepsBack);
@@ -49,23 +55,23 @@ public class GameDesktop extends Game {
     }
 
     void handleHumanAndBotTurns(BoardTile position){
-        getGameController().handleHumanTurn(position, getCurrentPlayerColor());
-        BoardDesktop currentBoard = getGameController().getBoard();
+        gameController.handleHumanTurn(position, getCurrentPlayerColor());
+        BoardDesktop currentBoard = gameController.getBoard();
         if (aNewMoveHasBeenMade(currentBoard)) {
             previousSteps.add(currentBoard.copy());
             swapTurn();
             Player currentPlayer = isBlackToMove()? blackPlayer : whitePlayer;
             if (!Player.isHumanPlayer(currentPlayer)) {
-                getGameController().handleBotTurn(currentPlayer);
-                currentBoard = getGameController().getBoard();
+                gameController.handleBotTurn(currentPlayer);
+                currentBoard = gameController.getBoard();
                 if (aNewMoveHasBeenMade(currentBoard))
                     previousSteps.add(currentBoard.copy());
                 swapTurn();
             }
         }
-        getGameController().computeValidMoves(getCurrentPlayerColor());
-        if (getGameController().thereAreNoValidMoves())
-            getGameController().handleNoValidMovesCase(getCurrentPlayerColor());
+        gameController.computeValidMoves(getCurrentPlayerColor());
+        if (gameController.thereAreNoValidMoves())
+            gameController.handleNoValidMovesCase(getCurrentPlayerColor());
     }
 
     private boolean aNewMoveHasBeenMade(BoardDesktop board) {
@@ -75,12 +81,6 @@ public class GameDesktop extends Game {
     @Override
     public void undo(int numberOfStepsBack) {
         super.undo(numberOfStepsBack);
-        getGameController().updateBoard(numberOfStepsBack);
-    }
-
-
-
-    public GameControllerDesktop getGameController() {
-        return (GameControllerDesktop) this.gameController;
+        gameController.updateBoard(numberOfStepsBack);
     }
 }

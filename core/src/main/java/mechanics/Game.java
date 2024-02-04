@@ -15,7 +15,7 @@ public class Game {
     protected final Player whitePlayer;
     protected final Player blackPlayer;
     protected final ArrayList<Board> previousSteps;
-    protected GameController gameController;
+    private final GameController gameController;
     protected int skippedTurns;
     private boolean blackToMove;
 
@@ -42,7 +42,7 @@ public class Game {
     protected Optional<ValidMove> selectAValidMoveOrUndo() {
         Player currentPlayer = isBlackToMove() ? blackPlayer : whitePlayer;
         try {
-            return Optional.of(currentPlayer.askForAMove(gameController));
+            return Optional.of(currentPlayer.askForAMove(getGameController()));
         } catch (QuitGameException | RuntimeException e) {
             exit();
         } catch (UndoException e) {
