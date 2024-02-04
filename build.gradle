@@ -47,3 +47,9 @@ def distributionDir = "$rootProject.projectDir/readyToDistribute"
 clean {
     delete distributionDir
 }
+
+task mergeDocs(type: Copy) {
+    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+    from subprojects.collect { it.tasks.withType(Javadoc) }
+    into "$distributionDir/javadoc"
+}

@@ -70,7 +70,18 @@ $ ./gradlew desktop:run
 
 *Note*: We suggest to run the terminal version of the game with `./gradlew terminal:run --console=plain` to avoid some issues with the gradle output.
 
+## Documentation: 
 
+The project is documented with the [javaDoc](https://www.oracle.com/technical-resources/articles/java/javadoc-tool.html) tool. Usually running the gradle task `javadoc` will create the documentation in the `./build/docs/javadoc` directory.
+However, since the project is divided into three modules, the `javadoc` task will create the documentation for each module separately. We have provided a custom task to copy all the documentation in the distribution directory.
+
+To do that you can run the following command:
+
+```
+$ ./gradlew mergeDocs
+```
+
+This will create the documentation in the `./readyToDistribute/javaDoc` directory.
 
 ## Troubleshooting
 
@@ -107,6 +118,4 @@ The complete list of all the credits, attributions and licenses can be found in 
 
 - [ ] Add the content to the releases page.
 - [ ] Add the link to the releases page.
-- [ ] Add a file which explains the technical details of the implementation. (I've seen that in other exam projects, so I think it's a good idea to add it here too).
-- [ ] Think about the transition from ArrayList to Array in the previousStep context.
 - [ ] Create the javaDoc for the project (again, not requested, but I think it's a good idea to have it).
