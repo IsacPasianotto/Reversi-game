@@ -20,7 +20,8 @@ public class RandomPlayer implements Player {
         return validMoves.get(extracted);
     }
 
-    public void close() { }
+    public void close() {
+    }
 
     public ColoredPawn getPlayerColor(){
         return color;

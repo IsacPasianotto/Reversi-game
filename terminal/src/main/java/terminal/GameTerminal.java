@@ -12,6 +12,7 @@ import java.util.Optional;
 
 public class GameTerminal extends Game {
     private final GameControllerTerminal gameController;
+
     public GameTerminal(Board board, Player blackPlayer, Player whitePlayer) {
         super(board, blackPlayer, whitePlayer);
         this.gameController = new GameControllerTerminal(board);
@@ -29,10 +30,6 @@ public class GameTerminal extends Game {
         gameController.printFinalScores();
         blackPlayer.close();
         whitePlayer.close();
-    }
-
-    public GameControllerTerminal getGameController() {
-        return gameController;
     }
 
     @Override
@@ -62,5 +59,10 @@ public class GameTerminal extends Game {
             undo(numberOfStepsBack);
         } else
             System.out.println("Cannot undo anymore.");
+    }
+
+    @Override
+    public GameControllerTerminal getGameController() {
+        return gameController;
     }
 }

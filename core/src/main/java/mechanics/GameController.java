@@ -11,7 +11,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class GameController {
-    private final Board board;
+    protected final Board board;
     private final ArrayList<ValidMove> validMoves;
 
     public GameController(Board board) {
@@ -75,21 +75,13 @@ public class GameController {
         return false;
     }
 
-    protected Optional<ValidMove> isValid(BoardTile chosen) {
-        return validMoves.stream().filter(validMove -> validMove.position().equals(chosen)).findAny();
-    }
-
     public Optional<ValidMove> getMove(String input) {
         BoardTile chosen = new BoardTile(input);
         return isValid(chosen);
     }
 
-    public ArrayList<ValidMove> getValidMoves() {
-        return new ArrayList<>(this.validMoves);
-    }
-
-    public Board getBoard() {
-        return board;
+    protected Optional<ValidMove> isValid(BoardTile chosen) {
+        return validMoves.stream().filter(validMove -> validMove.position().equals(chosen)).findAny();
     }
 
     protected void applyMoveToBoard(ValidMove move) {
@@ -106,5 +98,13 @@ public class GameController {
 
     public boolean thereAreNoValidMoves() {
         return validMoves.isEmpty();
+    }
+
+    public ArrayList<ValidMove> getValidMoves() {
+        return new ArrayList<>(validMoves);
+    }
+
+    public Board getBoard() {
+        return board;
     }
 }

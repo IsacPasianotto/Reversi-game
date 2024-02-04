@@ -30,7 +30,8 @@ public class SmartPlayer implements Player {
         return validMoves.get(futureScores.indexOf(maxScore));
     }
 
-    public void close() { }
+    public void close() {
+    }
 
     public ColoredPawn getPlayerColor(){
         return color;

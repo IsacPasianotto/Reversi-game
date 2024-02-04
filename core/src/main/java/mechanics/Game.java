@@ -35,44 +35,6 @@ public class Game {
         whitePlayer.close();
     }
 
-    public GameController getGameController() {
-        return gameController;
-    }
-
-    protected Optional<ValidMove> selectAValidMoveOrUndo() {
-        Player currentPlayer = isBlackToMove() ? blackPlayer : whitePlayer;
-        try {
-            return Optional.of(currentPlayer.askForAMove(getGameController()));
-        } catch (QuitGameException | RuntimeException e) {
-            exit();
-        } catch (UndoException e) {
-            undoLastMove();
-        }
-        return Optional.empty();
-    }
-
-    protected void undoLastMove() {
-        int numberOfStepsBack = thereIsAComputerPlayer()? 2 : 1;
-        if (previousSteps.size() > numberOfStepsBack)
-            undo(numberOfStepsBack);
-    }
-
-    protected void exit() {
-        blackPlayer.close();
-        whitePlayer.close();
-        System.exit(0);
-    }
-
-    protected boolean thereIsAComputerPlayer() {
-        return !Player.isHumanPlayer(whitePlayer) || !Player.isHumanPlayer(blackPlayer);
-    }
-
-    protected void undo(int numberOfStepsBack) {
-        IntStream.range(0, numberOfStepsBack).forEach(i -> previousSteps.removeLast());
-        getGameController().importBoardFrom(previousSteps.getLast());
-        IntStream.range(0, numberOfStepsBack).forEach(i -> swapTurn());
-    }
-
     protected void playASingleTurn() {
         getGameController().computeValidMoves(getCurrentPlayerColor());
         if (getGameController().thereAreNoValidMoves()) {
@@ -87,6 +49,44 @@ public class Game {
                 swapTurn();
             }
         }
+    }
+
+    protected Optional<ValidMove> selectAValidMoveOrUndo() {
+        Player currentPlayer = isBlackToMove() ? blackPlayer : whitePlayer;
+        try {
+            return Optional.of(currentPlayer.askForAMove(getGameController()));
+        } catch (QuitGameException | RuntimeException e) {
+            exit();
+        } catch (UndoException e) {
+            undoLastMove();
+        }
+        return Optional.empty();
+    }
+
+    protected void exit() {
+        blackPlayer.close();
+        whitePlayer.close();
+        System.exit(0);
+    }
+
+    protected void undoLastMove() {
+        int numberOfStepsBack = thereIsAComputerPlayer()? 2 : 1;
+        if (previousSteps.size() > numberOfStepsBack)
+            undo(numberOfStepsBack);
+    }
+
+    protected boolean thereIsAComputerPlayer() {
+        return !Player.isHumanPlayer(whitePlayer) || !Player.isHumanPlayer(blackPlayer);
+    }
+
+    protected void undo(int numberOfStepsBack) {
+        IntStream.range(0, numberOfStepsBack).forEach(i -> previousSteps.removeLast());
+        getGameController().importBoardFrom(previousSteps.getLast());
+        IntStream.range(0, numberOfStepsBack).forEach(i -> swapTurn());
+    }
+
+    public GameController getGameController() {
+        return gameController;
     }
 
     public ColoredPawn getCurrentPlayerColor() {

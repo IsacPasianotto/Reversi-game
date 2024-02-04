@@ -21,14 +21,47 @@ public class Board {
     public void applyMoveToBoard(ValidMove move) {
         BoardTile startingPosition = move.position();
         ColoredPawn currentColor = move.currentColor();
-        move.validDirections().forEach(direction -> flipLineOfPawns(startingPosition, direction, currentColor));
+        move.validDirections().forEach(direction -> flipLineOfPawns(startingPosition, currentColor, direction));
         setPositionColor(startingPosition, currentColor);
     }
 
-    private void flipLineOfPawns(BoardTile startingPosition, Direction direction, ColoredPawn currentPlayerColor) {
-        Stream.iterate(startingPosition
-                .add(direction), position -> getPositionColor(position) != currentPlayerColor, position -> position.add(direction))
+    private void flipLineOfPawns(BoardTile startingPosition, ColoredPawn currentPlayerColor, Direction direction) {
+        Stream.iterate(startingPosition.add(direction),
+                        position -> getPositionColor(position) != currentPlayerColor,
+                        position -> position.add(direction))
                 .forEach(position -> setPositionColor(position, currentPlayerColor));
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) return true;
+        if (!(other instanceof Board otherBoard)) return false;
+        return Arrays.deepEquals(board, otherBoard.board);
+    }
+
+    public int computeScoreForPlayer(ColoredPawn player) {
+        return Arrays.stream(board).mapToInt(row -> (int) Arrays.stream(row).filter(pawn -> pawn == player).count()).sum();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        result.append("""
+                      A     B     C     D     E     F     G     H \s
+                   ┏─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┓
+                """);
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            result.append(" ").append(i + 1).append(" ┃");
+            for (int j = 0; j < BOARD_SIZE; j++)
+                result.append("  ").append(getPositionColor(i, j)).append((j == BOARD_SIZE - 1) ? "  ┃" : "  ╎");
+            result.append((i == BOARD_SIZE - 1) ? "\n" : "\n   ┣-----+-----+-----+-----+-----+-----+-----+-----┫\n");
+        }
+        result.append("   ┗─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┛\n");
+        result.append("Current score: ")
+                .append(ColoredPawn.WHITE).append(" ").append(computeScoreForPlayer(ColoredPawn.WHITE))
+                .append(" - ")
+                .append(computeScoreForPlayer(ColoredPawn.BLACK)).append(" ").append(ColoredPawn.BLACK);
+        return result.toString();
     }
 
     public void importBoardFrom(Board another) {
@@ -53,35 +86,4 @@ public class Board {
     public void setPositionColor(BoardTile position, ColoredPawn color) {
         board[position.x()][position.y()] = color;
     }
-
-    @Override
-    public boolean equals(Object other) {
-        if (this == other) return true;
-        if (!(other instanceof Board otherBoard)) return false;
-        return Arrays.deepEquals(board, otherBoard.board);
-    }
-
-    public int computeScoreForPlayer(ColoredPawn player) {
-        return Arrays.stream(board).mapToInt(row -> (int) Arrays.stream(row).filter(pawn -> pawn == player).count()).sum();
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder result = new StringBuilder();
-        result.append("      A     B     C     D     E     F     G     H  \n   ┏─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┓\n");
-        for (int i = 0; i < BOARD_SIZE; i++) {
-            result.append(" ").append(i + 1).append(" ┃");
-            for (int j = 0; j < BOARD_SIZE; j++)
-                result.append("  ").append(getPositionColor(i, j)).append((j == BOARD_SIZE - 1) ? "  ┃" : "  ╎");
-            result.append((i == BOARD_SIZE - 1) ? "\n" : "\n   ┣-----+-----+-----+-----+-----+-----+-----+-----┫\n");
-        }
-        result.append("   ┗─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┛\n");
-        result.append("Current score: ")
-                .append(ColoredPawn.WHITE).append(" ").append(computeScoreForPlayer(ColoredPawn.WHITE))
-                .append(" - ")
-                .append(computeScoreForPlayer(ColoredPawn.BLACK)).append(" ").append(ColoredPawn.BLACK);
-        return result.toString();
-    }
 }
-
-

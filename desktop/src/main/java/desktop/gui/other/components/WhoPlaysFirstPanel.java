@@ -16,12 +16,12 @@ public class WhoPlaysFirstPanel {
         whoPlaysFirstPanel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         whoPlaysFirstPanel.setAlignmentY(JLabel.TOP_ALIGNMENT);
 
-        JLabel whoPlaysFirstLabel = getWhoPlaysFirstLabel(labelsFont);
+        JLabel whoPlaysFirstLabel = buildWhoPlaysFirstLabel(labelsFont);
         whoPlaysFirstPanel.add(whoPlaysFirstLabel);
 
         ButtonGroup whoPlaysFirstGroup = new ButtonGroup();
-        blackButton = getButton("Black",radioButtonsFont);
-        whiteButton = getButton("White", radioButtonsFont);
+        blackButton = buildButton("Black",radioButtonsFont);
+        whiteButton = buildButton("White", radioButtonsFont);
 
         blackButton.setSelected(true);
         whoPlaysFirstGroup.add(blackButton);
@@ -31,12 +31,21 @@ public class WhoPlaysFirstPanel {
         whoPlaysFirstPanel.add(whiteButton);
     }
 
-    public JPanel getWhoPlaysFirstPanel() {
-        return whoPlaysFirstPanel;
+    private JLabel buildWhoPlaysFirstLabel(Font labelsFont) {
+        JLabel whoPlaysFirstLabel = new JLabel("Select your color:");
+        whoPlaysFirstLabel.setFont(labelsFont);
+        whoPlaysFirstLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+        whoPlaysFirstLabel.setAlignmentY(JLabel.TOP_ALIGNMENT);
+        return whoPlaysFirstLabel;
     }
 
-    public JRadioButton getWhiteButton() { return whiteButton; }
-
+    private JRadioButton buildButton(String buttonName, Font radioButtonsFont) {
+        JRadioButton button = new JRadioButton(buttonName);
+        button.setFont(radioButtonsFont);
+        button.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+        button.setAlignmentY(JLabel.TOP_ALIGNMENT);
+        return button;
+    }
     public void setActionListenerToBlackButton(ActionListener actionListener){
         blackButton.addActionListener(actionListener);
     }
@@ -45,20 +54,11 @@ public class WhoPlaysFirstPanel {
         whiteButton.addActionListener(actionListener);
     }
 
-    private JRadioButton getButton(String buttonName, Font radioButtonsFont) {
-        JRadioButton button = new JRadioButton(buttonName);
-        button.setFont(radioButtonsFont);
-        button.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-        button.setAlignmentY(JLabel.TOP_ALIGNMENT);
-        return button;
+    public JPanel getWhoPlaysFirstPanel() {
+        return whoPlaysFirstPanel;
     }
 
-    private JLabel getWhoPlaysFirstLabel(Font labelsFont) {
-        JLabel whoPlaysFirstLabel = new JLabel("Select your color:");
-        whoPlaysFirstLabel.setFont(labelsFont);
-        whoPlaysFirstLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-        whoPlaysFirstLabel.setAlignmentY(JLabel.TOP_ALIGNMENT);
-        return whoPlaysFirstLabel;
+    public JRadioButton getWhiteButton() {
+        return whiteButton;
     }
-
 }

@@ -32,7 +32,6 @@ public class MainTerminal {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         Player firstPlayer = new Human(ColoredPawn.BLACK);
         Player secondPlayer = new Human(ColoredPawn.WHITE);
-
         int difficulty;
         int start;
         int chosenMode = chooseGameMode(reader);
@@ -49,7 +48,6 @@ public class MainTerminal {
                 secondPlayer = secondPlayerBot;
             }
         }
-
         GameTerminal game = new GameTerminal(new Board(), firstPlayer, secondPlayer);
         game.play();
         try {
@@ -94,13 +92,13 @@ public class MainTerminal {
         return start;
     }
 
-    protected static int findUserInput(BufferedReader reader) {
+    static int findUserInput(BufferedReader reader) {
         String input = null;
         int intInput = 0;
         try {
             input = reader.readLine();
             intInput = Integer.parseInt(input);
-        } catch (NumberFormatException | IOException e) {
+        } catch (NumberFormatException | IOException ignored) {
             // Do nothing, skip the attempt and try again
         }
         if ((input == null) || input.equals("q")) {
@@ -114,5 +112,4 @@ public class MainTerminal {
         }
         return intInput;
     }
-
 }

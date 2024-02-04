@@ -13,7 +13,6 @@ public class UndoButton {
     private static final int UNDO_ICON_SIZE = 25;
     private final JButton undoButton;
 
-
     public UndoButton(GameDesktop gameDesktop) {
         ImageIcon undoIcon = new ImageIcon(Objects.requireNonNull(UndoButton.class.getResource("/undo.png")));
         undoIcon.setImage(undoIcon.getImage().getScaledInstance(UNDO_ICON_SIZE, UNDO_ICON_SIZE, Image.SCALE_SMOOTH));

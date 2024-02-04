@@ -15,16 +15,16 @@ import javax.swing.*;
 import java.awt.*;
 
 public class WelcomeFrame {
-
     private static final int WIDTH = 500;
     private static final int HEIGHT = 200;
-    private static JFrame frame;
     private static final Font LabelsFont = new Font("Arial", Font.ITALIC,18 );
     private static final Font RadioButtonsFont = new Font("Arial", Font.BOLD, 15);
     private static final Font StartButtonFont = GuiManager.buttonFont;
+    private static JFrame frame;
     private GameModePanel gameMode;
     private DifficultyPanel difficulty;
     private WhoPlaysFirstPanel whoPlaysFirst;
+    private JPanel gameModePanel;
     private JPanel difficultyPanel;
     private JPanel whoPlaysFirstPanel;
     private JButton startButton;
@@ -38,43 +38,18 @@ public class WelcomeFrame {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         gameSettings = new GameSettings(true, true, true);
-        JPanel generalPanel = getGeneralPanel();
+        JPanel generalPanel = buildGeneralPanel();
         frame.add(generalPanel);
         frame.setVisible(true);
     }
 
-    public static JFrame getWelcomeFrame() { return frame; }
-
-    public GameSettings getGameSettings() { return gameSettings; }
-
-    public GameModePanel getGameMode() { return gameMode; }
-
-    public JButton getStartButton() { return startButton; }
-
-    public DifficultyPanel getDifficulty() { return difficulty; }
-
-    public WhoPlaysFirstPanel getWhoPlaysFirst() { return whoPlaysFirst; }
-
-    public void setWelcomeFrameVisible() {
-        frame.setVisible(true);
-    }
-
-    public void setActionListenerToStartButton() {
-        startButton.addActionListener(e -> {
-            frame.dispose();
-            Players result = getPlayers();
-            GameDesktop gameDesktop = new GameDesktop(new BoardDesktop(), result.blackPlayer(), result.whitePlayer());
-            SwingUtilities.invokeLater(gameDesktop.guiManager::setFrameVisible);
-        });
-    }
-
-    private JPanel getGeneralPanel() {
+    private JPanel buildGeneralPanel() {
         gameMode = new GameModePanel(LabelsFont, RadioButtonsFont);
         difficulty = new DifficultyPanel(LabelsFont, RadioButtonsFont);
         whoPlaysFirst = new WhoPlaysFirstPanel(LabelsFont, RadioButtonsFont);
         startButton = new Button(StartButtonFont, "Start").getButton();
         setActionListeners();
-        JPanel gameModePanel = gameMode.getGameModePanel();
+        gameModePanel = gameMode.getGameModePanel();
         difficultyPanel = difficulty.getDifficultyPanel();
         whoPlaysFirstPanel = whoPlaysFirst.getWhoPlaysFirstPanel();
 
@@ -98,6 +73,15 @@ public class WelcomeFrame {
         whoPlaysFirst.setActionListenerToWhiteButton(e -> gameSettings = new GameSettings(true, gameSettings.isDifficultyHard(), false));
 
         setActionListenerToStartButton();
+    }
+
+    public void setActionListenerToStartButton() {
+        startButton.addActionListener(e -> {
+            frame.dispose();
+            Players result = getPlayers();
+            GameDesktop gameDesktop = new GameDesktop(new BoardDesktop(), result.blackPlayer(), result.whitePlayer());
+            SwingUtilities.invokeLater(gameDesktop.guiManager::setFrameVisible);
+        });
     }
 
     private record Players(Player blackPlayer, Player whitePlayer) {}
@@ -125,4 +109,20 @@ public class WelcomeFrame {
         whoPlaysFirstPanel.setVisible(aFlag);
         gameSettings = new GameSettings(aFlag, gameSettings.isDifficultyHard(), gameSettings.isHumanFirst());
     }
+
+    public void setWelcomeFrameVisible() {
+        frame.setVisible(true);
+    }
+
+    public static JFrame getWelcomeFrame() { return frame; }
+
+    public GameSettings getGameSettings() { return gameSettings; }
+
+    public GameModePanel getGameMode() { return gameMode; }
+
+    public JButton getStartButton() { return startButton; }
+
+    public DifficultyPanel getDifficulty() { return difficulty; }
+
+    public WhoPlaysFirstPanel getWhoPlaysFirst() { return whoPlaysFirst; }
 }

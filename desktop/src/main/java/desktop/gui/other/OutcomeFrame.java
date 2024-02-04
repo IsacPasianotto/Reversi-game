@@ -24,25 +24,18 @@ public class OutcomeFrame {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(WIDTH, HEIGHT);
         frame.setLocationRelativeTo(null);
-        JPanel generalPanel = getGeneralPanel(blackScore, whiteScore);
+        JPanel generalPanel = buildGeneralPanel(blackScore, whiteScore);
         frame.add(generalPanel);
     }
 
-    public JFrame getFrame() { return frame; }
-
-    public JButton getPlayAgainButton() { return playAgainButton; }
-
-    public JButton getCloseButton() { return closeButton; }
-
-    private JPanel getGeneralPanel(int blackScore, int whiteScore) {
+    private JPanel buildGeneralPanel(int blackScore, int whiteScore) {
         JPanel generalPanel = new JPanel();
         generalPanel.setLayout(new BoxLayout(generalPanel, BoxLayout.Y_AXIS));
 
-        JPanel headerPanel = getHeaderPanel();
-        JPanel outcomePanel = getOutcomePanel(blackScore, whiteScore);
-        JPanel winnerPanel = getWinnerPanel(blackScore, whiteScore);
-        JPanel exitButtonPanel = getExitButtonPanel();
-
+        JPanel headerPanel = buildHeaderPanel();
+        JPanel outcomePanel = buildOutcomePanel(blackScore, whiteScore);
+        JPanel winnerPanel = buildWinnerPanel(blackScore, whiteScore);
+        JPanel exitButtonPanel = buildExitButtonPanel();
         generalPanel.add(headerPanel);
         generalPanel.add(outcomePanel);
         generalPanel.add(winnerPanel);
@@ -50,7 +43,7 @@ public class OutcomeFrame {
         return generalPanel;
     }
 
-    private JPanel getHeaderPanel() {
+    private JPanel buildHeaderPanel() {
         JPanel headerPanel = new JPanel();
         JLabel headerLabel = new JLabel("GAME OVER!");
         headerLabel.setFont(headerFont);
@@ -62,19 +55,19 @@ public class OutcomeFrame {
         return headerPanel;
     }
 
-    private JPanel getOutcomePanel(int blackScore, int whiteScore) {
+    private JPanel buildOutcomePanel(int blackScore, int whiteScore) {
         JPanel outcomePanel = new CurrentScorePanel(blackScore,whiteScore).getCurrentScorePanel();
         outcomePanel.setBorder(BorderFactory.createTitledBorder("Outcome"));
         return outcomePanel;
     }
 
-    private JPanel getWinnerPanel(int blackScore, int whiteScore) {
+    private JPanel buildWinnerPanel(int blackScore, int whiteScore) {
         JPanel winnerPanel = new WinnerPanel(blackScore,whiteScore).getWinnerPanel();
         winnerPanel.setBorder(BorderFactory.createTitledBorder("The winner is..."));
         return winnerPanel;
     }
 
-    private JPanel getExitButtonPanel() {
+    private JPanel buildExitButtonPanel() {
         JPanel exitButtonPanel = new JPanel();
         exitButtonPanel.setLayout(new BoxLayout(exitButtonPanel, BoxLayout.X_AXIS));
         closeButton = new Button(buttonFont, "CLOSE").getButton();
@@ -92,5 +85,17 @@ public class OutcomeFrame {
         exitButtonPanel.add(playAgainButton);
         exitButtonPanel.setSize(frame.getWidth(), 100);
         return exitButtonPanel;
+    }
+
+    public JFrame getFrame() {
+        return frame;
+    }
+
+    public JButton getPlayAgainButton() {
+        return playAgainButton;
+    }
+
+    public JButton getCloseButton() {
+        return closeButton;
     }
 }

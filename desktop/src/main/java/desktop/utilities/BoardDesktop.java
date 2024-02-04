@@ -11,6 +11,7 @@ import desktop.gui.main.components.CurrentScorePanel;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class BoardDesktop extends Board {
     private final JGradientButton[][] buttonGrid;
@@ -46,6 +47,11 @@ public class BoardDesktop extends Board {
         for (int i = 0; i < BOARD_SIZE; i++)
             for (int j = 0; j < BOARD_SIZE; j++)
                 updateButtonIcon(new BoardTile(i, j));
+    }
+
+    public void enableSuggestionsOnBoard(ArrayList<ValidMove> validMoves) {
+        for (ValidMove validMove : validMoves)
+            enableSuggestionAtTile(validMove.position());
     }
 
     public void enableSuggestionAtTile(BoardTile position) {

@@ -4,15 +4,13 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Button {
-
-    final JButton startButton;
+    private final JButton startButton;
 
     public Button(Font buttonFont, String buttonText) {
         startButton = new JButton(buttonText);
         startButton.setFont(buttonFont);
         startButton.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         startButton.setAlignmentY(JLabel.TOP_ALIGNMENT);
-
         startButton.setEnabled(true);
         startButton.setMaximumSize(new Dimension(Integer.MAX_VALUE, startButton.getMinimumSize().height));
     }
@@ -20,5 +18,4 @@ public class Button {
     public JButton getButton() {
         return startButton;
     }
-
 }

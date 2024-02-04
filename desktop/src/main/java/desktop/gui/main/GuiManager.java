@@ -28,10 +28,6 @@ public class GuiManager {
     private static BoardPanel boardPanel;
     private static JFrame gameFrame;
 
-    public static void disposeFrame() {
-        gameFrame.dispose();
-    }
-
     public GuiManager(GameDesktop gameDesktop, BoardDesktop boardDesktop) {
         boardPanel = new BoardPanel(boardDesktop);
         undoButton = new UndoButton(gameDesktop);
@@ -72,6 +68,10 @@ public class GuiManager {
         gameFrame.setVisible(true);
     }
 
+    public static void disposeFrame() {
+        gameFrame.dispose();
+    }
+
     public static void disableBoard(){
         undoButton.setEnabled(false);
         boardPanel.setEnabled(false);
@@ -82,5 +82,7 @@ public class GuiManager {
         boardPanel.setEnabled(true);
     }
 
-    public static JFrame getGameFrame() { return gameFrame; }
+    public static JFrame getGameFrame() {
+        return gameFrame;
+    }
 }

@@ -39,11 +39,11 @@ public class GameControllerDesktop extends GameController {
             getBoard().updateGUIBoard(move.get());
         else {
             JOptionPane.showMessageDialog(null, "Invalid move!", "Error", JOptionPane.ERROR_MESSAGE);
-            // set the suggestion property of the buttons to be true for the valid moves
-            for (ValidMove validMove : getValidMoves())
-                getBoard().enableSuggestionAtTile(validMove.position());
+            getBoard().enableSuggestionsOnBoard(getValidMoves());
         }
     }
+
+
 
     protected void handleBotTurn(Player bot){
         computeValidMoves(bot.getPlayerColor());
