@@ -22,20 +22,18 @@ public class GuiManager {
     public static final ImageIcon blackPawn = new ImageIcon(Objects.requireNonNull(BoardDesktop.class.getResource("/black.png")));
     public static final ImageIcon whitePawn = new ImageIcon(Objects.requireNonNull(BoardDesktop.class.getResource("/white.png")));
     private static final Color borderColor = new Color(0, 0, 0);
+    private static final int WIDTH = 900;
+    private static final int HEIGHT = 650;
     private static UndoButton undoButton;
     private static BoardPanel boardPanel;
     private static JFrame gameFrame;
-
-    public static void disposeFrame() {
-        gameFrame.dispose();
-    }
 
     public GuiManager(GameDesktop gameDesktop, BoardDesktop boardDesktop) {
         boardPanel = new BoardPanel(boardDesktop);
         undoButton = new UndoButton(gameDesktop);
         gameFrame = new JFrame("Reversi");
         gameFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        gameFrame.setSize(900, 650);
+        gameFrame.setSize(WIDTH, HEIGHT);
 
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.add(boardPanel.getBoardPanel(), BorderLayout.CENTER);
@@ -70,6 +68,10 @@ public class GuiManager {
         gameFrame.setVisible(true);
     }
 
+    public static void disposeFrame() {
+        gameFrame.dispose();
+    }
+
     public static void disableBoard(){
         undoButton.setEnabled(false);
         boardPanel.setEnabled(false);
@@ -80,5 +82,7 @@ public class GuiManager {
         boardPanel.setEnabled(true);
     }
 
-    public static JFrame getGameFrame() { return gameFrame; }
+    public static JFrame getGameFrame() {
+        return gameFrame;
+    }
 }

@@ -23,16 +23,16 @@ public enum GamePositions {
     }
 
     public static Board emptyTileBetweenTwoPawns() {
-        final Board board = new Board();
+        Board board = new Board();
         board.setPositionColor(new BoardTile("d2"), ColoredPawn.WHITE);
         return board;
     }
 
     public static Board thereAreTwoFlippableLinesInOneMove() {
         // equivalent to play: C4-C3-D3
-        final Board board = new Board();
-        final Iterable<String> whitePositions = new ArrayList<>(Arrays.asList("c3", "e5"));
-        final Iterable<String> blackPositions = new ArrayList<>(Arrays.asList("d3", "c4", "d4", "e4", "d5"));
+        Board board = new Board();
+        Iterable<String> whitePositions = new ArrayList<>(Arrays.asList("c3", "e5"));
+        Iterable<String> blackPositions = new ArrayList<>(Arrays.asList("d3", "c4", "d4", "e4", "d5"));
         whitePositions.forEach(s -> board.setPositionColor(new BoardTile(s), ColoredPawn.WHITE));
         blackPositions.forEach(s -> board.setPositionColor(new BoardTile(s), ColoredPawn.BLACK));
         return board;

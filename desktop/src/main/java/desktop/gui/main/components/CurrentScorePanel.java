@@ -22,36 +22,28 @@ public class CurrentScorePanel {
         currentScorePanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         currentScorePanel.setAlignmentY(Component.TOP_ALIGNMENT);
 
-        JLabel currentScoreText = getCurrentScoreTextPanel();
-        JPanel liveScorePanel = getLiveScorePanel(blackScore, whiteScore);
+        JLabel currentScoreText = buildCurrentScoreTextPanel();
+        JPanel liveScorePanel = buildLiveScorePanel(blackScore, whiteScore);
         currentScorePanel.add(currentScoreText);
         currentScorePanel.add(liveScorePanel);
+        currentScorePanel.setBorder(BorderFactory.createTitledBorder("Outcome"));
     }
 
-    private static JLabel getCurrentScoreTextPanel() {
+    private static JLabel buildCurrentScoreTextPanel() {
         JLabel currentScoreTextPanel = new JLabel("Current Score: ");
         currentScoreTextPanel.setFont(currentScoreLabelFont);
         currentScoreTextPanel.setForeground(currentScoreLabelColor);
         return currentScoreTextPanel;
     }
 
-    private static JPanel getLiveScorePanel(int blackScore, int whiteScore) {
+    private static JPanel buildLiveScorePanel(int blackScore, int whiteScore) {
         JPanel liveScorePanel = new JPanel(new GridLayout(0, 3));
         liveScorePanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         liveScorePanel.setAlignmentY(Component.TOP_ALIGNMENT);
         addPlayerIcon(black, liveScorePanel);
-        setLiveScoreLabel(blackScore, whiteScore, liveScorePanel);
+        addLiveScoreLabel(blackScore, whiteScore, liveScorePanel);
         addPlayerIcon(white, liveScorePanel);
         return liveScorePanel;
-    }
-
-    private static void setLiveScoreLabel(int blackScore, int whiteScore, JPanel livePanel) {
-        liveScoreLabel = new JLabel();
-        liveScoreLabel.setFont(currentScoreLabelFont);
-        liveScoreLabel.setForeground(currentScoreLabelColor);
-        liveScoreLabel.setText(blackScore + " - " + whiteScore);
-        liveScoreLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        livePanel.add(liveScoreLabel);
     }
 
     private static void addPlayerIcon(ImageIcon icon, JPanel livePanel) {
@@ -61,10 +53,18 @@ public class CurrentScorePanel {
         livePanel.add(iconLabel);
     }
 
+    private static void addLiveScoreLabel(int blackScore, int whiteScore, JPanel livePanel) {
+        liveScoreLabel = new JLabel();
+        liveScoreLabel.setFont(currentScoreLabelFont);
+        liveScoreLabel.setForeground(currentScoreLabelColor);
+        liveScoreLabel.setText(blackScore + " - " + whiteScore);
+        liveScoreLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        livePanel.add(liveScoreLabel);
+    }
+
     public static void updateLiveScoreLabel(int blackScore, int whiteScore) {
         liveScoreLabel.setText(blackScore + " - " + whiteScore);
     }
-
 
     public JPanel getCurrentScorePanel() {
         return currentScorePanel;

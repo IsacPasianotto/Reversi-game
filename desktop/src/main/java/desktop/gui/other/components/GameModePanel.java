@@ -8,8 +8,6 @@ public class GameModePanel {
     private final JPanel gameModePanel;
     private final JRadioButton humanVsHumanButton;
     private final JRadioButton humanVsComputerButton;
-    //private JRadioButton computerVsComputerButton;
-
 
     public GameModePanel(Font labelsFont, Font radioButtonsFont) {
         gameModePanel = new JPanel();
@@ -18,29 +16,35 @@ public class GameModePanel {
         gameModePanel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
         gameModePanel.setAlignmentY(JLabel.TOP_ALIGNMENT);
 
-        JLabel gameModeLabel = getGameModeLabel(labelsFont);
+        JLabel gameModeLabel = buildGameModeLabel(labelsFont);
         gameModePanel.add(gameModeLabel);
 
         ButtonGroup gameModeGroup = new ButtonGroup();
-        humanVsHumanButton = getButton("Human vs Human", radioButtonsFont);
-        humanVsComputerButton = getButton("Human vs Computer", radioButtonsFont);
-        //computerVsComputerButton = getButton("Computer vs Computer",radioButtonsFont);
-
+        humanVsHumanButton = buildButton("Human vs Human", radioButtonsFont);
+        humanVsComputerButton = buildButton("Human vs Computer", radioButtonsFont);
         humanVsComputerButton.setSelected(true);
         gameModeGroup.add(humanVsHumanButton);
         gameModeGroup.add(humanVsComputerButton);
-        //gameModeGroup.add(computerVsComputerButton);
 
         gameModePanel.add(humanVsHumanButton);
         gameModePanel.add(humanVsComputerButton);
-        //gameModePanel.add(computerVsComputerButton);
     }
 
-    public JPanel getGameModePanel() {
-        return gameModePanel;
+    private JLabel buildGameModeLabel(Font labelsFont) {
+        JLabel gameModeLabel = new JLabel("Select a game mode:");
+        gameModeLabel.setFont(labelsFont);
+        gameModeLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+        gameModeLabel.setAlignmentY(JLabel.TOP_ALIGNMENT);
+        return gameModeLabel;
     }
 
-    public JRadioButton getHumanVsHumanButton() { return humanVsHumanButton; }
+    private JRadioButton buildButton(String buttonName, Font radioButtonsFont) {
+        JRadioButton button = new JRadioButton(buttonName);
+        button.setFont(radioButtonsFont);
+        button.setAlignmentX(JLabel.LEFT_ALIGNMENT);
+        button.setAlignmentY(JLabel.TOP_ALIGNMENT);
+        return button;
+    }
 
     public void setActionListenerToHumanVsHumanButton(ActionListener actionListener){
         humanVsHumanButton.addActionListener(actionListener);
@@ -50,20 +54,11 @@ public class GameModePanel {
         humanVsComputerButton.addActionListener(actionListener);
     }
 
-    private JRadioButton getButton(String buttonName, Font radioButtonsFont) {
-        JRadioButton button = new JRadioButton(buttonName);
-        button.setFont(radioButtonsFont);
-        button.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-        button.setAlignmentY(JLabel.TOP_ALIGNMENT);
-        return button;
+    public JPanel getGameModePanel() {
+        return gameModePanel;
     }
 
-    private JLabel getGameModeLabel(Font labelsFont) {
-        JLabel gameModeLabel = new JLabel("Select a game mode:");
-        gameModeLabel.setFont(labelsFont);
-        gameModeLabel.setAlignmentX(JLabel.LEFT_ALIGNMENT);
-        gameModeLabel.setAlignmentY(JLabel.TOP_ALIGNMENT);
-        return gameModeLabel;
+    public JRadioButton getHumanVsHumanButton() {
+        return humanVsHumanButton;
     }
-
 }

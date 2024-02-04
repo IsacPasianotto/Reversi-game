@@ -9,77 +9,70 @@ import board.coords.Direction;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class GameController {
-    private final Board board;
+    protected final Board board;
     private final ArrayList<ValidMove> validMoves;
-    private boolean blackToMove;
 
     public GameController(Board board) {
         this.board = board;
         validMoves = new ArrayList<>();
-        blackToMove = true;
     }
 
-    public void computeValidMoves() {
+    public void computeValidMoves(ColoredPawn currentPlayerColor) {
         validMoves.clear();
         BoardTile currentPosition;
         for (int i = 0; i < Board.BOARD_SIZE; i++) {
             for (int j = 0; j < Board.BOARD_SIZE; j++) {
                 currentPosition = new BoardTile(i, j);
                 if (board.getPositionColor(currentPosition) == ColoredPawn.EMPTY)
-                    checkPosition(currentPosition);
+                    checkPosition(currentPosition, currentPlayerColor);
             }
         }
     }
 
-    private void checkPosition(BoardTile currentPosition) {
-        ArrayList<Direction> directionsWithOppositeColor = findDirectionsWithOppositeColor(currentPosition);
+    private void checkPosition(BoardTile currentPosition, ColoredPawn currentPlayerColor) {
+        ArrayList<Direction> directionsWithOppositeColor = findDirectionsWithOppositeColor(currentPosition, currentPlayerColor);
         if (directionsWithOppositeColor.isEmpty()) return;
-        ArrayList<Direction> validDirections = computeValidDirections(currentPosition, directionsWithOppositeColor);
+        ArrayList<Direction> validDirections = computeValidDirections(currentPosition, directionsWithOppositeColor, currentPlayerColor);
         if (validDirections.isEmpty()) return;
-        validMoves.add(new ValidMove(currentPosition, validDirections, getCurrentPlayerColor()));
+        validMoves.add(new ValidMove(currentPosition, validDirections, currentPlayerColor));
     }
 
-    protected ArrayList<Direction> findDirectionsWithOppositeColor(BoardTile currentPosition) {
+    ArrayList<Direction> findDirectionsWithOppositeColor(BoardTile currentPosition, ColoredPawn currentPlayerColor) {
         ArrayList<Direction> directionsWithOppositeColor = new ArrayList<>();
         Direction currentDirection;
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
                 currentDirection = new Direction(i, j);
-                if (hasTheRightColor(currentPosition, currentDirection))
+                if (hasTheRightColor(currentPosition, currentDirection, currentPlayerColor))
                     directionsWithOppositeColor.add(currentDirection);
             }
         }
         return directionsWithOppositeColor;
     }
 
-    private boolean hasTheRightColor(BoardTile currentPosition, Direction currentDirection) {
+    private boolean hasTheRightColor(BoardTile currentPosition, Direction currentDirection, ColoredPawn currentPlayerColor) {
         BoardTile neighbourToCheck = currentPosition.add(currentDirection);
-        return neighbourToCheck.isInsideTheBoard() && (board.getPositionColor(neighbourToCheck) == getCurrentPlayerColor().opposite());
+        return neighbourToCheck.isInsideTheBoard() && (board.getPositionColor(neighbourToCheck) == currentPlayerColor.opposite());
     }
 
-    private ArrayList<Direction> computeValidDirections(BoardTile currentPosition, ArrayList<Direction> directionsWithOppositeColor) {
+    private ArrayList<Direction> computeValidDirections(BoardTile currentPosition, ArrayList<Direction> directionsWithOppositeColor, ColoredPawn currentPlayerColor) {
         return directionsWithOppositeColor.stream()
-                .filter(currentDirection -> isValidDirection(currentPosition, currentDirection))
+                .filter(currentDirection -> isValidDirection(currentPosition, currentDirection, currentPlayerColor))
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
-    private boolean isValidDirection(BoardTile currentPosition, Direction currentDirection) {
+    private boolean isValidDirection(BoardTile currentPosition, Direction currentDirection, ColoredPawn currentPlayerColor) {
         BoardTile tileCurrentlyOnCheck = currentPosition.add(currentDirection).add(currentDirection);
         while (tileCurrentlyOnCheck.isInsideTheBoard()) {
             if (board.getPositionColor(tileCurrentlyOnCheck) == ColoredPawn.EMPTY)
                 return false;
-            if (board.getPositionColor(tileCurrentlyOnCheck) == getCurrentPlayerColor())
+            if (board.getPositionColor(tileCurrentlyOnCheck) == currentPlayerColor)
                 return true;
             tileCurrentlyOnCheck = tileCurrentlyOnCheck.add(currentDirection);
         }
         return false;
-    }
-
-    protected Optional<ValidMove> isValid(BoardTile chosen) {
-        return validMoves.stream().filter(validMove -> validMove.position().equals(chosen)).findAny();
     }
 
     public Optional<ValidMove> getMove(String input) {
@@ -87,40 +80,19 @@ public class GameController {
         return isValid(chosen);
     }
 
-    public ArrayList<ValidMove> getValidMoves() {
-        return new ArrayList<>(this.validMoves);
+    protected Optional<ValidMove> isValid(BoardTile chosen) {
+        return validMoves.stream().filter(validMove -> validMove.position().equals(chosen)).findAny();
     }
 
-    public Board getBoard() {
-        return board.copy();
-    }
-
-    public ColoredPawn getCurrentPlayerColor() {
-        return blackToMove ? ColoredPawn.BLACK : ColoredPawn.WHITE;
-    }
-
-    public boolean isBlackToMove() {
-        return blackToMove;
-    }
-
-    public void swapTurn() {
-        blackToMove = !blackToMove;
-    }
-
-
-    public boolean isBoardFull() {
-        return board.isFull();
-    }
-
-    public void applyMoveToBoard(ValidMove move) {
+    protected void applyMoveToBoard(ValidMove move) {
         board.applyMoveToBoard(move);
     }
 
-    public void importBoardFrom(Board board) {
+    protected void importBoardFrom(Board board) {
         this.board.importBoardFrom(board);
     }
 
-    public int computeScoreForPlayer(ColoredPawn playerColor) {
+    protected int computeScoreForPlayer(ColoredPawn playerColor) {
         return board.computeScoreForPlayer(playerColor);
     }
 
@@ -128,9 +100,11 @@ public class GameController {
         return validMoves.isEmpty();
     }
 
-    public void undo(int numberOfStepsBack, ArrayList<Board> previousSteps) {
-        IntStream.range(0, numberOfStepsBack).forEach(i -> previousSteps.removeLast());
-        importBoardFrom(previousSteps.getLast());
-        IntStream.range(0, numberOfStepsBack).forEach(i -> swapTurn());
+    public ArrayList<ValidMove> getValidMoves() {
+        return new ArrayList<>(validMoves);
+    }
+
+    public Board getBoard() {
+        return board;
     }
 }

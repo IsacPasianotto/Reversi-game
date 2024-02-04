@@ -33,31 +33,33 @@ class SmartPlayerTest {
     @ParameterizedTest
     @MethodSource("positions.GamePositions#getAllPositions")
     void ReturnedMoveIsValid(Board currentPosition) {
-        GameController checker = new GameController(currentPosition);
-        checker.computeValidMoves();
-        ArrayList<ValidMove> expected = checker.getValidMoves();
-        SmartPlayer player = new SmartPlayer();
-        ValidMove obtained = player.askForAMove(checker);
+        SmartPlayer player = new SmartPlayer(ColoredPawn.BLACK);
+        Game game = new Game(currentPosition, player, new RandomPlayer(ColoredPawn.WHITE));
+        GameController gameController = game.getGameController();
+        gameController.computeValidMoves(player.getPlayerColor());
+        ArrayList<ValidMove> expected = gameController.getValidMoves();
+        ValidMove obtained = player.askForAMove(gameController);
         assertTrue(expected.contains(obtained));
     }
 
     @ParameterizedTest
     @MethodSource("positions.GamePositions#getAllPositions")
     void ReturnedMoveIsValidWithWhite(Board currentPosition) {
-        GameController checker = new GameController(currentPosition);
-        checker.swapTurn();
-        checker.computeValidMoves();
-        ArrayList<ValidMove> expected = checker.getValidMoves();
-        SmartPlayer player = new SmartPlayer();
-        ValidMove obtained = player.askForAMove(checker);
+        SmartPlayer player = new SmartPlayer(ColoredPawn.WHITE);
+        Game game = new Game(currentPosition, new RandomPlayer(ColoredPawn.BLACK), player);
+        GameController gameController = game.getGameController();
+        game.swapTurn();
+        gameController.computeValidMoves(player.getPlayerColor());
+        ArrayList<ValidMove> expected = gameController.getValidMoves();
+        ValidMove obtained = player.askForAMove(gameController);
         assertTrue(expected.contains(obtained));
     }
 
     @Test
     void isSmartPlayerStrongerThanRandomWithBlack() {
         int smartWon = 0;
-        Player smart = new SmartPlayer();
-        Player random = new RandomPlayer();
+        Player smart = new SmartPlayer(ColoredPawn.BLACK);
+        Player random = new RandomPlayer(ColoredPawn.WHITE);
         int blackPawns;
         int whitePawns;
         for (int i = 0; i < nIter; i++) {
@@ -75,8 +77,8 @@ class SmartPlayerTest {
     @Test
     void isSmartPlayerStrongerThanRandomWithWhite() {
         int smartWon = 0;
-        Player smart = new SmartPlayer();
-        Player random = new RandomPlayer();
+        Player smart = new SmartPlayer(ColoredPawn.WHITE);
+        Player random = new RandomPlayer(ColoredPawn.BLACK);
         int blackPawns;
         int whitePawns;
         for (int i = 0; i < nIter; i++) {
@@ -95,5 +97,4 @@ class SmartPlayerTest {
     public void tearDown() {
         System.setOut(standardOut);
     }
-
 }

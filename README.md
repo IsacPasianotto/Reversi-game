@@ -85,7 +85,7 @@ OpenJDK 64-Bit Server VM (Red_Hat-21.0.2.0.13-1) (build 21.0.2+13, mixed mode, s
 ```
 #### 2. Gradle wrapper and Java 21:
 
-Apparently in some contitions the gradle wrapper ignores the `targetCompatibility` and `sourceCompatibility` settings in the `build.gradle` when more than one version of Java is installed on the system.
+Apparently under some conditions the gradle wrapper ignores the `targetCompatibility` and `sourceCompatibility` settings in the `build.gradle` when more than one version of Java is installed on the system.
 
 At least for Unix systems (we didn't have the chance to test it on Windows), a workaround is to manually set the `JAVA_HOME` environment variable: 
 ```

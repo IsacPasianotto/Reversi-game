@@ -2,10 +2,11 @@ package board;
 
 import board.coords.BoardTile;
 import board.coords.Direction;
-import mechanics.GameController;
+import mechanics.Game;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import player.computer.RandomPlayer;
 
 import java.util.ArrayList;
 
@@ -35,13 +36,13 @@ class BoardTest {
     @Test
     void swapAlongAllDirections() {
         Board board = thereAreTwoFlippableLinesInOneMove();
-        GameController gameController = new GameController(board);
-        gameController.swapTurn();
+        Game game = new Game(board, new RandomPlayer(ColoredPawn.BLACK), new RandomPlayer(ColoredPawn.WHITE));
+        game.swapTurn();
         ArrayList<Direction> directions = new ArrayList<>();
         directions.add(new Direction(-1, 0));
         directions.add(new Direction(0, 1));
 
-        ValidMove move = new ValidMove(new BoardTile("c5"), directions, gameController.getCurrentPlayerColor());
+        ValidMove move = new ValidMove(new BoardTile("c5"), directions, game.getCurrentPlayerColor());
         board.applyMoveToBoard(move);
         Board expectedBoard = twoLinesFlippedOneMove();
         assertEquals(board, expectedBoard);
@@ -60,5 +61,4 @@ class BoardTest {
         Board copiedBoard = board.copy();
         assertEquals(board, copiedBoard);
     }
-
 }
