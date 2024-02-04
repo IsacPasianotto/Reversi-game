@@ -29,6 +29,7 @@ public class WinnerPanel {
         winnerPanel.setAlignmentY(Component.TOP_ALIGNMENT);
         JLabel winnerLabel = getWinnerLabel(blackScore, whiteScore);
         winnerPanel.add(winnerLabel);
+        winnerPanel.setBorder(BorderFactory.createTitledBorder("The winner is..."));
     }
 
     private JLabel getWinnerLabel(int blackScore, int whiteScore) {

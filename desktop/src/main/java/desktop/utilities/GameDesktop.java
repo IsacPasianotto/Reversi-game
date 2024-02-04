@@ -7,6 +7,7 @@ import mechanics.Game;
 import player.Player;
 
 import java.awt.event.ActionListener;
+import java.util.concurrent.TimeUnit;
 
 public class GameDesktop extends Game {
     public final GuiManager guiManager;
@@ -23,27 +24,12 @@ public class GameDesktop extends Game {
         }
     }
 
-    @Override
-    public GameControllerDesktop getGameController() {
-        return gameController;
-    }
-
     private void addListenersToButtonGrid() {
         for (int i = 0; i < Board.BOARD_SIZE; i++)
             for (int j = 0; j < Board.BOARD_SIZE; j++){
                 BoardTile position = new BoardTile(i, j);
-                gameController.getBoard().addListenerToButton(position, getButtonListener(position));
+                gameController.addListenerToButton(position, getButtonListener(position));
             }
-    }
-
-    @Override
-    public void undoLastMove() {
-        GuiManager.disableBoard();
-        gameController.getBoard().cancelPreviousSuggestion();
-        int numberOfStepsBack = thereIsAComputerPlayer() ? 2 : 1;
-        if (previousSteps.size() > numberOfStepsBack)
-            undo(numberOfStepsBack);
-        GuiManager.enableBoard();
     }
 
     private ActionListener getButtonListener(BoardTile position) {
@@ -79,8 +65,23 @@ public class GameDesktop extends Game {
     }
 
     @Override
+    public void undoLastMove() {
+        GuiManager.disableBoard();
+        gameController.getBoard().disableSuggestions();
+        int numberOfStepsBack = thereIsAComputerPlayer() ? 2 : 1;
+        if (previousSteps.size() > numberOfStepsBack)
+            undo(numberOfStepsBack);
+        GuiManager.enableBoard();
+    }
+
+    @Override
     public void undo(int numberOfStepsBack) {
         super.undo(numberOfStepsBack);
         gameController.updateBoard(numberOfStepsBack);
+    }
+
+    @Override
+    public GameControllerDesktop getGameController() {
+        return gameController;
     }
 }

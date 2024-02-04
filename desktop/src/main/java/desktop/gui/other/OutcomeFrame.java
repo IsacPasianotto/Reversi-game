@@ -33,12 +33,12 @@ public class OutcomeFrame {
         generalPanel.setLayout(new BoxLayout(generalPanel, BoxLayout.Y_AXIS));
 
         JPanel headerPanel = buildHeaderPanel();
-        JPanel outcomePanel = buildOutcomePanel(blackScore, whiteScore);
-        JPanel winnerPanel = buildWinnerPanel(blackScore, whiteScore);
+        CurrentScorePanel outcomePanel = new CurrentScorePanel(blackScore,whiteScore);
+        WinnerPanel winnerPanel = new WinnerPanel(blackScore,whiteScore);
         JPanel exitButtonPanel = buildExitButtonPanel();
         generalPanel.add(headerPanel);
-        generalPanel.add(outcomePanel);
-        generalPanel.add(winnerPanel);
+        generalPanel.add(outcomePanel.getCurrentScorePanel());
+        generalPanel.add(winnerPanel.getWinnerPanel());
         generalPanel.add(exitButtonPanel);
         return generalPanel;
     }
@@ -55,30 +55,18 @@ public class OutcomeFrame {
         return headerPanel;
     }
 
-    private JPanel buildOutcomePanel(int blackScore, int whiteScore) {
-        JPanel outcomePanel = new CurrentScorePanel(blackScore,whiteScore).getCurrentScorePanel();
-        outcomePanel.setBorder(BorderFactory.createTitledBorder("Outcome"));
-        return outcomePanel;
-    }
-
-    private JPanel buildWinnerPanel(int blackScore, int whiteScore) {
-        JPanel winnerPanel = new WinnerPanel(blackScore,whiteScore).getWinnerPanel();
-        winnerPanel.setBorder(BorderFactory.createTitledBorder("The winner is..."));
-        return winnerPanel;
-    }
-
     private JPanel buildExitButtonPanel() {
         JPanel exitButtonPanel = new JPanel();
         exitButtonPanel.setLayout(new BoxLayout(exitButtonPanel, BoxLayout.X_AXIS));
         closeButton = new Button(buttonFont, "CLOSE").getButton();
         playAgainButton = new Button(buttonFont, "PLAY AGAIN").getButton();
         closeButton.addActionListener(e -> {
-            frame.dispose();
             GuiManager.disposeFrame();
+            frame.dispose();
         });
         playAgainButton.addActionListener(e -> {
-            frame.dispose();
             GuiManager.disposeFrame();
+            frame.dispose();
             MainDesktop.main(null);
         });
         exitButtonPanel.add(closeButton);
@@ -87,8 +75,8 @@ public class OutcomeFrame {
         return exitButtonPanel;
     }
 
-    public JFrame getFrame() {
-        return frame;
+    public void setVisible(boolean visible){
+        frame.setVisible(visible);
     }
 
     public JButton getPlayAgainButton() {

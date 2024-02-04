@@ -26,6 +26,7 @@ public class CurrentScorePanel {
         JPanel liveScorePanel = buildLiveScorePanel(blackScore, whiteScore);
         currentScorePanel.add(currentScoreText);
         currentScorePanel.add(liveScorePanel);
+        currentScorePanel.setBorder(BorderFactory.createTitledBorder("Outcome"));
     }
 
     private static JLabel buildCurrentScoreTextPanel() {

@@ -13,6 +13,7 @@ import player.human.QuitGameException;
 import player.human.UndoException;
 
 import javax.swing.*;
+import java.awt.event.ActionListener;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
@@ -22,10 +23,6 @@ public class GameControllerDesktop extends GameController {
         super(board);
     }
 
-    public BoardDesktop getBoard() {
-        return (BoardDesktop) board;
-    }
-
     protected void handleHumanTurn(BoardTile position, ColoredPawn currentPlayer) {
         computeValidMoves(currentPlayer);
         if (thereAreNoValidMoves()) handleNoValidMovesCase(currentPlayer);
@@ -33,17 +30,15 @@ public class GameControllerDesktop extends GameController {
     }
 
     private void handleHumanMove(BoardTile position) {
-        getBoard().cancelPreviousSuggestion();
+        getBoard().disableSuggestions();
         Optional<ValidMove> move = isValid(position);
         if (move.isPresent())
             getBoard().updateGUIBoard(move.get());
         else {
             JOptionPane.showMessageDialog(null, "Invalid move!", "Error", JOptionPane.ERROR_MESSAGE);
-            getBoard().enableSuggestionsOnBoard(getValidMoves());
+            getBoard().enableSuggestions(getValidMoves());
         }
     }
-
-
 
     protected void handleBotTurn(Player bot){
         computeValidMoves(bot.getPlayerColor());
@@ -74,7 +69,7 @@ public class GameControllerDesktop extends GameController {
             GuiManager.disableBoard();
             int blackScore = computeScoreForPlayer(ColoredPawn.BLACK);
             int whiteScore = computeScoreForPlayer(ColoredPawn.WHITE);
-            JFrame outcomeFrame = new OutcomeFrame(blackScore, whiteScore).getFrame();
+            OutcomeFrame outcomeFrame = new OutcomeFrame(blackScore, whiteScore);
             outcomeFrame.setVisible(true);
         });
     }
@@ -84,5 +79,14 @@ public class GameControllerDesktop extends GameController {
         getBoard().updateButtonGrid();
         CurrentScorePanel.updateLiveScoreLabel(computeScoreForPlayer((ColoredPawn.BLACK)),
                 computeScoreForPlayer(ColoredPawn.WHITE));
+    }
+
+    protected void addListenerToButton(BoardTile position, ActionListener listener){
+        getBoard().addListenerToButton(position, listener);
+    }
+
+    @Override
+    public BoardDesktop getBoard() {
+        return (BoardDesktop) board;
     }
 }

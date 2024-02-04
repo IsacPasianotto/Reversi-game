@@ -24,7 +24,6 @@ public class WelcomeFrame {
     private GameModePanel gameMode;
     private DifficultyPanel difficulty;
     private WhoPlaysFirstPanel whoPlaysFirst;
-    private JPanel gameModePanel;
     private JPanel difficultyPanel;
     private JPanel whoPlaysFirstPanel;
     private JButton startButton;
@@ -49,7 +48,7 @@ public class WelcomeFrame {
         whoPlaysFirst = new WhoPlaysFirstPanel(LabelsFont, RadioButtonsFont);
         startButton = new Button(StartButtonFont, "Start").getButton();
         setActionListeners();
-        gameModePanel = gameMode.getGameModePanel();
+        JPanel gameModePanel = gameMode.getGameModePanel();
         difficultyPanel = difficulty.getDifficultyPanel();
         whoPlaysFirstPanel = whoPlaysFirst.getWhoPlaysFirstPanel();
 

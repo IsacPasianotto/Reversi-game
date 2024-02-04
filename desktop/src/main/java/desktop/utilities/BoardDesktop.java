@@ -14,10 +14,11 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class BoardDesktop extends Board {
+    private static final int PAWN_ICON_SIZE = 64;
+    private static final Image blackPawn = GuiManager.blackPawn.getImage().getScaledInstance(PAWN_ICON_SIZE, PAWN_ICON_SIZE, Image.SCALE_SMOOTH);
+    private static final Image whitePawn = GuiManager.whitePawn.getImage().getScaledInstance(PAWN_ICON_SIZE, PAWN_ICON_SIZE, Image.SCALE_SMOOTH);
+    private static final Image emptyPawn = new ImageIcon(new byte[0]).getImage();
     private final JGradientButton[][] buttonGrid;
-    private static final ImageIcon blackPawn = GuiManager.blackPawn;
-    private static final ImageIcon whitePawn = GuiManager.whitePawn;
-    public static final int PAWN_ICON_SIZE = 64;
 
     public BoardDesktop() {
         super();
@@ -25,59 +26,41 @@ public class BoardDesktop extends Board {
         initButtonGrid();
     }
 
-    public void initButtonGrid(){
+    private void initButtonGrid(){
         for (int i = 0; i < BOARD_SIZE; i++)
             for (int j = 0; j < BOARD_SIZE; j++) {
-                BoardTile position = new BoardTile(i, j);
-                buttonGrid[i][j] = new JGradientButton(position);
-                updateButtonIcon(position);
+                buttonGrid[i][j] = new JGradientButton(i,j);
+                updateButtonIcon(i,j);
             }
     }
 
-    private void updateButtonIcon(BoardTile position) {
-        Image img = switch (getPositionColor(position)) {
-            case BLACK -> blackPawn.getImage().getScaledInstance(PAWN_ICON_SIZE, PAWN_ICON_SIZE, Image.SCALE_SMOOTH);
-            case WHITE -> whitePawn.getImage().getScaledInstance(PAWN_ICON_SIZE, PAWN_ICON_SIZE, Image.SCALE_SMOOTH);
-            case EMPTY -> new ImageIcon(new byte[0]).getImage();
+    private void updateButtonIcon(int i, int j) {
+        Image img = switch (getPositionColor(i,j)) {
+            case BLACK -> blackPawn;
+            case WHITE -> whitePawn;
+            case EMPTY -> emptyPawn;
         };
-        buttonGrid[position.x()][position.y()].setIcon(new ImageIcon(img));
+        buttonGrid[i][j].setIcon(new ImageIcon(img));
     }
 
-    public void updateButtonGrid() {
-        for (int i = 0; i < BOARD_SIZE; i++)
-            for (int j = 0; j < BOARD_SIZE; j++)
-                updateButtonIcon(new BoardTile(i, j));
-    }
-
-    public void enableSuggestionsOnBoard(ArrayList<ValidMove> validMoves) {
+    void enableSuggestions(ArrayList<ValidMove> validMoves) {
         for (ValidMove validMove : validMoves)
-            enableSuggestionAtTile(validMove.position());
+            setSuggestionAtTile(validMove.position(),true);
     }
 
-    public void enableSuggestionAtTile(BoardTile position) {
-        int row = position.x();
-        int col = position.y();
-        buttonGrid[row][col].setToSuggestProperty(true);
-        buttonGrid[row][col].resetBackground();
-    }
-    private void disableSuggestionAtTile(BoardTile position) {
-        int row = position.x();
-        int col = position.y();
-        buttonGrid[row][col].setToSuggestProperty(false);
-        buttonGrid[row][col].resetBackground();
-    }
-
-    public static Image getBlackPawnImage() { return blackPawn.getImage(); }
-    public static Image getWhitePawnImage() { return whitePawn.getImage(); }
-
-    public JGradientButton getButton(int row, int col) {
-        return buttonGrid[row][col];
-    }
-
-    void cancelPreviousSuggestion() {
+    void disableSuggestions() {
         for (int i = 0; i < BOARD_SIZE; i++)
-            for (int j = 0; j < BOARD_SIZE; j++)
-                disableSuggestionAtTile(new BoardTile(i, j));
+            for (int j = 0; j < BOARD_SIZE; j++) {
+                if ((boolean)buttonGrid[i][j].getClientProperty("toSuggest"))
+                    setSuggestionAtTile(new BoardTile(i, j),false);
+            }
+    }
+
+    private void setSuggestionAtTile(BoardTile position, boolean toSuggest) {
+        int row = position.x();
+        int col = position.y();
+        buttonGrid[row][col].setToSuggestProperty(toSuggest);
+        buttonGrid[row][col].resetBackground();
     }
 
     protected void addListenerToButton(BoardTile position, ActionListener listener){
@@ -89,7 +72,23 @@ public class BoardDesktop extends Board {
         updateButtonGrid();
         CurrentPlayerPanel.updateCurrentPlayerLiveLabel();
         CurrentScorePanel.updateLiveScoreLabel(computeScoreForPlayer(ColoredPawn.BLACK),
-                computeScoreForPlayer(ColoredPawn.WHITE));
+                                            computeScoreForPlayer(ColoredPawn.WHITE));
     }
 
+    protected void updateButtonGrid() {
+        for (int i = 0; i < BOARD_SIZE; i++)
+            for (int j = 0; j < BOARD_SIZE; j++)
+                updateButtonIcon(i,j);
+    }
+
+    public static Image getBlackPawnImage() {
+        return blackPawn;
+    }
+    public static Image getWhitePawnImage() {
+        return whitePawn;
+    }
+
+    public JGradientButton getButton(int row, int col) {
+        return buttonGrid[row][col];
+    }
 }
