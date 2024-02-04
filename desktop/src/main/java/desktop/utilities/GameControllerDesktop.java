@@ -18,14 +18,18 @@ import java.util.Optional;
 import java.util.stream.IntStream;
 
 public class GameControllerDesktop extends GameController {
-
     private final BoardDesktop board;
+
+    /**
+     * Creates a new GameControllerDesktop with the given board.
+     * @param board the board of the game
+     */
     public GameControllerDesktop(BoardDesktop board) {
         super(board);
         this.board = board;
     }
 
-    protected void handleHumanTurn(BoardTile position, ColoredPawn currentPlayer) {
+    void handleHumanTurn(BoardTile position, ColoredPawn currentPlayer) {
         computeValidMoves(currentPlayer);
         if (thereAreNoValidMoves()) handleNoValidMovesCase(currentPlayer);
         else handleHumanMove(position);
@@ -42,7 +46,7 @@ public class GameControllerDesktop extends GameController {
         }
     }
 
-    protected void handleBotTurn(Player bot){
+    void handleBotTurn(Player bot){
         computeValidMoves(bot.getPlayerColor());
         if (thereAreNoValidMoves()) handleNoValidMovesCase(bot.getPlayerColor());
         else handleBotMove(bot);
@@ -76,17 +80,21 @@ public class GameControllerDesktop extends GameController {
         });
     }
 
-    protected void updateBoard(int numberOfStepsBack) {
+    void updateBoardAfterUndo(int numberOfStepsBack) {
         IntStream.range(0, numberOfStepsBack).forEach(i -> CurrentPlayerPanel.updateCurrentPlayerLiveLabel());
         board.updateButtonGrid();
         CurrentScorePanel.updateLiveScoreLabel(computeScoreForPlayer((ColoredPawn.BLACK)),
                 computeScoreForPlayer(ColoredPawn.WHITE));
     }
 
-    protected void addListenerToButton(BoardTile position, ActionListener listener){
+    void addListenerToButton(BoardTile position, ActionListener listener){
         board.addListenerToButton(position, listener);
     }
 
+    /**
+     * Returns the board of the game.
+     * @return the board of the game
+     */
     @Override
     public BoardDesktop getBoard() {
         return board;

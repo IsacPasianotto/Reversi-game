@@ -16,6 +16,10 @@ public class BoardPanel {
     public final BoardDesktop boardDesktop;
     private final JPanel boardPanel;
 
+    /**
+     * Initialize the panel of the board.
+     * @param board the board of the game
+     */
     public BoardPanel(BoardDesktop board) {
         boardDesktop = board;
         boardPanel = new JPanel(new GridLayout(0, Board.BOARD_SIZE + 1));
@@ -42,6 +46,10 @@ public class BoardPanel {
         boardPanel.add(label);
     }
 
+    /**
+     * Returns the panel of the board.
+     * @return the panel of the board
+     */
     public JPanel getBoardPanel() {
         return boardPanel;
     }

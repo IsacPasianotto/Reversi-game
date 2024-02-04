@@ -15,6 +15,11 @@ public class WinnerPanel {
     private static final ImageIcon draw = new ImageIcon(Objects.requireNonNull(WinnerPanel.class.getResource("/blackAndWhite.png")));
     private JPanel winnerPanel;
 
+    /**
+     * Creates a new WinnerPanel with the given scores.
+     * @param blackScore the score of the black player
+     * @param whiteScore the score of the white player
+     */
     public WinnerPanel(int blackScore, int whiteScore){
         black.setImage(black.getImage().getScaledInstance(PLAYER_SYMBOL_SIZE, PLAYER_SYMBOL_SIZE, Image.SCALE_SMOOTH));
         white.setImage(white.getImage().getScaledInstance(PLAYER_SYMBOL_SIZE, PLAYER_SYMBOL_SIZE, Image.SCALE_SMOOTH));
@@ -27,12 +32,12 @@ public class WinnerPanel {
         winnerPanel.setLayout(new GridLayout(0, 1));
         winnerPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         winnerPanel.setAlignmentY(Component.TOP_ALIGNMENT);
-        JLabel winnerLabel = getWinnerLabel(blackScore, whiteScore);
+        JLabel winnerLabel = buildWinnerLabel(blackScore, whiteScore);
         winnerPanel.add(winnerLabel);
         winnerPanel.setBorder(BorderFactory.createTitledBorder("The winner is..."));
     }
 
-    private JLabel getWinnerLabel(int blackScore, int whiteScore) {
+    private JLabel buildWinnerLabel(int blackScore, int whiteScore) {
         JLabel winnerLabel = new JLabel();
         winnerLabel.setFont(winnerFont);
         winnerLabel.setForeground(fontColor);
@@ -44,6 +49,10 @@ public class WinnerPanel {
         return winnerLabel;
     }
 
+    /**
+     * Returns the winner panel.
+     * @return the winner panel
+     */
     public JPanel getWinnerPanel() {
         return winnerPanel;
     }

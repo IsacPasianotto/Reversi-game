@@ -15,6 +15,9 @@ public class CurrentPlayerPanel {
     private static ImageIcon whiteIcon;
     private final JPanel currentPlayerPanel;
 
+    /**
+     * Initialize the panel that shows the current player.
+     */
     public CurrentPlayerPanel() {
         blackIcon = new ImageIcon(BoardDesktop.getBlackPawnImage().getScaledInstance(PLAYER_SYMBOL_SIZE, PLAYER_SYMBOL_SIZE, Image.SCALE_SMOOTH));
         whiteIcon = new ImageIcon(BoardDesktop.getWhitePawnImage().getScaledInstance(PLAYER_SYMBOL_SIZE, PLAYER_SYMBOL_SIZE, Image.SCALE_SMOOTH));
@@ -43,12 +46,19 @@ public class CurrentPlayerPanel {
         currentPlayerLiveLabel.setVerticalAlignment(SwingConstants.TOP);
     }
 
+    /**
+     * Update the label that shows the current player after a move.
+     */
     public static void updateCurrentPlayerLiveLabel() {
         String actual = currentPlayerLiveLabel.getText();
         currentPlayerLiveLabel.setIcon(actual.equals("Black") ? whiteIcon : blackIcon);
         currentPlayerLiveLabel.setText(actual.equals("Black") ? "White" : "Black");
     }
 
+    /**
+     * Return the built panel.
+     * @return the panel
+     */
     public JPanel getCurrentPlayerPanel() {
         return currentPlayerPanel;
     }

@@ -9,6 +9,11 @@ public class WhoPlaysFirstPanel {
     private final JRadioButton blackButton;
     private final JRadioButton whiteButton;
 
+    /**
+     * Initialize the panel to choose which player starts the game in case of Human vs Computer game.
+     * @param labelsFont the font of the labels
+     * @param radioButtonsFont the font of the buttons
+     */
     public WhoPlaysFirstPanel(Font labelsFont, Font radioButtonsFont) {
         whoPlaysFirstPanel = new JPanel();
         whoPlaysFirstPanel.setLayout(new BoxLayout(whoPlaysFirstPanel, BoxLayout.Y_AXIS));
@@ -46,18 +51,32 @@ public class WhoPlaysFirstPanel {
         button.setAlignmentY(JLabel.TOP_ALIGNMENT);
         return button;
     }
+
+    /**
+     * Set the given listener for the black button.
+     * @param actionListener the listener to set
+     */
     public void setActionListenerToBlackButton(ActionListener actionListener){
         blackButton.addActionListener(actionListener);
     }
-
+    /**
+     * Set the given listener for the white button.
+     * @param actionListener the listener to set
+     */
     public void setActionListenerToWhiteButton(ActionListener actionListener){
         whiteButton.addActionListener(actionListener);
     }
 
+    /**
+     * Returns the built panel.
+     */
     public JPanel getWhoPlaysFirstPanel() {
         return whoPlaysFirstPanel;
     }
 
+    /**
+     * Return the white button.
+     */
     public JRadioButton getWhiteButton() {
         return whiteButton;
     }

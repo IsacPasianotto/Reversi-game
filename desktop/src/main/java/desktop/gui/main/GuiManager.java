@@ -14,12 +14,33 @@ import java.util.Objects;
 
 public class GuiManager {
 
+    /**
+     * The font used for the outcome frame
+     */
     public static final Font arialBoldItalic35 = new Font("Arial", Font.BOLD | Font.ITALIC, 35);
+    /**
+     * White color
+     */
     public static final Color white = new Color(255, 255, 255);
+    /**
+     * Black color
+     */
     public static final Color black = new Color(0, 0, 0);
+    /**
+     * The font used for the welcome and outcome buttons
+     */
     public static final Font buttonFont = new Font("Arial", Font.BOLD, 20);
+    /**
+     * The font used for labels in the game frame
+     */
     public static final Font currentLabelFont = new Font("Arial", Font.ITALIC, 20);
+    /**
+     * Black pawn image
+     */
     public static final ImageIcon blackPawn = new ImageIcon(Objects.requireNonNull(BoardDesktop.class.getResource("/black.png")));
+    /**
+     * White pawn image
+     */
     public static final ImageIcon whitePawn = new ImageIcon(Objects.requireNonNull(BoardDesktop.class.getResource("/white.png")));
     private static final Color borderColor = new Color(0, 0, 0);
     private static final int WIDTH = 900;
@@ -28,8 +49,12 @@ public class GuiManager {
     private static BoardPanel boardPanel;
     private static JFrame gameFrame;
 
-    public GuiManager(GameDesktop gameDesktop, BoardDesktop boardDesktop) {
-        boardPanel = new BoardPanel(boardDesktop);
+    /**
+     * Initialize the GUI manager for the game
+     * @param gameDesktop the game to initialize
+     */
+    public GuiManager(GameDesktop gameDesktop) {
+        boardPanel = new BoardPanel(gameDesktop.getGameController().getBoard());
         undoButton = new UndoButton(gameDesktop);
         gameFrame = new JFrame("Reversi");
         gameFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -64,24 +89,40 @@ public class GuiManager {
         return rightPanel;
     }
 
+    /**
+     * Set the game frame visible
+     */
     public void setFrameVisible() {
         gameFrame.setVisible(true);
     }
 
+    /**
+     * Closes the game frame
+     */
     public static void disposeFrame() {
         gameFrame.dispose();
     }
 
+    /**
+     * Disables the board to avoid involuntary clicks
+     */
     public static void disableBoard(){
         undoButton.setEnabled(false);
         boardPanel.boardDesktop.setEnabled(false);
     }
 
+    /**
+     * Re-enable a disabled board
+     */
     public static void enableBoard(){
         undoButton.setEnabled(true);
         boardPanel.boardDesktop.setEnabled(true);
     }
 
+    /**
+     * Returns the game frame
+     * @return the game frame
+     */
     public static JFrame getGameFrame() {
         return gameFrame;
     }

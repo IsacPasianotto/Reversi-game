@@ -9,13 +9,21 @@ import player.Player;
 import java.awt.event.ActionListener;
 
 public class GameDesktop extends Game {
+    /**
+     * The manager of the GUI.
+     */
     public final GuiManager guiManager;
     private final GameControllerDesktop gameController;
-
+    /**
+     * Initialize a new GUI game with the given board and players.
+     * @param board the board of the game
+     * @param blackPlayer the black player
+     * @param whitePlayer the white player
+     */
     public GameDesktop(BoardDesktop board, Player blackPlayer, Player whitePlayer) {
         super(board, blackPlayer, whitePlayer);
         this.gameController = new GameControllerDesktop(board);
-        guiManager = new GuiManager(this, board);
+        guiManager = new GuiManager(this);
         addListenersToButtonGrid();
         if (!Player.isHumanPlayer(blackPlayer)) {
             gameController.handleBotTurn(blackPlayer);
@@ -63,6 +71,9 @@ public class GameDesktop extends Game {
         return !board.equals(previousSteps.getLast());
     }
 
+    /**
+     * Prepare the board to undo the last move.
+     */
     @Override
     public void undoLastMove() {
         GuiManager.disableBoard();
@@ -73,12 +84,19 @@ public class GameDesktop extends Game {
         GuiManager.enableBoard();
     }
 
+    /**
+     * Cancel the last move done and go back to the previous state of the game.
+     */
     @Override
-    public void undo(int numberOfStepsBack) {
+    protected void undo(int numberOfStepsBack) {
         super.undo(numberOfStepsBack);
-        gameController.updateBoard(numberOfStepsBack);
+        gameController.updateBoardAfterUndo(numberOfStepsBack);
     }
 
+    /**
+     * Returns the manager of the GUI.
+     * @return the manager of the GUI
+     */
     @Override
     public GameControllerDesktop getGameController() {
         return gameController;

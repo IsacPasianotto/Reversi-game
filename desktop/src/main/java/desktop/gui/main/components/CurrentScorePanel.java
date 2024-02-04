@@ -15,6 +15,11 @@ public class CurrentScorePanel {
     private static JLabel liveScoreLabel;
     private final JPanel currentScorePanel;
 
+    /**
+     * Build the current score panel for the game frame
+     * @param blackScore black player score
+     * @param whiteScore white player score
+     */
     public CurrentScorePanel(int blackScore, int whiteScore) {
         black.setImage(black.getImage().getScaledInstance(PLAYER_SYMBOL_SIZE, PLAYER_SYMBOL_SIZE, Image.SCALE_SMOOTH));
         white.setImage(white.getImage().getScaledInstance(PLAYER_SYMBOL_SIZE, PLAYER_SYMBOL_SIZE, Image.SCALE_SMOOTH));
@@ -62,10 +67,16 @@ public class CurrentScorePanel {
         livePanel.add(liveScoreLabel);
     }
 
+    /*
+     * Updates the live score each time a move is done
+     */
     public static void updateLiveScoreLabel(int blackScore, int whiteScore) {
         liveScoreLabel.setText(blackScore + " - " + whiteScore);
     }
 
+    /*
+     * Return the built panel
+     */
     public JPanel getCurrentScorePanel() {
         return currentScorePanel;
     }

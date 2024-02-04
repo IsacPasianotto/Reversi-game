@@ -27,9 +27,15 @@ public class WelcomeFrame {
     private JPanel difficultyPanel;
     private JPanel whoPlaysFirstPanel;
     private JButton startButton;
+    /**
+     * A record containing the settings of the game.
+     */
     public record GameSettings(boolean isHumanVsComputer, boolean isDifficultyHard, boolean isHumanFirst) {}
     private GameSettings gameSettings;
 
+    /**
+     * Creates a new WelcomeFrame, a frame that allows to decide game settings.
+     */
     public WelcomeFrame() {
         frame = new JFrame("Welcome to Reversi");
         frame.setSize(WIDTH, HEIGHT);
@@ -74,7 +80,7 @@ public class WelcomeFrame {
         setActionListenerToStartButton();
     }
 
-    public void setActionListenerToStartButton() {
+    private void setActionListenerToStartButton() {
         startButton.addActionListener(e -> {
             frame.dispose();
             Players result = getPlayers();
@@ -109,19 +115,41 @@ public class WelcomeFrame {
         gameSettings = new GameSettings(aFlag, gameSettings.isDifficultyHard(), gameSettings.isHumanFirst());
     }
 
+    /**
+     * Sets the welcome frame visible in order to start the game.
+     */
     public void setWelcomeFrameVisible() {
         frame.setVisible(true);
     }
-
+    /**
+     * Returns the welcome frame.
+     * @return the welcome frame
+     */
     public static JFrame getWelcomeFrame() { return frame; }
-
+    /**
+     * Returns the game settings.
+     * @return the game settings
+     */
     public GameSettings getGameSettings() { return gameSettings; }
-
+    /**
+     * Returns the game mode panel.
+     * @return the game mode panel
+     */
     public GameModePanel getGameMode() { return gameMode; }
-
+    /**
+     * Returns the start button.
+     * @return the start button
+     */
     public JButton getStartButton() { return startButton; }
-
+    /**
+     * Returns the difficulty panel.
+     * @return the difficulty panel
+     */
     public DifficultyPanel getDifficulty() { return difficulty; }
 
+    /**
+     * Returns the who plays first panel.
+     * @return the who plays first panel
+     */
     public WhoPlaysFirstPanel getWhoPlaysFirst() { return whoPlaysFirst; }
 }

@@ -20,6 +20,9 @@ public class BoardDesktop extends Board {
     private static final Image emptyPawn = new ImageIcon(new byte[0]).getImage();
     private final JGradientButton[][] buttonGrid;
 
+    /**
+     * Initializes the board with the starting position of the game.
+     */
     public BoardDesktop() {
         super();
         buttonGrid = new JGradientButton[BOARD_SIZE][BOARD_SIZE];
@@ -60,14 +63,14 @@ public class BoardDesktop extends Board {
         int row = position.x();
         int col = position.y();
         buttonGrid[row][col].setToSuggestProperty(toSuggest);
-        buttonGrid[row][col].resetBackground();
+        buttonGrid[row][col].paintBackground();
     }
 
-    protected void addListenerToButton(BoardTile position, ActionListener listener){
+    void addListenerToButton(BoardTile position, ActionListener listener){
         buttonGrid[position.x()][position.y()].addActionListener(listener);
     }
 
-    protected void updateGUIBoard(ValidMove move) {
+    void updateGUIBoard(ValidMove move) {
         applyMoveToBoard(move);
         updateButtonGrid();
         CurrentPlayerPanel.updateCurrentPlayerLiveLabel();
@@ -75,25 +78,40 @@ public class BoardDesktop extends Board {
                                             computeScoreForPlayer(ColoredPawn.WHITE));
     }
 
-    protected void updateButtonGrid() {
+    void updateButtonGrid() {
         for (int i = 0; i < BOARD_SIZE; i++)
             for (int j = 0; j < BOARD_SIZE; j++)
                 updateButtonIcon(i,j);
     }
 
+    /**
+     * Enable or disable the board when needed.
+     */
     public void setEnabled(boolean enabled) {
         for (int i = 0; i < BOARD_SIZE; i++)
             for (int j = 0; j < BOARD_SIZE; j++)
                 getButton(i, j).setEnabled(enabled);
     }
-
+    /**
+     * Returns the black pawn image.
+     */
     public static Image getBlackPawnImage() {
         return blackPawn;
     }
+
+    /**
+     * Returns the white pawn image.
+     */
     public static Image getWhitePawnImage() {
         return whitePawn;
     }
 
+    /**
+     * Returns the button at the given position.
+     * @param row the row of the button
+     * @param col the column of the button
+     * @return the button at the given position
+     */
     public JGradientButton getButton(int row, int col) {
         return buttonGrid[row][col];
     }

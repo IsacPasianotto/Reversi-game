@@ -19,6 +19,11 @@ public class OutcomeFrame {
     private JButton closeButton;
     private JButton playAgainButton;
 
+    /**
+     * Creates a new OutcomeFrame with the given scores.
+     * @param blackScore the score of the black player
+     * @param whiteScore the score of the white player
+     */
     public OutcomeFrame(int blackScore, int whiteScore){
         frame = new JFrame("Outcome");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -75,14 +80,26 @@ public class OutcomeFrame {
         return exitButtonPanel;
     }
 
+    /**
+     * Sets the visibility of the frame.
+     * @param visible the visibility of the frame
+     */
     public void setVisible(boolean visible){
         frame.setVisible(visible);
     }
 
+    /**
+     * Returns the close button.
+     * @return the close button
+     */
     public JButton getPlayAgainButton() {
         return playAgainButton;
     }
 
+    /**
+     * Returns the play again button.
+     * @return the play again button
+     */
     public JButton getCloseButton() {
         return closeButton;
     }

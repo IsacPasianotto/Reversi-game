@@ -13,6 +13,10 @@ public class UndoButton {
     private static final int UNDO_ICON_SIZE = 25;
     private final JButton undoButton;
 
+    /**
+     * Build the Undo button for the game frame
+     * @param gameDesktop the game
+     */
     public UndoButton(GameDesktop gameDesktop) {
         ImageIcon undoIcon = new ImageIcon(Objects.requireNonNull(UndoButton.class.getResource("/undo.png")));
         undoIcon.setImage(undoIcon.getImage().getScaledInstance(UNDO_ICON_SIZE, UNDO_ICON_SIZE, Image.SCALE_SMOOTH));
@@ -23,10 +27,18 @@ public class UndoButton {
         undoButton.addActionListener(e->gameDesktop.undoLastMove());
     }
 
+    /**
+     * Returns the button
+     * @return the undo button
+     */
     public JButton getUndoButton() {
         return undoButton;
     }
 
+    /**
+     * Enable or disable the undo button
+     * @param enabled
+     */
     public void setEnabled(boolean enabled) {
         undoButton.setEnabled(enabled);
     }
