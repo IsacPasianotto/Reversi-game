@@ -20,11 +20,26 @@ import java.util.stream.IntStream;
  * @see Player
  */
 public class Game {
+    /**
+     * The Player instances representing the white player
+     * @see Player
+     */
     protected final Player whitePlayer;
+    /**
+     * The Player instances representing the black player
+     * @see Player
+     */
     protected final Player blackPlayer;
+    /**
+     * The list of previous steps of the game, used to allow the players to undo their moves.
+     * @see Board
+     */
     protected final ArrayList<Board> previousSteps;
-    private final GameController gameController;
+    /**
+     * The number of turns skipped by the current player. If it reaches 2, the game is over.
+     */
     protected int skippedTurns;
+    private final GameController gameController;
     private boolean blackToMove;
 
     /**
@@ -163,7 +178,7 @@ public class Game {
      * @see player.human.Human
      * @see player.computer.SmartPlayer
      * @see player.computer.RandomPlayer
-     * @return
+     * @return true if at least one of the players is a computer player, false otherwise.
      */
     protected boolean thereIsAComputerPlayer() {
         return !Player.isHumanPlayer(whitePlayer) || !Player.isHumanPlayer(blackPlayer);

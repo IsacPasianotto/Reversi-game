@@ -5,8 +5,17 @@ package board;
  * board tile: white pawn, black pawn or empty tile.
  */
 public enum ColoredPawn {
+    /**
+     * The white pawn symbol
+     */
     WHITE('◯'),
+    /**
+     * The black pawn symbol
+     */
     BLACK('●'),
+    /**
+     * The empty tile symbol
+     */
     EMPTY(' ');
     private final char symbol;
 
