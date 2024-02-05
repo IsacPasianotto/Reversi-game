@@ -1,25 +1,28 @@
 package board;
 
-
 import board.coords.BoardTile;
 import board.coords.Direction;
 
 import java.util.Arrays;
 import java.util.stream.Stream;
 
+/**
+ * A class to represent the game board. The board is a 8x8 grid of ColoredPawn objects, where each cell can be empty or
+ * contain a black or white pawn. The board is initialized with 4 pawns in the center, 2 for each player, according to
+ * the standard Othello starting position.
+ * @see ColoredPawn
+ * @see BoardTile
+ */
 public class Board {
+
     /**
-     * The size of the board (8x8).
+     * The size of the board, which is a square grid of this size.
      */
     public static final int BOARD_SIZE = 8;
-    /**
-     * The board as a 2D array of ColoredPawn objects.
-     */
     private final ColoredPawn[][] board;
 
-
     /**
-     * Initializes the board with the starting position of the game.
+     * Creates a new Board object, initializing the board with the standard Othello starting position.
      */
     public Board() {
         board = new ColoredPawn[BOARD_SIZE][BOARD_SIZE];
@@ -29,7 +32,9 @@ public class Board {
     }
 
     /**
-     * Returns the number of pawns of the given color on the board.
+     * Applies a given move to the board, adding a new pawn of the given color to the given position and flipping the
+     * pawns in all the possible directions
+     * @see ValidMove
      * @param move the move to apply to the board
      */
     public void applyMoveToBoard(ValidMove move) {
@@ -40,20 +45,8 @@ public class Board {
     }
 
     /**
-     * Flips the pawns in the given direction starting from the given position.
-     * @param startingPosition the position from which to start flipping
-     * @param direction the direction in which to flip the pawns
-     * @param currentPlayerColor the color of the player who is making the move
-     */
-    private void flipLineOfPawns(BoardTile startingPosition, Direction direction, ColoredPawn currentPlayerColor) {
-        Stream.iterate(startingPosition
-                        .add(direction), position -> getPositionColor(position) != currentPlayerColor, position -> position.add(direction))
-                .forEach(position -> setPositionColor(position, currentPlayerColor));
-    }
-
-    /**
-     * Returns the number of pawns of the given color on the board.
-     * @param another the board from which to import the position
+     * Modifies the current board to be the same as the one given as parameter.
+     * @param another the board to import from
      */
     public void importBoardFrom(Board another) {
         for (int i = 0; i < BOARD_SIZE; i++)
@@ -61,8 +54,8 @@ public class Board {
     }
 
     /**
-     * Returns a copy of the board.
-     * @return a copy of the board as a new object
+     * Creates a new Board object that is a copy of the current one.
+     * @return a new Board object equal to the current one
      */
     public Board copy() {
         Board newBoard = new Board();
@@ -71,37 +64,39 @@ public class Board {
     }
 
     /**
-     * Returns the color of the pawn at the given position.
-     * @param position the position of the pawn as a BoardTile object
-     * @return the color of the pawn at the given position
+     * Returns the value of the enum ColoredPawn that is in the given position.
+     * @see ColoredPawn
+     * @param position the position to check
+     * @return the value of the enum ColoredPawn that is in the given position
      */
     public ColoredPawn getPositionColor(BoardTile position) {
         return board[position.x()][position.y()];
     }
 
     /**
-     * Returns the color of the pawn at the given position.
+     * Returns the value of the enum ColoredPawn that is in the given position.
+     * @see ColoredPawn
      * @param x the row coordinate of the position
      * @param y the column coordinate of the position
-     * @return the color of the pawn at the given position
+     * @return the value of the enum ColoredPawn that is in the given position
      */
     public ColoredPawn getPositionColor(int x, int y) {
         return board[x][y];
     }
 
     /**
-     * Sets the color of the pawn at the given position
-     * @param position the position of the pawn as a BoardTile object
-     * @param color the color to set the pawn to
+     * Sets the value of the given position to the given color.
+     * @param position the position to set
+     * @param color the color to set
      */
     public void setPositionColor(BoardTile position, ColoredPawn color) {
         board[position.x()][position.y()] = color;
     }
 
     /**
-     * checks if a given Board is equal to the current one
+     * check if the current object Board is equal to a given one.
      * @param other the board to compare to
-     * @return true if the two boards are equal, false otherwise
+     * @return true if the two Board objects represent the same board, false otherwise
      */
     @Override
     public boolean equals(Object other) {
@@ -111,17 +106,18 @@ public class Board {
     }
 
     /**
-     * Returns the current score of the given player.
-     * @param player the player for which to compute the score
-     * @return the score of the given player (the number of pawns of the given color on the board)
+     * Return the number of pawns of the given color that are currently on the board.
+     * @see ColoredPawn
+     * @param player the color of the pawns to count
+     * @return the count of pawns of the given color that are currently on the board
      */
     public int computeScoreForPlayer(ColoredPawn player) {
         return Arrays.stream(board).mapToInt(row -> (int) Arrays.stream(row).filter(pawn -> pawn == player).count()).sum();
     }
 
     /**
-     * Returns a string representation of the board, used to print the board to the console.
-     * @return a string representation of the board
+     * Returns a string representation of the current board, with the pawns and the score of the two players.
+     * @return a string representation of the current board
      */
     @Override
     public String toString() {
@@ -139,6 +135,12 @@ public class Board {
                 .append(" - ")
                 .append(computeScoreForPlayer(ColoredPawn.BLACK)).append(" ").append(ColoredPawn.BLACK);
         return result.toString();
+    }
+
+    private void flipLineOfPawns(BoardTile startingPosition, Direction direction, ColoredPawn currentPlayerColor) {
+        Stream.iterate(startingPosition
+                        .add(direction), position -> getPositionColor(position) != currentPlayerColor, position -> position.add(direction))
+                        .forEach(position -> setPositionColor(position, currentPlayerColor));
     }
 }
 
