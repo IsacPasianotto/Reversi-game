@@ -1,20 +1,36 @@
-package desktop.gui.main.components;
+package desktop.gui.main;
 
-import desktop.gui.main.GuiManager;
 import desktop.utilities.BoardDesktop;
 
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * The panel that shows the current player.
+ */
 public class CurrentPlayerPanel {
-    private static final Font currentPlayerLabelFont = GuiManager.currentLabelFont;
-    private static final Color currentPlayerLabelColor = GuiManager.white;
-    private static final int PLAYER_SYMBOL_SIZE = 24;
+    /**
+     * The size of the player symbol.
+     */
+    protected static final int PLAYER_SYMBOL_SIZE = 24;
+
+    /**
+     * The font used for players labels in the game frame.
+     */
+    protected static final Font currentPlayerLabelFont = new Font("Arial", Font.ITALIC, 20);
+
+    /**
+     * The color of the font of the current player.
+     */
+    protected static final Color currentPlayerLabelColor = new Color(255, 255, 255);
     private static JLabel currentPlayerLiveLabel;
     private static ImageIcon blackIcon;
     private static ImageIcon whiteIcon;
     private final JPanel currentPlayerPanel;
 
+    /**
+     * Initialize the panel that shows the current player.
+     */
     public CurrentPlayerPanel() {
         blackIcon = new ImageIcon(BoardDesktop.getBlackPawnImage().getScaledInstance(PLAYER_SYMBOL_SIZE, PLAYER_SYMBOL_SIZE, Image.SCALE_SMOOTH));
         whiteIcon = new ImageIcon(BoardDesktop.getWhitePawnImage().getScaledInstance(PLAYER_SYMBOL_SIZE, PLAYER_SYMBOL_SIZE, Image.SCALE_SMOOTH));
@@ -43,13 +59,16 @@ public class CurrentPlayerPanel {
         currentPlayerLiveLabel.setVerticalAlignment(SwingConstants.TOP);
     }
 
+    /**
+     * Update the label that shows the current player after a move.
+     */
     public static void updateCurrentPlayerLiveLabel() {
         String actual = currentPlayerLiveLabel.getText();
         currentPlayerLiveLabel.setIcon(actual.equals("Black") ? whiteIcon : blackIcon);
         currentPlayerLiveLabel.setText(actual.equals("Black") ? "White" : "Black");
     }
 
-    public JPanel getCurrentPlayerPanel() {
+    JPanel getCurrentPlayerPanel() {
         return currentPlayerPanel;
     }
 }

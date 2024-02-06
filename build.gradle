@@ -5,11 +5,11 @@ apply {
 allprojects {
 
     java {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
-    sourceSets.main.java.srcDirs = ["src/main/java"]
+    sourceSets.main.java.srcDirs = ['src/main/java']
     sourceSets.test.java.srcDirs = ['src/test/java']
 
     [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
@@ -19,7 +19,7 @@ allprojects {
     }
 
     group = 'Isac_and_Davide'
-    version = '1.0'
+    version = '1.1'
 
     apply from: "$rootProject.projectDir/dependencies.gradle"
 
@@ -46,4 +46,10 @@ def distributionDir = "$rootProject.projectDir/readyToDistribute"
 
 clean {
     delete distributionDir
+}
+
+tasks.register('mergeDocs', Copy) {
+    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+    from subprojects.collect { it.tasks.withType(Javadoc) }
+    into "$distributionDir/javadoc"
 }

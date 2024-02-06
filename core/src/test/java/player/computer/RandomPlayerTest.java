@@ -7,7 +7,6 @@ import mechanics.Game;
 import mechanics.GameController;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import player.Player;
 
 import java.util.ArrayList;
 

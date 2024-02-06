@@ -1,19 +1,23 @@
 package desktop.utilities;
 
-import board.coords.BoardTile;
-
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class JGradientButton extends JButton {
+
+class JGradientButton extends JButton {
     private static final Color boardColor = new Color(37, 135, 24);
     private static final Color boardColor2 = new Color(7, 177, 2);
     private static final Color mouseOverColor = new Color(15, 40, 155);
     private static final Color suggestionColor = new Color(255, 255, 0);
 
+    /**
+     * Creates a new JGradientButton with the given coordinates.
+     * @param x the x coordinate of the button
+     * @param y the y coordinate of the button
+     */
     JGradientButton(int x, int y){
         super("");
         setContentAreaFilled(false);
@@ -42,6 +46,10 @@ public class JGradientButton extends JButton {
         addMouseListener(mouseBehaviour);
     }
 
+    /**
+     * Paints the component with a gradient background.
+     * @param g the graphics object to paint with
+     */
     @Override
     protected void paintComponent(Graphics g){
         Graphics2D g2 = (Graphics2D)g.create();
@@ -62,11 +70,11 @@ public class JGradientButton extends JButton {
         super.paintComponent(g);
     }
 
-    protected void setToSuggestProperty(boolean toSuggest){
+    void setToSuggestProperty(boolean toSuggest){
         putClientProperty("toSuggest", toSuggest);
     }
 
-    protected void resetBackground() {
+    void paintBackground() {
         setBackground((boolean) getClientProperty("toSuggest") ? suggestionColor : boardColor);
     }
 

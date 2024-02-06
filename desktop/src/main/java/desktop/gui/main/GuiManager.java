@@ -1,35 +1,39 @@
 package desktop.gui.main;
 
-import desktop.gui.main.components.BoardPanel;
-import desktop.gui.main.components.CurrentPlayerPanel;
-import desktop.gui.main.components.CurrentScorePanel;
-import desktop.gui.main.components.UndoButton;
-import desktop.utilities.BoardDesktop;
 import desktop.utilities.GameDesktop;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.util.Objects;
 
+/**
+ * The manager of the game GUI: initializes the game and starts it after settings have been chosen.
+ */
 public class GuiManager {
+    /**
+     * The width of the game frame
+     */
+    protected static final int WIDTH = 900;
 
-    public static final Font arialBoldItalic35 = new Font("Arial", Font.BOLD | Font.ITALIC, 35);
-    public static final Color white = new Color(255, 255, 255);
-    public static final Color black = new Color(0, 0, 0);
-    public static final Font buttonFont = new Font("Arial", Font.BOLD, 20);
-    public static final Font currentLabelFont = new Font("Arial", Font.ITALIC, 20);
-    public static final ImageIcon blackPawn = new ImageIcon(Objects.requireNonNull(BoardDesktop.class.getResource("/black.png")));
-    public static final ImageIcon whitePawn = new ImageIcon(Objects.requireNonNull(BoardDesktop.class.getResource("/white.png")));
-    private static final Color borderColor = new Color(0, 0, 0);
-    private static final int WIDTH = 900;
-    private static final int HEIGHT = 650;
+    /**
+     * The height of the game frame
+     */
+    protected static final int HEIGHT = 650;
+
+    /**
+     * The font used for edges in the game frame
+     */
+    protected static final Color borderColor = new Color(0, 0, 0);
     private static UndoButton undoButton;
     private static BoardPanel boardPanel;
     private static JFrame gameFrame;
 
-    public GuiManager(GameDesktop gameDesktop, BoardDesktop boardDesktop) {
-        boardPanel = new BoardPanel(boardDesktop);
+    /**
+     * Initialize the GUI manager for the game
+     * @param gameDesktop the game to initialize
+     */
+    public GuiManager(GameDesktop gameDesktop) {
+        boardPanel = new BoardPanel(gameDesktop.getGameController().getBoard());
         undoButton = new UndoButton(gameDesktop);
         gameFrame = new JFrame("Reversi");
         gameFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -64,24 +68,40 @@ public class GuiManager {
         return rightPanel;
     }
 
+    /**
+     * Set the game frame visible
+     */
     public void setFrameVisible() {
         gameFrame.setVisible(true);
     }
 
+    /**
+     * Closes the game frame
+     */
     public static void disposeFrame() {
         gameFrame.dispose();
     }
 
+    /**
+     * Disables the board to avoid involuntary clicks
+     */
     public static void disableBoard(){
         undoButton.setEnabled(false);
-        boardPanel.setEnabled(false);
+        boardPanel.boardDesktop.setEnabled(false);
     }
 
+    /**
+     * Re-enable a disabled board
+     */
     public static void enableBoard(){
         undoButton.setEnabled(true);
-        boardPanel.setEnabled(true);
+        boardPanel.boardDesktop.setEnabled(true);
     }
 
+    /**
+     * Returns the game frame
+     * @return the game frame
+     */
     public static JFrame getGameFrame() {
         return gameFrame;
     }

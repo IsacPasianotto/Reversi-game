@@ -6,22 +6,34 @@ import desktop.gui.main.GuiManager;
 import mechanics.Game;
 import player.Player;
 
+import javax.swing.*;
 import java.awt.event.ActionListener;
-import java.util.concurrent.TimeUnit;
 
+/**
+ * The desktop version of the game.
+ */
 public class GameDesktop extends Game {
-    public final GuiManager guiManager;
-    private final GameControllerDesktop gameController;
 
+    private final GuiManager guiManager;
+    private final GameControllerDesktop gameController;
+    /**
+     * Initialize a new GUI game with the given board and players.
+     * @param board the board of the game
+     * @param blackPlayer the black player
+     * @param whitePlayer the white player
+     */
     public GameDesktop(BoardDesktop board, Player blackPlayer, Player whitePlayer) {
         super(board, blackPlayer, whitePlayer);
         this.gameController = new GameControllerDesktop(board);
-        guiManager = new GuiManager(this, board);
+        guiManager = new GuiManager(this);
         addListenersToButtonGrid();
-        if (!Player.isHumanPlayer(blackPlayer)) {
-            gameController.handleBotTurn(blackPlayer);
-            swapTurn();
-        }
+        if (!blackPlayer.isHumanPlayer())
+            handleBotPlayerTurn(blackPlayer);
+    }
+
+    @Override
+    public void play(){
+        SwingUtilities.invokeLater(guiManager::setFrameVisible);
     }
 
     private void addListenersToButtonGrid() {
@@ -40,30 +52,36 @@ public class GameDesktop extends Game {
         };
     }
 
-    void handleHumanAndBotTurns(BoardTile position){
+    private void handleHumanAndBotTurns(BoardTile position){
         gameController.handleHumanTurn(position, getCurrentPlayerColor());
         BoardDesktop currentBoard = gameController.getBoard();
         if (aNewMoveHasBeenMade(currentBoard)) {
             previousSteps.add(currentBoard.copy());
             swapTurn();
             Player currentPlayer = isBlackToMove()? blackPlayer : whitePlayer;
-            if (!Player.isHumanPlayer(currentPlayer)) {
-                gameController.handleBotTurn(currentPlayer);
-                currentBoard = gameController.getBoard();
-                if (aNewMoveHasBeenMade(currentBoard))
-                    previousSteps.add(currentBoard.copy());
-                swapTurn();
-            }
+            if (!currentPlayer.isHumanPlayer())
+                handleBotPlayerTurn(currentPlayer);
         }
         gameController.computeValidMoves(getCurrentPlayerColor());
         if (gameController.thereAreNoValidMoves())
             gameController.handleNoValidMovesCase(getCurrentPlayerColor());
     }
 
-    private boolean aNewMoveHasBeenMade(BoardDesktop board) {
-        return !board.equals(previousSteps.getLast());
+    private void handleBotPlayerTurn(Player currentPlayer) {
+        gameController.handleBotTurn(currentPlayer);
+        BoardDesktop currentBoard = gameController.getBoard();
+        if (aNewMoveHasBeenMade(currentBoard))
+            previousSteps.add(currentBoard.copy());
+        swapTurn();
     }
 
+    private boolean aNewMoveHasBeenMade(BoardDesktop board) {
+        return !board.equals(previousSteps.get(previousSteps.size()-1));
+    }
+
+    /**
+     * Prepare the board to undo the last move.
+     */
     @Override
     public void undoLastMove() {
         GuiManager.disableBoard();
@@ -74,12 +92,19 @@ public class GameDesktop extends Game {
         GuiManager.enableBoard();
     }
 
+    /**
+     * Cancel the last move done and go back to the previous state of the game.
+     */
     @Override
-    public void undo(int numberOfStepsBack) {
+    protected void undo(int numberOfStepsBack) {
         super.undo(numberOfStepsBack);
-        gameController.updateBoard(numberOfStepsBack);
+        gameController.updateBoardAfterUndo(numberOfStepsBack);
     }
 
+    /**
+     * Returns the manager of the GUI.
+     * @return the manager of the GUI
+     */
     @Override
     public GameControllerDesktop getGameController() {
         return gameController;

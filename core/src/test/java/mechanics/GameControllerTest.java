@@ -31,7 +31,7 @@ class GameControllerTest {
     void findDirectionsWithOppositeColorCheckCoordinates(String inputCoords, int expectedX, int expectedY) {
         GameController gameController = new GameController(new Board());
         ArrayList<Direction> directionsWithOppositeColor = gameController.findDirectionsWithOppositeColor(new BoardTile(inputCoords),ColoredPawn.BLACK);
-        Direction chosenDirection = directionsWithOppositeColor.getFirst();
+        Direction chosenDirection = directionsWithOppositeColor.get(0);
         assertEquals(expectedX, chosenDirection.x());
         assertEquals(expectedY, chosenDirection.y());
     }

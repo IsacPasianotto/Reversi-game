@@ -11,8 +11,17 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-
+/**
+ *  Class that contains the main method to start the terminal version of the game.
+ *  It allows the user to choose the game mode, the difficulty of the bots and the starting player, and then starts the game.
+ */
 public class MainTerminal {
+
+    /**
+     * Main method to start the game: it will ask the user to choose the game mode, the difficulty of the bots and the starting player,
+     * and then start the game accordingly to the chosen settings.
+     * @param args command line arguments, not used
+     */
     public static void main(String[] args) {
         String begin = """
                 mechanics.Game started!

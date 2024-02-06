@@ -1,24 +1,46 @@
-package desktop.gui.other;
+package desktop.gui.other.outcome;
 
 import desktop.MainDesktop;
 import desktop.gui.main.GuiManager;
-import desktop.gui.main.components.CurrentScorePanel;
-import desktop.gui.other.components.Button;
-import desktop.gui.other.components.WinnerPanel;
+import desktop.gui.main.CurrentScorePanel;
+import desktop.gui.other.Button;
 
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * The frame that displays the outcome of the game.
+ */
 public class OutcomeFrame {
-    private static final Font headerFont = GuiManager.arialBoldItalic35;
-    private static final Color fontColor = GuiManager.white;
-    private static final Font buttonFont = GuiManager.buttonFont;
-    private static final int WIDTH = 500;
-    private static final int HEIGHT = 450;
+    /**
+     * The width of the frame.
+     */
+    protected static final int WIDTH = 500;
+    /**
+     * The height of the frame.
+     */
+    protected static final int HEIGHT = 450;
+    /**
+     * The font to use for the header.
+     */
+    protected static final Font headerFont = new Font("Arial", Font.BOLD | Font.ITALIC, 35);
+    /**
+     * The color of the font
+     */
+    protected static final Color fontColor = new Color(255, 255, 255);
+    /**
+     * The font to use for buttons.
+     */
+    protected static final Font buttonFont = new Font("Arial", Font.BOLD, 20);
     private final JFrame frame;
     private JButton closeButton;
     private JButton playAgainButton;
 
+    /**
+     * Creates a new OutcomeFrame with the given scores.
+     * @param blackScore the score of the black player
+     * @param whiteScore the score of the white player
+     */
     public OutcomeFrame(int blackScore, int whiteScore){
         frame = new JFrame("Outcome");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -75,14 +97,26 @@ public class OutcomeFrame {
         return exitButtonPanel;
     }
 
+    /**
+     * Sets the visibility of the frame.
+     * @param visible the visibility of the frame
+     */
     public void setVisible(boolean visible){
         frame.setVisible(visible);
     }
 
+    /**
+     * Returns the play again button.
+     * @return the play again button
+     */
     public JButton getPlayAgainButton() {
         return playAgainButton;
     }
 
+    /**
+     * Returns the close button.
+     * @return the close button
+     */
     public JButton getCloseButton() {
         return closeButton;
     }

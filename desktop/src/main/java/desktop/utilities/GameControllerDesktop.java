@@ -4,9 +4,9 @@ import board.ColoredPawn;
 import board.ValidMove;
 import board.coords.BoardTile;
 import desktop.gui.main.GuiManager;
-import desktop.gui.main.components.CurrentPlayerPanel;
-import desktop.gui.main.components.CurrentScorePanel;
-import desktop.gui.other.OutcomeFrame;
+import desktop.gui.main.CurrentPlayerPanel;
+import desktop.gui.main.CurrentScorePanel;
+import desktop.gui.other.outcome.OutcomeFrame;
 import mechanics.GameController;
 import player.Player;
 import player.human.QuitGameException;
@@ -17,30 +17,39 @@ import java.awt.event.ActionListener;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
+/**
+ * The desktop version of the game controller.
+ */
 public class GameControllerDesktop extends GameController {
+    private final BoardDesktop board;
 
+    /**
+     * Creates a new GameControllerDesktop with the given board.
+     * @param board the board of the game
+     */
     public GameControllerDesktop(BoardDesktop board) {
         super(board);
+        this.board = board;
     }
 
-    protected void handleHumanTurn(BoardTile position, ColoredPawn currentPlayer) {
+    void handleHumanTurn(BoardTile position, ColoredPawn currentPlayer) {
         computeValidMoves(currentPlayer);
         if (thereAreNoValidMoves()) handleNoValidMovesCase(currentPlayer);
         else handleHumanMove(position);
     }
 
     private void handleHumanMove(BoardTile position) {
-        getBoard().disableSuggestions();
+        board.disableSuggestions();
         Optional<ValidMove> move = isValid(position);
         if (move.isPresent())
-            getBoard().updateGUIBoard(move.get());
+            board.updateGUIBoard(move.get());
         else {
             JOptionPane.showMessageDialog(null, "Invalid move!", "Error", JOptionPane.ERROR_MESSAGE);
-            getBoard().enableSuggestions(getValidMoves());
+            board.enableSuggestions(getValidMoves());
         }
     }
 
-    protected void handleBotTurn(Player bot){
+    void handleBotTurn(Player bot){
         computeValidMoves(bot.getPlayerColor());
         if (thereAreNoValidMoves()) handleNoValidMovesCase(bot.getPlayerColor());
         else handleBotMove(bot);
@@ -51,7 +60,7 @@ public class GameControllerDesktop extends GameController {
         try {
             move = bot.askForAMove(this);
         } catch (QuitGameException | UndoException ignored) {}
-        getBoard().updateGUIBoard(move);
+        board.updateGUIBoard(move);
     }
 
     void handleNoValidMovesCase(ColoredPawn currentColor) {
@@ -66,27 +75,32 @@ public class GameControllerDesktop extends GameController {
 
     private void gameOverHandle() {
         SwingUtilities.invokeLater(() -> {
-            GuiManager.disableBoard();
+            GuiManager.disposeFrame();
             int blackScore = computeScoreForPlayer(ColoredPawn.BLACK);
             int whiteScore = computeScoreForPlayer(ColoredPawn.WHITE);
             OutcomeFrame outcomeFrame = new OutcomeFrame(blackScore, whiteScore);
             outcomeFrame.setVisible(true);
+
         });
     }
 
-    protected void updateBoard(int numberOfStepsBack) {
+    void updateBoardAfterUndo(int numberOfStepsBack) {
         IntStream.range(0, numberOfStepsBack).forEach(i -> CurrentPlayerPanel.updateCurrentPlayerLiveLabel());
-        getBoard().updateButtonGrid();
+        board.updateButtonGrid();
         CurrentScorePanel.updateLiveScoreLabel(computeScoreForPlayer((ColoredPawn.BLACK)),
                 computeScoreForPlayer(ColoredPawn.WHITE));
     }
 
-    protected void addListenerToButton(BoardTile position, ActionListener listener){
-        getBoard().addListenerToButton(position, listener);
+    void addListenerToButton(BoardTile position, ActionListener listener){
+        board.addListenerToButton(position, listener);
     }
 
+    /**
+     * Returns the board of the game.
+     * @return the board of the game
+     */
     @Override
     public BoardDesktop getBoard() {
-        return (BoardDesktop) board;
+        return board;
     }
 }
