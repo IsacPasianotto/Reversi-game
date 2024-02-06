@@ -6,9 +6,9 @@ All the credits go to the respective owners.
 
 Thanks to all of them for making this project possible.
 
-## Technologies
+## Tools and technologies
 
-| technology                                                                   | description                                       | License                                                                                                    |
+| tool                                                                         | description                                       | License                                                                                                    |
 |------------------------------------------------------------------------------|---------------------------------------------------|------------------------------------------------------------------------------------------------------------|
 | [Java](https://www.java.com/en/)                                             | Programming language used                         | [Oracle Binary Code License Agreement](https://www.oracle.com/downloads/licenses/binary-code-license.html) |
 | [OpenJDK](https://openjdk.java.net/)                                         | Java Development Kit used                         | [GNU General Public License v2.0](https://openjdk.java.net/legal/gplv2+ce.html)                            |
@@ -16,6 +16,7 @@ Thanks to all of them for making this project possible.
 | [Groovy](https://groovy-lang.org/)                                           | Programming language used for the Gradle scripts  | [Apache License 2.0](https://github.com/apache/groovy/blob/master/LICENSE)                                 |
 | [CircleCI](https://circleci.com/)                                            | Continuous integration and delivery platform used | [their own "Software as a Service" agreement](https://circleci.com/legal/enterprise-license-agreement/)    |
 | [JetBrains IntelliJ IDEA Community Edition](https://www.jetbrains.com/idea/) | IDE used                                          | [JetBrains community edition terms](https://www.jetbrains.com/legal/docs/toolbox/user_community/)          |
+| [xvfb](https://www.x.org/releases/X11R7.6/doc/man/man1/Xvfb.1.xhtml)         | Virtual framebuffer used for the GUI tests        | [They own license](https://github.com/cypress-io/xvfb/blob/master/LICENSE)                                 |
 
 ## Libraries
 
