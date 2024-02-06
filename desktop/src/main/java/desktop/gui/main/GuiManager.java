@@ -30,6 +30,7 @@ public class GuiManager {
 
     /**
      * Initialize the GUI manager for the game
+     *
      * @param gameDesktop the game to initialize
      */
     public GuiManager(GameDesktop gameDesktop) {
@@ -46,12 +47,44 @@ public class GuiManager {
         gameFrame.add(mainPanel);
     }
 
+    /**
+     * Closes the game frame
+     */
+    public static void disposeFrame() {
+        gameFrame.dispose();
+    }
+
+    /**
+     * Disables the board to avoid involuntary clicks
+     */
+    public static void disableBoard() {
+        undoButton.setEnabled(false);
+        boardPanel.boardDesktop.setEnabled(false);
+    }
+
+    /**
+     * Re-enable a disabled board
+     */
+    public static void enableBoard() {
+        undoButton.setEnabled(true);
+        boardPanel.boardDesktop.setEnabled(true);
+    }
+
+    /**
+     * Returns the game frame
+     *
+     * @return the game frame
+     */
+    public static JFrame getGameFrame() {
+        return gameFrame;
+    }
+
     private JPanel buildRightPanel() {
         JPanel rightPanel = new JPanel(new GridLayout(0, 1));
         rightPanel.setBorder(new LineBorder(borderColor));
 
         CurrentPlayerPanel currentPlayerPanel1 = new CurrentPlayerPanel();
-        CurrentScorePanel currentScorePanel1 = new CurrentScorePanel(2,2);
+        CurrentScorePanel currentScorePanel1 = new CurrentScorePanel(2, 2);
         JPanel currentPlayerPanel = currentPlayerPanel1.getCurrentPlayerPanel();
         JPanel currentScorePanel = currentScorePanel1.getCurrentScorePanel();
 
@@ -73,36 +106,5 @@ public class GuiManager {
      */
     public void setFrameVisible() {
         gameFrame.setVisible(true);
-    }
-
-    /**
-     * Closes the game frame
-     */
-    public static void disposeFrame() {
-        gameFrame.dispose();
-    }
-
-    /**
-     * Disables the board to avoid involuntary clicks
-     */
-    public static void disableBoard(){
-        undoButton.setEnabled(false);
-        boardPanel.boardDesktop.setEnabled(false);
-    }
-
-    /**
-     * Re-enable a disabled board
-     */
-    public static void enableBoard(){
-        undoButton.setEnabled(true);
-        boardPanel.boardDesktop.setEnabled(true);
-    }
-
-    /**
-     * Returns the game frame
-     * @return the game frame
-     */
-    public static JFrame getGameFrame() {
-        return gameFrame;
     }
 }

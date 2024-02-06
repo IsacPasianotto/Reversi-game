@@ -3,9 +3,9 @@ package desktop.utilities;
 import board.ColoredPawn;
 import board.ValidMove;
 import board.coords.BoardTile;
-import desktop.gui.main.GuiManager;
 import desktop.gui.main.CurrentPlayerPanel;
 import desktop.gui.main.CurrentScorePanel;
+import desktop.gui.main.GuiManager;
 import desktop.gui.other.outcome.OutcomeFrame;
 import mechanics.GameController;
 import player.Player;
@@ -25,6 +25,7 @@ public class GameControllerDesktop extends GameController {
 
     /**
      * Creates a new GameControllerDesktop with the given board.
+     *
      * @param board the board of the game
      */
     public GameControllerDesktop(BoardDesktop board) {
@@ -49,7 +50,7 @@ public class GameControllerDesktop extends GameController {
         }
     }
 
-    void handleBotTurn(Player bot){
+    void handleBotTurn(Player bot) {
         computeValidMoves(bot.getPlayerColor());
         if (thereAreNoValidMoves()) handleNoValidMovesCase(bot.getPlayerColor());
         else handleBotMove(bot);
@@ -59,7 +60,8 @@ public class GameControllerDesktop extends GameController {
         ValidMove move = null;
         try {
             move = bot.askForAMove(this);
-        } catch (QuitGameException | UndoException ignored) {}
+        } catch (QuitGameException | UndoException ignored) {
+        }
         board.updateGUIBoard(move);
     }
 
@@ -91,12 +93,13 @@ public class GameControllerDesktop extends GameController {
                 computeScoreForPlayer(ColoredPawn.WHITE));
     }
 
-    void addListenerToButton(BoardTile position, ActionListener listener){
+    void addListenerToButton(BoardTile position, ActionListener listener) {
         board.addListenerToButton(position, listener);
     }
 
     /**
      * Returns the board of the game.
+     *
      * @return the board of the game
      */
     @Override

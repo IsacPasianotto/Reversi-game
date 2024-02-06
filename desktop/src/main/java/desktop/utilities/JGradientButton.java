@@ -15,10 +15,11 @@ class JGradientButton extends JButton {
 
     /**
      * Creates a new JGradientButton with the given coordinates.
+     *
      * @param x the x coordinate of the button
      * @param y the y coordinate of the button
      */
-    JGradientButton(int x, int y){
+    JGradientButton(int x, int y) {
         super("");
         setContentAreaFilled(false);
         Insets buttonMargin = new Insets(0, 0, 0, 0);
@@ -35,12 +36,11 @@ class JGradientButton extends JButton {
             public void mouseEntered(MouseEvent e) {
                 setBackground(mouseOverColor);
             }
+
             @Override
             public void mouseExited(MouseEvent e) {
-                if ((boolean) getClientProperty("toSuggest"))
-                    setBackground(suggestionColor);
-                else
-                    setBackground(boardColor);
+                Color background = (boolean) getClientProperty("toSuggest") ? suggestionColor : boardColor;
+                setBackground(background);
             }
         };
         addMouseListener(mouseBehaviour);
@@ -48,35 +48,34 @@ class JGradientButton extends JButton {
 
     /**
      * Paints the component with a gradient background.
+     *
      * @param g the graphics object to paint with
      */
     @Override
-    protected void paintComponent(Graphics g){
-        Graphics2D g2 = (Graphics2D)g.create();
+    protected void paintComponent(Graphics g) {
+        Graphics2D g2 = (Graphics2D) g.create();
         g2.setPaint(new GradientPaint(
                 new Point(0, 0),
                 getBackground(),
-                new Point(0, getHeight()/3),
+                new Point(0, getHeight() / 3),
                 boardColor2));
-        g2.fillRect(0, 0, getWidth(), getHeight()/3);
+        g2.fillRect(0, 0, getWidth(), getHeight() / 3);
         g2.setPaint(new GradientPaint(
-                new Point(0, getHeight()/3),
+                new Point(0, getHeight() / 3),
                 boardColor2,
                 new Point(0, getHeight()),
                 getBackground()));
-        g2.fillRect(0, getHeight()/3, getWidth(), getHeight());
+        g2.fillRect(0, getHeight() / 3, getWidth(), getHeight());
         g2.dispose();
 
         super.paintComponent(g);
     }
 
-    void setToSuggestProperty(boolean toSuggest){
+    void setToSuggestProperty(boolean toSuggest) {
         putClientProperty("toSuggest", toSuggest);
     }
 
     void paintBackground() {
         setBackground((boolean) getClientProperty("toSuggest") ? suggestionColor : boardColor);
     }
-
-
 }

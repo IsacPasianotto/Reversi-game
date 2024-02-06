@@ -6,6 +6,7 @@ import desktop.utilities.BoardDesktop;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.util.stream.IntStream;
 
 /**
  * The panel containing the game board.
@@ -31,6 +32,7 @@ public class BoardPanel {
 
     /**
      * Initialize the panel of the board.
+     *
      * @param board the board of the game
      */
     public BoardPanel(BoardDesktop board) {
@@ -40,10 +42,10 @@ public class BoardPanel {
         boardPanel.add(new JLabel(""));
         for (int column = 0; column < Board.BOARD_SIZE; column++)
             buildLabel(columnLabels.substring(column, column + 1));
-        for (int rowIndex = 0; rowIndex < Board.BOARD_SIZE; rowIndex++) {
+        IntStream.range(0, Board.BOARD_SIZE).forEach(rowIndex -> {
             buildLabel("" + (rowIndex + 1));
             addLineOfButtons(rowIndex);
-        }
+        });
     }
 
     private void addLineOfButtons(int i) {

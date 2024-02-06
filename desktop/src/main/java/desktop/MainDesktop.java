@@ -12,6 +12,7 @@ public class MainDesktop {
 
     /**
      * Starts a welcome frame to begin the game.
+     *
      * @param args command line arguments, not used
      */
     public static void main(String[] args) {

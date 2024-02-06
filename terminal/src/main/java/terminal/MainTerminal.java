@@ -12,30 +12,44 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- *  Class that contains the main method to start the terminal version of the game.
- *  It allows the user to choose the game mode, the difficulty of the bots and the starting player, and then starts the game.
+ * Class that contains the main method to start the terminal version of the game.
+ * It allows the user to choose the game mode, the difficulty of the bots and the starting player, and then starts the game.
  */
 public class MainTerminal {
 
     /**
      * Main method to start the game: it will ask the user to choose the game mode, the difficulty of the bots and the starting player,
      * and then start the game accordingly to the chosen settings.
+     *
      * @param args command line arguments, not used
      */
     public static void main(String[] args) {
         String begin = """
-                mechanics.Game started!
-                ######################################################################################
-                Welcome to Reversi!
+                Game started!
+                                
+                               _       __________    __________  __  _________   __________
+                              | |     / / ____/ /   / ____/ __ \\/  |/  / ____/  /_  __/ __ \\
+                              | | /| / / __/ / /   / /   / / / / /|_/ / __/      / / / / / /
+                              | |/ |/ / /___/ /___/ /___/ /_/ / /  / / /___     / / / /_/ /
+                              |__/|__/_____/_____/\\____/\\____/_/  /_/_____/    /_/  \\____/
+                                        
+                            ____  _______    ____________  _____ ____   _________    __  _________
+                           / __ \\/ ____/ |  / / ____/ __ \\/ ___//  _/  / ____/   |  /  |/  / ____/
+                          / /_/ / __/  | | / / __/ / /_/ /\\__ \\ / /   / / __/ /| | / /|_/ / __/
+                         / _, _/ /___  | |/ / /___/ _, _/___/ // /   / /_/ / ___ |/ /  / / /___
+                        /_/ |_/_____/  |___/_____/_/ |_|/____/___/   \\____/_/  |_/_/  /_/_____/
+                        
+                #######################################################################################\s
                 This is the list of possible commands:
 
-                - Enter a letter (upper or lower case) followed by a number to place a pawn in the corresponding box (examples: a1, A1)
-                If the move is not valid you will be asked to enter another one, and the system will show you the available ones.
+                - Enter a letter (upper or lower case) followed by a number to place a pawn in the\s
+                corresponding box (examples: a1, A1). If the move is not valid you will be asked to\s
+                enter another one, and the system will show you the available ones.
 
                 - quit: quit the game
 
-                - undo: undo the last move you have done (it will also undo bot last move if you are playing solo)
-                ######################################################################################
+                - undo: undo the last move (it will also undo bot last move if you are playing solo)
+                #######################################################################################
                 """;
         System.out.println(begin);
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));

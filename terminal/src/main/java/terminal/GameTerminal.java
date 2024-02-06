@@ -12,6 +12,7 @@ import java.util.Optional;
 /**
  * Class which overrides the Game class to implement the terminal version of the game.
  * It uses the GameControllerTerminal class to handle the game mechanics and the player inputs and prints the game status in the terminal.
+ *
  * @see Game
  */
 public class GameTerminal extends Game {
@@ -19,10 +20,11 @@ public class GameTerminal extends Game {
 
     /**
      * Calls the constructor of the superclass and initializes the GameControllerTerminal.
-     * @see Player
-     * @param board the board the game will be played on, likely a new board.
+     *
+     * @param board       the board the game will be played on, likely a new board.
      * @param blackPlayer a Player instance representing the black player.
      * @param whitePlayer a Player instance representing the white player.
+     * @see Player
      */
     public GameTerminal(Board board, Player blackPlayer, Player whitePlayer) {
         super(board, blackPlayer, whitePlayer);
@@ -48,6 +50,7 @@ public class GameTerminal extends Game {
 
     /**
      * Return the current instance of GameControllerTerminal.
+     *
      * @return the current instance of GameControllerTerminal.
      * @see GameControllerTerminal
      */
@@ -58,6 +61,7 @@ public class GameTerminal extends Game {
 
     /**
      * Method to get the move from the player, asking for the input in the terminal.
+     *
      * @return an Optional containing the move as a ValidMove object if the move is valid, an empty Optional otherwise.
      */
     @Override
@@ -80,16 +84,15 @@ public class GameTerminal extends Game {
     }
 
     /**
-     *  Calls the undo method of the superclass to undo the last move and inform the user printing a message in the terminal.
+     * Calls the undo method of the superclass to undo the last move and inform the user printing a message in the terminal.
      */
     @Override
     protected void undoLastMove() {
-        int numberOfStepsBack = thereIsAComputerPlayer()? 2 : 1;
+        int numberOfStepsBack = thereIsAComputerPlayer() ? 2 : 1;
         if (previousSteps.size() > numberOfStepsBack) {
             System.out.println("Undoing last move.");
             undo(numberOfStepsBack);
         } else
             System.out.println("Cannot undo anymore.");
     }
-
 }

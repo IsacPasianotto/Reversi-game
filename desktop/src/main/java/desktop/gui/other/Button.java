@@ -11,6 +11,7 @@ public class Button {
 
     /**
      * Initializes the button with the given font and text.
+     *
      * @param buttonFont the font to use for the button
      * @param buttonText the text to display on the button
      */
@@ -25,6 +26,7 @@ public class Button {
 
     /**
      * Returns the button.
+     *
      * @return the button
      */
     public JButton getButton() {

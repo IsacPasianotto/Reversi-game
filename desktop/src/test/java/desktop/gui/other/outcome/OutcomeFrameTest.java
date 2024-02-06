@@ -1,13 +1,15 @@
+package desktop.gui.other.outcome;
+
 import board.ColoredPawn;
 import desktop.gui.main.GuiManager;
-import desktop.gui.other.outcome.OutcomeFrame;
 import desktop.gui.other.welcome.WelcomeFrame;
 import desktop.utilities.BoardDesktop;
 import desktop.utilities.GameDesktop;
 import org.junit.jupiter.api.Test;
 import player.computer.SmartPlayer;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class OutcomeFrameTest {
 

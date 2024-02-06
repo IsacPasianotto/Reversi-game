@@ -11,6 +11,7 @@ import java.util.Optional;
 
 /**
  * A Human player that asks for the move through the standard input.
+ *
  * @see Player
  */
 public class Human implements Player {
@@ -19,6 +20,7 @@ public class Human implements Player {
 
     /**
      * Constructor for the Human class.
+     *
      * @param color The color, represented by a ColoredPawn, the human player will play as.
      */
     public Human(ColoredPawn color) {
@@ -28,12 +30,13 @@ public class Human implements Player {
 
     /**
      * Asks the GameController for the list of valid moves in the current state of the game and returns the one that the player wants to play.
+     *
      * @param gameController The GameController object that is used to get the list of valid moves.
-     * @see ValidMove
-     * @see GameController
      * @return The move, as a ValidMove object, that the player wants to play.
      * @throws QuitGameException if the player wants to quit the game
-     * @throws UndoException if the player wants to undo the last move
+     * @throws UndoException     if the player wants to undo the last move
+     * @see ValidMove
+     * @see GameController
      */
     public ValidMove askForAMove(GameController gameController) throws UndoException, QuitGameException {
         Optional<ValidMove> enteredMove = Optional.empty();
@@ -46,6 +49,7 @@ public class Human implements Player {
 
     /**
      * Checks if the player is a human player or not
+     *
      * @return true if the player is a human player, false otherwise
      */
     public boolean isHumanPlayer() {
@@ -62,9 +66,10 @@ public class Human implements Player {
 
     /**
      * Returns the color of the pawns the Human is playing as.
+     *
      * @return The color of the pawns the Human is playing as.
      */
-    public ColoredPawn getPlayerColor(){
+    public ColoredPawn getPlayerColor() {
         return color;
     }
 }

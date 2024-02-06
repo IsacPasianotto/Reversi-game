@@ -40,10 +40,11 @@ public class WinnerPanel {
 
     /**
      * Creates a new WinnerPanel with the given scores.
+     *
      * @param blackScore the score of the black player
      * @param whiteScore the score of the white player
      */
-    public WinnerPanel(int blackScore, int whiteScore){
+    public WinnerPanel(int blackScore, int whiteScore) {
         black.setImage(black.getImage().getScaledInstance(PLAYER_SYMBOL_SIZE, PLAYER_SYMBOL_SIZE, Image.SCALE_SMOOTH));
         white.setImage(white.getImage().getScaledInstance(PLAYER_SYMBOL_SIZE, PLAYER_SYMBOL_SIZE, Image.SCALE_SMOOTH));
         draw.setImage(draw.getImage().getScaledInstance(PLAYER_SYMBOL_SIZE, PLAYER_SYMBOL_SIZE, Image.SCALE_SMOOTH));
@@ -74,6 +75,7 @@ public class WinnerPanel {
 
     /**
      * Returns the winner panel.
+     *
      * @return the winner panel
      */
     public JPanel getWinnerPanel() {

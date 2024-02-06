@@ -10,7 +10,7 @@ class UserInputReader implements AutoCloseable {
         this.reader = reader;
     }
 
-     String readInput() throws QuitGameException, UndoException {
+    String readInput() throws QuitGameException, UndoException {
         String input;
         try {
             input = reader.readLine();

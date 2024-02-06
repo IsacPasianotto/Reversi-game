@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.util.stream.IntStream;
 
-import static desktop.gui.other.welcome.GameSettings.*;
+import static desktop.gui.other.welcome.GameSettings.Players;
 
 /**
  * Build the panels needed to set the game settings.
@@ -27,35 +27,36 @@ public class WelcomePanel {
     private final SingleSettingPanel firstPlayer;
     private GameSettings gameSettings;
 
-    WelcomePanel(){
-        gameSettings = new GameSettings(true,true,true);
-        gameMode = new SingleSettingPanel(numberOfGameModes,"Game Mode", "Select a game mode:", new String[]{"Human vs Human", "Human vs Computer"});
-        difficulty = new SingleSettingPanel(numberOfDifficulties,"Difficulty", "Select a difficulty", new String[]{"Easy", "Hard"});
-        firstPlayer = new SingleSettingPanel(numberOfPlayers,"Who plays first?", "Select your color:",  new String[]{"Black", "White"});
+    WelcomePanel() {
+        gameSettings = new GameSettings(true, true, true);
+        gameMode = new SingleSettingPanel(numberOfGameModes, "Game Mode", "Select a game mode:", new String[]{"Human vs Human", "Human vs Computer"});
+        difficulty = new SingleSettingPanel(numberOfDifficulties, "Difficulty", "Select a difficulty", new String[]{"Easy", "Hard"});
+        firstPlayer = new SingleSettingPanel(numberOfPlayers, "Who plays first?", "Select your color:", new String[]{"Black", "White"});
         difficulty.setVisible(false);
         firstPlayer.setVisible(false);
         setActionListeners();
     }
 
-    private void setActionListeners(){
+    private void setActionListeners() {
         ActionListener[] gameModeListeners = {e -> setHumanVsHumanSetting(true), e -> setHumanVsHumanSetting(false)};
         IntStream.range(0, numberOfGameModes).forEach(i -> gameMode.setActionListenerToIthButton(i, gameModeListeners[i]));
 
-        ActionListener[] difficultyListeners = {e -> gameSettings = new GameSettings(false,true, gameSettings.isHumanFirst()),
-                                             e -> gameSettings = new GameSettings(false,false, gameSettings.isHumanFirst())};
+        ActionListener[] difficultyListeners = {e -> gameSettings = new GameSettings(false, true, gameSettings.isHumanFirst()),
+                e -> gameSettings = new GameSettings(false, false, gameSettings.isHumanFirst())};
         IntStream.range(0, numberOfDifficulties).forEach(i -> difficulty.setActionListenerToIthButton(i, difficultyListeners[i]));
 
         ActionListener[] firstPlayerListeners = {e -> gameSettings = new GameSettings(false, gameSettings.isDifficultyEasy(), true),
-                                            e -> gameSettings = new GameSettings(false, gameSettings.isDifficultyEasy(), false)};
+                e -> gameSettings = new GameSettings(false, gameSettings.isDifficultyEasy(), false)};
         IntStream.range(0, numberOfPlayers).forEach(i -> firstPlayer.setActionListenerToIthButton(i, firstPlayerListeners[i]));
     }
+
     private void setHumanVsHumanSetting(boolean aFlag) {
         difficulty.setVisible(!aFlag);
         firstPlayer.setVisible(!aFlag);
         gameSettings = new GameSettings(aFlag, gameSettings.isDifficultyEasy(), gameSettings.isHumanFirst());
     }
 
-    Players getPlayers(){
+    Players getPlayers() {
         return gameSettings.getPlayers();
     }
 
@@ -77,7 +78,7 @@ public class WelcomePanel {
         };
     }
 
-    boolean isDefaultOnIthPanel(int i){
+    boolean isDefaultOnIthPanel(int i) {
         return gameSettings.isDefaultOnIthPanel(i);
     }
 

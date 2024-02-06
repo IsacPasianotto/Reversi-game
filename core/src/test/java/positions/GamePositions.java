@@ -8,8 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
-public enum GamePositions {
-    ;
+public class GamePositions {
 
     public static Board impossibleToMovePosition() {
         // Hassan 3 – 17 Verstuyft J. (European Grand Prix Ghent 2017)

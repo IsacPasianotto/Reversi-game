@@ -45,6 +45,4 @@ class BoardTileTest {
         String exceptionMessage = wrongInput.getMessage();
         assertEquals("The coordinates should be a letter followed by a number", exceptionMessage);
     }
-
 }
-

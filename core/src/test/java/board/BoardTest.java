@@ -10,11 +10,10 @@ import player.computer.RandomPlayer;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static positions.GamePositions.*;
 
 class BoardTest {
-
     @ParameterizedTest
     @MethodSource("positions.BoardTilePositions#emptyBoardTilesOnStart")
     void emptyBoardTilesOnStart(String tileName) {
@@ -31,7 +30,6 @@ class BoardTest {
         ColoredPawn coloredPawnTile = board.getPositionColor(x, y);
         assertEquals(expectedColor, coloredPawnTile);
     }
-
 
     @Test
     void swapAlongAllDirections() {

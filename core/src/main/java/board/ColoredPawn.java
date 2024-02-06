@@ -25,6 +25,7 @@ public enum ColoredPawn {
 
     /**
      * Assuming the current instance is not EMPTY, returns the opposite color.
+     *
      * @return white if the current instance is black, black if it's white
      */
     public ColoredPawn opposite() {
@@ -33,6 +34,7 @@ public enum ColoredPawn {
 
     /**
      * Returns the symbol that represents the current instance.
+     *
      * @return the symbol that represents the current instance
      */
     @Override

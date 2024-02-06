@@ -1,8 +1,8 @@
 package desktop.gui.other.outcome;
 
 import desktop.MainDesktop;
-import desktop.gui.main.GuiManager;
 import desktop.gui.main.CurrentScorePanel;
+import desktop.gui.main.GuiManager;
 import desktop.gui.other.Button;
 
 import javax.swing.*;
@@ -38,10 +38,11 @@ public class OutcomeFrame {
 
     /**
      * Creates a new OutcomeFrame with the given scores.
+     *
      * @param blackScore the score of the black player
      * @param whiteScore the score of the white player
      */
-    public OutcomeFrame(int blackScore, int whiteScore){
+    public OutcomeFrame(int blackScore, int whiteScore) {
         frame = new JFrame("Outcome");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(WIDTH, HEIGHT);
@@ -55,8 +56,8 @@ public class OutcomeFrame {
         generalPanel.setLayout(new BoxLayout(generalPanel, BoxLayout.Y_AXIS));
 
         JPanel headerPanel = buildHeaderPanel();
-        CurrentScorePanel outcomePanel = new CurrentScorePanel(blackScore,whiteScore);
-        WinnerPanel winnerPanel = new WinnerPanel(blackScore,whiteScore);
+        CurrentScorePanel outcomePanel = new CurrentScorePanel(blackScore, whiteScore);
+        WinnerPanel winnerPanel = new WinnerPanel(blackScore, whiteScore);
         JPanel exitButtonPanel = buildExitButtonPanel();
         generalPanel.add(headerPanel);
         generalPanel.add(outcomePanel.getCurrentScorePanel());
@@ -99,25 +100,18 @@ public class OutcomeFrame {
 
     /**
      * Sets the visibility of the frame.
+     *
      * @param visible the visibility of the frame
      */
-    public void setVisible(boolean visible){
+    public void setVisible(boolean visible) {
         frame.setVisible(visible);
     }
 
-    /**
-     * Returns the play again button.
-     * @return the play again button
-     */
-    public JButton getPlayAgainButton() {
+    JButton getPlayAgainButton() {
         return playAgainButton;
     }
 
-    /**
-     * Returns the close button.
-     * @return the close button
-     */
-    public JButton getCloseButton() {
+    JButton getCloseButton() {
         return closeButton;
     }
 }

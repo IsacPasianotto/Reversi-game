@@ -33,6 +33,7 @@ public class CurrentScorePanel {
 
     /**
      * Build the current score panel for the game frame
+     *
      * @param blackScore black player score
      * @param whiteScore white player score
      */
@@ -85,6 +86,7 @@ public class CurrentScorePanel {
 
     /**
      * Updates the live score each time a move is done
+     *
      * @param blackScore the score of the black player
      * @param whiteScore the score of the white player
      */
@@ -94,6 +96,7 @@ public class CurrentScorePanel {
 
     /**
      * Return the built panel
+     *
      * @return the built panel
      */
     public JPanel getCurrentScorePanel() {

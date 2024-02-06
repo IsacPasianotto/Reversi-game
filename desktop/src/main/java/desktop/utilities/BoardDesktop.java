@@ -12,6 +12,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.stream.IntStream;
 
 /**
  * The desktop version of the game board.
@@ -46,16 +47,16 @@ public class BoardDesktop extends Board {
         initButtonGrid();
     }
 
-    private void initButtonGrid(){
+    private void initButtonGrid() {
         for (int i = 0; i < BOARD_SIZE; i++)
             for (int j = 0; j < BOARD_SIZE; j++) {
-                buttonGrid[i][j] = new JGradientButton(i,j);
-                updateButtonIcon(i,j);
+                buttonGrid[i][j] = new JGradientButton(i, j);
+                updateButtonIcon(i, j);
             }
     }
 
     private void updateButtonIcon(int i, int j) {
-        Image img = switch (getPositionColor(i,j)) {
+        Image img = switch (getPositionColor(i, j)) {
             case BLACK -> blackPawn;
             case WHITE -> whitePawn;
             case EMPTY -> emptyPawn;
@@ -65,14 +66,14 @@ public class BoardDesktop extends Board {
 
     void enableSuggestions(ArrayList<ValidMove> validMoves) {
         for (ValidMove validMove : validMoves)
-            setSuggestionAtTile(validMove.position(),true);
+            setSuggestionAtTile(validMove.position(), true);
     }
 
     void disableSuggestions() {
         for (int i = 0; i < BOARD_SIZE; i++)
             for (int j = 0; j < BOARD_SIZE; j++) {
-                if ((boolean)buttonGrid[i][j].getClientProperty("toSuggest"))
-                    setSuggestionAtTile(new BoardTile(i, j),false);
+                if ((boolean) buttonGrid[i][j].getClientProperty("toSuggest"))
+                    setSuggestionAtTile(new BoardTile(i, j), false);
             }
     }
 
@@ -83,7 +84,7 @@ public class BoardDesktop extends Board {
         buttonGrid[row][col].paintBackground();
     }
 
-    void addListenerToButton(BoardTile position, ActionListener listener){
+    void addListenerToButton(BoardTile position, ActionListener listener) {
         buttonGrid[position.x()][position.y()].addActionListener(listener);
     }
 
@@ -91,43 +92,25 @@ public class BoardDesktop extends Board {
         applyMoveToBoard(move);
         updateButtonGrid();
         CurrentPlayerPanel.updateCurrentPlayerLiveLabel();
-        CurrentScorePanel.updateLiveScoreLabel(computeScoreForPlayer(ColoredPawn.BLACK),
-                                            computeScoreForPlayer(ColoredPawn.WHITE));
+        CurrentScorePanel.updateLiveScoreLabel(computeScoreForPlayer(ColoredPawn.BLACK), computeScoreForPlayer(ColoredPawn.WHITE));
     }
 
     void updateButtonGrid() {
-        for (int i = 0; i < BOARD_SIZE; i++)
-            for (int j = 0; j < BOARD_SIZE; j++)
-                updateButtonIcon(i,j);
+        IntStream.range(0, BOARD_SIZE).forEach(i -> IntStream.range(0, BOARD_SIZE).forEach(j -> updateButtonIcon(i, j)));
     }
 
     /**
      * Enable or disable the board when needed.
+     *
      * @param enabled true to enable the board, false to disable it
      */
     public void setEnabled(boolean enabled) {
-        for (int i = 0; i < BOARD_SIZE; i++)
-            for (int j = 0; j < BOARD_SIZE; j++)
-                buttonGrid[i][j].setEnabled(enabled);
-    }
-    /**
-     * Returns the black pawn image.
-     * @return the black pawn image
-     */
-    public static Image getBlackPawnImage() {
-        return blackPawn;
-    }
-
-    /**
-     * Returns the white pawn image.
-     * @return the white pawn image
-     */
-    public static Image getWhitePawnImage() {
-        return whitePawn;
+        IntStream.range(0, BOARD_SIZE).forEach(i -> IntStream.range(0, BOARD_SIZE).forEach(j -> buttonGrid[i][j].setEnabled(enabled)));
     }
 
     /**
      * Returns the button at the given position.
+     *
      * @param row the row of the button
      * @param col the column of the button
      * @return the button at the given position

@@ -6,13 +6,16 @@ package board.coords;
 public interface Couple {
     /**
      * Checks if the current couple is equal to a given one.
+     *
      * @param other an object to compare to
      * @return true if the two couples are equal, false otherwise
      */
     @Override
     boolean equals(Object other);
+
     /**
      * Returns a string representation of the current couple.
+     *
      * @return a string representation of the current couple
      */
     @Override

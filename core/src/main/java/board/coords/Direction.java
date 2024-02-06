@@ -3,14 +3,16 @@ package board.coords;
 /**
  * Record class to represent a direction on the board. Directions are relative to a position contained in a BoardTile,
  * hence they are represented by a couple of integers (x, y) where x and y are in the range [-1, 1].
- * @see BoardTile
- * @see Couple
+ *
  * @param x the row coordinate of the direction
  * @param y the column coordinate of the direction
+ * @see BoardTile
+ * @see Couple
  */
 public record Direction(int x, int y) implements Couple {
     /**
      * Creates a new Direction from the given coordinates.
+     *
      * @param x the row coordinate of the direction
      * @param y the column coordinate of the direction
      * @throws IllegalArgumentException if the given x or y are not in the range [-1, 1]
@@ -22,6 +24,7 @@ public record Direction(int x, int y) implements Couple {
 
     /**
      * Returns a string representation of the current direction.
+     *
      * @return a string representation of the current direction
      */
     @Override

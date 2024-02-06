@@ -10,14 +10,16 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- *  GameController class tuned for the terminal version of the game.
- *  This class adds the prints in the terminal to show the game status, the request for the move and the final scores.
+ * GameController class tuned for the terminal version of the game.
+ * This class adds the prints in the terminal to show the game status, the request for the move and the final scores.
+ *
  * @see GameController
  */
 public class GameControllerTerminal extends GameController {
 
     /**
      * Constructor for the GameControllerTerminal class.
+     *
      * @param board the board to be used in the game
      */
     public GameControllerTerminal(Board board) {
@@ -26,13 +28,14 @@ public class GameControllerTerminal extends GameController {
 
     /**
      * Method to get the move from the player, asking for the input in the terminal.
+     *
      * @param readInput String representing the move the player wants to make, should be in the format "A1" to "H8".
      * @return an Optional containing the move as a ValidMove object if the move is valid, an empty Optional otherwise.
      * @see GameController#getMove(String)
      * @see ValidMove
      */
     @Override
-    public Optional<ValidMove> getMove(String readInput)  {
+    public Optional<ValidMove> getMove(String readInput) {
         try {
             BoardTile chosen = new BoardTile(readInput);
             Optional<ValidMove> enteredMove = isValid(chosen);
@@ -69,5 +72,4 @@ public class GameControllerTerminal extends GameController {
                 map(validMove -> validMove.position() + " ").
                 collect(Collectors.joining());
     }
-
 }

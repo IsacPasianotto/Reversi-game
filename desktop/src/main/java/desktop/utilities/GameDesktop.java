@@ -16,9 +16,11 @@ public class GameDesktop extends Game {
 
     private final GuiManager guiManager;
     private final GameControllerDesktop gameController;
+
     /**
      * Initialize a new GUI game with the given board and players.
-     * @param board the board of the game
+     *
+     * @param board       the board of the game
      * @param blackPlayer the black player
      * @param whitePlayer the white player
      */
@@ -32,13 +34,13 @@ public class GameDesktop extends Game {
     }
 
     @Override
-    public void play(){
+    public void play() {
         SwingUtilities.invokeLater(guiManager::setFrameVisible);
     }
 
     private void addListenersToButtonGrid() {
         for (int i = 0; i < Board.BOARD_SIZE; i++)
-            for (int j = 0; j < Board.BOARD_SIZE; j++){
+            for (int j = 0; j < Board.BOARD_SIZE; j++) {
                 BoardTile position = new BoardTile(i, j);
                 gameController.addListenerToButton(position, getButtonListener(position));
             }
@@ -52,13 +54,13 @@ public class GameDesktop extends Game {
         };
     }
 
-    private void handleHumanAndBotTurns(BoardTile position){
+    private void handleHumanAndBotTurns(BoardTile position) {
         gameController.handleHumanTurn(position, getCurrentPlayerColor());
         BoardDesktop currentBoard = gameController.getBoard();
         if (aNewMoveHasBeenMade(currentBoard)) {
             previousSteps.add(currentBoard.copy());
             swapTurn();
-            Player currentPlayer = isBlackToMove()? blackPlayer : whitePlayer;
+            Player currentPlayer = isBlackToMove() ? blackPlayer : whitePlayer;
             if (!currentPlayer.isHumanPlayer())
                 handleBotPlayerTurn(currentPlayer);
         }
@@ -76,7 +78,7 @@ public class GameDesktop extends Game {
     }
 
     private boolean aNewMoveHasBeenMade(BoardDesktop board) {
-        return !board.equals(previousSteps.get(previousSteps.size()-1));
+        return !board.equals(previousSteps.get(previousSteps.size() - 1));
     }
 
     /**
@@ -103,6 +105,7 @@ public class GameDesktop extends Game {
 
     /**
      * Returns the manager of the GUI.
+     *
      * @return the manager of the GUI
      */
     @Override

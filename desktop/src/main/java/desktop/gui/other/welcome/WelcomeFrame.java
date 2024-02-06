@@ -41,6 +41,15 @@ public class WelcomeFrame {
         frame.setVisible(true);
     }
 
+    /**
+     * Returns the welcome frame.
+     *
+     * @return the welcome frame
+     */
+    public static JFrame getWelcomeFrame() {
+        return frame;
+    }
+
     private JPanel buildGeneralPanel() {
         welcomePanel = new WelcomePanel();
         startButton = new Button(StartButtonFont, "Start").getButton();
@@ -70,46 +79,19 @@ public class WelcomeFrame {
         frame.setVisible(true);
     }
 
-    /**
-     * Returns the welcome frame.
-     * @return the welcome frame
-     */
-    public static JFrame getWelcomeFrame() {
-        return frame;
-    }
-
-    /**
-     * Returns the start button.
-     * @return the start button
-     */
-    public JButton getStartButton() {
+    JButton getStartButton() {
         return startButton;
     }
 
-    /**
-     * Presses the ith button on the jth panel (indexes start from 0).
-     * @param i the ith button
-     * @param j the jth panel (panels are game mode, difficulty, first player)
-     */
-    public void pressIthButtonOnJthPanel(int i, int j) {
+    void pressIthButtonOnJthPanel(int i, int j) {
         welcomePanel.returnIthButtonOnJthPanel(i, j).doClick();
     }
 
-    /**
-     * Returns the ith panel of the welcome panel.
-     * @param i the index of the desired panel
-     * @return the panel
-     */
-    public JPanel getIthPanel(int i){
+    JPanel getIthPanel(int i) {
         return welcomePanel.getIthPanel(i);
     }
 
-    /**
-     * Checks if the button pressed in the desired panel is the default one.
-     * @param i the index of the desired panel
-     * @return true if the button pressed is the default one, false otherwise
-     */
-    public boolean isDefaultOnIthPanel(int i){
+    boolean isDefaultOnIthPanel(int i) {
         return welcomePanel.isDefaultOnIthPanel(i);
     }
 }

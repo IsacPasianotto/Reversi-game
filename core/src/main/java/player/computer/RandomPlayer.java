@@ -10,6 +10,7 @@ import java.util.Random;
 
 /**
  * A Computer player that makes the move randomly. It is used as the easiest difficulty level.
+ *
  * @see Player
  */
 public class RandomPlayer implements Player {
@@ -17,6 +18,7 @@ public class RandomPlayer implements Player {
 
     /**
      * Constructor for the RandomPlayer class.
+     *
      * @param color The color, represented by a ColoredPawn, the random player will play as.
      */
     public RandomPlayer(ColoredPawn color) {
@@ -25,6 +27,7 @@ public class RandomPlayer implements Player {
 
     /**
      * Asks the GameController for the list of valid moves int the current state of the game and returns a randomly chosen one.
+     *
      * @param gameController The GameController object that is used to get the list of valid moves.
      * @return A randomly chosen ValidMove object from the list of all the possible moves.
      */
@@ -37,21 +40,25 @@ public class RandomPlayer implements Player {
 
     /**
      * Checks if the player is a human player or not
+     *
      * @return true if the player is a human player, false otherwise
      */
     public boolean isHumanPlayer() {
         return false;
     }
+
     /**
      * Closes the RandomPlayer object.
      */
-    public void close() { }
+    public void close() {
+    }
 
     /**
      * Returns the color of the player as a ColoredPawn.
+     *
      * @return The color of the player.
      */
-    public ColoredPawn getPlayerColor(){
+    public ColoredPawn getPlayerColor() {
         return color;
     }
 }

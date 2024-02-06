@@ -11,7 +11,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static positions.GamePositions.impossibleToMovePosition;
 
 class GameTest {
-
     @Test
     void blackToMoveOnStart() {
         Game game = new Game(new Board(), new RandomPlayer(ColoredPawn.BLACK), new RandomPlayer(ColoredPawn.WHITE));

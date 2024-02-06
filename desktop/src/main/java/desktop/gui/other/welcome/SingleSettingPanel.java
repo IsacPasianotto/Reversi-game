@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 class SingleSettingPanel {
-    protected static final Font LabelsFont = new Font("Arial", Font.ITALIC,18 );
+    protected static final Font LabelsFont = new Font("Arial", Font.ITALIC, 18);
     protected static final Font RadioButtonsFont = new Font("Arial", Font.BOLD, 15);
     private final JPanel settingPanel;
     private final JRadioButton[] buttons;
@@ -22,7 +22,7 @@ class SingleSettingPanel {
         settingPanel.add(settingLabel);
 
         ButtonGroup gameModeGroup = new ButtonGroup();
-        for (int i = 0; i< numOfButtons; i++){
+        for (int i = 0; i < numOfButtons; i++) {
             buttons[i] = buildButton(buttonTexts[i]);
             gameModeGroup.add(buttons[i]);
             settingPanel.add(buttons[i]);
@@ -46,7 +46,7 @@ class SingleSettingPanel {
         return button;
     }
 
-    void setActionListenerToIthButton(int i, ActionListener actionListener){
+    void setActionListenerToIthButton(int i, ActionListener actionListener) {
         buttons[i].addActionListener(actionListener);
     }
 
@@ -54,11 +54,11 @@ class SingleSettingPanel {
         return settingPanel;
     }
 
-    JRadioButton getIthButton(int i){
+    JRadioButton getIthButton(int i) {
         return buttons[i];
     }
 
-    void setVisible(boolean visible){
+    void setVisible(boolean visible) {
         settingPanel.setVisible(visible);
     }
 }

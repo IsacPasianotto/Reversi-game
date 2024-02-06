@@ -28,6 +28,7 @@ public class UndoButton {
 
     /**
      * Build the Undo button for the game frame
+     *
      * @param gameDesktop the game
      */
     public UndoButton(GameDesktop gameDesktop) {
@@ -37,7 +38,7 @@ public class UndoButton {
         undoButton.setIcon(undoIcon);
         undoButton.setFont(undoButtonFont);
         undoButton.setForeground(undoButtonColor);
-        undoButton.addActionListener(e->gameDesktop.undoLastMove());
+        undoButton.addActionListener(e -> gameDesktop.undoLastMove());
     }
 
     JButton getUndoButton() {

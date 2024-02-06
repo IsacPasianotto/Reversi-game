@@ -16,79 +16,52 @@ import java.util.stream.IntStream;
  * ensures with its GameController that the moves are legitimate and applies them to the board.
  * It also keeps track of the game state and the previous steps to allow the players to undo their moves.
  * It does that in a loop until the game is over.
+ *
  * @see GameController
  * @see Player
  */
 public class Game {
     /**
      * The Player instances representing the white player
+     *
      * @see Player
      */
     protected final Player whitePlayer;
     /**
      * The Player instances representing the black player
+     *
      * @see Player
      */
     protected final Player blackPlayer;
     /**
      * The list of previous steps of the game, used to allow the players to undo their moves.
+     *
      * @see Board
      */
     protected final ArrayList<Board> previousSteps;
+    private final GameController gameController;
     /**
      * The number of turns skipped by the current player. If it reaches 2, the game is over.
      */
     protected int skippedTurns;
-    private final GameController gameController;
     private boolean blackToMove;
 
     /**
      * Constructor for the Game class that initializes the game with the given board and players.
-     * @see Player
-     * @param board the board the game will be played on, likely a new board.
+     *
+     * @param board       the board the game will be played on, likely a new board.
      * @param blackPlayer a Player instance representing the black player.
      * @param whitePlayer a Player instance representing the white player.
+     * @see Player
      */
     public Game(Board board, Player blackPlayer, Player whitePlayer) {
         this.blackPlayer = blackPlayer;
         this.whitePlayer = whitePlayer;
         gameController = new GameController(board);
-        previousSteps = new ArrayList<>(Board.BOARD_SIZE*Board.BOARD_SIZE);
+        previousSteps = new ArrayList<>(Board.BOARD_SIZE * Board.BOARD_SIZE);
         previousSteps.add(board.copy());
         skippedTurns = 0;
         blackToMove = true;
-    }
-
-    /**
-     * Return the GameController instance used by the Game.
-     * @return the GameController instance used by the Game.
-     */
-    public GameController getGameController() {
-        return gameController;
-    }
-
-    /**
-     * Return the current player color as a ColoredPawn.
-     * @see ColoredPawn
-     * @return black if it is the black player's turn, white otherwise.
-     */
-    public ColoredPawn getCurrentPlayerColor() {
-        return blackToMove ? ColoredPawn.BLACK : ColoredPawn.WHITE;
-    }
-
-    /**
-     * Check if it is the black player's turn or white player's turn.
-     * @return true if it is the black player's turn, false otherwise.
-     */
-    public boolean isBlackToMove() {
-        return blackToMove;
-    }
-
-    /**
-     * Swap the current player's turn.
-     */
-    public void swapTurn() {
-        blackToMove = !blackToMove;
     }
 
     /**
@@ -128,8 +101,9 @@ public class Game {
     /**
      * Process the current player input and return the chosen move as an ValidMove or an empty Optional object.
      * It also catches the QuitGameException and the UndoException the Human player can throw.
-     * @see ValidMove
+     *
      * @return a ValidMove object if the player chose a legal move, an empty Optional object otherwise.
+     * @see ValidMove
      */
     protected Optional<ValidMove> selectAValidMoveOrUndo() {
         Player currentPlayer = isBlackToMove() ? blackPlayer : whitePlayer;
@@ -157,31 +131,67 @@ public class Game {
      * If there is a computer player, this will undo two moves to get back to the last human player turn.
      */
     protected void undoLastMove() {
-        int numberOfStepsBack = thereIsAComputerPlayer()? 2 : 1;
+        int numberOfStepsBack = thereIsAComputerPlayer() ? 2 : 1;
         if (previousSteps.size() > numberOfStepsBack)
             undo(numberOfStepsBack);
     }
 
     /**
      * Undo the last numberOfStepsBack moves and swap the turn accordingly.
+     *
      * @param numberOfStepsBack the number of moves to undo.
      */
     protected void undo(int numberOfStepsBack) {
-        IntStream.range(0, numberOfStepsBack).forEach(i -> previousSteps.remove(previousSteps.size()-1));
-        getGameController().importBoardFrom(previousSteps.get(previousSteps.size()-1));
+        IntStream.range(0, numberOfStepsBack).forEach(i -> previousSteps.remove(previousSteps.size() - 1));
+        getGameController().importBoardFrom(previousSteps.get(previousSteps.size() - 1));
         IntStream.range(0, numberOfStepsBack).forEach(i -> swapTurn());
     }
 
     /**
      * Check if at least one of the players is a computer player.
+     *
+     * @return true if at least one of the players is a computer player, false otherwise.
      * @see Player
      * @see player.human.Human
      * @see player.computer.SmartPlayer
      * @see player.computer.RandomPlayer
-     * @return true if at least one of the players is a computer player, false otherwise.
      */
     protected boolean thereIsAComputerPlayer() {
         return !whitePlayer.isHumanPlayer() || !blackPlayer.isHumanPlayer();
     }
 
+    /**
+     * Return the GameController instance used by the Game.
+     *
+     * @return the GameController instance used by the Game.
+     */
+    public GameController getGameController() {
+        return gameController;
+    }
+
+    /**
+     * Return the current player color as a ColoredPawn.
+     *
+     * @return black if it is the black player's turn, white otherwise.
+     * @see ColoredPawn
+     */
+    public ColoredPawn getCurrentPlayerColor() {
+        return blackToMove ? ColoredPawn.BLACK : ColoredPawn.WHITE;
+    }
+
+    /**
+     * Check if it is the black player's turn or white player's turn.
+     *
+     * @return true if it is the black player's turn, false otherwise.
+     */
+    protected boolean isBlackToMove() {
+        return blackToMove;
+    }
+
+    /**
+     * Swap the current player's turn.
+     */
+    public void swapTurn() {
+        blackToMove = !blackToMove;
+    }
 }

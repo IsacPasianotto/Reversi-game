@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
  * This class is responsible for managing the game logic. It ensures that all the game rules are respected preventing
  * illegal moves to be approved in the Game class.
  * This class will compute all the valid moves regarding a certain given board and a certain player color.
+ *
  * @see Game
  */
 public class GameController {
@@ -22,6 +23,7 @@ public class GameController {
 
     /**
      * Constructor for the GameController class.
+     *
      * @param board the board the controller consider for its computations.
      */
     public GameController(Board board) {
@@ -31,8 +33,9 @@ public class GameController {
 
     /**
      * This method will return a list of all the possible ValidMove objects for the current player.
-     * @see ValidMove
+     *
      * @return a list of all the valid moves for the current player.
+     * @see ValidMove
      */
     public ArrayList<ValidMove> getValidMoves() {
         return new ArrayList<>(validMoves);
@@ -40,6 +43,7 @@ public class GameController {
 
     /**
      * Check if there is at least one valid move for the current player.
+     *
      * @return true if there are no valid moves, false otherwise.
      */
     public boolean thereAreNoValidMoves() {
@@ -48,8 +52,9 @@ public class GameController {
 
     /**
      * This method will return the board the controller is considering for its computations.
-     * @see Board
+     *
      * @return the board the controller has been initialized with.
+     * @see Board
      */
     public Board getBoard() {
         return board;
@@ -57,6 +62,7 @@ public class GameController {
 
     /**
      * Update the validMoves list with all the possible moves for the current player.
+     *
      * @param currentPlayerColor the ColoredPawn of the current player (BLACK or WHITE values are expected).
      * @see ColoredPawn
      */
@@ -74,6 +80,7 @@ public class GameController {
 
     /**
      * This method will return the ValidMove object corresponding to the input string if it represents a valid move.
+     *
      * @param input String representing the move the player wants to make, should be in the format "A1" to "H8".
      * @return an Optional containing the ValidMove object if the input is a valid move, an empty Optional otherwise.
      */
@@ -84,10 +91,11 @@ public class GameController {
 
     /**
      * This method will return the ValidMove object corresponding to the input BoardTile if it represents a valid move, an empty Optional otherwise.
+     *
      * @param chosen the BoardTile the player wants to move to.
+     * @return an Optional containing the ValidMove object if the input is a valid move, an empty Optional otherwise.
      * @see BoardTile
      * @see ValidMove
-     * @return an Optional containing the ValidMove object if the input is a valid move, an empty Optional otherwise.
      */
     protected Optional<ValidMove> isValid(BoardTile chosen) {
         return validMoves.stream().filter(validMove -> validMove.position().equals(chosen)).findAny();
@@ -95,6 +103,7 @@ public class GameController {
 
     /**
      * This method will apply the input move to the board.
+     *
      * @param move the move to apply to the board.
      */
     protected void applyMoveToBoard(ValidMove move) {
@@ -103,6 +112,7 @@ public class GameController {
 
     /**
      * This method will update the controller's board with the given board.
+     *
      * @param board the board to import from.
      */
     protected void importBoardFrom(Board board) {
@@ -111,6 +121,7 @@ public class GameController {
 
     /**
      * Compute the score for the requested player represented by the input ColoredPawn.
+     *
      * @param playerColor the ColoredPawn representing the player to compute the score for, BLACK or WHITE values are expected.
      * @return the score for the requested player.
      */
@@ -161,5 +172,4 @@ public class GameController {
         }
         return false;
     }
-
 }

@@ -7,7 +7,7 @@ import player.computer.SmartPlayer;
 import player.human.Human;
 
 record GameSettings(boolean isHumanVsHuman, boolean isDifficultyEasy, boolean isHumanFirst) {
-    boolean isDefaultOnIthPanel(int i){
+    boolean isDefaultOnIthPanel(int i) {
         return switch (i) {
             case 0 -> isHumanVsHuman();
             case 1 -> isDifficultyEasy();
@@ -16,7 +16,6 @@ record GameSettings(boolean isHumanVsHuman, boolean isDifficultyEasy, boolean is
         };
     }
 
-    record Players(Player blackPlayer, Player whitePlayer) {}
     Players getPlayers() {
         Player blackPlayer;
         Player whitePlayer;
@@ -33,5 +32,8 @@ record GameSettings(boolean isHumanVsHuman, boolean isDifficultyEasy, boolean is
             }
         }
         return new Players(blackPlayer, whitePlayer);
+    }
+
+    record Players(Player blackPlayer, Player whitePlayer) {
     }
 }

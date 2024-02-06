@@ -14,7 +14,8 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Random;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class GameControllerTest {
 
@@ -30,7 +31,7 @@ class GameControllerTest {
     @MethodSource("positions.ValidMovesPositions#providesDirectionsWithOppositeColorOnStart")
     void findDirectionsWithOppositeColorCheckCoordinates(String inputCoords, int expectedX, int expectedY) {
         GameController gameController = new GameController(new Board());
-        ArrayList<Direction> directionsWithOppositeColor = gameController.findDirectionsWithOppositeColor(new BoardTile(inputCoords),ColoredPawn.BLACK);
+        ArrayList<Direction> directionsWithOppositeColor = gameController.findDirectionsWithOppositeColor(new BoardTile(inputCoords), ColoredPawn.BLACK);
         Direction chosenDirection = directionsWithOppositeColor.get(0);
         assertEquals(expectedX, chosenDirection.x());
         assertEquals(expectedY, chosenDirection.y());
@@ -41,7 +42,7 @@ class GameControllerTest {
     void findDirectionsWithOppositeColorAfterD3IsPlayed(String inputCoords, ArrayList<Direction> expectedDirections) {
         Board board = GamePositions.d3IsPlayed();
         GameController gameController = new GameController(board);
-        ArrayList<Direction> directionsWithOppositeColor = gameController.findDirectionsWithOppositeColor(new BoardTile(inputCoords),ColoredPawn.WHITE);
+        ArrayList<Direction> directionsWithOppositeColor = gameController.findDirectionsWithOppositeColor(new BoardTile(inputCoords), ColoredPawn.WHITE);
         assertEquals(expectedDirections, directionsWithOppositeColor);
     }
 

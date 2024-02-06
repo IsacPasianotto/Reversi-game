@@ -17,6 +17,10 @@ class InputReaderTest {
         return Stream.of("Undo", "undo", "UNDO");
     }
 
+    private static Stream<String> quitInVariousFormats() {
+        return Stream.of("Quit", "quit", "QUIT");
+    }
+
     @ParameterizedTest
     @MethodSource("undoInVariousFormats")
     void undoCommandThrowsUndoException(String undoString) throws IOException {
@@ -24,10 +28,6 @@ class InputReaderTest {
         when(mockedReader.readLine()).thenReturn(undoString);
         UserInputReader reader = new UserInputReader(mockedReader);
         assertThrows(UndoException.class, reader::readInput);
-    }
-
-    private static Stream<String> quitInVariousFormats() {
-        return Stream.of("Quit", "quit", "QUIT");
     }
 
     @ParameterizedTest
@@ -38,5 +38,4 @@ class InputReaderTest {
         UserInputReader reader = new UserInputReader(mockedReader);
         assertThrows(QuitGameException.class, reader::readInput);
     }
-
 }
