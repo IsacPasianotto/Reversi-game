@@ -6,7 +6,7 @@ import board.coords.BoardTile;
 import desktop.gui.main.GuiManager;
 import desktop.gui.main.components.CurrentPlayerPanel;
 import desktop.gui.main.components.CurrentScorePanel;
-import desktop.gui.other.OutcomeFrame;
+import desktop.gui.other.outcome.OutcomeFrame;
 import mechanics.GameController;
 import player.Player;
 import player.human.QuitGameException;

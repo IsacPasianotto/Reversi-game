@@ -104,9 +104,9 @@ $ export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
 ```
 where `/usr/lib/jvm/java-21-openjdk-amd64` is the path to the JDK 21 installation on your system.
 
-#### 3. Wayland and xwayland
+#### 3. Wayland and Xwayland
 
-If you are a linux user and use [`wayland`](https://wayland.freedesktop.org/) as display server, to run the desktop version of the application you will need [`xwayland`](https://wayland.freedesktop.org/xserver.html) installed on your system.
+If you are a linux user and use [`Wayland`](https://wayland.freedesktop.org/) as display server, to run the desktop version of the application you will need [`Xwayland`](https://wayland.freedesktop.org/xserver.html) installed on your system.
 
 
 ## Credits and attributions

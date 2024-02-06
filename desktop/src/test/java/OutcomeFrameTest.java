@@ -1,7 +1,7 @@
 import board.ColoredPawn;
 import desktop.gui.main.GuiManager;
-import desktop.gui.other.OutcomeFrame;
-import desktop.gui.other.WelcomeFrame;
+import desktop.gui.other.outcome.OutcomeFrame;
+import desktop.gui.other.welcome.WelcomeFrame;
 import desktop.utilities.BoardDesktop;
 import desktop.utilities.GameDesktop;
 import org.junit.jupiter.api.Test;

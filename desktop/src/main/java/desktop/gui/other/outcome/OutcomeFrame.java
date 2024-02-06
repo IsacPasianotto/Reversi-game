@@ -1,10 +1,9 @@
-package desktop.gui.other;
+package desktop.gui.other.outcome;
 
 import desktop.MainDesktop;
 import desktop.gui.main.GuiManager;
 import desktop.gui.main.components.CurrentScorePanel;
-import desktop.gui.other.components.Button;
-import desktop.gui.other.components.WinnerPanel;
+import desktop.gui.other.Button;
 
 import javax.swing.*;
 import java.awt.*;

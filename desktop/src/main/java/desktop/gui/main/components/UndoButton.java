@@ -37,7 +37,7 @@ public class UndoButton {
 
     /**
      * Enable or disable the undo button
-     * @param enabled
+     * @param enabled choose if to enable or disable the button
      */
     public void setEnabled(boolean enabled) {
         undoButton.setEnabled(enabled);

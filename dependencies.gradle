@@ -9,6 +9,6 @@ ext.mockito = [
 ]
 
 ext.flatLaf = [
-        'flatlaf'      : 'com.formdev:flatlaf:3.3',
+        'flatlaf'                : 'com.formdev:flatlaf:3.3',
         'flatlaf-intellij-themes': 'com.formdev:flatlaf-intellij-themes:3.3'
 ]

@@ -1,7 +1,7 @@
 package desktop;
 
 import com.formdev.flatlaf.intellijthemes.FlatGradiantoDeepOceanIJTheme;
-import desktop.gui.other.WelcomeFrame;
+import desktop.gui.other.welcome.WelcomeFrame;
 
 import javax.swing.*;
 

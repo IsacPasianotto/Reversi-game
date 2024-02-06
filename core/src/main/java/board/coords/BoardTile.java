@@ -4,7 +4,7 @@ import board.Board;
 
 /**
  * This class represents a single tile on the board.
- * It can be created from a string, eg. "a1", or from two integers, eg. (0, 0).
+ * It can be created from a string, e.g. "a1", or from two integers, e.g. (0, 0).
  */
 public class BoardTile implements Couple {
     private final int x;
@@ -22,7 +22,7 @@ public class BoardTile implements Couple {
 
     /**
      * Creates a new BoardTile from the given string.
-     * @param inputCoords the string to create the BoardTile from. It should be a 2 characters string, with the first character being a letter and the second a number, eg. "a1"
+     * @param inputCoords the string to create the BoardTile from. It should be a 2 characters string, with the first character being a letter and the second a number, e.g. "a1"
      * @throws IllegalArgumentException if the input string is not in the correct format
      */
     public BoardTile(String inputCoords) throws IllegalArgumentException {

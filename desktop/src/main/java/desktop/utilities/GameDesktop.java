@@ -26,8 +26,7 @@ public class GameDesktop extends Game {
         guiManager = new GuiManager(this);
         addListenersToButtonGrid();
         if (!Player.isHumanPlayer(blackPlayer)) {
-            gameController.handleBotTurn(blackPlayer);
-            swapTurn();
+            handleBotPlayerTurn(blackPlayer);
         }
     }
 
@@ -54,17 +53,20 @@ public class GameDesktop extends Game {
             previousSteps.add(currentBoard.copy());
             swapTurn();
             Player currentPlayer = isBlackToMove()? blackPlayer : whitePlayer;
-            if (!Player.isHumanPlayer(currentPlayer)) {
-                gameController.handleBotTurn(currentPlayer);
-                currentBoard = gameController.getBoard();
-                if (aNewMoveHasBeenMade(currentBoard))
-                    previousSteps.add(currentBoard.copy());
-                swapTurn();
-            }
+            if (!Player.isHumanPlayer(currentPlayer))
+                handleBotPlayerTurn(currentPlayer);
         }
         gameController.computeValidMoves(getCurrentPlayerColor());
         if (gameController.thereAreNoValidMoves())
             gameController.handleNoValidMovesCase(getCurrentPlayerColor());
+    }
+
+    private void handleBotPlayerTurn(Player currentPlayer) {
+        gameController.handleBotTurn(currentPlayer);
+        BoardDesktop currentBoard = gameController.getBoard();
+        if (aNewMoveHasBeenMade(currentBoard))
+            previousSteps.add(currentBoard.copy());
+        swapTurn();
     }
 
     private boolean aNewMoveHasBeenMade(BoardDesktop board) {
