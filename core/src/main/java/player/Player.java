@@ -14,16 +14,6 @@ import player.human.UndoException;
  * @see player.computer.RandomPlayer
  */
 public interface Player {
-
-    /**
-     * Checks if the player is a human player or not
-     * @param player The Player instance to check
-     * @return true if the player is a human player, false otherwise
-     */
-    static boolean isHumanPlayer(Player player) {
-        return player.getClass().equals(Human.class);
-    }
-
     /**
      * Retrieve from the player a move to be played
      * @param gameController The GameController object that is used to get the list of valid moves.
@@ -32,6 +22,12 @@ public interface Player {
      * @throws UndoException if the player (Human) wants to undo the last move
      */
     ValidMove askForAMove(GameController gameController) throws QuitGameException, UndoException;
+
+    /**
+     * Checks if the player is a human player or not
+     * @return true if the player is a human player, false otherwise
+     */
+    boolean isHumanPlayer();
 
     /**
      * Closes the Player object, needed because the Human player uses a BufferedReader that needs to be closed.

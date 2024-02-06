@@ -1,6 +1,5 @@
 package desktop.gui.main;
 
-import desktop.gui.main.GuiManager;
 import desktop.utilities.BoardDesktop;
 
 import javax.swing.*;

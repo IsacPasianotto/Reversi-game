@@ -27,7 +27,7 @@ public class GameDesktop extends Game {
         this.gameController = new GameControllerDesktop(board);
         guiManager = new GuiManager(this);
         addListenersToButtonGrid();
-        if (!Player.isHumanPlayer(blackPlayer))
+        if (!blackPlayer.isHumanPlayer())
             handleBotPlayerTurn(blackPlayer);
     }
 
@@ -59,7 +59,7 @@ public class GameDesktop extends Game {
             previousSteps.add(currentBoard.copy());
             swapTurn();
             Player currentPlayer = isBlackToMove()? blackPlayer : whitePlayer;
-            if (!Player.isHumanPlayer(currentPlayer))
+            if (!currentPlayer.isHumanPlayer())
                 handleBotPlayerTurn(currentPlayer);
         }
         gameController.computeValidMoves(getCurrentPlayerColor());

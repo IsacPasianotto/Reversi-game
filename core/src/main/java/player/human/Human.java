@@ -45,6 +45,14 @@ public class Human implements Player {
     }
 
     /**
+     * Checks if the player is a human player or not
+     * @return true if the player is a human player, false otherwise
+     */
+    public boolean isHumanPlayer() {
+        return true;
+    }
+
+    /**
      * Closes the Human object, needed because the Human player uses
      * a BufferedReader that needs to be closed.
      */

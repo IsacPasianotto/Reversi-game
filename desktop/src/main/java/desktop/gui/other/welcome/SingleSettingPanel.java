@@ -25,10 +25,9 @@ class SingleSettingPanel {
         for (int i = 0; i< numOfButtons; i++){
             buttons[i] = buildButton(buttonTexts[i]);
             gameModeGroup.add(buttons[i]);
+            settingPanel.add(buttons[i]);
         }
         buttons[0].setSelected(true);
-        for (int i = 0; i< numOfButtons; i++)
-            settingPanel.add(buttons[i]);
     }
 
     private JLabel buildSettingLabel(String labelText) {

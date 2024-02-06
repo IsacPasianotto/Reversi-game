@@ -1,7 +1,6 @@
 package desktop.gui.main;
 
 import board.Board;
-import desktop.gui.main.GuiManager;
 import desktop.utilities.BoardDesktop;
 
 import javax.swing.*;
@@ -53,7 +52,6 @@ public class BoardPanel {
     }
 
     private void buildLabel(String stringLabel) {
-
         JLabel label = new JLabel(stringLabel, SwingConstants.CENTER);
         label.setFont(boardLabelsFont);
         label.setForeground(boardLabelColor);

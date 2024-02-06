@@ -1,6 +1,5 @@
 package desktop.gui.other.welcome;
 
-import desktop.gui.main.GuiManager;
 import desktop.gui.other.Button;
 import desktop.utilities.BoardDesktop;
 import desktop.utilities.GameDesktop;

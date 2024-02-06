@@ -7,9 +7,6 @@ import desktop.utilities.GameDesktop;
 import org.junit.jupiter.api.Test;
 import player.computer.SmartPlayer;
 
-import javax.swing.*;
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class OutcomeFrameTest {

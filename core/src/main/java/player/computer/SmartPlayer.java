@@ -48,6 +48,14 @@ public class SmartPlayer implements Player {
     }
 
     /**
+     * Checks if the player is a human player or not
+     * @return true if the player is a human player, false otherwise
+     */
+    public boolean isHumanPlayer() {
+        return false;
+    }
+
+    /**
      * Closes the SmartPlayer object.
      */
     public void close() { }

@@ -181,7 +181,7 @@ public class Game {
      * @return true if at least one of the players is a computer player, false otherwise.
      */
     protected boolean thereIsAComputerPlayer() {
-        return !Player.isHumanPlayer(whitePlayer) || !Player.isHumanPlayer(blackPlayer);
+        return !whitePlayer.isHumanPlayer() || !blackPlayer.isHumanPlayer();
     }
 
 }

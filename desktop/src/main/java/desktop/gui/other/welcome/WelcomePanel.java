@@ -1,7 +1,5 @@
 package desktop.gui.other.welcome;
 
-import player.Player;
-
 import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.util.stream.IntStream;

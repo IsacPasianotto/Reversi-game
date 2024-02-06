@@ -64,7 +64,7 @@ public class GameTerminal extends Game {
     protected Optional<ValidMove> selectAValidMoveOrUndo() {
         Player currentPlayer = isBlackToMove() ? blackPlayer : whitePlayer;
         try {
-            if (Player.isHumanPlayer(currentPlayer))
+            if (currentPlayer.isHumanPlayer())
                 System.out.print("Enter your move: ");
             return Optional.of(currentPlayer.askForAMove(gameController));
         } catch (QuitGameException e) {

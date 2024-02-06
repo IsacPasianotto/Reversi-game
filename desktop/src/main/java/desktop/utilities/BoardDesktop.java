@@ -108,7 +108,7 @@ public class BoardDesktop extends Board {
     public void setEnabled(boolean enabled) {
         for (int i = 0; i < BOARD_SIZE; i++)
             for (int j = 0; j < BOARD_SIZE; j++)
-                getButton(i, j).setEnabled(enabled);
+                buttonGrid[i][j].setEnabled(enabled);
     }
     /**
      * Returns the black pawn image.
@@ -132,7 +132,7 @@ public class BoardDesktop extends Board {
      * @param col the column of the button
      * @return the button at the given position
      */
-    public JGradientButton getButton(int row, int col) {
+    public JButton getButton(int row, int col) {
         return buttonGrid[row][col];
     }
 }
