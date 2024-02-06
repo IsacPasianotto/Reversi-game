@@ -23,18 +23,26 @@ jobs:
       - checkout
       - run:
           name: "Test: all"
-          # on this container there is no X11 server
-          command: sudo apt update && sudo apt install -y xvfb && xvfb-run ./gradlew test
-
+          # on this container there is no X11 server, hence the GUI test will fail.
+          # A GUI dedicate test job is set with Windows orbs.
+          command: ./gradlew core:test && ./gradlew terminal:test
   linux-core:
+    # Specify the execution environment. You can specify an image from Docker Hub or use one of our convenience images from CircleCI's Developer Hub.
+    # See: https://circleci.com/docs/configuration-reference/#executor-job
     docker:
+      # See available images in: 
+      # https://circleci.com/developer/images
       - image: cimg/openjdk:21.0.0
+
     working_directory: ~/repo
+    # Add steps to the job
+    # See: https://circleci.com/docs/configuration-reference/#steps
     steps:
       - checkout
       - run:
-          name: "Test: all core"
+          name: "Test: all"
           command: ./gradlew core:test
+
 
   test-core-board:
     docker:
@@ -99,37 +107,6 @@ jobs:
           command: ./gradlew terminal:test --tests MainTerminalTest
 
   test-desktop-main:
-    docker:
-      - image: cimg/openjdk:21.0.0
-    working_directory: ~/repo
-    steps:
-      - checkout
-      - run:
-          name: "Test: mainDesktopTest"
-          command: sudo apt update && sudo apt install -y xvfb && xvfb-run ./gradlew desktop:test --tests MainDesktopTest
-
-  test-desktop-outcomeframe:
-    docker:
-      - image: cimg/openjdk:21.0.0
-    working_directory: ~/repo
-    steps:
-      - checkout
-      - run:
-          name: "Test: mainOutcomeFrameTest"
-          command: sudo apt update && sudo apt install -y xvfb && xvfb-run ./gradlew desktop:test --tests OutcomeFrameTest
-
-  test-desktop-welcomeframe:
-    docker:
-      - image: cimg/openjdk:21.0.0
-    working_directory: ~/repo
-    steps:
-      - checkout
-      - run:
-          name: "Test: mainWelcomeFrameTest"
-          command: sudo apt update && sudo apt install -y xvfb && xvfb-run ./gradlew desktop:test --tests WelcomeFrameTest
-
-
-  test-win:
     executor: win/default
     working_directory: ~/repo
     steps:
@@ -143,9 +120,96 @@ jobs:
             - "a6:75:a4:04:58:c5:7a:40:00:f7:6b:19:a6:0a:16:2b"
       - checkout
       - run:
+          name: test-desktop-main
+          shell: bash.exe
+          command: ./gradlew.bat desktop:test --tests MainDesktopTest
+
+  test-desktop-welcomeframe:
+    executor: win/default
+    working_directory: ~/repo
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "a6:75:a4:04:58:c5:7a:40:00:f7:6b:19:a6:0a:16:2b"
+      - checkout
+      - run:
+          name: test-desktop-welcomeframe
+          shell: bash.exe
+          command: ./gradlew.bat desktop:test --tests WelcomeFrameTest
+
+  test-desktop-outcomeframe:
+    executor: win/default
+    working_directory: ~/repo
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "a6:75:a4:04:58:c5:7a:40:00:f7:6b:19:a6:0a:16:2b"
+      - checkout
+      - run:
+          name: test-desktop-outcomeframe
+          shell: bash.exe
+          command: ./gradlew.bat desktop:test --tests OutcomeFrameTest
+
+  test-win:
+    executor: win/default
+    working_directory: ~/repo
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "a6:75:a4:04:58:c5:7a:40:00:f7:6b:19:a6:0a:16:2b"
+      - checkout
+      - run:
           name: test-all
           shell: bash.exe
           command: ./gradlew.bat test
+      - run:
+          name: test-core-board.BoardTest
+          shell: bash.exe
+          command: ./gradlew core:test --tests board.BoardTest
+      - run:
+          name: test-core-board.coords.BoardTileTest
+          shell: bash.exe
+          command: ./gradlew core:test --tests board.coords.BoardTileTest
+      - run:
+          name: test-core-board.coords.DirectionTest
+          shell: bash.exe
+          command: ./gradlew core:test --tests board.coords.DirectionTest
+      - run:
+          name: test-core-mechanics.GameControllerTest
+          shell: bash.exe
+          command: ./gradlew core:test --tests mechanics.GameControllerTest
+      - run:
+          name: test-core-mechanics.GameTest
+          shell: bash.exe
+          command: ./gradlew core:test --tests mechanics.GameTest
+      - run:
+          name: test-core-player.computer.RandomPlayerTest
+          shell: bash.exe
+          command: ./gradlew core:test --tests player.computer.RandomPlayerTest
+      - run:
+          name: test-core-player.computer.SmartPlayerTest
+          shell: bash.exe
+          command: ./gradlew core:test --tests player.computer.SmartPlayerTest
+      - run:
+          name: test-core-player.human.InputReaderTest
+          shell: bash.exe
+          command: ./gradlew core:test --tests player.human.InputReaderTest
+      - run:
+          name: test-terminal-main
+          shell: bash.exe
+          command: ./gradlew terminal:test --tests MainTerminalTest
+      - run:
+          name: test-desktop-main
+          shell: bash.exe
+          command: ./gradlew desktop:test --tests MainDesktopTest
+      - run:
+          name: test-desktop-welcome
+          shell: bash.exe
+          command: ./gradlew desktop:test --tests WelcomeFrameTest
+      - run:
+          name: test-desktop-outcome
+          shell: bash.exe
+          command: ./gradlew desktop:test --tests OutcomeFrameTest
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/configuration-reference/#workflows
