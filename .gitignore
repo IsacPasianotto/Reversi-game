@@ -43,5 +43,7 @@ bin/
 
 ### User-edited .gitignore: ###
 .idea/
+.circleci/config.yml.back
+
 
 readyToDistribute/
