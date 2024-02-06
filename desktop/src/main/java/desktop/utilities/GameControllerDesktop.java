@@ -4,8 +4,8 @@ import board.ColoredPawn;
 import board.ValidMove;
 import board.coords.BoardTile;
 import desktop.gui.main.GuiManager;
-import desktop.gui.main.components.CurrentPlayerPanel;
-import desktop.gui.main.components.CurrentScorePanel;
+import desktop.gui.main.CurrentPlayerPanel;
+import desktop.gui.main.CurrentScorePanel;
 import desktop.gui.other.outcome.OutcomeFrame;
 import mechanics.GameController;
 import player.Player;
@@ -17,6 +17,9 @@ import java.awt.event.ActionListener;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
+/**
+ * The desktop version of the game controller.
+ */
 public class GameControllerDesktop extends GameController {
     private final BoardDesktop board;
 
@@ -72,11 +75,12 @@ public class GameControllerDesktop extends GameController {
 
     private void gameOverHandle() {
         SwingUtilities.invokeLater(() -> {
-            GuiManager.disableBoard();
+            GuiManager.disposeFrame();
             int blackScore = computeScoreForPlayer(ColoredPawn.BLACK);
             int whiteScore = computeScoreForPlayer(ColoredPawn.WHITE);
             OutcomeFrame outcomeFrame = new OutcomeFrame(blackScore, whiteScore);
             outcomeFrame.setVisible(true);
+
         });
     }
 

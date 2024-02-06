@@ -1,16 +1,29 @@
-package desktop.gui.main.components;
+package desktop.gui.main;
 
-import desktop.gui.main.GuiManager;
 import desktop.utilities.GameDesktop;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;
 
+/**
+ * The undo button for the game frame
+ */
 public class UndoButton {
-    private static final Font undoButtonFont = new Font("Arial", Font.PLAIN, 20);
-    private static final Color undoButtonColor = GuiManager.white;
-    private static final int UNDO_ICON_SIZE = 25;
+    /**
+     * The size of the undo button icon
+     */
+    protected static final int UNDO_ICON_SIZE = 25;
+
+    /**
+     * The font used for the undo button
+     */
+    protected static final Font undoButtonFont = new Font("Arial", Font.PLAIN, 20);
+
+    /**
+     * The color of the button
+     */
+    protected static final Color undoButtonColor = new Color(255, 255, 255);
     private final JButton undoButton;
 
     /**
@@ -27,19 +40,11 @@ public class UndoButton {
         undoButton.addActionListener(e->gameDesktop.undoLastMove());
     }
 
-    /**
-     * Returns the button
-     * @return the undo button
-     */
-    public JButton getUndoButton() {
+    JButton getUndoButton() {
         return undoButton;
     }
 
-    /**
-     * Enable or disable the undo button
-     * @param enabled choose if to enable or disable the button
-     */
-    public void setEnabled(boolean enabled) {
+    void setEnabled(boolean enabled) {
         undoButton.setEnabled(enabled);
     }
 }

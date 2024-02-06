@@ -2,18 +2,36 @@ package desktop.gui.other.outcome;
 
 import desktop.MainDesktop;
 import desktop.gui.main.GuiManager;
-import desktop.gui.main.components.CurrentScorePanel;
+import desktop.gui.main.CurrentScorePanel;
 import desktop.gui.other.Button;
 
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * The frame that displays the outcome of the game.
+ */
 public class OutcomeFrame {
-    private static final Font headerFont = GuiManager.arialBoldItalic35;
-    private static final Color fontColor = GuiManager.white;
-    private static final Font buttonFont = GuiManager.buttonFont;
-    private static final int WIDTH = 500;
-    private static final int HEIGHT = 450;
+    /**
+     * The width of the frame.
+     */
+    protected static final int WIDTH = 500;
+    /**
+     * The height of the frame.
+     */
+    protected static final int HEIGHT = 450;
+    /**
+     * The font to use for the header.
+     */
+    protected static final Font headerFont = new Font("Arial", Font.BOLD | Font.ITALIC, 35);
+    /**
+     * The color of the font
+     */
+    protected static final Color fontColor = new Color(255, 255, 255);
+    /**
+     * The font to use for buttons.
+     */
+    protected static final Font buttonFont = new Font("Arial", Font.BOLD, 20);
     private final JFrame frame;
     private JButton closeButton;
     private JButton playAgainButton;
@@ -88,16 +106,16 @@ public class OutcomeFrame {
     }
 
     /**
-     * Returns the close button.
-     * @return the close button
+     * Returns the play again button.
+     * @return the play again button
      */
     public JButton getPlayAgainButton() {
         return playAgainButton;
     }
 
     /**
-     * Returns the play again button.
-     * @return the play again button
+     * Returns the close button.
+     * @return the close button
      */
     public JButton getCloseButton() {
         return closeButton;

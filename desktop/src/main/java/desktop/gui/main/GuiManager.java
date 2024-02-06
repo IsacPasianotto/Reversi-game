@@ -1,50 +1,29 @@
 package desktop.gui.main;
 
-import desktop.gui.main.components.BoardPanel;
-import desktop.gui.main.components.CurrentPlayerPanel;
-import desktop.gui.main.components.CurrentScorePanel;
-import desktop.gui.main.components.UndoButton;
-import desktop.utilities.BoardDesktop;
 import desktop.utilities.GameDesktop;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.util.Objects;
 
+/**
+ * The manager of the game GUI: initializes the game and starts it after settings have been chosen.
+ */
 public class GuiManager {
+    /**
+     * The width of the game frame
+     */
+    protected static final int WIDTH = 900;
 
     /**
-     * The font used for the outcome frame
+     * The height of the game frame
      */
-    public static final Font arialBoldItalic35 = new Font("Arial", Font.BOLD | Font.ITALIC, 35);
+    protected static final int HEIGHT = 650;
+
     /**
-     * White color
+     * The font used for edges in the game frame
      */
-    public static final Color white = new Color(255, 255, 255);
-    /**
-     * Black color
-     */
-    public static final Color black = new Color(0, 0, 0);
-    /**
-     * The font used for the welcome and outcome buttons
-     */
-    public static final Font buttonFont = new Font("Arial", Font.BOLD, 20);
-    /**
-     * The font used for labels in the game frame
-     */
-    public static final Font currentLabelFont = new Font("Arial", Font.ITALIC, 20);
-    /**
-     * Black pawn image
-     */
-    public static final ImageIcon blackPawn = new ImageIcon(Objects.requireNonNull(BoardDesktop.class.getResource("/black.png")));
-    /**
-     * White pawn image
-     */
-    public static final ImageIcon whitePawn = new ImageIcon(Objects.requireNonNull(BoardDesktop.class.getResource("/white.png")));
-    private static final Color borderColor = new Color(0, 0, 0);
-    private static final int WIDTH = 900;
-    private static final int HEIGHT = 650;
+    protected static final Color borderColor = new Color(0, 0, 0);
     private static UndoButton undoButton;
     private static BoardPanel boardPanel;
     private static JFrame gameFrame;

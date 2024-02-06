@@ -8,12 +8,24 @@ import desktop.utilities.GameDesktop;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * The welcome frame of the game. Set up game settings and starts the game.
+ */
 public class WelcomeFrame {
-    private static final int WIDTH = 500;
-    private static final int HEIGHT = 200;
-    private static final Font StartButtonFont = GuiManager.buttonFont;
+    /**
+     * The width of the welcome frame
+     */
+    protected static final int WIDTH = 500;
+    /**
+     * The height of the welcome frame
+     */
+    protected static final int HEIGHT = 200;
+    /**
+     * The font of the start button
+     */
+    protected static final Font StartButtonFont = new Font("Arial", Font.BOLD, 20);
     private static JFrame frame;
-    protected WelcomePanel welcomePanel;
+    private WelcomePanel welcomePanel;
     private JButton startButton;
 
     /**
@@ -46,9 +58,9 @@ public class WelcomeFrame {
     private void setActionListenerToStartButton() {
         startButton.addActionListener(e -> {
             frame.dispose();
-            GameSettings.Players result = welcomePanel.getGameSettings().getPlayers();
+            GameSettings.Players result = welcomePanel.getPlayers();
             GameDesktop gameDesktop = new GameDesktop(new BoardDesktop(), result.blackPlayer(), result.whitePlayer());
-            SwingUtilities.invokeLater(gameDesktop.guiManager::setFrameVisible);
+            gameDesktop.play();
         });
     }
 
@@ -58,6 +70,7 @@ public class WelcomeFrame {
     public void setWelcomeFrameVisible() {
         frame.setVisible(true);
     }
+
     /**
      * Returns the welcome frame.
      * @return the welcome frame
@@ -83,12 +96,21 @@ public class WelcomeFrame {
         welcomePanel.returnIthButtonOnJthPanel(i, j).doClick();
     }
 
+    /**
+     * Returns the ith panel of the welcome panel.
+     * @param i the index of the desired panel
+     * @return the panel
+     */
     public JPanel getIthPanel(int i){
         return welcomePanel.getIthPanel(i);
     }
 
+    /**
+     * Checks if the button pressed in the desired panel is the default one.
+     * @param i the index of the desired panel
+     * @return true if the button pressed is the default one, false otherwise
+     */
     public boolean isDefaultOnIthPanel(int i){
-        return welcomePanel.getGameSettings().isDefaultOnIthPanel(i);
+        return welcomePanel.isDefaultOnIthPanel(i);
     }
-
 }

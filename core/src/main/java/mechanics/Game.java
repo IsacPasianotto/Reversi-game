@@ -167,8 +167,8 @@ public class Game {
      * @param numberOfStepsBack the number of moves to undo.
      */
     protected void undo(int numberOfStepsBack) {
-        IntStream.range(0, numberOfStepsBack).forEach(i -> previousSteps.removeLast());
-        getGameController().importBoardFrom(previousSteps.getLast());
+        IntStream.range(0, numberOfStepsBack).forEach(i -> previousSteps.remove(previousSteps.size()-1));
+        getGameController().importBoardFrom(previousSteps.get(previousSteps.size()-1));
         IntStream.range(0, numberOfStepsBack).forEach(i -> swapTurn());
     }
 

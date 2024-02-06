@@ -7,6 +7,9 @@ import desktop.utilities.GameDesktop;
 import org.junit.jupiter.api.Test;
 import player.computer.SmartPlayer;
 
+import javax.swing.*;
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class OutcomeFrameTest {
@@ -20,7 +23,6 @@ public class OutcomeFrameTest {
 
         // OutcomeFrame will try to dispose the game, so we need to create it to prevent a null pointer exception
         GameDesktop gameDesktop = new GameDesktop(new BoardDesktop(), new SmartPlayer(ColoredPawn.BLACK), new SmartPlayer(ColoredPawn.WHITE));
-
         outcomeFrame.getPlayAgainButton().doClick();
         assertTrue(WelcomeFrame.getWelcomeFrame().isVisible());
     }
@@ -29,9 +31,7 @@ public class OutcomeFrameTest {
     public void closeButtonTerminatesApp() {
         OutcomeFrame outcomeFrame = new OutcomeFrame(SCORE_BLACK, SCORE_WHITE);
         GameDesktop gameDesktop = new GameDesktop(new BoardDesktop(), new SmartPlayer(ColoredPawn.BLACK), new SmartPlayer(ColoredPawn.WHITE));
-
         outcomeFrame.getCloseButton().doClick();
         assertFalse(GuiManager.getGameFrame().isVisible());
     }
-
 }

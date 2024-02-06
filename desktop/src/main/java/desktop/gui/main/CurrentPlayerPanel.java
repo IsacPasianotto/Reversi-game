@@ -1,4 +1,4 @@
-package desktop.gui.main.components;
+package desktop.gui.main;
 
 import desktop.gui.main.GuiManager;
 import desktop.utilities.BoardDesktop;
@@ -6,10 +6,24 @@ import desktop.utilities.BoardDesktop;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * The panel that shows the current player.
+ */
 public class CurrentPlayerPanel {
-    private static final Font currentPlayerLabelFont = GuiManager.currentLabelFont;
-    private static final Color currentPlayerLabelColor = GuiManager.white;
-    private static final int PLAYER_SYMBOL_SIZE = 24;
+    /**
+     * The size of the player symbol.
+     */
+    protected static final int PLAYER_SYMBOL_SIZE = 24;
+
+    /**
+     * The font used for players labels in the game frame.
+     */
+    protected static final Font currentPlayerLabelFont = new Font("Arial", Font.ITALIC, 20);
+
+    /**
+     * The color of the font of the current player.
+     */
+    protected static final Color currentPlayerLabelColor = new Color(255, 255, 255);
     private static JLabel currentPlayerLiveLabel;
     private static ImageIcon blackIcon;
     private static ImageIcon whiteIcon;
@@ -55,11 +69,7 @@ public class CurrentPlayerPanel {
         currentPlayerLiveLabel.setText(actual.equals("Black") ? "White" : "Black");
     }
 
-    /**
-     * Return the built panel.
-     * @return the panel
-     */
-    public JPanel getCurrentPlayerPanel() {
+    JPanel getCurrentPlayerPanel() {
         return currentPlayerPanel;
     }
 }

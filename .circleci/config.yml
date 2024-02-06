@@ -14,7 +14,7 @@ jobs:
     docker:
       # See available images in: 
       # https://circleci.com/developer/images
-      - image: cimg/openjdk:21.0.0
+      - image: cimg/openjdk:17.0.10
 
     working_directory: ~/repo
     # Add steps to the job
@@ -32,7 +32,7 @@ jobs:
     docker:
       # See available images in: 
       # https://circleci.com/developer/images
-      - image: cimg/openjdk:21.0.0
+      - image: cimg/openjdk:17.0.10
 
     working_directory: ~/repo
     # Add steps to the job
@@ -46,7 +46,7 @@ jobs:
 
   test-core-board:
     docker:
-      - image: cimg/openjdk:21.0.0
+      - image: cimg/openjdk:17.0.10
     working_directory: ~/repo
     steps:
       - checkout
@@ -62,7 +62,7 @@ jobs:
 
   test-core-mechanics:
     docker:
-      - image: cimg/openjdk:21.0.0
+      - image: cimg/openjdk:17.0.10
     working_directory: ~/repo
     steps:
       - checkout
@@ -75,7 +75,7 @@ jobs:
 
   test-core-player-computer:
     docker:
-      - image: cimg/openjdk:21.0.0
+      - image: cimg/openjdk:17.0.10
     working_directory: ~/repo
     steps:
       - checkout
@@ -88,7 +88,7 @@ jobs:
 
   test-core-player-human:
     docker:
-      - image: cimg/openjdk:21.0.0
+      - image: cimg/openjdk:17.0.10
     working_directory: ~/repo
     steps:
       - checkout
@@ -98,7 +98,7 @@ jobs:
 
   test-terminal-main:
     docker:
-      - image: cimg/openjdk:21.0.0
+      - image: cimg/openjdk:17.0.10
     working_directory: ~/repo
     steps:
       - checkout
@@ -124,7 +124,7 @@ jobs:
           shell: bash.exe
           command: ./gradlew.bat desktop:test --tests MainDesktopTest
 
-  test-desktop-welcomeframe:
+  test-desktop-welcomeFrame:
     executor: win/default
     working_directory: ~/repo
     steps:
@@ -133,11 +133,11 @@ jobs:
             - "a6:75:a4:04:58:c5:7a:40:00:f7:6b:19:a6:0a:16:2b"
       - checkout
       - run:
-          name: test-desktop-welcomeframe
+          name: test-desktop-welcomeFrame
           shell: bash.exe
           command: ./gradlew.bat desktop:test --tests WelcomeFrameTest
 
-  test-desktop-outcomeframe:
+  test-desktop-outcomeFrame:
     executor: win/default
     working_directory: ~/repo
     steps:
@@ -146,7 +146,7 @@ jobs:
             - "a6:75:a4:04:58:c5:7a:40:00:f7:6b:19:a6:0a:16:2b"
       - checkout
       - run:
-          name: test-desktop-outcomeframe
+          name: test-desktop-outcomeFrame
           shell: bash.exe
           command: ./gradlew.bat desktop:test --tests OutcomeFrameTest
 
@@ -224,7 +224,7 @@ workflows:
       - test-core-player-human
       - test-terminal-main
       - test-desktop-main
-      - test-desktop-welcomeframe
-      - test-desktop-outcomeframe
+      - test-desktop-welcomeFrame
+      - test-desktop-outcomeFrame
       - test-win
 

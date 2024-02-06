@@ -6,13 +6,15 @@ import desktop.gui.main.GuiManager;
 import mechanics.Game;
 import player.Player;
 
+import javax.swing.*;
 import java.awt.event.ActionListener;
 
+/**
+ * The desktop version of the game.
+ */
 public class GameDesktop extends Game {
-    /**
-     * The manager of the GUI.
-     */
-    public final GuiManager guiManager;
+
+    private final GuiManager guiManager;
     private final GameControllerDesktop gameController;
     /**
      * Initialize a new GUI game with the given board and players.
@@ -25,9 +27,13 @@ public class GameDesktop extends Game {
         this.gameController = new GameControllerDesktop(board);
         guiManager = new GuiManager(this);
         addListenersToButtonGrid();
-        if (!Player.isHumanPlayer(blackPlayer)) {
+        if (!Player.isHumanPlayer(blackPlayer))
             handleBotPlayerTurn(blackPlayer);
-        }
+    }
+
+    @Override
+    public void play(){
+        SwingUtilities.invokeLater(guiManager::setFrameVisible);
     }
 
     private void addListenersToButtonGrid() {
@@ -46,7 +52,7 @@ public class GameDesktop extends Game {
         };
     }
 
-    void handleHumanAndBotTurns(BoardTile position){
+    private void handleHumanAndBotTurns(BoardTile position){
         gameController.handleHumanTurn(position, getCurrentPlayerColor());
         BoardDesktop currentBoard = gameController.getBoard();
         if (aNewMoveHasBeenMade(currentBoard)) {
@@ -70,7 +76,7 @@ public class GameDesktop extends Game {
     }
 
     private boolean aNewMoveHasBeenMade(BoardDesktop board) {
-        return !board.equals(previousSteps.getLast());
+        return !board.equals(previousSteps.get(previousSteps.size()-1));
     }
 
     /**

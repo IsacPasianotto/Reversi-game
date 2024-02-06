@@ -3,6 +3,9 @@ package desktop.gui.other;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * The button for the welcome frame
+ */
 public class Button {
     private final JButton startButton;
 

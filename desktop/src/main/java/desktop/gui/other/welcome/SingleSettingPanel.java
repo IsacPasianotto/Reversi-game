@@ -4,13 +4,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class SingleSettingPanel {
-    private static final Font LabelsFont = new Font("Arial", Font.ITALIC,18 );
-    private static final Font RadioButtonsFont = new Font("Arial", Font.BOLD, 15);
+class SingleSettingPanel {
+    protected static final Font LabelsFont = new Font("Arial", Font.ITALIC,18 );
+    protected static final Font RadioButtonsFont = new Font("Arial", Font.BOLD, 15);
     private final JPanel settingPanel;
     private final JRadioButton[] buttons;
 
-    public SingleSettingPanel(int numOfButtons, String title, String text, String[] buttonTexts) {
+    SingleSettingPanel(int numOfButtons, String title, String text, String[] buttonTexts) {
         buttons = new JRadioButton[numOfButtons];
         settingPanel = new JPanel();
         settingPanel.setLayout(new BoxLayout(settingPanel, BoxLayout.Y_AXIS));
@@ -47,19 +47,19 @@ public class SingleSettingPanel {
         return button;
     }
 
-    public void setActionListenerToIthButton(int i, ActionListener actionListener){
+    void setActionListenerToIthButton(int i, ActionListener actionListener){
         buttons[i].addActionListener(actionListener);
     }
 
-    public JPanel getPanel() {
+    JPanel getPanel() {
         return settingPanel;
     }
 
-    public JRadioButton getIthButton(int i){
+    JRadioButton getIthButton(int i){
         return buttons[i];
     }
 
-    public void setVisible(boolean visible){
+    void setVisible(boolean visible){
         settingPanel.setVisible(visible);
     }
 }

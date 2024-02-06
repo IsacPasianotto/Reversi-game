@@ -75,7 +75,7 @@ class GameTest {
         GameController gameController = game.getGameController();
         Board board = gameController.getBoard();
         gameController.computeValidMoves(game.getCurrentPlayerColor());
-        ValidMove move = gameController.getValidMoves().getFirst();
+        ValidMove move = gameController.getValidMoves().get(0);
         board.applyMoveToBoard(move);
         game.previousSteps.add(board.copy());
     }

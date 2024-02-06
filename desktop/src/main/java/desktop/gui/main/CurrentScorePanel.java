@@ -1,17 +1,33 @@
-package desktop.gui.main.components;
-
-import desktop.gui.main.GuiManager;
+package desktop.gui.main;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;
 
+/**
+ * The panel that shows the current score.
+ */
 public class CurrentScorePanel {
-    private static final Font currentScoreLabelFont = GuiManager.currentLabelFont;
-    private static final Color currentScoreLabelColor = GuiManager.white;
-    private static final ImageIcon black = new ImageIcon(Objects.requireNonNull(CurrentScorePanel.class.getResource("/black.png")));
-    private static final ImageIcon white = new ImageIcon(Objects.requireNonNull(CurrentScorePanel.class.getResource("/white.png")));
-    private static final int PLAYER_SYMBOL_SIZE = 32;
+    /**
+     * The size of the player symbol
+     */
+    protected static final int PLAYER_SYMBOL_SIZE = 32;
+    /**
+     * The font used for score labels in the game frame
+     */
+    protected static final Font currentScoreLabelFont = new Font("Arial", Font.ITALIC, 20);
+    /**
+     * The color of the font
+     */
+    protected static final Color currentScoreLabelColor = new Color(255, 255, 255);
+    /**
+     * The image to be shown for the black player
+     */
+    protected static final ImageIcon black = new ImageIcon(Objects.requireNonNull(CurrentScorePanel.class.getResource("/black.png")));
+    /**
+     * The image to be shown for the white player
+     */
+    protected static final ImageIcon white = new ImageIcon(Objects.requireNonNull(CurrentScorePanel.class.getResource("/white.png")));
     private static JLabel liveScoreLabel;
     private final JPanel currentScorePanel;
 
@@ -67,15 +83,18 @@ public class CurrentScorePanel {
         livePanel.add(liveScoreLabel);
     }
 
-    /*
+    /**
      * Updates the live score each time a move is done
+     * @param blackScore the score of the black player
+     * @param whiteScore the score of the white player
      */
     public static void updateLiveScoreLabel(int blackScore, int whiteScore) {
         liveScoreLabel.setText(blackScore + " - " + whiteScore);
     }
 
-    /*
+    /**
      * Return the built panel
+     * @return the built panel
      */
     public JPanel getCurrentScorePanel() {
         return currentScorePanel;

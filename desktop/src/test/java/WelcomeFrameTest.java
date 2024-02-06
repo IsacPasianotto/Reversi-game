@@ -10,7 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class WelcomeFrameTest extends WelcomeFrame{
-
     @Test
     public void defaultGameMode() {
         WelcomeFrame welcomeFrame = new WelcomeFrame();
@@ -54,7 +53,7 @@ public class WelcomeFrameTest extends WelcomeFrame{
     public void DifficultyAndFirstPlayerAreNotVisible() {
         WelcomeFrame welcomeFrame = new WelcomeFrame();
         assertFalse(welcomeFrame.getIthPanel(1).isVisible());
-        assertFalse(welcomePanel.getIthPanel(2).isVisible());
+        assertFalse(welcomeFrame.getIthPanel(2).isVisible());
     }
 
     @Test
@@ -72,5 +71,4 @@ public class WelcomeFrameTest extends WelcomeFrame{
         Optional<JFrame> gameFrame = Optional.ofNullable(GuiManager.getGameFrame());
         assertTrue(gameFrame.isPresent());
     }
-
 }

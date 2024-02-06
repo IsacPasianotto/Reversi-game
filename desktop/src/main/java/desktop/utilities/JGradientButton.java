@@ -6,7 +6,8 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class JGradientButton extends JButton {
+
+class JGradientButton extends JButton {
     private static final Color boardColor = new Color(37, 135, 24);
     private static final Color boardColor2 = new Color(7, 177, 2);
     private static final Color mouseOverColor = new Color(15, 40, 155);
@@ -69,17 +70,10 @@ public class JGradientButton extends JButton {
         super.paintComponent(g);
     }
 
-    /**
-     * Sets the tile to suggested or not.
-     * @param toSuggest the value to set the property to
-     */
     void setToSuggestProperty(boolean toSuggest){
         putClientProperty("toSuggest", toSuggest);
     }
 
-    /**
-     * Paints the background of the tile according to whether it is suggested or not.
-     */
     void paintBackground() {
         setBackground((boolean) getClientProperty("toSuggest") ? suggestionColor : boardColor);
     }

@@ -6,11 +6,8 @@ import player.computer.RandomPlayer;
 import player.computer.SmartPlayer;
 import player.human.Human;
 
-/**
- * A record containing the settings of the game.
- */
-public record GameSettings(boolean isHumanVsHuman, boolean isDifficultyEasy, boolean isHumanFirst) {
-    public boolean isDefaultOnIthPanel(int i){
+record GameSettings(boolean isHumanVsHuman, boolean isDifficultyEasy, boolean isHumanFirst) {
+    boolean isDefaultOnIthPanel(int i){
         return switch (i) {
             case 0 -> isHumanVsHuman();
             case 1 -> isDifficultyEasy();
@@ -19,8 +16,8 @@ public record GameSettings(boolean isHumanVsHuman, boolean isDifficultyEasy, boo
         };
     }
 
-    public record Players(Player blackPlayer, Player whitePlayer) {}
-    public Players getPlayers() {
+    record Players(Player blackPlayer, Player whitePlayer) {}
+    Players getPlayers() {
         Player blackPlayer;
         Player whitePlayer;
         if (isHumanVsHuman()) {

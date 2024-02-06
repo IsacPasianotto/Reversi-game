@@ -1,19 +1,35 @@
 package desktop.gui.other.welcome;
 
+import player.Player;
+
 import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.util.stream.IntStream;
 
+import static desktop.gui.other.welcome.GameSettings.*;
+
+/**
+ * Build the panels needed to set the game settings.
+ */
 public class WelcomePanel {
+    /**
+     * The number of game modes: human vs human, human vs computer
+     */
+    protected static final int numberOfGameModes = 2;
+    /**
+     * The number of difficulties: easy, hard
+     */
+    protected static final int numberOfDifficulties = 2;
+    /**
+     * The number of players: black, white
+     */
+    protected static final int numberOfPlayers = 2;
     private final SingleSettingPanel gameMode;
-    private static final int numberOfGameModes = 2;
     private final SingleSettingPanel difficulty;
-    private static final int numberOfDifficulties = 2;
     private final SingleSettingPanel firstPlayer;
-    private static final int numberOfPlayers = 2;
     private GameSettings gameSettings;
 
-    public WelcomePanel(){
+    WelcomePanel(){
         gameSettings = new GameSettings(true,true,true);
         gameMode = new SingleSettingPanel(numberOfGameModes,"Game Mode", "Select a game mode:", new String[]{"Human vs Human", "Human vs Computer"});
         difficulty = new SingleSettingPanel(numberOfDifficulties,"Difficulty", "Select a difficulty", new String[]{"Easy", "Hard"});
@@ -41,15 +57,11 @@ public class WelcomePanel {
         gameSettings = new GameSettings(aFlag, gameSettings.isDifficultyEasy(), gameSettings.isHumanFirst());
     }
 
-    /**
-     * Returns the game settings.
-     * @return the game settings
-     */
-    public GameSettings getGameSettings() {
-        return gameSettings;
+    Players getPlayers(){
+        return gameSettings.getPlayers();
     }
 
-    public JRadioButton returnIthButtonOnJthPanel(int i, int j) {
+    JRadioButton returnIthButtonOnJthPanel(int i, int j) {
         return switch (j) {
             case 0 -> gameMode.getIthButton(i);
             case 1 -> difficulty.getIthButton(i);
@@ -58,13 +70,17 @@ public class WelcomePanel {
         };
     }
 
-    public JPanel getIthPanel(int i) {
+    JPanel getIthPanel(int i) {
         return switch (i) {
             case 0 -> gameMode.getPanel();
             case 1 -> difficulty.getPanel();
             case 2 -> firstPlayer.getPanel();
             default -> null;
         };
+    }
+
+    boolean isDefaultOnIthPanel(int i){
+        return gameSettings.isDefaultOnIthPanel(i);
     }
 
 }

@@ -1,18 +1,42 @@
 package desktop.gui.other.outcome;
 
 import desktop.gui.main.GuiManager;
+import desktop.utilities.BoardDesktop;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;
 
+/**
+ * The panel that shows the winner of the game.
+ */
 public class WinnerPanel {
-    private static final int PLAYER_SYMBOL_SIZE = 48;
-    private static final Font winnerFont = GuiManager.arialBoldItalic35;
-    private static final Color fontColor = GuiManager.white;
-    private static final ImageIcon black = GuiManager.blackPawn;
-    private static final ImageIcon white = GuiManager.whitePawn;
-    private static final ImageIcon draw = new ImageIcon(Objects.requireNonNull(WinnerPanel.class.getResource("/blackAndWhite.png")));
+    /**
+     * The size of the player symbol
+     */
+    protected static final int PLAYER_SYMBOL_SIZE = 48;
+
+    /**
+     * The font used for the winner label
+     */
+    protected static final Font winnerFont = new Font("Arial", Font.BOLD | Font.ITALIC, 35);
+
+    /**
+     * The color of the font
+     */
+    protected static final Color fontColor = new Color(255, 255, 255);
+    /**
+     * The image to be shown in case of black victory
+     */
+    protected static final ImageIcon black = new ImageIcon(Objects.requireNonNull(BoardDesktop.class.getResource("/black.png")));
+    /**
+     * The image to be shown in case of white victory
+     */
+    protected static final ImageIcon white = new ImageIcon(Objects.requireNonNull(BoardDesktop.class.getResource("/white.png")));
+    /**
+     * The image to be shown in case of a draw
+     */
+    protected static final ImageIcon draw = new ImageIcon(Objects.requireNonNull(WinnerPanel.class.getResource("/blackAndWhite.png")));
     private JPanel winnerPanel;
 
     /**
