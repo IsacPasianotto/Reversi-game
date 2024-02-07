@@ -1,13 +1,11 @@
 package desktop.gui.main;
 
-import desktop.utilities.BoardDesktop;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;
 
 /**
- * The panel that shows the current player.
+ * A class that manages the construction and update of the current player panel.
  */
 public class CurrentPlayerPanel {
     /**
@@ -15,64 +13,63 @@ public class CurrentPlayerPanel {
      */
     protected static final int PLAYER_SYMBOL_SIZE = 24;
     /**
-     * The font used for players labels in the game frame.
+     * The font used for labels in this panel.
      */
     protected static final Font currentPlayerLabelFont = new Font("Arial", Font.ITALIC, 20);
     /**
-     * The color of the font of the current player.
+     * The color used for labels in this panel.
      */
     protected static final Color currentPlayerLabelColor = new Color(255, 255, 255);
     /**
      * The black pawn image.
      */
-    protected static final Image blackPawn = new ImageIcon(Objects.requireNonNull(BoardDesktop.class.getResource("/black.png"))).getImage().getScaledInstance(PLAYER_SYMBOL_SIZE, PLAYER_SYMBOL_SIZE, Image.SCALE_SMOOTH);
+    protected static final ImageIcon blackIcon = new ImageIcon(Objects.requireNonNull(CurrentPlayerPanel.class.getResource("/black.png")));
+
     /**
      * The white pawn image.
      */
-    protected static final Image whitePawn = new ImageIcon(Objects.requireNonNull(BoardDesktop.class.getResource("/white.png"))).getImage().getScaledInstance(PLAYER_SYMBOL_SIZE, PLAYER_SYMBOL_SIZE, Image.SCALE_SMOOTH);
-    private static JLabel currentPlayerLiveLabel;
-    private static ImageIcon blackIcon;
-    private static ImageIcon whiteIcon;
+    protected static final ImageIcon whiteIcon= new ImageIcon(Objects.requireNonNull(CurrentPlayerPanel.class.getResource("/white.png")));
+    private static JLabel currentPlayerColorLabel;
     private final JPanel currentPlayerPanel;
 
     /**
-     * Initialize the panel that shows the current player.
+     * Build the current player panel for the desktop game.
      */
     public CurrentPlayerPanel() {
-        blackIcon = new ImageIcon(blackPawn);
-        whiteIcon = new ImageIcon(whitePawn);
+        blackIcon.setImage(blackIcon.getImage().getScaledInstance(PLAYER_SYMBOL_SIZE, PLAYER_SYMBOL_SIZE, Image.SCALE_SMOOTH));
+        whiteIcon.setImage(whiteIcon.getImage().getScaledInstance(PLAYER_SYMBOL_SIZE, PLAYER_SYMBOL_SIZE, Image.SCALE_SMOOTH));
         currentPlayerPanel = new JPanel();
         currentPlayerPanel.setLayout(new GridLayout(0, 1));
-        setCurrentPlayerLiveLabel();
-        JLabel playerTurnLabel = buildPlayerTurnLabel();
-        currentPlayerPanel.add(playerTurnLabel);
-        currentPlayerPanel.add(currentPlayerLiveLabel);
+        setCurrentPlayerColorLabel();
+        JLabel currentPlayerLabel = buildCurrentPlayerLabel();
+        currentPlayerPanel.add(currentPlayerLabel);
+        currentPlayerPanel.add(currentPlayerColorLabel);
     }
 
     /**
      * Update the label that shows the current player after a move.
      */
-    public static void updateCurrentPlayerLiveLabel() {
-        String actual = currentPlayerLiveLabel.getText();
-        currentPlayerLiveLabel.setIcon(actual.equals("Black") ? whiteIcon : blackIcon);
-        currentPlayerLiveLabel.setText(actual.equals("Black") ? "White" : "Black");
+    public static void updateCurrentPlayerColorLabel() {
+        String actual = currentPlayerColorLabel.getText();
+        currentPlayerColorLabel.setIcon(actual.equals("Black") ? whiteIcon : blackIcon);
+        currentPlayerColorLabel.setText(actual.equals("Black") ? "White" : "Black");
     }
 
-    private JLabel buildPlayerTurnLabel() {
-        JLabel playerTurnLabel = new JLabel("Current Player: ");
-        playerTurnLabel.setFont(currentPlayerLabelFont);
-        playerTurnLabel.setForeground(currentPlayerLabelColor);
-        return playerTurnLabel;
+    private JLabel buildCurrentPlayerLabel() {
+        JLabel currentPlayerLabel = new JLabel("Current Player: ");
+        currentPlayerLabel.setFont(currentPlayerLabelFont);
+        currentPlayerLabel.setForeground(currentPlayerLabelColor);
+        return currentPlayerLabel;
     }
 
-    private void setCurrentPlayerLiveLabel() {
-        currentPlayerLiveLabel = new JLabel();
-        currentPlayerLiveLabel.setFont(currentPlayerLabelFont);
-        currentPlayerLiveLabel.setForeground(currentPlayerLabelColor);
-        currentPlayerLiveLabel.setIcon(blackIcon);
-        currentPlayerLiveLabel.setText("Black");
-        currentPlayerLiveLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        currentPlayerLiveLabel.setVerticalAlignment(SwingConstants.TOP);
+    private void setCurrentPlayerColorLabel() {
+        currentPlayerColorLabel = new JLabel();
+        currentPlayerColorLabel.setFont(currentPlayerLabelFont);
+        currentPlayerColorLabel.setForeground(currentPlayerLabelColor);
+        currentPlayerColorLabel.setIcon(blackIcon);
+        currentPlayerColorLabel.setText("Black");
+        currentPlayerColorLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        currentPlayerColorLabel.setVerticalAlignment(SwingConstants.TOP);
     }
 
     JPanel getCurrentPlayerPanel() {

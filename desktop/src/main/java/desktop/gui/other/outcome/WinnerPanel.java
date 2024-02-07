@@ -1,49 +1,18 @@
 package desktop.gui.other.outcome;
 
-import desktop.utilities.BoardDesktop;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;
 
-/**
- * The panel that shows the winner of the game.
- */
-public class WinnerPanel {
-    /**
-     * The size of the player symbol
-     */
+class WinnerPanel {
     protected static final int PLAYER_SYMBOL_SIZE = 48;
-
-    /**
-     * The font used for the winner label
-     */
     protected static final Font winnerFont = new Font("Arial", Font.BOLD | Font.ITALIC, 35);
-
-    /**
-     * The color of the font
-     */
     protected static final Color fontColor = new Color(255, 255, 255);
-    /**
-     * The image to be shown in case of black victory
-     */
-    protected static final ImageIcon black = new ImageIcon(Objects.requireNonNull(BoardDesktop.class.getResource("/black.png")));
-    /**
-     * The image to be shown in case of white victory
-     */
-    protected static final ImageIcon white = new ImageIcon(Objects.requireNonNull(BoardDesktop.class.getResource("/white.png")));
-    /**
-     * The image to be shown in case of a draw
-     */
+    protected static final ImageIcon black = new ImageIcon(Objects.requireNonNull(WinnerPanel.class.getResource("/black.png")));
+    protected static final ImageIcon white = new ImageIcon(Objects.requireNonNull(WinnerPanel.class.getResource("/white.png")));
     protected static final ImageIcon draw = new ImageIcon(Objects.requireNonNull(WinnerPanel.class.getResource("/blackAndWhite.png")));
     private JPanel winnerPanel;
 
-    /**
-     * Creates a new WinnerPanel with the given scores.
-     *
-     * @param blackScore the score of the black player
-     * @param whiteScore the score of the white player
-     */
     public WinnerPanel(int blackScore, int whiteScore) {
         black.setImage(black.getImage().getScaledInstance(PLAYER_SYMBOL_SIZE, PLAYER_SYMBOL_SIZE, Image.SCALE_SMOOTH));
         white.setImage(white.getImage().getScaledInstance(PLAYER_SYMBOL_SIZE, PLAYER_SYMBOL_SIZE, Image.SCALE_SMOOTH));
@@ -73,11 +42,6 @@ public class WinnerPanel {
         return winnerLabel;
     }
 
-    /**
-     * Returns the winner panel.
-     *
-     * @return the winner panel
-     */
     public JPanel getWinnerPanel() {
         return winnerPanel;
     }

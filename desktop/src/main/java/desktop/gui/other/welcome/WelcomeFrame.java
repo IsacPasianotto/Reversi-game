@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * The welcome frame of the game. Set up game settings and starts the game.
+ * Class to build and start the welcome frame of the game, that allows to decide the game settings.
  */
 public class WelcomeFrame {
     /**
@@ -41,15 +41,6 @@ public class WelcomeFrame {
         frame.setVisible(true);
     }
 
-    /**
-     * Returns the welcome frame.
-     *
-     * @return the welcome frame
-     */
-    public static JFrame getWelcomeFrame() {
-        return frame;
-    }
-
     private JPanel buildGeneralPanel() {
         welcomePanel = new WelcomePanel();
         startButton = new Button(StartButtonFont, "Start").getButton();
@@ -77,6 +68,15 @@ public class WelcomeFrame {
      */
     public void setWelcomeFrameVisible() {
         frame.setVisible(true);
+    }
+
+    /**
+     * Returns the built welcome frame.
+     *
+     * @return the welcome frame
+     */
+    public static JFrame getWelcomeFrame() {
+        return frame;
     }
 
     JButton getStartButton() {

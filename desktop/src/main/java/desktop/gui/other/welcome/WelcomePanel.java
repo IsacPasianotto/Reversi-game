@@ -6,21 +6,9 @@ import java.util.stream.IntStream;
 
 import static desktop.gui.other.welcome.GameSettings.Players;
 
-/**
- * Build the panels needed to set the game settings.
- */
-public class WelcomePanel {
-    /**
-     * The number of game modes: human vs human, human vs computer
-     */
+class WelcomePanel {
     protected static final int numberOfGameModes = 2;
-    /**
-     * The number of difficulties: easy, hard
-     */
     protected static final int numberOfDifficulties = 2;
-    /**
-     * The number of players: black, white
-     */
     protected static final int numberOfPlayers = 2;
     private final SingleSettingPanel gameMode;
     private final SingleSettingPanel difficulty;
@@ -81,5 +69,4 @@ public class WelcomePanel {
     boolean isDefaultOnIthPanel(int i) {
         return gameSettings.isDefaultOnIthPanel(i);
     }
-
 }

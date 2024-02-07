@@ -7,7 +7,7 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 
 /**
- * The manager of the game GUI: initializes the game and starts it after settings have been chosen.
+ * The manager of the game GUI: initializes the GUI and starts the game after settings have been chosen.
  */
 public class GuiManager {
     /**
@@ -32,6 +32,7 @@ public class GuiManager {
      * Initialize the GUI manager for the game
      *
      * @param gameDesktop the game to initialize
+     * @see GameDesktop
      */
     public GuiManager(GameDesktop gameDesktop) {
         boardPanel = new BoardPanel(gameDesktop.getGameController().getBoard());
@@ -102,7 +103,7 @@ public class GuiManager {
     }
 
     /**
-     * Set the game frame visible
+     * Set the game frame visible to start the game
      */
     public void setFrameVisible() {
         gameFrame.setVisible(true);

@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * The button for the welcome frame
+ * A class that manages the construction of buttons for welcome and outcome frames.
  */
 public class Button {
     private final JButton startButton;
@@ -25,7 +25,7 @@ public class Button {
     }
 
     /**
-     * Returns the button.
+     * Returns the built button.
      *
      * @return the button
      */

@@ -7,7 +7,7 @@ import java.awt.*;
 import java.util.Objects;
 
 /**
- * The undo button for the game frame
+ * A class that  manages the construction of the undo button
  */
 public class UndoButton {
     /**
@@ -21,7 +21,7 @@ public class UndoButton {
     protected static final Font undoButtonFont = new Font("Arial", Font.PLAIN, 20);
 
     /**
-     * The color of the button
+     * The color of the button background
      */
     protected static final Color undoButtonColor = new Color(255, 255, 255);
     private final JButton undoButton;
@@ -30,6 +30,7 @@ public class UndoButton {
      * Build the Undo button for the game frame
      *
      * @param gameDesktop the game
+     * @see GameDesktop
      */
     public UndoButton(GameDesktop gameDesktop) {
         ImageIcon undoIcon = new ImageIcon(Objects.requireNonNull(UndoButton.class.getResource("/undo.png")));

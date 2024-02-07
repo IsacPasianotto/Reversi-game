@@ -9,21 +9,21 @@ import java.awt.*;
 import java.util.stream.IntStream;
 
 /**
- * The panel containing the game board.
+ * A class that manages the construction of the board panel.
  */
 public class BoardPanel {
     /**
-     * The color of the board edges
+     * The color of the board edges.
      */
     protected static final Color boardBorderColor = new Color(0, 0, 0);
 
     /**
-     * The font used for the board labels
+     * The font used for rows and columns labels.
      */
     protected static final Font boardLabelsFont = new Font("Arial", Font.BOLD, 25);
 
     /**
-     * The color of the board labels
+     * The color used for rows and columns labels.
      */
     protected static final Color boardLabelColor = new Color(255, 255, 255);
     private static final String columnLabels = "ABCDEFGH";
@@ -31,9 +31,10 @@ public class BoardPanel {
     private final JPanel boardPanel;
 
     /**
-     * Initialize the panel of the board.
+     * Build the board panel for the desktop game, starting from the information provided by a BoardDesktop.
      *
      * @param board the board of the game
+     * @see BoardDesktop
      */
     public BoardPanel(BoardDesktop board) {
         boardDesktop = board;

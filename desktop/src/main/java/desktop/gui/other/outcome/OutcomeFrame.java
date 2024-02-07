@@ -9,7 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- * The frame that displays the outcome of the game.
+ * A class that manages the construction of the frame used to display the game outcome.
  */
 public class OutcomeFrame {
     /**
@@ -25,7 +25,7 @@ public class OutcomeFrame {
      */
     protected static final Font headerFont = new Font("Arial", Font.BOLD | Font.ITALIC, 35);
     /**
-     * The color of the font
+     * The color of the header label
      */
     protected static final Color fontColor = new Color(255, 255, 255);
     /**
@@ -56,11 +56,11 @@ public class OutcomeFrame {
         generalPanel.setLayout(new BoxLayout(generalPanel, BoxLayout.Y_AXIS));
 
         JPanel headerPanel = buildHeaderPanel();
-        CurrentScorePanel outcomePanel = new CurrentScorePanel(blackScore, whiteScore);
+        CurrentScorePanel finalScorePanel = new CurrentScorePanel(blackScore, whiteScore);
         WinnerPanel winnerPanel = new WinnerPanel(blackScore, whiteScore);
         JPanel exitButtonPanel = buildExitButtonPanel();
         generalPanel.add(headerPanel);
-        generalPanel.add(outcomePanel.getCurrentScorePanel());
+        generalPanel.add(finalScorePanel.getCurrentScorePanel());
         generalPanel.add(winnerPanel.getWinnerPanel());
         generalPanel.add(exitButtonPanel);
         return generalPanel;

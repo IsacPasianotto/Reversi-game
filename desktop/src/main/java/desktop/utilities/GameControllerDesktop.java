@@ -18,7 +18,7 @@ import java.util.Optional;
 import java.util.stream.IntStream;
 
 /**
- * The desktop version of the game controller.
+ * The desktop version of the game controller. It handles the move given ad input and the case in which there are no valid moves.
  */
 public class GameControllerDesktop extends GameController {
     private final BoardDesktop board;
@@ -71,7 +71,7 @@ public class GameControllerDesktop extends GameController {
         if (thereAreNoValidMoves()) gameOverHandle();
         else {
             JOptionPane.showMessageDialog(null, "No valid moves for the " + currentPlayerName + " player!", "Skipped turn", JOptionPane.INFORMATION_MESSAGE);
-            CurrentPlayerPanel.updateCurrentPlayerLiveLabel();
+            CurrentPlayerPanel.updateCurrentPlayerColorLabel();
         }
     }
 
@@ -87,7 +87,7 @@ public class GameControllerDesktop extends GameController {
     }
 
     void updateBoardAfterUndo(int numberOfStepsBack) {
-        IntStream.range(0, numberOfStepsBack).forEach(i -> CurrentPlayerPanel.updateCurrentPlayerLiveLabel());
+        IntStream.range(0, numberOfStepsBack).forEach(i -> CurrentPlayerPanel.updateCurrentPlayerColorLabel());
         board.updateButtonGrid();
         CurrentScorePanel.updateLiveScoreLabel(computeScoreForPlayer((ColoredPawn.BLACK)),
                 computeScoreForPlayer(ColoredPawn.WHITE));

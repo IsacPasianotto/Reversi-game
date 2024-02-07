@@ -13,7 +13,6 @@ import java.awt.event.ActionListener;
  * The desktop version of the game.
  */
 public class GameDesktop extends Game {
-
     private final GuiManager guiManager;
     private final GameControllerDesktop gameController;
 
@@ -33,6 +32,9 @@ public class GameDesktop extends Game {
             handleBotPlayerTurn(blackPlayer);
     }
 
+    /**
+     * Start the game and play.
+     */
     @Override
     public void play() {
         SwingUtilities.invokeLater(guiManager::setFrameVisible);
@@ -104,9 +106,9 @@ public class GameDesktop extends Game {
     }
 
     /**
-     * Returns the manager of the GUI.
+     * Returns the manager of the game.
      *
-     * @return the manager of the GUI
+     * @return the manager of the game
      */
     @Override
     public GameControllerDesktop getGameController() {

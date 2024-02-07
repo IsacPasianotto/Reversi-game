@@ -25,17 +25,17 @@ public class BoardDesktop extends Board {
     /**
      * The black pawn image.
      */
-    protected static final Image blackPawn = new ImageIcon(Objects.requireNonNull(BoardDesktop.class.getResource("/black.png"))).getImage().getScaledInstance(PAWN_ICON_SIZE, PAWN_ICON_SIZE, Image.SCALE_SMOOTH);
+    protected static final ImageIcon blackPawn = new ImageIcon(Objects.requireNonNull(BoardDesktop.class.getResource("/black.png")));
 
     /**
      * The white pawn image.
      */
-    protected static final Image whitePawn = new ImageIcon(Objects.requireNonNull(BoardDesktop.class.getResource("/white.png"))).getImage().getScaledInstance(PAWN_ICON_SIZE, PAWN_ICON_SIZE, Image.SCALE_SMOOTH);
+    protected static final ImageIcon whitePawn = new ImageIcon(Objects.requireNonNull(BoardDesktop.class.getResource("/white.png")));
 
     /**
      * The empty pawn image.
      */
-    protected static final Image emptyPawn = new ImageIcon(new byte[0]).getImage();
+    protected static final ImageIcon emptyPawn = new ImageIcon(new byte[0]);
     private final JGradientButton[][] buttonGrid;
 
     /**
@@ -43,6 +43,9 @@ public class BoardDesktop extends Board {
      */
     public BoardDesktop() {
         super();
+        blackPawn.setImage(blackPawn.getImage().getScaledInstance(PAWN_ICON_SIZE, PAWN_ICON_SIZE, Image.SCALE_SMOOTH));
+        whitePawn.setImage(whitePawn.getImage().getScaledInstance(PAWN_ICON_SIZE, PAWN_ICON_SIZE, Image.SCALE_SMOOTH));
+        emptyPawn.setImage(emptyPawn.getImage().getScaledInstance(PAWN_ICON_SIZE, PAWN_ICON_SIZE, Image.SCALE_SMOOTH));
         buttonGrid = new JGradientButton[BOARD_SIZE][BOARD_SIZE];
         initButtonGrid();
     }
@@ -56,12 +59,12 @@ public class BoardDesktop extends Board {
     }
 
     private void updateButtonIcon(int i, int j) {
-        Image img = switch (getPositionColor(i, j)) {
+        ImageIcon img = switch (getPositionColor(i, j)) {
             case BLACK -> blackPawn;
             case WHITE -> whitePawn;
             case EMPTY -> emptyPawn;
         };
-        buttonGrid[i][j].setIcon(new ImageIcon(img));
+        buttonGrid[i][j].setIcon(img);
     }
 
     void enableSuggestions(ArrayList<ValidMove> validMoves) {
@@ -91,7 +94,7 @@ public class BoardDesktop extends Board {
     void updateGUIBoard(ValidMove move) {
         applyMoveToBoard(move);
         updateButtonGrid();
-        CurrentPlayerPanel.updateCurrentPlayerLiveLabel();
+        CurrentPlayerPanel.updateCurrentPlayerColorLabel();
         CurrentScorePanel.updateLiveScoreLabel(computeScoreForPlayer(ColoredPawn.BLACK), computeScoreForPlayer(ColoredPawn.WHITE));
     }
 
