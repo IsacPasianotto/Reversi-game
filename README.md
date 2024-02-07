@@ -41,7 +41,7 @@ Gradle is not required to be installed on your system, as the project uses the g
 
 ## How to run the project
 
-The easiest way to run the project is to download the latest release from the [releases page](https://github.com/DavideRossi1/Reversi-game/releases/tag/v1.1) and run the `reversi.jar` file:
+The easiest way to run the project is to download the latest release from the [releases page](https://github.com/DavideRossi1/Reversi-game/releases/tag/v1.2) and run the `reversi.jar` file:
 
 ```
 $ java -jar <fileName>.jar
@@ -85,6 +85,8 @@ $ ./gradlew mergeDocs
 ```
 
 This will create the documentation in the `./readyToDistribute/javaDoc` directory.
+
+**Remark:** this was tested exclusively in Java 21.
 
 ## Troubleshooting
 
