@@ -15,7 +15,9 @@ import java.util.Objects;
 import java.util.stream.IntStream;
 
 /**
- * The desktop version of the game board.
+ * Class which extends the Board class present in the core module to add the GUI functionalities.
+ * The most relevant addition is a button grid which is used to graphically represent the status of the board
+ * It uses a custom extension of JButton to add some properties to the buttons.
  */
 public class BoardDesktop extends Board {
     /**

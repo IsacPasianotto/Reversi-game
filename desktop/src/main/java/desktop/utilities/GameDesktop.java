@@ -10,7 +10,9 @@ import javax.swing.*;
 import java.awt.event.ActionListener;
 
 /**
- * The desktop version of the game.
+ * Class which extends the Game class present in the core module.
+ * The play method is overridden since in GUI games there is no while loop to play the game, but the game is played by
+ * listening the events of the buttons.
  */
 public class GameDesktop extends Game {
     private final GuiManager guiManager;

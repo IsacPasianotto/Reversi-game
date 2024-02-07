@@ -18,7 +18,7 @@ import java.util.Optional;
 import java.util.stream.IntStream;
 
 /**
- * The desktop version of the game controller. It handles the move given ad input and the case in which there are no valid moves.
+ * Class which extends the GameController class present in the core module adapting it to the GUI game.
  */
 public class GameControllerDesktop extends GameController {
     private final BoardDesktop board;

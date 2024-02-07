@@ -19,7 +19,7 @@ allprojects {
     }
 
     group = 'Isac_and_Davide'
-    version = '1.1'
+    version = '1.2'
 
     apply from: "$rootProject.projectDir/dependencies.gradle"
 
