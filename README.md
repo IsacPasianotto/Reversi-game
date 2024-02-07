@@ -17,7 +17,7 @@ This repo was made for the "Software Development Methods" exam at the University
 studies in Data Science and Scientific Computing.
 
 The project assignment consists in implementing a game, practicing Continuous integration and using automated tests and Test Driven
-Development to grow the code, and using the Agile methodology to manage the project in a group work setting (The project was done with [Isac Pasianotto](https://github.com/IsacPasianotto/)).
+Development to grow the code, and using the Agile methodology to manage the project in a group work setting (The project was done with [Davide Rossi](https://github.com/DavideRossi1/)).
 
 The implemented game is the classic [Reversi](https://en.wikipedia.org/wiki/Reversi) game, also known as Othello.
 
@@ -129,3 +129,7 @@ If you are a linux user and use [`Wayland`](https://wayland.freedesktop.org/) as
 ## Credits and attributions
 
 The complete list of all the credits, attributions and licenses can be found in the file [`ATTRIBUTIONS.md`](./ATTRIBUTIONS.md) file.
+
+## Appendx:
+
+This repository is obtained mirroring the [Davide's one](https://github.com/DavideRossi1/Reversi-game), check it out to see all failures and successes in the tests commit by commit.
