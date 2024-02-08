@@ -31,6 +31,7 @@ public class RandomPlayer implements Player {
      * @param gameController The GameController object that is used to get the list of valid moves.
      * @return A randomly chosen ValidMove object from the list of all the possible moves.
      */
+    @Override
     public ValidMove askForAMove(GameController gameController) {
         ArrayList<ValidMove> validMoves = gameController.getValidMoves();
         Random rnd = new Random();
@@ -43,6 +44,7 @@ public class RandomPlayer implements Player {
      *
      * @return true if the player is a human player, false otherwise
      */
+    @Override
     public boolean isHumanPlayer() {
         return false;
     }
@@ -50,6 +52,7 @@ public class RandomPlayer implements Player {
     /**
      * Closes the RandomPlayer object.
      */
+    @Override
     public void close() {
     }
 
@@ -58,6 +61,7 @@ public class RandomPlayer implements Player {
      *
      * @return The color of the player.
      */
+    @Override
     public ColoredPawn getPlayerColor() {
         return color;
     }

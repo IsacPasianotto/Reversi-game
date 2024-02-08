@@ -54,6 +54,7 @@ public class SmartPlayer implements Player {
      *
      * @return true if the player is a human player, false otherwise
      */
+    @Override
     public boolean isHumanPlayer() {
         return false;
     }
@@ -61,6 +62,7 @@ public class SmartPlayer implements Player {
     /**
      * Closes the SmartPlayer object.
      */
+    @Override
     public void close() {
     }
 
@@ -69,6 +71,7 @@ public class SmartPlayer implements Player {
      *
      * @return The color of the pawns the SmartPlayer is playing as.
      */
+    @Override
     public ColoredPawn getPlayerColor() {
         return color;
     }

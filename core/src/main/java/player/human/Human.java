@@ -38,6 +38,7 @@ public class Human implements Player {
      * @see ValidMove
      * @see GameController
      */
+    @Override
     public ValidMove askForAMove(GameController gameController) throws UndoException, QuitGameException {
         Optional<ValidMove> enteredMove = Optional.empty();
         while (enteredMove.isEmpty()) {
@@ -52,6 +53,7 @@ public class Human implements Player {
      *
      * @return true if the player is a human player, false otherwise
      */
+    @Override
     public boolean isHumanPlayer() {
         return true;
     }
@@ -60,6 +62,7 @@ public class Human implements Player {
      * Closes the Human object, needed because the Human player uses
      * a BufferedReader that needs to be closed.
      */
+    @Override
     public void close() {
         reader.close();
     }
@@ -69,6 +72,7 @@ public class Human implements Player {
      *
      * @return The color of the pawns the Human is playing as.
      */
+    @Override
     public ColoredPawn getPlayerColor() {
         return color;
     }
